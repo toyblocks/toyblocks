@@ -1,0 +1,13 @@
+{
+  "name": "toyblocks",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node bin/app.js"
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "consolidate": "~0.9.1",
+    "dustjs-linkedin": "~2.2.0"
+  }
+}
