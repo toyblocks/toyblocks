@@ -1,0 +1,17 @@
+<div id="sidebar_navigation" class="navbar navbar-inverse col-md-2 col-sm-2 col-xs2">
+	<h1>Toy Blocks</h1>
+	<div id="copycat">
+		Webbasiertes Lernspiel für Architekturgeschichte<br>
+ 		Fachbereich Architektur (15)<br>
+ 		Fachgruppe A
+ 	</div>
+	<nav role="navigation">
+		<ul class="nav nav-pills nav-stacked span2">
+		    <li class="active"><a href="#">Startseite</a></li>
+		    <li><a href="#">Epochen</a></li>
+		    <li><a href="#">Elemente anordnen</a></li>
+		    <li><a href="#">Ausschnitt</a></li>
+		    <li><a href="#">Administration</a></li>
+		</ul>
+	</nav>
+</div>

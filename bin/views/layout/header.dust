@@ -1,63 +1,41 @@
-<!DOCTYPE html>
-<html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>{+title}Testblocks - {/title}</title>
+  <title>{title}</title>
 
-	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<style>
-		html, body,
-		#page_container,
-		#page_container > .row,
-		#sidebar_navigation,
-		#content_column {
-			min-height:100%;
-			height:100%;
-		}
-		#sidebar_navigation {
-			background:#222;
-			position:relative;
-		}
-		#sidebar_navigation h1 {
-			color:#999;
-			padding:15px;
-			margin:0;
-		}
-		#copycat {
-			position: absolute;
-			left: -50%;
-			width: 100%;
-			bottom: 5px;
-			margin-left: 50%;
-			text-align: center;
-			font-size: 10px;
-			color: #999;
-			padding-left: 25px;
-			padding-right: 15px;
-		}
-	</style>
-  </head>
-  <body>
-  	
-  	<div id="page_container" class="container-fluid">
-  		<div class="row">
-  			<div id="sidebar_navigation" class="navbar navbar-inverse col-md-2 col-sm-2 col-xs2">
-  				<h1>Toy Blocks</h1>
-  				<div id="copycat">Webbasiertes Lernspiel für Architekturgeschichte<br>
-  					Fachbereich Architektur (15)<br>
-  					Fachgruppe A</div>
-			 	<nav role="navigation">
-				  <ul class="nav nav-pills nav-stacked span2">
-				    <li class="active"><a href="#">Startseite</a></li>
-				    <li><a href="#">Epochen</a></li>
-				    <li><a href="#">Elemente anordnen</a></li>
-				    <li><a href="#">Ausschnitt</a></li>
-				    <li><a href="#">Administration</a></li>
-				  </ul>
-				</nav>
-			</div>
-			<div id="content_column" class="col-md-8">
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<style>
+	html, body,
+	#page_container,
+	#page_container > .row,
+	#sidebar_navigation,
+	#content_column {
+		min-height:100%;
+		height:100%;
+	}
+	#sidebar_navigation {
+		background:#222;
+		position:relative;
+	}
+	#sidebar_navigation h1 {
+		color:#999;
+		padding:15px;
+		margin:0;
+	}
+	#copycat {
+		position: absolute;
+		left: -50%;
+		width: 100%;
+		bottom: 5px;
+		margin-left: 50%;
+		text-align: center;
+		font-size: 10px;
+		color: #999;
+		padding-left: 25px;
+		padding-right: 15px;
+	}
+</style>
+</head>

@@ -1,3 +1,2 @@
-{>"layout/header.dust"/}
+{>"layout/layout.dust"/}
 {content}
-{>"layout/footer.dust"/}
