@@ -1,0 +1,18 @@
+{>"layout/layout.dust"/}
+
+{<content}
+  <div class="col-md-8 col-sm-4">
+    <ul id="buildings" class="list-unstyled">
+      {#gameData}
+        <li id="buildingid_{buildingid}" class="building drag">
+          <div class="thumbnail">
+            <img src="{image}" alt="...">
+            <div class="caption">
+              <p class="text-center text-info">{name}</p>
+            </div>
+        </li>
+      {/gameData}
+    </ul>
+  </div>
+  <button id="submit" type="button" class="btn btn-primary">Lösung senden</button>
+{/content}
