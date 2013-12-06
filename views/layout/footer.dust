@@ -1,0 +1,5 @@
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/vendor/jquery.ui.touch-punch.min.js"></script>
+<script src="js/main.js"></script>

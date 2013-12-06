@@ -1,0 +1,8 @@
+{>"layout/layout.dust"/}
+
+{<content}
+  <div class='container'>
+    <div class='drag'><p>Drag me</p></div>
+  </div>
+  <div id='result'></div>
+{/content}

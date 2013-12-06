@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="de">
+  {>"layout/header"/}
+  <body>
+    
+    <div id="page_container" class="container-fluid">
+      <div class="row">
+        {>"layout/sidebar"/}
+      <div id="content_column" class="col-md-8">
+        {+content}
+          <h3>Hier steht noch nichts</h3>
+        {/content}
+        </div>
+      </div>
+    </div>
+    {>"layout/footer"/}
+  </body>
+</html>

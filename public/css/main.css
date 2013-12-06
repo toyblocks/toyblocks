@@ -1,0 +1,17 @@
+.container {
+  background: #f3eee6;
+  width: 100px;
+  height: 100px;
+}
+.drag {
+  background: #f5b188;
+  height: 100px;
+  width: 100px;
+  top: 200px;
+}
+#result {
+  margin: 0 auto;
+	width: 100px;
+	height: 20px;
+	background: red;
+} 
