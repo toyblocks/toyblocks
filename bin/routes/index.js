@@ -4,17 +4,11 @@ var buildings = require('../models/buildings');
  * GET home page.
  */
 
-<<<<<<< HEAD
 exports.index = function(req, res) {
   res.render('index', {
     title: 'Startseite',
     route: '/'
   });
-=======
-exports.index = function(req, res){
-  res.render('index', { title: 'Startseite'});
->>>>>>> d26dde4673de2a14d5ab4dee16260d04635a7e52
-};
 
 /*
  * GET sort buildings game.
