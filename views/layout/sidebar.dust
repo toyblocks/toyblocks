@@ -11,7 +11,8 @@
         <li><a href="#">Epochen</a></li>
         <li><a href="/sortbuildings">Elemente anordnen</a></li>
         <li><a href="#">Ausschnitt</a></li>
-        <li><a href="#">Administration</a></li>
+        <li><a href="/admin/">Administration</a></li>
+        <li><a href="/admin/pictures/">Bilder verwalten</a></li>
     </ul>
   </nav>
 </div>

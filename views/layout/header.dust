@@ -6,9 +6,9 @@
 
   <title>{title}</title>
 
-  <link href="css/vendor/bootstrap.min.css" rel="stylesheet" media="screen">
+  <link href="/css/vendor/bootstrap.min.css" rel="stylesheet" media="screen">
   <link href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" media="screen">
-  <link href="css/main.css" rel="stylesheet" media="screen">
+  <link href="/css/main.css" rel="stylesheet" media="screen">
   
   <style>
     html, body,
