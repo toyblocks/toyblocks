@@ -8,7 +8,8 @@ exports.index = function(req, res) {
   res.render('index', {
     title: 'Startseite',
     route: '/'
-  });
+  })
+};
 
 /*
  * GET sort buildings game.
@@ -23,7 +24,7 @@ exports.sortBuildings = function(req, res) {
 };
 
 exports.validateOrder = function(req, res) {
-  var sorted = buildings.sort(function (a, b) {
+  var sorted = buildings.sort(function(a, b) {
     if (a.year > b.year)
       return 1;
     if (a.year < b.year)
@@ -37,7 +38,7 @@ exports.validateOrder = function(req, res) {
     spliced.push(tmp.toString());
   });
 
-  if(arraysEqual(spliced, req.body.buildingid)) {
+  if (arraysEqual(spliced, req.body.buildingid)) {
     res.send('Korrekt!');
   } else {
     res.send('Leider falsch, bitte nocheinmal versuchen');
