@@ -20,8 +20,8 @@ app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'dust');
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.json({limit: '10mb'}));
+app.use(express.urlencoded({limit: '10mb'}));
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
@@ -32,7 +32,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
-
 
 mongodb.MongoClient.connect('mongodb://127.0.0.1:27017/toyblocks',
   function(err, db) {
@@ -55,5 +54,4 @@ mongodb.MongoClient.connect('mongodb://127.0.0.1:27017/toyblocks',
     }
   }
 );
-
 

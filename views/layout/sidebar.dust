@@ -7,9 +7,9 @@
   </div>
   <nav role="navigation">
     <ul class="nav nav-pills nav-stacked span2">
-        <li <!--class="active"--><a href="/">Startseite</a></li>
+        <li {@eq key=route value="/"}class="active"{/eq}><a href="/">Startseite</a></li>
         <li><a href="#">Epochen</a></li>
-        <li><a href="/sortbuildings">Elemente anordnen</a></li>
+        <li {@eq key=route value="/sortbuildings"}class="active"{/eq}><a href="/sortbuildings">Elemente anordnen</a></li>
         <li><a href="#">Ausschnitt</a></li>
         <li><a href="/admin/">Administration</a></li>
         <li><a href="/admin/pictures/">Bilder verwalten</a></li>

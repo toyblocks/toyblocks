@@ -1,0 +1,6 @@
+{>"layout/layout.dust"/}
+
+
+{<content}
+  admin blabla
+{/content}
