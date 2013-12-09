@@ -26,11 +26,11 @@ exports.admin_pictures = function(req, res){
   if (req.params.action) {
     switch (req.params.action){
     case 'upload':
-      var regex = /^data:.+\/(.+);base64,(.*)$/;
-      var matches = req.param('picture').match(regex);
-      var ext = matches[1];
-      var data = matches[2];
-      var buffer = new Buffer(data, 'base64');
+      var pictureData = req.param('picture'),
+        basePos = pictureData.search(/base64,/),
+        matches = pictureData.slice(0,basePos).match(/^data:.+\/(.+);$/),
+        ext = matches[1],
+        buffer = new Buffer(pictureData.slice(basePos+7), 'base64');
       req.mongodb.collection('pictures').insert({
         filename: req.param('picturename'),
         name: req.param('name'),
@@ -46,8 +46,9 @@ exports.admin_pictures = function(req, res){
         if (err && err.message.indexOf('E11000 ') !== -1) {
           // this _id was already inserted in the database
         }
+        res.redirect('/admin/pictures/');
       });
-      break;
+      return;
     }
   }
   var pictures = [];
