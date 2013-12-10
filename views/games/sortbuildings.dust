@@ -1,7 +1,7 @@
 {>"layout/layout.dust"/}
 
 {<content}
-  <div class="col-md-8 col-sm-4">
+  <div class="col-md-2 col-sm-4">
     <ul id="buildings" class="list-unstyled">
       {#gameData}
         <li id="buildingid_{buildingid}" class="building drag">
@@ -14,5 +14,6 @@
       {/gameData}
     </ul>
   </div>
-  <button id="submit" type="button" class="btn btn-primary">Lösung senden</button>
+
+  <button id="submit" type="button" class="btn btn-primary" style="margin-top: 250px">Lösung senden</button>
 {/content}

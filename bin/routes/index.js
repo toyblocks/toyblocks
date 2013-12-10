@@ -97,6 +97,12 @@ exports.sortBuildings = function(req, res) {
   });
 };
 
+
+/*
+ * Validates if the game /sortbuildings is correct
+ * and sends a message.
+ *
+*/
 exports.validateOrder = function(req, res) {
   var sorted = buildings.sort(function(a, b) {
     if (a.year > b.year)
@@ -119,7 +125,9 @@ exports.validateOrder = function(req, res) {
   }
 };
 
-
+/*
+ * Return true if arrays are equal
+*/
 function arraysEqual(a, b) {
   if (a === b) return true;
   if (a == null || b == null) return false;
@@ -128,6 +136,6 @@ function arraysEqual(a, b) {
   for (var i = 0; i < a.length; ++i) {
     if (a[i] !== b[i]) return false;
   }
+
   return true;
 }
-

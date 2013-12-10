@@ -1,3 +1,9 @@
+
+/*
+ * Temporary data for games until database is setup and running
+ *
+*/
+
 var buildings = [{
   buildingid: 1412,
   name: 'Schloss Vaux le Vicomte',
