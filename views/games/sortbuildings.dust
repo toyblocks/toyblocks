@@ -3,6 +3,9 @@
 {<content}
   <div class="col-md-2 col-sm-4">
     <ul id="buildings" class="list-unstyled">
+      <div class="thumbnail">
+        <b>Älteste Epoche</b>
+      </div>
       {#gameData}
         <li id="buildingid_{buildingid}" class="building drag">
           <div class="thumbnail">
@@ -12,6 +15,9 @@
             </div>
         </li>
       {/gameData}
+      <div class="thumbnail">
+      <b>Neuste Epoche</b>
+      </div>
     </ul>
   </div>
 
