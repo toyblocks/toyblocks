@@ -8,7 +8,7 @@ $(function() {
       key: "buildingid"
     });
     $.post('/validateorder', serialized, function(data) {
-      $('#content').append('<div data-dismiss="alert" class="alert alert-info alert-dismissable">'
+      $('#content').append('<div data-dismiss="alert" class="alert alert-info alert-dismissable" style="z-index:99999999; position: absolute; ">'
         + data + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
     });
   });
