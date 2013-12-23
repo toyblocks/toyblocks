@@ -43,10 +43,10 @@
     {#pictures}
     <div class="col-sm-6 col-md-3">
       <div class="thumbnail">
-        <img src="/dbimage?id={_id}" alt="{filename}">
+        <img src="/ressource?id={_id}" alt="{filename}">
         <div class="caption">
           <h5>{name}</h5>
-          <p>Epoche: {era}<br>Jahr: {year}</p>
+          <p>Epoche: {era}<br>Jahr: {year}<br>{_id.getTimestamp}</p>
         </div>
       </div>
     </div>
