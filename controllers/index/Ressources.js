@@ -4,9 +4,9 @@ module.exports = function () {
 };
 module.exports.prototype = BaseController.prototype.extend({
   area: 'index',
-  name: 'ressource',
+  name: 'ressources',
 
-  indexAction: function() {
+  imageAction: function() {
     var _this = this;
     if (this.request.param('id')) {
       this.mongodb

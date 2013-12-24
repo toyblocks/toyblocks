@@ -1,0 +1,73 @@
+{>"layout/layout.dust"/}
+
+{<content}
+<div class="col-md-8 col-sm-4">
+  <h3>Attribute Übersicht</h3>
+  <a href="javascript:$('#create_attribute').toggle()">Neues Attribut erstellen</a>
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+      <form class="form-horizontal" id="create_attribute" action="create" role="form" method="post" style="display:none; margin-bottom:30px;">
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="attribute_name">Name</label>
+          <div class="col-sm-10">
+            <input name="name" type="text" id="attribute_name" class="form-control">
+            <p class="help-block">Nur kleine Buchstaben, Zahlen und Unterstriche erlaubt</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="attribute_title">Titel</label>
+          <div class="col-sm-10">
+            <input name="title" type="text" id="attribute_title" class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="attribute_type">Typ</label>
+          <div class="col-sm-10">
+            <select name="type" id="attribute_type" class="form-control">
+              {#attributeTypes}
+              <option value="{name}">{name} - {explain}</option>
+              {/attributeTypes}
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="is_enum" value="1" /> Vordefinierte Werte
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Erstellen</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+      <table class="table">
+        <tr>
+          <th>Name</th>
+          <th>Titel</th>
+          <th>Typ</th>
+          <th>Vordefiniert</th>
+        </tr>
+        {#attributes}
+        <tr>
+          <td>{name}</td>
+          <td>{title}</td>
+          <td>{type}</td>
+          <td>{?is_enum}Ja{:else}Nein{/is_enum}</td>
+        </tr>
+        {:else}
+        <tr><td colspan="3">Bisher keine Attribute vorhanden</td></tr>
+        {/attributes}
+      </table>
+    </div>
+  </div>
+</div>
+{/content}

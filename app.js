@@ -62,18 +62,22 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
       };
 
       // we hear on every request url here in form of
-      // 
+      // areaname / controllername / actionname
+      // defaults are index in every case. in case of the controller was not found,
+      // we try to search in index area
       app.all('/:area?/:controller?/:action?', attachDB, function (req, res, next) {
         var area = req.params.area || 'index',
           controller = req.params.controller || 'index',
-          action = req.params.action || 'index';
+          action = req.params.action || 'index',
+          controllerClass;
         try {
-          var controllerClass = require(getControllerPath(area, controller));
+          controllerClass = require(getControllerPath(area, controller));
         }
         catch (e) {
           if (e.code === 'MODULE_NOT_FOUND') {
             try {
-              var controllerClass = require(getControllerPath('index', area));
+              controllerClass = require(getControllerPath('index', area));
+              action = controller || 'index';
             }
             catch (e) {
               if (e.code === 'MODULE_NOT_FOUND') {

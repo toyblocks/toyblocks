@@ -1,0 +1,7 @@
+{>"layout/layout.dust"/}
+
+{<content}
+<div class="col-md-8 col-sm-4">
+  <h3>Objekte Übersicht</h3>
+</div>
+{/content}

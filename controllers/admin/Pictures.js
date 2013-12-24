@@ -1,10 +1,9 @@
-var BaseController = require('../Base');
+var BaseController = require('../Admin');
 
 module.exports = function () {
   
 };
 module.exports.prototype = BaseController.prototype.extend({
-  area: 'admin',
   name: 'pictures',
 
   indexAction: function() {
