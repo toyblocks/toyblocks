@@ -1,4 +1,5 @@
-var AdminController = require('../Admin');
+var AdminController = require('../Admin'),
+  attributeModel = require('../../models/Attribute');
 
 module.exports = function () {
   
@@ -10,13 +11,13 @@ module.exports.prototype = AdminController.prototype.extend({
     var attributes = [],
       _this = this;
     this.mongodb
-      .collection('attributes')
+      .collection(attributeModel.collection)
       .find({})
       .toArray(function(err, attributes){
         _this.view.render({
           title: 'Attribute Verwaltung',
           attributes: attributes,
-          attributeTypes: _this.getTypes()
+          attributeTypes: attributeModel.getTypes()
         });
       });
   },
@@ -26,7 +27,7 @@ module.exports.prototype = AdminController.prototype.extend({
       attribute = this.getAttributeFromRequest();
     if (attribute) {
       this.mongodb
-        .collection('attributes')
+        .collection(attributeModel.collection)
         .insert(
           attribute,
           {w:1},
@@ -53,18 +54,16 @@ module.exports.prototype = AdminController.prototype.extend({
     if (!req.param('name') || !req.param('name').match(/^[a-z][a-z0-9_]*$/))
       return false;
     attribute.name = req.param('name');
-    console.log(attribute);
 
     if (!req.param('title').trim()) // check for empty title
       return false;
     attribute.title = req.param('title');
-    console.log(attribute);
 
     attribute.is_enum = !!req.param('is_enum');
 
     // last check. iterate over all types
     var paramType = req.param('type'),
-      types = this.getTypes();
+      types = attributeModel.getTypes();
     for (var typeIndex in types) {
       if (types[typeIndex].name === paramType) {
         // TODO: check for enum
@@ -74,17 +73,4 @@ module.exports.prototype = AdminController.prototype.extend({
     }
     return false;
   },
-
-  getTypes: function() {
-    var types = [
-      {name: 'string', explain: 'Einfacher Text'},
-      {name: 'date', explain: 'Einfaches Datum'},
-      {name: 'datetime', explain: 'Datum mit Zeit'},
-      {name: 'int', explain: 'Strikte Zahl'},
-      {name: 'float', explain: 'Strikte Kommazahl'},
-      {name: 'attributes', explain: 'Liste von Attributen'},
-      {name: 'objecttype', explain: 'Verweise zu Objekten vom Typ'},
-    ];
-    return types;
-  }
 });

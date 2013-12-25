@@ -1,7 +1,78 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<div class="col-md-8 col-sm-4">
+<div class="col-md-8 col-sm-8">
   <h3>Objekte Übersicht</h3>
+  <a href="javascript:$('#create_type').toggle()">Neuen Typ erstellen</a>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <form class="form-horizontal" id="create_type" action="create-type" role="form" method="post" style="display:none; margin-bottom:30px;">
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="type_name">Name</label>
+          <div class="col-sm-6">
+            <input name="name" type="text" id="type_name" class="form-control" required pattern="^[a-z][a-z0-9_]*$">
+            <p class="help-block">Nur kleine Buchstaben, Zahlen und Unterstriche erlaubt</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="type_title">Titel</label>
+          <div class="col-sm-6">
+            <input name="title" type="text" id="type_title" class="form-control" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="type_attribute">Attribute <a href="" onclick="$(this).parents('.form-group').after($(this).parents('.form-group').clone());return false;">[+]</a></label>
+          <div class="col-sm-2">
+            <select name="attributes[name][]" id="type_attribute" class="form-control">
+              {#attributes}
+              <option value="{name}">{title}</option>
+              {/attributes}
+            </select>
+          </div>
+          <div class="col-sm-6">
+            <div class="checkbox-inline">
+              <label><input type="checkbox" name="attributes[mandatory][]" value="1" /> Pflicht</label>
+            </div>
+            <div class="checkbox-inline">
+              <label><input type="checkbox" name="attributes[display][]" value="1" /> Anzeigbar</label>
+            </div>
+            <div class="checkbox-inline">
+              <label><input type="checkbox" name="attributes[multiple][]" value="1" /> Multiple</label>
+            </div>
+            <div class="checkbox-inline">
+              <label><a href="" onclick="$(this).parents('.form-group').remove();return false;">[-]</a></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Erstellen</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+      <table class="table">
+        <tr>
+          <th>Name</th>
+          <th>Titel</th>
+          <th>Attribute</th>
+          <th>Aktion</th>
+        </tr>
+        {#types}
+        <tr>
+          <td><a href="objects?type={name}">{name}</a></td>
+          <td>{title}</td>
+          <td>{#attributeNames}{.}{@sep}, {/sep}{/attributeNames}</td>
+          <td>Bearbeiten</td>
+        </tr>
+        {:else}
+        <tr><td colspan="4">Bisher keine Objekttypen vorhanden</td></tr>
+        {/types}
+      </table>
+    </div>
+  </div>
 </div>
 {/content}
