@@ -27,4 +27,13 @@ $(function(){
       fileReader.readAsDataURL(event.target.files[0]);
     }
   });
+
+  jQuery.fn.extend({
+    duplicateAfter: function(resetInputs) {
+      var obj = this.clone();
+      if (resetInputs)
+        obj.find('input').val('');
+      this.after(obj);
+    }
+  });
 });

@@ -1,0 +1,43 @@
+{>"layout/layout.dust"/}
+
+{<content}
+<div class="col-md-8 col-sm-8">
+  <h3>{type.title} Übersicht</h3>
+  <a href="javascript:$('#create_object').toggle()">Neues Objekt in {type.title} erstellen</a>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <form class="form-horizontal" id="create_object" action="create-object" role="form" method="post" style="display:none; margin-bottom:30px;">
+        <input type="hidden" name="type" value="{type.name}" />
+        {#attributes object_type=type}
+        {>"forms/elements/{type}.dust"/}
+        {/attributes}
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Erstellen</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+      <table class="table">
+        <tr>
+          {#attributes object_type=type}
+          <th>{title}</th>
+          {/attributes}
+        </tr>
+        {#objects attributes=attributes}
+        <tr>
+          {#attributes object=.}
+          <td>{object[name]}</td>
+          {/attributes}
+        </tr>
+        {:else}
+        <tr><td colspan="4">Bisher keine {type.title} vorhanden</td></tr>
+        {/objects}
+      </table>
+    </div>
+  </div>
+</div>
+{/content}
