@@ -27,10 +27,14 @@
           <th>{title}</th>
           {/attributes}
         </tr>
-        {#objects attributes=attributes}
+        {#objects attributes=attributes object_type=type}
         <tr>
           {#attributes object=.}
-          <td>{object[name]}</td>
+          {@if cond="'{type}' == 'image'"}
+          <td>{#object[name]}<img src="/ressources/image?id={.}" style="max-width:50px;" />{/object[name]}</td>
+          {:else}
+          <td>{#object[name]}{.}{/object[name]}</td>
+          {/if}
           {/attributes}
         </tr>
         {:else}

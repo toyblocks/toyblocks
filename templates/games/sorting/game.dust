@@ -1,0 +1,29 @@
+{>"layout/layout.dust"/}
+
+{<content}
+<div class="col-md-8 col-sm-4">
+  <h3>{game.title}</h3>
+
+  <ul id="buildings" class="list-unstyled">
+    {#buildings}
+    <li class="thumbnail" style="width:200px; float:left; margin-right:10px;">
+      <img src="/ressources/image?id={image}" style="max-width:100px">
+      <div class="caption">
+        <h3>Thumbnail label</h3>
+        <p>...</p>
+      </div>
+    </li>
+    {/buildings}
+  </ul>
+
+  <button id="submit" type="button" class="btn btn-primary" style="margin-top: 250px">Lösung senden</button>
+</div>
+<script>
+$(window).ready(function(){
+  $(function() {
+    $( "#buildings" ).sortable();
+    $( "#buildings" ).disableSelection();
+  });
+});
+</script>
+{/content}

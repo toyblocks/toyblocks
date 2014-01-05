@@ -15,6 +15,7 @@ module.exports = base.extend({
       {name: 'image', explain: 'Bild'},
       {name: 'attributes', explain: 'Liste von Attributen'},
       {name: 'objecttype', explain: 'Verweise zu Objekten vom Typ'},
+      {name: 'random', explain: 'Zufallszahl für zufällige Objekte'},
     ];
     return types;
   },

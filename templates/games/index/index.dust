@@ -1,0 +1,13 @@
+{>"layout/layout.dust"/}
+
+{<content}
+<div class="col-md-4 col-sm-4">
+  <h3>Alle Spiele</h3>
+  <div class="list-group">
+    <a href="sorting/" class="list-group-item">
+      <h4 class="list-group-item-heading">Sortier Spiele</h4>
+      <p class="list-group-item-text">Hier eine kleine Beschreibung</p>
+    </a>
+  </div>
+</div>
+{/content}

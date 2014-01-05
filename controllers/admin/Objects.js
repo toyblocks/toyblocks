@@ -51,10 +51,20 @@ module.exports.prototype = AdminController.prototype.extend({
               // this _id was already inserted in the database
             }
             // TODO: error handler
-            _this.response.redirect('..');
+
+            // rewrite to set indeces
+            if (type.randomized) {
+              this.mongodb
+                .collection('object_types')
+                .ensureIndex({_random: '2d'}, function(){
+                  _this.response.redirect('..');
+                });
+            }
+            else {
+              _this.response.redirect('..');
+            }
           });
     }
-    throw new Error('test');
   },
 
 
@@ -70,14 +80,16 @@ module.exports.prototype = AdminController.prototype.extend({
       return false;
     type.title = req.param('title');
 
+    type.randomized = !!req.param('randomized');
+
     var attrs = req.param('attributes');
     type.attributes = {};
-    for (var i = 0; i < attrs.name.length; i++) {
+    for (var i in attrs) {
       var attr = {};
-      attr.mandatory = !!attrs.mandatory[i];
-      attr.multiple = !!attrs.multiple[i];
-      attr.display = !!attrs.display[i];
-      type.attributes[attrs.name[i]] = attr;
+      attr.mandatory = !!attrs[i].mandatory;
+      attr.multiple = !!attrs[i].multiple;
+      attr.display = !!attrs[i].display;
+      type.attributes[attrs[i].name] = attr;
     }
     return type;
   },
@@ -154,6 +166,10 @@ module.exports.prototype = AdminController.prototype.extend({
               attributeName = attributes[i].name;
 
               try {
+                if (type.randomized) {
+                  object._random = [Math.random(), 0];
+                }
+
                 object[attributeName] = attributeModel.validateAndTransform(
                   attributes[i],
                   typeProps,
@@ -206,11 +222,12 @@ module.exports.prototype = AdminController.prototype.extend({
                   }
                 }
 
+                // insert object into database
                 _this.mongodb
                   .collection(type.name)
                   .insert(object, {}, function(err, result) {
                     if (err) throw new Error(err);
-                    _this.response.redirect('..?type='+type.name);
+                    _this.response.redirect('../objects?type='+type.name);
                   });
               });
           });

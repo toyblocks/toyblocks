@@ -21,9 +21,18 @@
           </div>
         </div>
         <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="randomized" value="1" /> Zufällige Auswahl ermöglichen
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group type-attributes">
           <label class="col-sm-2 control-label" for="type_attribute">Attribute <a href="" onclick="$(this).parents('.form-group').after($(this).parents('.form-group').clone());return false;">[+]</a></label>
           <div class="col-sm-2">
-            <select name="attributes[name][]" id="type_attribute" class="form-control">
+            <select name="attributes[0][name]" id="type_attribute" class="form-control">
               {#attributes}
               <option value="{name}">{title}</option>
               {/attributes}
@@ -31,13 +40,13 @@
           </div>
           <div class="col-sm-6">
             <div class="checkbox-inline">
-              <label><input type="checkbox" name="attributes[mandatory][]" value="1" /> Pflicht</label>
+              <label><input type="checkbox" name="attributes[0][mandatory]" value="1" /> Pflicht</label>
             </div>
             <div class="checkbox-inline">
-              <label><input type="checkbox" name="attributes[display][]" value="1" /> Anzeigbar</label>
+              <label><input type="checkbox" name="attributes[0][display]" value="1" /> Anzeigbar</label>
             </div>
             <div class="checkbox-inline">
-              <label><input type="checkbox" name="attributes[multiple][]" value="1" /> Multiple</label>
+              <label><input type="checkbox" name="attributes[0][multiple]" value="1" /> Multiple</label>
             </div>
             <div class="checkbox-inline">
               <label><a href="" onclick="$(this).parents('.form-group').remove();return false;">[-]</a></label>
@@ -50,6 +59,15 @@
           </div>
         </div>
       </form>
+      <script>
+      $('#create_type').submit(function() {
+        $(this).find('.type-attributes').each(function(index){
+          $(this).find('input, select').each(function(){
+            $(this).attr('name', $(this).attr('name').replace(/attributes\[0\](.*)/i, 'attributes[' + index + ']$1'));
+          });
+        });
+      });
+      </script>
     </div>
   </div>
   <div class="row">
