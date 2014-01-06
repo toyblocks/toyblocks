@@ -8,9 +8,8 @@
   <nav role="navigation">
     <ul class="nav nav-pills nav-stacked span2">
         <li><a href="/">Startseite</a></li>
-        <li><a href="#">Epochen</a></li>
-        <li><a href="/sortbuildings">Elemente anordnen</a></li>
-        <li><a href="#">Ausschnitt</a></li>
+        <li><a href="/games/">Spiele</a></li>
+        <li><a href="/games/sorting/">Bauwerke ordnen</a></li>
         <li><a href="/admin/">Administration</a></li>
         <li><a href="/admin/attributes/">Attribute verwalten</a></li>
         <li><a href="/admin/objects/">Objekte verwalten</a></li>
