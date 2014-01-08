@@ -1,9 +1,27 @@
 
-ToyBlocks version 0.0.0
+ToyBlocks version 0.0.1
 =======================
 
 
 This is a webgame for architecture students.
 
+
+
+To start the server run
+    node bin/app.js
+The server is then running on http://127.0.0.1:3000
+
+
+Requirements:
+	consolidate
+	dustjs-helpers
+	dustjs-linkedin
+	express
+	mongodb
+	underscore
+(install them with 'npm install xxx')
+
+
+
 To restore the database:
-mongorestore toyblocks_dump
+    mongorestore toyblocks_dump
