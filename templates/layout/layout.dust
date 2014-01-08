@@ -8,7 +8,7 @@
         {>"layout/sidebar"/}
         <div id="content">
         {+content}
-          <h3>Willkommen zu Toyblocks!</h3>
+          <h3>Willkommen zu Toyblocks! :)</h3>
         {/content}
         </div>
       </div>
