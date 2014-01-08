@@ -25,3 +25,12 @@ Requirements:
 
 To restore the database:
     mongorestore toyblocks_dump
+
+Deployment:
+on your local machine run this command once
+git remote add architecture ssh://production@www5.architektur.tu-darmstadt.de/home/production/repos/toyblocks
+
+from now on you can push changes to the server via
+  git push architecture master
+and to redmine via
+  git push origin master
