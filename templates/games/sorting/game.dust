@@ -6,7 +6,10 @@
 
   <ul id="buildings" class="list-unstyled">
     {#buildings}
-    <li class="thumbnail" style="width:200px; float:left; margin-right:10px;">
+    <li class="thumbnail" style="width:200px; margin-right:10px;     -moz-transition: none;
+    -webkit-transition: none;
+    -o-transition: color 0 ease-in;
+    transition: none;">
       <img src="/ressources/image?id={image}" style="max-width:100px">
       <div class="caption">
         <h3>Thumbnail label</h3>
