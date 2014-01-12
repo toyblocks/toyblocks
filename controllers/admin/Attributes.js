@@ -47,6 +47,29 @@ module.exports.prototype = AdminController.prototype.extend({
     }
   },
 
+  showEnumsAction: function() {
+    var _this = this;
+    _this.mongodb
+      .collection(attributeModel.collection)
+      .find({name: _this.request.param('attribute')})
+      .nextObject(function(err, attribute) {
+        _this.view.render({attribute: attribute});
+      });
+  },
+
+  saveEnumsAction: function() {
+    var _this = this;
+    _this.mongodb
+      .collection(attributeModel.collection)
+      .update(
+        {name: _this.request.param('attribute')},
+        {$set: {values: _this.request.param('enums')}},
+        {},
+        function(err) {
+          _this.response.json({result:'success'});
+        });
+  },
+
   getAttributeFromRequest: function() {
     var req = this.request,
       attribute = {};

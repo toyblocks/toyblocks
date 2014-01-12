@@ -15,6 +15,7 @@
     position: absolute;
     right: -8px;
     top: -8px;
+    font-size:40px;
   }
   #sortable li .glyphicon-ok { color: lime; }
   #sortable li .glyphicon-remove { color: red; }

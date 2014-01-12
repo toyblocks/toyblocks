@@ -1,0 +1,28 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h4 class="modal-title" id="myModalLabel">Werte in {attribute.title}</h4>
+    </div>
+    <div class="modal-body">
+      <form id="enumsForm">
+        <input type="hidden" name="attribute" value="{attribute.name}" />
+        <ul id="enumsList" class="list-group">
+          {#attribute.values}
+          <li class="list-group-item">{.}<input type="hidden" name="enums[]" value="{.}" />
+            <span class="badge delete-enum"><span class="glyphicon glyphicon-remove"></span></span>
+          </li>
+          {/attribute.values}
+        </ul>
+      </form>
+      <div class="input-group">
+        <input id="newEnumValue" type="text" class="form-control">
+        <span class="input-group-btn"><button id="addNewEnum" class="btn btn-default" type="button">Hinzufügen</button></span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+      <button id="saveEnums" type="button" class="btn btn-primary">Speichern</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

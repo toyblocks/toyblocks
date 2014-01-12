@@ -1,6 +1,10 @@
 {>"layout/layout.dust"/}
 
 {<content}
+<style>
+#enumsList .delete-enum { cursor: pointer; }
+#enumsList li { cursor: move; }
+</style>
 <div class="col-md-8 col-sm-4">
   <h3>Attribute Übersicht</h3>
   <a href="javascript:$('#create_attribute').toggle()">Neues Attribut erstellen</a>
@@ -55,6 +59,7 @@
           <th>Titel</th>
           <th>Typ</th>
           <th>Vordefiniert</th>
+          <th></th>
         </tr>
         {#attributes}
         <tr>
@@ -62,6 +67,7 @@
           <td>{title}</td>
           <td>{type}</td>
           <td>{?is_enum}Ja{:else}Nein{/is_enum}</td>
+          <td>{?is_enum}<a href="show-enums?attribute={name}" data-target="#enumsModal" data-toggle="modal">Werte</a>{/is_enum}</td>
         </tr>
         {:else}
         <tr><td colspan="3">Bisher keine Attribute vorhanden</td></tr>
@@ -69,5 +75,36 @@
       </table>
     </div>
   </div>
+  <div class="modal fade" id="enumsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 </div>
+<script>
+$('body').on('shown.bs.modal', '#enumsModal', function () {
+  $modal = $(this);
+  $(this).find('#enumsList').sortable();
+  $(this).find('#enumsList').disableSelection();
+  $('#enumsList').on('click', '.delete-enum', function(){
+    $(this).parents('li').remove();
+  });
+  $(this).find('#addNewEnum').click(function(){
+    var $input = $('#newEnumValue'),
+      newValue = $input.val();
+    $('#enumsList').append('<li class="list-group-item">' + newValue + '
+      <input type="hidden" name="enums[]" value="' + newValue + '" />
+      <span class="badge delete-enum"><span class="glyphicon glyphicon-remove"></span></span>
+    </li>');
+    $input.val('');
+  });
+  $(this).find('#saveEnums').click(function(){
+    var serialized = $('#enumsForm').serialize();
+    $.post('save-enums', serialized, function(data) {
+      console.log(data.result);
+      $modal.modal('hide');
+    });
+  });
+});
+
+$('body').on('hidden.bs.modal', '#enumsModal', function () {
+  $(this).removeData('bs.modal');
+});
+</script>
 {/content}
