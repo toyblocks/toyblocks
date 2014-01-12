@@ -31,6 +31,9 @@ module.exports.prototype = BaseController.prototype.extend({
           }
         });
     }
+    else {
+      _this.response.send(404, 'Image not found');
+    }
   }
 });
 

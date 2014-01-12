@@ -137,6 +137,64 @@ module.exports.prototype = AdminController.prototype.extend({
       });
   },
 
+  deleteObjectAction: function () {
+    var _this = this,
+      objectId = this.mongo.ObjectID(this.request.param('id'));
+
+    // getting main type
+    this.getType(
+      this.request.param('type'),
+      function(err, type) {
+        if (err)
+          throw new Error(err);
+        else {
+          type.attributeNames = Object.keys(type.attributes);
+          // getting attributes
+          _this.mongodb
+          .collection(attributeModel.collection)
+          .find({name: {$in: type.attributeNames}})
+          .toArray(function(err, attributes) {
+
+            //here we collect all attributes, which are of the image type
+            var imageAttributes = [];
+            for (var i = 0; i < attributes.length; i++) {
+              if (attributes[i].type == 'image')
+                imageAttributes.push(attributes[i].name);
+            }
+
+            // check if we have images to delete
+            if (imageAttributes.length > 0) {
+              _this.mongodb
+                .collection(type.name)
+                .find({_id: objectId})
+                .nextObject(function(err, object){
+                  // receive & delete images
+                  var imageIds = [];
+                  for (var i = 0; i < imageAttributes.length; i++) {
+                    if (object[imageAttributes[i]])
+                      imageIds = imageIds.concat(object[imageAttributes[i]]);
+                  }
+
+                  _this.mongodb.collection('images').remove({_id: {$in: imageIds}}, {}, function () {
+                    _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
+                      _this.response.redirect('../objects?type='+type.name);
+                    });
+                  });
+                });
+            }
+            else {
+              _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
+                _this.response.redirect('../objects?type='+type.name);
+              });
+            }
+          });
+        }
+      }
+    );
+
+
+  },
+
   createObjectAction: function () {
     var _this = this;
 

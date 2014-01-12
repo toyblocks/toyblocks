@@ -36,6 +36,7 @@
           <td>{#object[name]}{.}{/object[name]}</td>
           {/if}
           {/attributes}
+          <td><a href="delete-object?type={object_type.name}&id={_id}">Löschen</a></td>
         </tr>
         {:else}
         <tr><td colspan="4">Bisher keine {type.title} vorhanden</td></tr>

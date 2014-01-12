@@ -1,32 +1,122 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<div class="col-md-8 col-sm-4">
-  <h3>{game.title}</h3>
+<style>
+  #sortable li {
+    float: left;
+    width: 200px;
+    height: 200px;
+    margin-right:10px;
+    margin-bottom: 10px;
+    /*overflow: hidden;*/
+    position: relative;
+  }
+  #sortable li .glyphicon {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+  }
+  #sortable li .glyphicon-ok { color: lime; }
+  #sortable li .glyphicon-remove { color: red; }
+  #sortable li img { max-width:190px; max-height: 190px;}
+</style>
 
-  <ul id="buildings" class="list-unstyled">
-    {#buildings}
-    <li class="thumbnail" style="width:200px; margin-right:10px;     -moz-transition: none;
-    -webkit-transition: none;
-    -o-transition: color 0 ease-in;
-    transition: none;">
-      <img src="/ressources/image?id={image}" style="max-width:100px">
-      <div class="caption">
-        <h3>Thumbnail label</h3>
-        <p>...</p>
+<div class="col-md-10 col-sm-10">
+  <form id="sortingform">
+    <input type="hidden" name="gameid" value="{game._id}" />
+    <h3>{game.title}</h3>
+    <ul id="sortable" class="list-unstyled" style="width:100%">
+      {#buildings}
+      <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
+        <input type="hidden" name="sortings[]" value="{_id}" />
+        <img src="/ressources/image?id={image}" title="{title}">
+        {! TODO: gameparam: show title? !}
+        <div class="caption">
+          <h4>{title}</h4>
+        </div>
+      </li>
+      {/buildings}
+    </ul>
+    <div style="clear:both"></div>
+    <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>
+  </form>
+
+<!-- Modal -->
+<div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Richtig</h4>
       </div>
-    </li>
-    {/buildings}
-  </ul>
+      <div class="modal-body">
+        Ihre Lösung ist korrekt!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-  <button id="submit" type="button" class="btn btn-primary" style="margin-top: 250px">Lösung senden</button>
+<!-- Modal -->
+<div class="modal fade" id="checkModalWrong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Falsch</h4>
+      </div>
+      <div class="modal-body">
+        Ihre Lösung ist leider falsch.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Noch Mal</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 </div>
 <script>
 $(window).ready(function(){
   $(function() {
-    $( "#buildings" ).sortable();
-    $( "#buildings" ).disableSelection();
+    $( "#sortable" ).sortable({revert: 200});
+    $( "#sortable" ).disableSelection();
   });
+  $('#submit').click(function(){
+    {! TODO: gameparam: number of tries !}
+    $(this).prop('disabled', true);
+    $('#sortable').sortable('disable');
+    var serialized = $('#sortingform').serialize();
+    $.post('check-sorting', serialized, function(data) {
+      console.log(data);
+      showCorrection(data.lastCorrectBuilding);
+      if (data.correct) {
+        $('#checkModalCorrect').modal();
+      }
+      else {
+        $('#checkModalWrong').modal();
+      }
+    });
+  });
+
+  function showCorrection(tillIndex) {
+    $('#sortable li').each(function(index){
+      if (index <= tillIndex) {
+        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
+      }
+      else {
+        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
+      }
+    });
+  }
+
+  function removeCorrection() {
+    $('#sortable').remove('.glyphicon');
+  }
+
+  $(".alert").alert();
 });
 </script>
 {/content}
