@@ -19,6 +19,7 @@ Requirements:
 	express
 	mongodb
 	underscore
+	gm
 (install them with 'npm install xxx')
 
 
