@@ -27,6 +27,9 @@
     <input type="hidden" name="gameid" value="{game._id}" />
     <h3>{game.title}</h3>
     <ul id="sortable" class="list-unstyled" style="width:100%">
+<!--     <li class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
+      <b>Ältestes Gebäude</b>
+    </li> -->
       {#buildings}
       <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
         <input type="hidden" name="sortings[]" value="{_id}" />
@@ -37,6 +40,9 @@
         </div>
       </li>
       {/buildings}
+<!--     <li class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
+      <b>Neustes Gebäude</b>
+    </li> -->
     </ul>
     <div style="clear:both"></div>
     <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>

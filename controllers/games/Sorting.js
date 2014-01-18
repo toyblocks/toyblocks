@@ -94,6 +94,7 @@ module.exports.prototype = GamesController.prototype.extend({
                 for (var i = 0; i < buildings.length; i++) {
                   // go through all buildings and check the index of era in era-array
                   var buildingEraIndex = eras.indexOf(buildings[i].era);
+                  
                   if (buildingEraIndex < lastEraIndex) {
                     correct = false;
                     break;

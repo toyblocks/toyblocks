@@ -2,47 +2,54 @@
 
 {<content}
 <style>
-  #sortable li {
+  #selectable li {
     float: left;
-    width: 200px;
-    height: 200px;
+    width: 130px;
+    height: 130px;
     margin-right:10px;
-    margin-bottom: 10px;
-    /*overflow: hidden;*/
+    margin-bottom: 0px;
+    padding: 0px;
+    overflow: hidden;
     position: relative;
   }
-  #sortable li .glyphicon {
+  #selectable li .glyphicon {
     position: absolute;
     right: -8px;
     top: -8px;
     font-size:40px;
   }
-  #sortable li .glyphicon-ok { color: lime; }
-  #sortable li .glyphicon-remove { color: red; }
-  #sortable li img { max-width:190px; max-height: 190px;}
+  #selectable .ui-selecting {
+    background: #ccc;
+  }
+  #selectable .ui-selected {
+    background: #BBB;
+    border: 1px solid black;
+  }
+  #selectable li .glyphicon-ok { color: lime; }
+  #selectable li .glyphicon-remove { color: red; }
+  //#selectable li img { max-width:110px; max-height: 110px;}
 </style>
 
-<div class="col-md-10 col-sm-10">
-  <form id="sortingform">
+<div class="col-md-55 col-sm-55">
+  <form id="selectform">
     <input type="hidden" name="gameid" value="{game._id}" />
     <h3>{game.title}</h3>
-    <ul id="sortable" class="list-unstyled" style="width:100%">
-<!--     <li class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
-      <b>Ältestes Gebäude</b>
-    </li> -->
+    <ul id="selectable" class="list-unstyled" style="width:100%;">
+
+
       {#buildings}
       <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
-        <input type="hidden" name="sortings[]" value="{_id}" />
+        <input type="hidden" name="selects[]" value="{_id}" />
         <img src="/ressources/image?id={image}" title="{title}">
         {! TODO: gameparam: show title? !}
+        <!-- TODO: Show title?
         <div class="caption">
-          <h4>{title}</h4>
-        </div>
+          <b>{title}</b>
+        </div>-->
       </li>
       {/buildings}
-<!--     <li class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
-      <b>Neustes Gebäude</b>
-    </li> -->
+
+
     </ul>
     <div style="clear:both"></div>
     <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>
@@ -57,7 +64,7 @@
         <h4 class="modal-title" id="myModalLabel">Richtig</h4>
       </div>
       <div class="modal-body">
-        Ihre Lösung ist korrekt!
+        Das ist richtig!
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -75,10 +82,10 @@
         <h4 class="modal-title" id="myModalLabel">Falsch</h4>
       </div>
       <div class="modal-body">
-        Ihre Lösung ist leider falsch.
+        Das war falsch!
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Noch Mal</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Nocheinmal!</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -86,19 +93,19 @@
 
 </div>
 <script>
+
 $(window).ready(function(){
   $(function() {
-    $( "#sortable" ).sortable({revert: 200});
-    $( "#sortable" ).disableSelection();
+    $( "#selectable" ).selectable();
+    $( "#selectable" ).disableSelection();
   });
   $('#submit').click(function(){
     {! TODO: gameparam: number of tries !}
     $(this).prop('disabled', true);
-    $('#sortable').sortable('disable');
-    var serialized = $('#sortingform').serialize();
-    $.post('check-sorting', serialized, function(data) {
+    $('#selectable').selectable('disable');
+    var serialized = $('#selectableform').serialize();
+    $.post('check-selected', serialized, function(data) {
       console.log(data);
-      showCorrection(data.lastCorrectBuilding);
       if (data.correct) {
         $('#checkModalCorrect').modal();
       }
@@ -108,20 +115,6 @@ $(window).ready(function(){
     });
   });
 
-  function showCorrection(tillIndex) {
-    $('#sortable li').each(function(index){
-      if (index <= tillIndex) {
-        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
-      }
-      else {
-        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
-      }
-    });
-  }
-
-  function removeCorrection() {
-    $('#sortable').remove('.glyphicon');
-  }
 
   $(".alert").alert();
 });

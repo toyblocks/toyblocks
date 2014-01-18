@@ -59,5 +59,23 @@ console.log("gameAction")
         .toArray(renderCallback);
     }
   }
+  checkSelectedAction: function() {
+    var _this = this;
+    this.mongodb
+      .collection('missingparts_games')
+      .find({_id: this.mongo.ObjectID(this.request.param('gameid'))})
+      .nextObject(function(err, game) {
+        //we got the game params
+
+        // TODO create missinggame_pieces image db and insert data
+        // also create a mainimage field inside missingparts_games db
+          // _this.mongodb
+          // .collection('attributes')
+          // .find({name: 'corect'})
+          // .nextObject(function(err, attribute) {
+          // }
+
+      }
+  }
 
 });
