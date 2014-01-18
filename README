@@ -19,6 +19,7 @@ Requirements:
 	express
 	mongodb
 	underscore
+	jasmine-node
 	gm
 (install them with 'npm install xxx')
 
