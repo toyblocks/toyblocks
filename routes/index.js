@@ -62,7 +62,7 @@ exports.admin_pictures = function(req, res){
       }
       else {
         res.render('admin/pictures', {
-          title: 'Bilder verwaltung',
+          title: 'Bilder Verwaltung',
           pictures: pictures
         });
       }
@@ -97,45 +97,52 @@ exports.sortBuildings = function(req, res) {
   });
 };
 
-
-/*
- * Validates if the game /sortbuildings is correct
- * and sends a message.
- *
-*/
-exports.validateOrder = function(req, res) {
-  var sorted = buildings.sort(function(a, b) {
-    if (a.year > b.year)
-      return 1;
-    if (a.year < b.year)
-      return -1;
-    // a must be equal to b
-    return 0;
+exports.missingParts = function(req, res) {
+  res.render('games/missing', {
+    title: 'Fehlstellen finden',
+    route: '/missing',
+    gameData: buildings
   });
-  var spliced = [];
-  sorted.forEach(function(element) {
-    var tmp = element.buildingid;
-    spliced.push(tmp.toString());
-  });
-
-  if (arraysEqual(spliced, req.body.buildingid)) {
-    res.send('Korrekt!');
-  } else {
-    res.send('Leider falsch, bitte nocheinmal versuchen');
-  }
 };
 
-/*
- * Return true if arrays are equal
-*/
-function arraysEqual(a, b) {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length != b.length) return false;
+// /*
+//  * Validates if the game /sortbuildings is correct
+//  * and sends a message.
+//  *
+// */
+// exports.validateOrder = function(req, res) {
+//   var sorted = buildings.sort(function(a, b) {
+//     if (a.year > b.year)
+//       return 1;
+//     if (a.year < b.year)
+//       return -1;
+//     // a must be equal to b
+//     return 0;
+//   });
+//   var spliced = [];
+//   sorted.forEach(function(element) {
+//     var tmp = element.buildingid;
+//     spliced.push(tmp.toString());
+//   });
 
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
+//   if (arraysEqual(spliced, req.body.buildingid)) {
+//     res.send('Korrekt!');
+//   } else {
+//     res.send('Leider falsch, bitte nocheinmal versuchen');
+//   }
+// };
 
-  return true;
-}
+// /*
+//  * Return true if arrays are equal
+// */
+// function arraysEqual(a, b) {
+//   if (a === b) return true;
+//   if (a == null || b == null) return false;
+//   if (a.length != b.length) return false;
+
+//   for (var i = 0; i < a.length; ++i) {
+//     if (a[i] !== b[i]) return false;
+//   }
+
+//   return true;
+// }
