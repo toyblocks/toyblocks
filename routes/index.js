@@ -1,4 +1,3 @@
-var buildings = require('../models/buildings');
 
 /*
  * GET home page.

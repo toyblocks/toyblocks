@@ -1,7 +1,7 @@
 <div class="form-group">
   <label class="col-sm-2 control-label" for="attr_{name}">{title}{?props.multiple} [+]{/props.multiple}</label>
   <div class="col-sm-6">
-    <input name="values[{name}]{?props.multiple}[]{/props.multiple}" type="text" id="attr_{name}" class="form-control"{?props.mandatory} required{/props.mandatory} pattern="^[\d]*$"{?is_enum} list="list_{name}"{/is_enum}>
+    <input name="values[{name}]{?props.multiple}[]{/props.multiple}" type="text" id="attr_{name}" class="form-control"{?props.mandatory} required{/props.mandatory} pattern="^-?[\d]*$"{?is_enum} list="list_{name}"{/is_enum}>
   </div>
 </div>
 {?is_enum}
