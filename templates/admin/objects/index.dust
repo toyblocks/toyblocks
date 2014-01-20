@@ -9,14 +9,14 @@
       <form class="form-horizontal" id="create_type" action="create-type" role="form" method="post" style="display:none; margin-bottom:30px;">
         <div class="form-group">
           <label class="col-sm-2 control-label" for="type_name">Name</label>
-          <div class="col-sm-6">
+          <div class="col-sm-9">
             <input name="name" type="text" id="type_name" class="form-control" required pattern="^[a-z][a-z0-9_]*$">
             <p class="help-block">Nur kleine Buchstaben, Zahlen und Unterstriche erlaubt</p>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label" for="type_title">Titel</label>
-          <div class="col-sm-6">
+          <div class="col-sm-9">
             <input name="title" type="text" id="type_title" class="form-control" required>
           </div>
         </div>
@@ -38,7 +38,7 @@
               {/attributes}
             </select>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-9">
             <div class="checkbox-inline">
               <label><input type="checkbox" name="attributes[0][mandatory]" value="1" /> Pflicht</label>
             </div>
@@ -71,7 +71,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-6 col-md-6">
+    <div class="col-sm-9 col-md-9">
       <table class="table">
         <tr>
           <th>Name</th>
