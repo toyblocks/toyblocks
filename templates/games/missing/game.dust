@@ -19,13 +19,13 @@
     font-size:40px;
   }
   #selectable .ui-selecting {
-    background: #ccc;
+    background: #c11;
   }
   #selectable .ui-selected {
-    background: #BBB;
+    background: #B11;
     border: 1px solid black;
   }
-  #main {
+  #mainimage {
     display: block;
     height: auto;
     margin-left: auto;
@@ -34,6 +34,10 @@
     max-width: 400px;
     max-height: 400px;
   }
+  #thebigbadimage {
+  max-width: 500px;
+  width: 500px;
+}
   #selectable li .glyphicon-ok { color: lime; }
   #selectable li .glyphicon-remove { color: red; }
   //#selectable li img { max-width:110px; max-height: 110px;}
@@ -43,28 +47,32 @@
   <form id="selectform">
     <input type="hidden" name="gameid" value="{game._id}" />
     <h3>{game.title}</h3>
+
+  <table class="table table-bordered table-striped">
+        <tbody>
+         <tr>
+           <td>
     <ul id="selectable" class="list-unstyled" style="width:100%;">
-
-
       {#images}
       <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
         <input type="hidden" name="selects[]" value="{_id}" />
-        <img src="/ressources/image?id={image}" title="{title}">
-        {! TODO: gameparam: show title? !}
-        <!-- TODO: Show title?
-        <div class="caption">
-          <b>{title}</b>
-        </div>-->
+        <img src="/ressources/image?id={image}" title="Wähle ein Bild aus!" style="height:97%">
       </li>
       {/images}
     </ul>
-    <li data-id="{mainimage}" class="main" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none; width: 500px; height: 500px; ">
-        <input type="hidden" name="selects[]" value="{mainimage}" />
-        <img src="/ressources/image?id={mainimage}" title="{title}">
+  </td>
+           <td>
+    <div class="mainimage">
+        <img id="thebigbadimage" src="/ressources/image?id={mainimage}" title="{title}">
         <div class="caption">
           <b>{title}</b>
         </div>
-      </li>
+    </div></td>
+        </tr>
+        </tbody>
+      </table>
+
+  </div>
     <div style="clear:both"></div>
     <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>
   </form>
@@ -82,6 +90,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+        <button type="button" class="btn btn-primary">Nochmal!</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -99,7 +108,8 @@
         Das war falsch!
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Nocheinmal!</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+        <button type="button" class="btn btn-primary">Nochmal!</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -128,6 +138,14 @@ $(window).ready(function(){
       }
     });
   });
+
+  $('#myModal').on('hidden.bs.modal', function (e) {
+      $('#checkModalCorrect').modal('hide');
+      $('#checkModalWrong').modal('hide');
+      $("#selectable").selectable();
+      $("#selectable").disableSelection();
+      $('#selectable').selectable('disable');
+});
 
 
   $(".alert").alert();

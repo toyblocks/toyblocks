@@ -64,7 +64,7 @@ module.exports.prototype = GamesController.prototype.extend({
     
     this.mongodb
     .collection('missingparts_games')
-    .find( {id: this.mongo.ObjectID(this.request.param('_id'))} )
+    .find( {_id: this.mongo.ObjectID(this.request.param('_id'))} )
     .nextObject(function(err, game) {
       console.log(game)
       //we got the game params
