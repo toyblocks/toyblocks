@@ -59,6 +59,8 @@
         <img src="/ressources/image?id={image}" title="Wähle ein Bild aus!" style="height:97%">
       </li>
       {/images}
+    <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>
+  </form>
     </ul>
   </td>
            <td>
@@ -73,9 +75,6 @@
       </table>
 
   </div>
-    <div style="clear:both"></div>
-    <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>
-  </form>
 
 <!-- Modal -->
 <div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -124,10 +123,11 @@ $(window).ready(function(){
     $( "#selectable" ).disableSelection();
   });
   $('#submit').click(function(){
-    {! TODO: gameparam: number of tries !}
     $(this).prop('disabled', true);
     $('#selectable').selectable('disable');
-    var serialized = $('#selectableform').serialize();
+    var serialized = $('#selectform').serialize();
+    console.log(serialized);
+
     $.post('check-selected', serialized, function(data) {
       console.log(data);
       if (data.correct) {
@@ -140,11 +140,13 @@ $(window).ready(function(){
   });
 
   $('#myModal').on('hidden.bs.modal', function (e) {
+
+    $('#submit').prop('disabled', false);
+    $('#selectable').selectable('enable');
       $('#checkModalCorrect').modal('hide');
       $('#checkModalWrong').modal('hide');
       $("#selectable").selectable();
       $("#selectable").disableSelection();
-      $('#selectable').selectable('disable');
 });
 
 

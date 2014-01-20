@@ -28,8 +28,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .find({_id: this.mongo.ObjectID(this.request.param('id'))})
     .nextObject(function(err, game) {
       _this.renderGame(game, function(err, images){
-        console.log(images);
-        console.log("mainimage: \n" + game.image);
+        console.log("mainimage: " + game.image);
         _this.view.render({
           game: game,
           mainimage: game.image,
@@ -58,36 +57,38 @@ module.exports.prototype = GamesController.prototype.extend({
     }
   },
   
+
+  //TODO: create a parameter to see which item is selected !!!!!
   checkSelectedAction: function(res, req) {
-    console.log("checkSelectedAction");
     var _this = this;
-    
     this.mongodb
     .collection('missingparts_games')
-    .find( {_id: this.mongo.ObjectID(this.request.param('_id'))} )
+    .find( {_id: this.mongo.ObjectID(this.request.param('gameid'))} )
     .nextObject(function(err, game) {
-      console.log(game)
       //we got the game params
-      console.log("correct is: " + _this.request.param('correctpart'))
-
       _this.mongodb
       .collection('missingparts_images')
-      .find()
-      .nextObject(function(err, images) {
+      .find( { category: game.category })
+      .toArray(function(err, images) {
+        var selected = _this.request.param('selects');
+        for (var i = 0; i < selected.length; i++) {
+          console.log("! - " + selected[i]);
+        };
         var ImageIsCorrect = false, ImageNumber = -1;
         for (var i = 0; i < images.length; i++) {
-          if(images[i].title == _this.request.param('correctpart')){
+          console.log(i + " " + images[i].title + " - " + game.correctpart + " - " + images[i]._id + " - " + selected[i]);
+          if(images[i].title == game.correctpart){
             ImageIsCorrect = true;
             ImageNumber = i;
+            //break; //TODO: multiple correct solutions, remove later on
           }
         };
+
         _this.response.json({
           correct: ImageIsCorrect,
           correctBuilding: ImageNumber
         });
-      })        
-//{ "title" : "Speyer-Krypta", "image" : ObjectId("52dd3d148453912c1d0c56a5"), "category" : "Kapitell", "correctpart" : [  "Würfelkapitell" ], "_id" : ObjectId("52dd3d148453912c1d0c56a6") }
-//{ "title" : "Reims Kathedrale", "image" : ObjectId("52dd3de88453912c1d0c56a7"), "category" : "Fenster", "correctpart" : [  "Maßwerkfenster_Reims" ], "_id" : ObjectId("52dd3de88453912c1d0c56a8") }
+      })
     })
   }
 });
