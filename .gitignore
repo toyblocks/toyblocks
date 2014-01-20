@@ -8,7 +8,7 @@ lib-cov
 *.gz
 
 *.sublime-project
-*.sublime-wordspace
+*.sublime-workspace
 
 pids
 logs
