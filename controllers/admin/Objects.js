@@ -234,8 +234,8 @@ module.exports.prototype = AdminController.prototype.extend({
                   reqValue);
                 // prepare images for saving
                 if (attributes[i].type === 'image') {
-                  imageValues.push(object[attributeName]);
                   if (typeProps.multiple) {
+                    imageValues.push(object[attributeName]);
                     for (var j in object[attributeName]) {
                       if (typeof object[attributeName][j] === 'object') {
                         object[attributeName][j].index = images.length;
@@ -248,7 +248,7 @@ module.exports.prototype = AdminController.prototype.extend({
                   }
                   else {
                     if (typeof object[attributeName] === 'object') {
-                      object[attributeName].index = images.length;
+                      imageValues.push({attr: attributeName, index: images.length});
                       images.push({
                         type: object[attributeName].ext,
                         data: _this.request.mongo.Binary(object[attributeName].buffer)
@@ -275,8 +275,9 @@ module.exports.prototype = AdminController.prototype.extend({
                     }
                   }
                   else {
-                    if (typeof imageValues[i] === 'object')
-                      imageValues[i] = result[imageValues[i].index]._id;
+                    if (typeof imageValues[i] === 'object') {
+                      object[imageValues[i].attr] = result[imageValues[i].index]._id;
+                    }
                   }
                 }
 

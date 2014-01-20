@@ -1,3 +1,4 @@
+
 /*
  * GET home page.
  */
@@ -92,7 +93,7 @@ exports.dbimage = function(req, res){
 exports.sortBuildings = function(req, res) {
   res.render('games/sortbuildings', {
     title: 'Bauwerke sortieren',
-    route: '/sortbuildings',
+    route: '/sortbuildings'
   });
 };
 
@@ -103,6 +104,6 @@ exports.sortBuildings = function(req, res) {
 exports.missingParts = function(req, res) {
   res.render('games/missing', {
     title: 'Fehlstellen finden',
-    route: '/missing',
+    route: '/missing'
   });
 };

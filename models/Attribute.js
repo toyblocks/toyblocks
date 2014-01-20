@@ -41,7 +41,7 @@ module.exports = base.extend({
       return '' + value;
 
     case 'int':
-      if (!value.match(/^[\d]*$/))
+      if (!value.match(/^-?[\d]*$/))
         throw new Error('value is not a valid number');
       if (!value)
         return null;
