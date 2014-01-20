@@ -59,6 +59,7 @@ module.exports.prototype = GamesController.prototype.extend({
   
 
   //TODO: create a parameter to see which item is selected !!!!!
+  //TODO: remove console.log everywhere...
   checkSelectedAction: function(res, req) {
     var _this = this;
     this.mongodb

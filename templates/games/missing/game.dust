@@ -3,78 +3,78 @@
 {<content}
 <style>
   #selectable li {
-    float: left;
-    width: 130px;
-    height: 130px;
-    margin-right:10px;
-    margin-bottom: 0px;
-    padding: 0px;
-    overflow: hidden;
-    position: relative;
-  }
-  #selectable li .glyphicon {
-    position: absolute;
-    right: -8px;
-    top: -8px;
-    font-size:40px;
-  }
-  #selectable .ui-selecting {
-    background: #c11;
-  }
-  #selectable .ui-selected {
-    background: #B11;
-    border: 1px solid black;
-  }
-  #mainimage {
-    display: block;
-    height: auto;
-    margin-left: auto;
-    margin-right: auto;
-    vertical-align: middle;
-    max-width: 400px;
-    max-height: 400px;
-  }
-  #thebigbadimage {
-  max-width: 500px;
-  width: 500px;
+  float: left;
+  width: 130px;
+  height: 130px;
+  margin-right:10px;
+  margin-bottom: 0px;
+  padding: 0px;
+  overflow: hidden;
+  position: relative;
 }
-  #selectable li .glyphicon-ok { color: lime; }
-  #selectable li .glyphicon-remove { color: red; }
-  //#selectable li img { max-width:110px; max-height: 110px;}
+#selectable li .glyphicon {
+position: absolute;
+right: -8px;
+top: -8px;
+font-size:40px;
+}
+#selectable .ui-selecting {
+background: #c11;
+}
+#selectable .ui-selected {
+background: #B11;
+border: 1px solid black;
+}
+#mainimage {
+display: block;
+height: auto;
+margin-left: auto;
+margin-right: auto;
+vertical-align: middle;
+max-width: 400px;
+max-height: 400px;
+}
+#thebigbadimage {
+max-width: 500px;
+width: 500px;
+}
+#selectable li .glyphicon-ok { color: lime; }
+#selectable li .glyphicon-remove { color: red; }
+//#selectable li img { max-width:110px; max-height: 110px;}
 </style>
 
+<h3>{game.title}</h3>
 <div class="col-md-1 col-sm-7">
   <form id="selectform">
     <input type="hidden" name="gameid" value="{game._id}" />
-    <h3>{game.title}</h3>
 
-  <table class="table table-bordered table-striped">
-        <tbody>
-         <tr>
-           <td>
-    <ul id="selectable" class="list-unstyled" style="width:100%;">
-      {#images}
-      <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
-        <input type="hidden" name="selects[]" value="{_id}" />
-        <img src="/ressources/image?id={image}" title="Wähle ein Bild aus!" style="height:97%">
-      </li>
-      {/images}
-    <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>
-  </form>
-    </ul>
-  </td>
-           <td>
-    <div class="mainimage">
-        <img id="thebigbadimage" src="/ressources/image?id={mainimage}" title="{title}">
-        <div class="caption">
-          <b>{title}</b>
-        </div>
-    </div></td>
-        </tr>
-        </tbody>
-      </table>
-
-  </div>
+    <table class="table table-bordered table-striped">
+      <tbody>
+       <tr>
+         <td>
+          <ul id="selectable" class="list-unstyled" style="width:100%;">
+            {#images}
+            <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
+              <input type="hidden" name="selects[]" value="{_id}" />
+              <img src="/ressources/image?id={image}" title="Wähle ein Bild aus!" style="height:97%">
+            </li>
+            {/images}
+            <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>
+          </ul>
+        </td>
+        <td>
+          <div class="mainimage">
+            <img id="thebigbadimage" src="/ressources/image?id={game.image}" title="{game.title}">
+            <div class="caption">
+              <b>{game.title}</b>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -143,11 +143,11 @@ $(window).ready(function(){
 
     $('#submit').prop('disabled', false);
     $('#selectable').selectable('enable');
-      $('#checkModalCorrect').modal('hide');
-      $('#checkModalWrong').modal('hide');
-      $("#selectable").selectable();
-      $("#selectable").disableSelection();
-});
+    $('#checkModalCorrect').modal('hide');
+    $('#checkModalWrong').modal('hide');
+    $("#selectable").selectable();
+    $("#selectable").disableSelection();
+  });
 
 
   $(".alert").alert();
