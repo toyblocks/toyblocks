@@ -1,8 +1,8 @@
 var GamesController = require('../Games'),
-  attributeModel = require('../../models/Attribute');
+attributeModel = require('../../models/Attribute');
 
 module.exports = function () {
-  
+
 };
 
 module.exports.prototype = GamesController.prototype.extend({
@@ -12,32 +12,32 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this;
     console.log("indexAction")
     this.mongodb
-      .collection('missingparts_games')
-      .find({})
-      .toArray(function(err, data){
-        _this.view.render({
-          title: 'Fehlstellen Spiele',
-          data: data
-        });
+    .collection('missingparts_games')
+    .find({})
+    .toArray(function(err, data){
+      _this.view.render({
+        title: 'Fehlstellen Spiele',
+        data: data
       });
+    });
   },
 
   gameAction: function() {
     var _this = this;
-console.log("gameAction")
+    console.log("gameAction")
     this.mongodb
-      .collection('missingparts_games')
-      .find({_id: this.mongo.ObjectID(this.request.param('id'))})
-      .nextObject(function(err, game) {
-        _this.renderGame(game, function(err, buildings){
-          console.log(buildings);
-          _this.view.render({
-            game: game,
+    .collection('missingparts_games')
+    .find({_id: this.mongo.ObjectID(this.request.param('id'))})
+    .nextObject(function(err, game) {
+      _this.renderGame(game, function(err, buildings){
+        console.log(buildings);
+        _this.view.render({
+          game: game,
             //main: 
             buildings: buildings
           });
-        });
       });
+    });
   },
 
   renderGame: function(game, renderCallback) {
@@ -46,25 +46,29 @@ console.log("gameAction")
     if (game.era && game.era.length > 0) {
       //filter buildings by era
       this.mongodb
-        .collection('buildings')
-        .find({era: {$in: game.era}, _random: {$near: [Math.random(), 0]}})
-        .limit(buildingLimit)
-        .toArray(renderCallback);
+      .collection('buildings')
+      .find({era: {$in: game.era}, _random: {$near: [Math.random(), 0]}})
+      .limit(buildingLimit)
+      .toArray(renderCallback);
     }
     else {
       this.mongodb
-        .collection('buildings')
-        .find({_random: {$near: [Math.random(), 0]}})
-        .limit(buildingLimit)
-        .toArray(renderCallback);
+      .collection('buildings')
+      .find({_random: {$near: [Math.random(), 0]}})
+      .limit(buildingLimit)
+      .toArray(renderCallback);
     }
-  }
-  checkSelectedAction: function() {
+  },
+  
+  checkSelectedAction: function(res, req) {
+    console.log("checkSelectedAction");
     var _this = this;
+    
     this.mongodb
       .collection('missingparts_games')
-      .find({_id: this.mongo.ObjectID(this.request.param('gameid'))})
+      .find() //{id: this.mongo.ObjectID(this.request.param('_id'))}
       .nextObject(function(err, game) {
+        console.log(game)
         //we got the game params
 
         // TODO create missinggame_pieces image db and insert data
@@ -75,7 +79,13 @@ console.log("gameAction")
           // .nextObject(function(err, attribute) {
           // }
 
-      }
-  }
+          
+          _this.response.json({
+            correct: true,
+            correctBuilding: 1
+          });
 
-});
+
+        })}
+
+  });
