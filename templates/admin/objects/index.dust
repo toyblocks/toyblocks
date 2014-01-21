@@ -38,7 +38,7 @@
               {/attributes}
             </select>
           </div>
-          <div class="col-sm-9">
+          <div class="col-sm-6">
             <div class="checkbox-inline">
               <label><input type="checkbox" name="attributes[0][mandatory]" value="1" /> Pflicht</label>
             </div>
