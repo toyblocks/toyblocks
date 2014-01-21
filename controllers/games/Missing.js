@@ -15,7 +15,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .find({})
     .toArray(function(err, data){
       _this.view.render({
-        title: 'Fehlstellen Spiele',
+        title: 'Fehlstellen-Spiel',
         data: data
       });
     });
@@ -28,8 +28,6 @@ module.exports.prototype = GamesController.prototype.extend({
     .find({_id: this.mongo.ObjectID(this.request.param('id'))})
     .nextObject(function(err, game) {
       _this.renderGame(game, function(err, images){
-        console.log("mainimage id: " + game.image);
-        console.log("also rendered " + images.length + " images");
         _this.view.render({
           game: game,
           mainimage: game.image,
@@ -41,7 +39,6 @@ module.exports.prototype = GamesController.prototype.extend({
 
   renderGame: function(game, renderCallback) {
     var type = game.category;
-    console.log("rendered Game \"" + game.title + "\" by type: " + type);
     //filter buildings by category
     if (type) {
       this.mongodb
@@ -50,7 +47,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .toArray(renderCallback);
     }
     else {
-      console.log("missing type for game id: " + game._id);
+      console.log("[FAIL]: missing game.category for game.id: " + game._id + " - \ncheck to database for corrupt or missing data.");
       this.mongodb
         .collection('missingparts_images')
         .find({_random: {$near: [Math.random(), 0]}})
@@ -58,41 +55,35 @@ module.exports.prototype = GamesController.prototype.extend({
     }
   },
   
-
-  //TODO: create a parameter to see which item is selected !!!!!
-  //TODO: remove console.log everywhere...
   checkSelectedAction: function(res, req) {
     var _this = this;
     var result = this.request.param('result');
-    console.log("1 result is " + result);
-    console.log("2 result is " + _this.request.param('result'));
+    var selected = _this.request.param('selects');
+    var gameid = this.request.param('gameid');
+
+    //get the game paramenters first
     this.mongodb
     .collection('missingparts_games')
-    .find( {_id: this.mongo.ObjectID(this.request.param('gameid'))} )
+    .find( {_id: this.mongo.ObjectID(gameid)} )
     .nextObject(function(err, game) {
-      //we got the game params
+      //get the image data now
       _this.mongodb
       .collection('missingparts_images')
       .find( { category: game.category })
       .toArray(function(err, images) {
-        var selected = _this.request.param('selects');
-        for (var i = 0; i < selected.length; i++) {
-          console.log("! - " + selected[i]);
-        };
+
+        //lets see if the correct image is clicked
         var ImageIsCorrect = false, ImageNumber = -1;
         for (var i = 0; i < images.length; i++) {
-          console.log(i + " " + images[i].title + " - " + game.correctpart + " - " + images[i]._id + " - " + selected[i]);
+          //TODO: we should not compare string names
           if(images[i].title == game.correctpart){
-            console.log("corrent item found");
             if(result == i){
-              console.log("corrent item is clicked + " + i);
               ImageIsCorrect = true;
               ImageNumber = i;
             }
-            //break; //TODO: multiple correct solutions, remove later on
           }
         };
-
+        // send the solution back to client
         _this.response.json({
           correct: ImageIsCorrect,
           correctBuilding: ImageNumber

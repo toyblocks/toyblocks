@@ -132,10 +132,8 @@ $(window).ready(function(){
     $(this).prop('disabled', true);
     $('#selectable').selectable('disable');
     var serialized = $('#selectform').serialize();
-    console.log(serialized);
 
     $.post('check-selected', serialized, function(data) {
-      console.log(data);
       if (data.correct) {
         $('#checkModalCorrect').modal();
       }
@@ -151,8 +149,9 @@ $(function () {
     selected: function (event, ui) {
       $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
         var index = $( "li" ).index(ui.selected) -7;
-        if(-8 == index)
+        if(-8 == index){ 
           return;
+        }
         document.getElementById("resultjs").value = index;
         $( "#select-result" ).append(" #" + index);
     }
