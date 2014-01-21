@@ -28,7 +28,8 @@ module.exports.prototype = GamesController.prototype.extend({
     .find({_id: this.mongo.ObjectID(this.request.param('id'))})
     .nextObject(function(err, game) {
       _this.renderGame(game, function(err, images){
-        console.log("mainimage: " + game.image);
+        console.log("mainimage id: " + game.image);
+        console.log("also rendered " + images.length + " images");
         _this.view.render({
           game: game,
           mainimage: game.image,
@@ -40,7 +41,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
   renderGame: function(game, renderCallback) {
     var type = game.category;
-    console.log("rendered Game by type: " + type);
+    console.log("rendered Game \"" + game.title + "\" by type: " + type);
     //filter buildings by category
     if (type) {
       this.mongodb
@@ -62,6 +63,9 @@ module.exports.prototype = GamesController.prototype.extend({
   //TODO: remove console.log everywhere...
   checkSelectedAction: function(res, req) {
     var _this = this;
+    var result = this.request.param('result');
+    console.log("1 result is " + result);
+    console.log("2 result is " + _this.request.param('result'));
     this.mongodb
     .collection('missingparts_games')
     .find( {_id: this.mongo.ObjectID(this.request.param('gameid'))} )
@@ -79,8 +83,12 @@ module.exports.prototype = GamesController.prototype.extend({
         for (var i = 0; i < images.length; i++) {
           console.log(i + " " + images[i].title + " - " + game.correctpart + " - " + images[i]._id + " - " + selected[i]);
           if(images[i].title == game.correctpart){
-            ImageIsCorrect = true;
-            ImageNumber = i;
+            console.log("corrent item found");
+            if(result == i){
+              console.log("corrent item is clicked + " + i);
+              ImageIsCorrect = true;
+              ImageNumber = i;
+            }
             //break; //TODO: multiple correct solutions, remove later on
           }
         };
