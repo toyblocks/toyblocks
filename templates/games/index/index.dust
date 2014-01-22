@@ -6,12 +6,7 @@
   <div class="list-group">
     <a href="sorting/" class="list-group-item">
       <h4 class="list-group-item-heading">Sortierspiel</h4>
-      <p class="list-group-item-text">Sortiere die Spiele nach Baujahr!</p>
-    </a>
-    <br>
-    <a href="sorting2/" class="list-group-item">
-      <h4 class="list-group-item-heading">Sortierspiel</h4>
-      <p class="list-group-item-text">Sortiere die Bauwerke nach ihren Epochen!</p>
+      <p class="list-group-item-text">Sortiere die Spiele nach ihren Epochen!</p>
     </a>
     <br>
     <a href="missing/" class="list-group-item">
