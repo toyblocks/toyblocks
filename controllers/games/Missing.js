@@ -76,11 +76,12 @@ module.exports.prototype = GamesController.prototype.extend({
         var ImageIsCorrect = false, ImageNumber = -1;
         for (var i = 0; i < images.length; i++) {
           //TODO: we should not compare string names
+          console.log(i + " - " + result + " - " + images[i].title + " == " + game.correctpart);
           if(images[i].title == game.correctpart){
             if(result == i){
               ImageIsCorrect = true;
-              ImageNumber = i;
             }
+            ImageNumber = i;
           }
         };
         // send the solution back to client

@@ -2,7 +2,7 @@
 
 {<content}
 <style>
-#selectable li {
+  #selectable li {
   float: left;
   width: 130px;
   height: 130px;
@@ -19,10 +19,10 @@
   font-size:40px;
 }
 #selectable .ui-selecting {
-  background: #c11;
+  background: #bbb;
 }
 #selectable .ui-selected {
-  background: #B11;
+  background: #aaa;
   border: 1px solid black;
 }
 #mainimage {
@@ -38,17 +38,22 @@
   max-width: 500px;
   width: 500px;
 }
-#selectable li .glyphicon-ok { color: lime; }
-#selectable li .glyphicon-remove { color: red; }
+#explanation{
+  font-size: 13px;
+  line-height: 1.9;
+}
+#selectable li .glyphicon-ok { color: lime; z-index: 999}
+#selectable li .glyphicon-remove { color: red; z-index: 999}
 //#selectable li img { max-width:110px; max-height: 110px;}
+#tryagain {display: none;}
 </style>
 
 
-<h3>{game.title}</h3>
-<p id="feedback">
-<span>You've selected:</span> <span id="select-result">none</span>.
-</p>
-<div class="col-md-1 col-sm-7">
+
+
+<div class="col-md-4 col-sm-9">
+  <h3>{game.title}</h3>
+  <div id="explanation">Finde das fehlende Bauteil!</div>
   <form id="selectform">
     <input type="hidden" name="gameid" value="{game._id}" />
 
@@ -64,22 +69,21 @@
             </li>
             {/images}
           </ul>
-        <input type="hidden" id="resultjs" name="result" value="-1"/>
-        <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>
         </td>
         <td>
-          
-            <img id="thebigbadimage" src="/ressources/image?id={game.image}" title="{game.title}">
-            <div class="caption">
-              <b>{game.title}</b>
-            </div>
+
+          <img id="thebigbadimage" src="/ressources/image?id={game.image}" title="{game.title}">
           
         </td>
       </tr>
     </tbody>
   </table>
+  <div style="clear:both;height:10px;"></div>
+  <input type="hidden" id="resultjs" name="result" value="-1"/>
+  <button id="submit" type="button" class="btn btn-primary" style="clear:left; margin-right: 10px;">Lösung senden</button>
+  <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
+  <div style="clear:both;height:10px;"></div>
 </form>
-</div>
 
 <!-- Modal -->
 <div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -94,7 +98,6 @@
       </div>
       <div class="modal-footer">
         <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-        <button id="again" type="button" class="btn btn-primary">Nochmal!</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -113,19 +116,25 @@
       </div>
       <div class="modal-footer">
         <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-        <button id="again" type="button" class="btn btn-primary">Nochmal!</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+</div><!-- div class="col-md-1 col-sm-7" -->
 
 
 <script>
 
 $(window).ready(function(){
   $(function() {
+    $('button').prop('disabled', true);
     $( "#selectable" ).selectable();
     $( "#selectable" ).disableSelection();
+  });
+
+  $('#tryagain').click(function(){
+    location.reload();
   });
 
   $('#submit').click(function(){
@@ -140,20 +149,41 @@ $(window).ready(function(){
       else {
         $('#checkModalWrong').modal();
       }
+      console.log(data);
+      showCorrection(data.correctBuilding);
+      $('#tryagain').show();
     });
   });
   $(".alert").alert();
+
+  function showCorrection(correctId) {
+    console.log("enter showCorrection");
+    $('#selectable li').each(function(index){
+      console.log("appending - " + index + " - " + correctId);
+      if (index ==  correctId) {
+        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
+      }
+      else {
+        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
+      }
+    });
+  }
+
+  function removeCorrection() {
+    $('#selectable').remove('.glyphicon');
+  }
+
 });
 $(function () {
   $('#selectable').selectable({
     selected: function (event, ui) {
+      $('button').prop('disabled', false);
       $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
-        var index = $( "li" ).index(ui.selected) -7;
-        if(-8 == index){ 
-          return;
-        }
-        document.getElementById("resultjs").value = index;
-        $( "#select-result" ).append(" #" + index);
+      var index = $( "li" ).index(ui.selected) -9;
+      if(-10 == index){ 
+        return;
+      }
+      document.getElementById("resultjs").value = index;
     }
   });
   
