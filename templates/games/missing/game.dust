@@ -53,7 +53,7 @@
 
 <div class="col-md-4 col-sm-9">
   <h3>{game.title}</h3>
-  <div id="explanation">Finde das fehlende Bauteil!</div>
+  <span class="help-block">Finde das fehlende Bauteil!</span>
   <form id="selectform">
     <input type="hidden" name="gameid" value="{game._id}" />
 
