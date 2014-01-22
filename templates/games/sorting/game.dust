@@ -28,6 +28,8 @@
   <form id="sortingform">
     <input type="hidden" name="gameid" value="{game._id}" />
     <h3>{game.title}</h3>
+    <div id="explanation">Finde das fehlende Bauteil!</div>
+    
     <ul id="sortable" class="list-unstyled" style="width:100%">
 <!--     <li class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
       <b>Ältestes Gebäude</b>
@@ -48,7 +50,7 @@
     </ul>
     <div style="clear:both;height:50px;"></div>
     <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
-    <button id="tryagain" type="button" class="btn btn-primary">Noch mal spielen</button>
+    <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
   </form>
 
 <!-- Modal -->
@@ -89,8 +91,8 @@
 
 </div>
 <script>
-var game_sort_tries = {game.game_sort_tries},
-  num_tried = 0;
+var game_sort_tries = {game.game_sort_tries}+0;
+var num_tried = 0;
 $(window).ready(function(){
   $(function() {
     $( "#sortable" ).sortable({revert: 200});
