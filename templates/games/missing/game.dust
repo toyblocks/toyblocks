@@ -2,7 +2,7 @@
 
 {<content}
 <style>
-  #selectable li {
+#selectable li {
   float: left;
   width: 130px;
   height: 130px;
