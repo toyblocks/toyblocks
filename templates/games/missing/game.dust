@@ -179,8 +179,8 @@ $(function () {
     selected: function (event, ui) {
       $('button').prop('disabled', false);
       $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
-      var index = $( "li" ).index(ui.selected) -9;
-      if(-10 == index){ 
+      var index = $( "#selectable li" ).index(ui.selected);
+      if(-1 == index){ 
         return;
       }
       document.getElementById("resultjs").value = index;
