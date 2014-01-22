@@ -81,8 +81,10 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
             }
             catch (e) {
               if (e.code === 'MODULE_NOT_FOUND') {
-                res.status(404).send('Controller not found');
-                return;
+                throw e;
+                //just throw the error
+                //res.status(404).send('Controller not found');
+                //return;
               }
               else {
                 throw e;
