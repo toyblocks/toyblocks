@@ -1,7 +1,13 @@
 <div class="form-group">
   <label class="col-sm-2 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;">[+]</a>{/props.multiple}</label>
   <div class="col-sm-5">
+    {?is_enum}
+    <select name="values[{name}]{?props.multiple}[]{/props.multiple}" id="attr_{name}" class="form-control">
+      {#values}<option value="{.}">{.}</option>{/values}
+    </select>
+    {:else}
     <input name="values[{name}]{?props.multiple}[]{/props.multiple}" type="text" id="attr_{name}" class="form-control"{?props.mandatory} required{/props.mandatory}{?is_enum} list="list_{name}"{/is_enum}>
+    {/is_enum}
   </div>
   {?props.multiple}
   <div class="col-sm-1">
