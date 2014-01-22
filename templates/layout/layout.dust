@@ -8,7 +8,16 @@
         {>"layout/sidebar"/}
         <div id="content">
         {+content}
-          <h3>Willkommen zu Toyblocks! :)</h3>
+        <div class="col-md-9 col-sm-9">
+          <div class="jumbotron">
+            
+            <h1>Willkommen zu ToyBlocks!</h1>
+            <p>Dies ist ein webbasiertes Lernspiel für Studenten des Fachbereichs Architektur an der Technischen Universität Darmstadt. 
+              Entwickelt wird es von vier Informatik Studenten mithilfe von Nodejs, Bootstrap, Dust, MongoDB, jQuery und Kaffee.</p>
+            <p><a class="btn btn-primary btn-lg" role="button">Erfahre mehr!</a></p>
+          
+          </div>
+          </div>
         {/content}
         </div>
       </div>
