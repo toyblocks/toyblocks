@@ -21,12 +21,13 @@ Requirements:
 	underscore
 	jasmine-node
 	gm
-(install them with 'npm install xxx')
+(install them with 'npm install')
 
-
+Tools needed:
+  Graphicsmagick: http://www.graphicsmagick.org/
 
 To restore the database:
-    mongorestore toyblocks_dump
+  mongorestore toyblocks_dump
 
 Deployment:
 on your local machine run this command once
