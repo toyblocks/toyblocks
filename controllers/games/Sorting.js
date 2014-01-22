@@ -28,7 +28,6 @@ module.exports.prototype = GamesController.prototype.extend({
       .find({_id: this.mongo.ObjectID(this.request.param('id'))})
       .nextObject(function(err, game) {
         _this.renderGame(game, function(err, buildings){
-          console.log(buildings);
           _this.view.render({
             game: game,
             buildings: buildings
@@ -71,10 +70,12 @@ module.exports.prototype = GamesController.prototype.extend({
             // got the era attribute with correct sorting of eras
 
             var sortIds = _this.request.param('sortings'),
-              eras = attribute.values;
+              eras = attribute.values,
+              sortedBuildings = {};
             for (var i = 0; i < sortIds.length; i++) {
               // we have to cast the mongo ids for the db-request
               sortIds[i] = _this.mongo.ObjectID(sortIds[i]);
+              sortedBuildings[sortIds[i]] = null;
             }
 
             _this.mongodb.collection('buildings')
@@ -92,15 +93,24 @@ module.exports.prototype = GamesController.prototype.extend({
                 // gameparam: num of possible tries
 
                 for (var i = 0; i < buildings.length; i++) {
+                  sortedBuildings[''+buildings[i]._id] = buildings[i];
+                }
+
+                var buildingIndex = 0;
+                for (var _id in sortedBuildings) {
+                  if (!sortedBuildings[_id])
+                    continue;
+
                   // go through all buildings and check the index of era in era-array
-                  var buildingEraIndex = eras.indexOf(buildings[i].era);
+                  var buildingEraIndex = eras.indexOf(sortedBuildings[_id].era);
                   
                   if (buildingEraIndex < lastEraIndex) {
                     correct = false;
                     break;
                   }
                   lastEraIndex = buildingEraIndex;
-                  lastCorrectBuilding = i;
+                  lastCorrectBuilding = buildingIndex;
+                  buildingIndex++;
                 }
 
                 // response with a json object

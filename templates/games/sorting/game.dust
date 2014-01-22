@@ -19,7 +19,9 @@
   }
   #sortable li .glyphicon-ok { color: lime; }
   #sortable li .glyphicon-remove { color: red; }
-  #sortable li img { max-width:190px; max-height: 190px;}
+  #sortable li img { max-width:190px; max-height: 130px;}
+  .tries-wrapper {display: none;}
+  #tryagain {display: none;}
 </style>
 
 <div class="col-md-10 col-sm-10">
@@ -33,7 +35,7 @@
       {#buildings}
       <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
         <input type="hidden" name="sortings[]" value="{_id}" />
-        <img src="/ressources/image?id={image}" title="{title}">
+        <img src="/ressources/image?id={image}&amp;width=190" title="{title}">
         {! TODO: gameparam: show title? !}
         <div class="caption">
           <h4>{title}</h4>
@@ -44,8 +46,9 @@
       <b>Neustes Gebäude</b>
     </li> -->
     </ul>
-    <div style="clear:both"></div>
-    <button id="submit" type="button" class="btn btn-primary" style="clear:left">Lösung senden</button>
+    <div style="clear:both;height:50px;"></div>
+    <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
+    <button id="tryagain" type="button" class="btn btn-primary">Noch mal spielen</button>
   </form>
 
 <!-- Modal -->
@@ -75,10 +78,10 @@
         <h4 class="modal-title" id="myModalLabel">Falsch</h4>
       </div>
       <div class="modal-body">
-        Ihre Lösung ist leider falsch.
+        Ihre Lösung ist leider falsch. <span class="tries-wrapper">Sie haben noch <span class="num-tries"></span> Versuche.</span>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Noch Mal</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -86,23 +89,53 @@
 
 </div>
 <script>
+var game_sort_tries = {game.game_sort_tries},
+  num_tried = 0;
 $(window).ready(function(){
   $(function() {
     $( "#sortable" ).sortable({revert: 200});
     $( "#sortable" ).disableSelection();
   });
+
+  $('#tryagain').click(function(){
+    location.reload();
+  });
+
   $('#submit').click(function(){
+
     {! TODO: gameparam: number of tries !}
-    $(this).prop('disabled', true);
+
+    var $button = $(this);
+
+    $button.prop('disabled', true);
     $('#sortable').sortable('disable');
+
     var serialized = $('#sortingform').serialize();
     $.post('check-sorting', serialized, function(data) {
-      console.log(data);
-      showCorrection(data.lastCorrectBuilding);
+      num_tried++;
       if (data.correct) {
+        showCorrection(data.lastCorrectBuilding);
+        $('#tryagain').show();
         $('#checkModalCorrect').modal();
       }
       else {
+        if (game_sort_tries) {
+          $('#checkModalWrong .tries-wrapper').show();
+          if (num_tried < game_sort_tries) {
+            $('#checkModalWrong .num-tries').text(game_sort_tries - num_tried);
+            $('#sortable').sortable('enable');
+            $button.prop('disabled', false);
+          }
+          else {
+            $('#checkModalWrong .tries-wrapper').text("Sie haben keine Versuche mehr.");
+            $('#tryagain').show();
+          }
+        }
+        else {
+          showCorrection(data.lastCorrectBuilding);
+          $('#checkModalWrong .tries-wrapper').hide();
+          $('#tryagain').show();
+        }
         $('#checkModalWrong').modal();
       }
     });
@@ -110,7 +143,7 @@ $(window).ready(function(){
 
   function showCorrection(tillIndex) {
     $('#sortable li').each(function(index){
-      if (index <= tillIndex) {
+      if (index <= tillIndex || tillIndex == -1) {
         $(this).append('<span class="glyphicon glyphicon-ok"></span>');
       }
       else {
