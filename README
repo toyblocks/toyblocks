@@ -1,39 +1,58 @@
 
-ToyBlocks version 0.0.1
-=======================
+ToyBlocks
+====================
 
 
-This is a webgame for architecture students.
+ToyBlocks is a webgame for architecture students that study Architekturgeschichte
+in Fachbereich Architektur (15) at Technische Universität Darmstadt.
+
+Current Version:     0.0.1
+Developers:          Andrej
+                     Mansur
+                     Simon
+                     Steven
 
 
+Getting Started
+====================
 
-To start the server run
-    node bin/app.js
-The server is then running on http://127.0.0.1:3000
-
-
-Requirements:
-	consolidate
-	dustjs-helpers
-	dustjs-linkedin
-	express
-	mongodb
-	underscore
-	jasmine-node
-	gm
-(install them with 'npm install')
+Install Dependencies via 'npm install'
 
 Tools needed:
-  Graphicsmagick: http://www.graphicsmagick.org/
+        MongoDB:        http://www.mongodb.org/
+        Graphicsmagick: http://www.graphicsmagick.org/
 
-To restore the database:
-  mongorestore toyblocks_dump
+To start the server run
+        node bin/app.js
+then you can access the server at http://127.0.0.1:3000
 
-Deployment:
-on your local machine run this command once
-git remote add architecture ssh://production@www5.architektur.tu-darmstadt.de/home/production/repos/toyblocks
 
-from now on you can push changes to the server via
-  git push architecture master
-and to redmine via
-  git push origin master
+
+The database gets changed often, to restore it run
+        mongorestore toyblocks_dump
+and to create a new dump run
+        mongodump -d toyblocks_dump
+
+
+Deployment
+====================
+
+On your local machine run this command once
+        git remote add architecture ssh://production@www5.architektur.tu-darmstadt.de/home/production/repos/toyblocks
+
+
+From now on you can push changes to the server via
+        git push architecture master
+Remember that you need to be in the TU-Darmstadt VPN to push to the server.
+
+
+You can also push changes to redmine via
+        git push origin master
+
+
+
+Documentation
+====================
+
+
+TODO
