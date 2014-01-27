@@ -17,7 +17,7 @@
             <p><a class="btn btn-primary btn-lg" role="button">Erfahre mehr!</a></p>
           
           </div>
-          </div>
+        </div>
         {/content}
         </div>
       </div>
