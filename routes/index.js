@@ -90,6 +90,16 @@ exports.dbimage = function(req, res){
 /*
  * GET for sorting game
  */
+exports.users = function(req, res) {
+  res.render('users/', {
+    title: 'Account',
+    route: '/'
+  });
+};
+
+/*
+ * GET for sorting game
+ */
 exports.sortBuildings = function(req, res) {
   res.render('games/sortbuildings', {
     title: 'Bauwerke sortieren',
@@ -107,3 +117,14 @@ exports.missingParts = function(req, res) {
     route: '/missing'
   });
 };
+
+/*
+ * GET for daily challenge
+ */
+exports.dailyChallenge = function(req, res) {
+  res.render('games/daily', {
+    title: 'Daily Challenge',
+    route: '/daily'
+  });
+};
+

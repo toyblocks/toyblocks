@@ -1,0 +1,28 @@
+{>"layout/layout.dust"/}
+
+{<content}
+<div class="col-md-4 col-sm-4">
+  <h3>Account</h3>
+  <div class="list-group">
+    <div class="input-group input-group-lg">
+      <span class="input-group-addon">Username</span>
+      <input type="text" class="form-control" placeholder="Username">
+    </div>
+    <br>
+    <div class="input-group input-group-lg">
+      <span class="input-group-addon"></span>
+      <input type="text" class="form-control" placeholder="Avatar">
+    </div>
+    <br>
+    <div class="input-group input-group-lg">
+      <span class="input-group-addon"></span>
+      <input type="text" class="form-control" placeholder="Avatar">
+    </div>
+    <br>
+    <div class="input-group input-group-lg">
+      <span class="input-group-addon"></span>
+      <input type="text" class="form-control" placeholder="Avatar">
+    </div>
+  </div>
+</div>
+{/content}
