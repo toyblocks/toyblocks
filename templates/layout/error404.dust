@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="de">
+  {>"layout/header"/}
+  <body>
+    
+    <div id="page_container" class="container-fluid">
+      <div class="row">
+        {>"layout/sidebar"/}
+        <div id="content">
+        {+content}
+        <div class="col-md-9 col-sm-9">
+          <div class="jumbotron">
+            
+            <h1>404 - Seite nicht gefunden!</h1>
+            <p>Vesuchs nochmal!</p>
+            <p><a class="btn btn-primary btn-lg" role="button" mailto="dev@www5.architektur.tu-darmstadt.de">Oder melde einen Bug!</a></p>
+          
+          </div>
+          </div>
+        {/content}
+        </div>
+      </div>
+    </div>
+    {>"layout/footer"/}
+  </body>
+</html>

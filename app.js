@@ -81,10 +81,12 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
             }
             catch (e) {
               if (e.code === 'MODULE_NOT_FOUND') {
-                throw e;
-                //just throw the error
-                //res.status(404).send('Controller not found');
-                //return;
+                // throw the error if we're in development
+                if(config.mode != 'local')
+                  throw e;
+                // send 404 if not
+                res.status(404).send("404 - Page not found");
+                return;
               }
               else {
                 throw e;
