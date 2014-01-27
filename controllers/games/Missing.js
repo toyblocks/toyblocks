@@ -43,7 +43,7 @@ module.exports.prototype = GamesController.prototype.extend({
     if (type) {
       this.mongodb
         .collection('missingparts_images')
-        .find({category: type}) //, _random: {$near: [Math.random(), 0]}
+        .find({category: type}) //, _random: {$near: [Math.random(), 0]}})
         .toArray(renderCallback);
     }
     else {

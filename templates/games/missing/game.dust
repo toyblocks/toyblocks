@@ -19,10 +19,10 @@
   font-size:40px;
 }
 #selectable .ui-selecting {
-  background: #bbb;
+  background: #ff4136;
 }
 #selectable .ui-selected {
-  background: #aaa;
+  background: #ff4136;
   border: 1px solid black;
 }
 #mainimage {
@@ -37,10 +37,6 @@
 #thebigbadimage {
   max-width: 500px;
   width: 500px;
-}
-#explanation{
-  font-size: 13px;
-  line-height: 1.9;
 }
 #selectable li .glyphicon-ok { color: lime; z-index: 999}
 #selectable li .glyphicon-remove { color: red; z-index: 999}
@@ -65,14 +61,14 @@
             {#images}
             <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
               <input type="hidden" name="selects[]" value="{_id}" />
-              <img src="/ressources/image?id={image}" title="Wähle ein Bild aus!" style="height:97%">
+              <img src="/ressources/image?id={image}&amp;width=190" title="Wähle ein Bild aus!" style="height:97%">
             </li>
             {/images}
           </ul>
         </td>
         <td>
 
-          <img id="thebigbadimage" src="/ressources/image?id={game.image}" title="{game.title}">
+          <img id="thebigbadimage" src="/ressources/image?id={game.image}&amp;width=500" title="{game.title}">
           
         </td>
       </tr>
