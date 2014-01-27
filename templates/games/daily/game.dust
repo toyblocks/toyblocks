@@ -1,0 +1,126 @@
+{>"layout/layout.dust"/}
+
+{<content}
+
+<div class="col-md-4 col-sm-9">
+  <h3>{game.title}</h3>
+  <span class="help-block">Finde das fehlende Bauteil!</span>
+  {#games}
+  <form id="selectform">
+    <input type="hidden" name="gameid" value="{_id}" />
+  <input type="hidden" id="resultjs" name="result" value="-1"/>
+  <a href="/games/{type}/game?id={id}">{title}</a>
+  
+  <button id="submit" type="button" class="btn btn-primary" style="clear:left; margin-right: 10px;">Lösung senden</button>
+  <div style="clear:both;height:10px;"></div>
+  {:else}
+  <span>Noch kein Daily verfügbar!</span>
+  {/games}
+</form>
+{>"/games/{type}/game?id={id}"}
+<!-- Modal -->
+<div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Richtig</h4>
+      </div>
+      <div class="modal-body">
+        Das ist richtig!
+      </div>
+      <div class="modal-footer">
+        <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="checkModalWrong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Falsch</h4>
+      </div>
+      <div class="modal-body">
+        Das war falsch!
+      </div>
+      <div class="modal-footer">
+        <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</div><!-- div class="col-md-1 col-sm-7" -->
+
+
+<script>
+
+$(window).ready(function(){
+  $(function() {
+    $('button').prop('disabled', true);
+    $( "#selectable" ).selectable();
+    $( "#selectable" ).disableSelection();
+  });
+
+  $('#tryagain').click(function(){
+    location.reload();
+  });
+
+  $('#submit').click(function(){
+    $(this).prop('disabled', true);
+    $('#selectable').selectable('disable');
+    var serialized = $('#selectform').serialize();
+
+    $.post('check-selected', serialized, function(data) {
+      if (data.correct) {
+        $('#checkModalCorrect').modal();
+      }
+      else {
+        $('#checkModalWrong').modal();
+      }
+      console.log(data);
+      showCorrection(data.correctBuilding);
+      $('#tryagain').show();
+    });
+  });
+  $(".alert").alert();
+
+  function showCorrection(correctId) {
+    console.log("enter showCorrection");
+    $('#selectable li').each(function(index){
+      console.log("appending - " + index + " - " + correctId);
+      if (index ==  correctId) {
+        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
+      }
+      else {
+        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
+      }
+    });
+  }
+
+  function removeCorrection() {
+    $('#selectable').remove('.glyphicon');
+  }
+
+});
+$(function () {
+  $('#selectable').selectable({
+    selected: function (event, ui) {
+      $('button').prop('disabled', false);
+      $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
+      var index = $( "#selectable li" ).index(ui.selected);
+      if(-1 == index){ 
+        return;
+      }
+      document.getElementById("resultjs").value = index;
+    }
+  });
+  
+});
+
+</script>
+{/content}
