@@ -88,7 +88,7 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
             catch (e) {
               if (e.code === 'MODULE_NOT_FOUND') {
                 // throw the error if we're in development
-                if(config.mode != 'local')
+                if(config.mode != 'development')
                   throw e;
                 // send 404 if not
                 res.status(404).send("404 - Page not found");
