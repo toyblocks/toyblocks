@@ -16,10 +16,13 @@ dust.helpers = require('dustjs-helpers');
 
 var app = express();
 
+
 app.engine('dust', dust);
+
 
 // development only
 if ('development' === config.mode) {
+
   // set environment to development
   process.env.NODE_ENV = 'development';
 
@@ -27,7 +30,6 @@ if ('development' === config.mode) {
   app.use(express.errorHandler());
   app.locals.pretty = true;
   dust.helpers.optimizers.format = function(ctx, node) { return node };
-  
 }
 
 // all environments
