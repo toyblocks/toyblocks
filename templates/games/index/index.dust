@@ -13,6 +13,21 @@
       <h4 class="list-group-item-heading">Fehlstellenspiel</h4>
       <p class="list-group-item-text">Finde das fehlende Bauteil!</p>
     </a>
+    <br>
+    <a href="multiplechoice/" class="list-group-item">
+      <h4 class="list-group-item-heading">MultipleChoice</h4>
+      <p class="list-group-item-text">Text!</p>
+    </a>
+    <br>
+    <a href="assemble/" class="list-group-item">
+      <h4 class="list-group-item-heading">Zusammensetzspiel</h4>
+      <p class="list-group-item-text">text!</p>
+    </a>
+    <br>
+    <a href="daily/" class="list-group-item">
+      <h4 class="list-group-item-heading">DailyChallenge</h4>
+      <p class="list-group-item-text">TODO!</p>
+    </a>
   </div>
 </div>
 {/content}

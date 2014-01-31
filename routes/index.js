@@ -1,4 +1,3 @@
-
 /*
  * GET home page.
  */
@@ -15,7 +14,9 @@ exports.index = function(req, res) {
  * GET admin
  */
 exports.admin = function(req, res){
-  res.render('admin/index', { title: 'Administration'});
+  res.render('admin/index', { 
+    title: 'Administration'
+  });
 };
 
 /*
@@ -88,7 +89,7 @@ exports.dbimage = function(req, res){
 };
 
 /*
- * GET for sorting game
+ * GET for user account page
  */
 exports.users = function(req, res) {
   res.render('users/', {
@@ -119,6 +120,26 @@ exports.missingParts = function(req, res) {
 };
 
 /*
+ * GET for assemble game
+ */
+exports.assembleBuilding = function(req, res) {
+  res.render('games/assemble', {
+    title: 'Zusammensetzspiel',
+    route: '/assemble'
+  });
+};
+
+/*
+ * GET for assemble game
+ */
+exports.multipleChoice = function(req, res) {
+  res.render('games/multiplechoice', {
+    title: 'Multiple Choice',
+    route: '/multiplechoice'
+  });
+};
+
+/*
  * GET for daily challenge
  */
 exports.dailyChallenge = function(req, res) {
@@ -127,4 +148,3 @@ exports.dailyChallenge = function(req, res) {
     route: '/daily'
   });
 };
-
