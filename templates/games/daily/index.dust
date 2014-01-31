@@ -26,9 +26,12 @@ height: 14px;
   margin-top: 24px;
 }
 
+.label{
+  text-shadow: 1px 1px 1px #000, 1px 1px 3px rgba(194, 177, 159, 0.61);
+}
+
 </style>
 
-<div class="col-md-8">
     <div class="container">
       <div class="jumbotron">
 
@@ -72,7 +75,6 @@ height: 14px;
   Credits to <a href="http://spelunkyworld.com/">Spelunky</a> for the DailyChallenge idea.
 </div class="footer">
 -->
-  </div>
 </div>
 
 <script>

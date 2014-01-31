@@ -8,16 +8,9 @@ module.exports = function () {
 module.exports.prototype = GamesController.prototype.extend({
   name: 'daily',
 
-// index Page for DailyChallenge
-  indexAction: function() {
-    var _this = this;
-    _this.view.render( {
-      title: 'Daily Challenge',
-      gamesPlayed: getPercentGamesPlayed(),
-      hasPlayedTodaysDaily: true
-    });
-  },
-
+  // Calculates how many people played todays Daily
+  //
+  // @return percentGamesPlayed
   getPercentGamesPlayed: function(){
     // TODO currentGamesPlayed = this.mongodb.collection('players').find( hasPlayedDaily: true).count()
     // TODO maxGamesPlayed = this.mongodb.collection('players').count()
@@ -27,35 +20,31 @@ module.exports.prototype = GamesController.prototype.extend({
         percentGamesPlayed = (currentGamesPlayed * 100 / maxGamesPlayed);
 
     return percentGamesPlayed;
-  }
+  },
 
-// leaderboard webpage
+  // GET index Page for DailyChallenge
+  indexAction: function() {
+    var _this = this;
+    _this.view.render( {
+      title: 'Daily Challenge',
+      gamesPlayed: _this.getPercentGamesPlayed(),
+      hasPlayedTodaysDaily: true
+    });
+  },
+
+
+  // GET leaderboard webpage
   leaderboardAction: function () {
     var _this = this;
 
     //TODO: get proper player data from mongodb
     var players2 = [];
-    var players = [ {
-      pos: 1,
-      name: 'FayeValentine',
-      score: 1337,
-      logo: 'none'},{
-      pos: 2,
-      name: 'Edward',
-      score: 1200,
-      logo: 'none'}, {
-      pos: 3,
-      name: 'SpikeSpiegel',
-      score: 1111,
-      logo: 'none'},{
-      pos: 4,
-      name: 'Ein',
-      score: 734,
-      logo: 'none'},{
-      pos: 5,
-      name: 'Jet_Black',
-      score: 234,
-      logo: 'none'
+    var players = [{
+      pos: 1, name: 'FayeValentine', score: 1337, logo: 'none'},{
+      pos: 2, name: 'Edward', score: 1200, logo: 'none'}, {
+      pos: 3, name: 'SpikeSpiegel', score: 1111, logo: 'none'},{
+      pos: 4, name: 'Ein', score: 734, logo: 'none'},{
+      pos: 5, name: 'Jet_Black', score: 234, logo: 'none'
     }];
 
     // TODO: get date from dailychallenge database
@@ -64,7 +53,7 @@ module.exports.prototype = GamesController.prototype.extend({
       year: d.getFullYear(),
       month: d.getMonth()+1,
       day: d.getDate(),
-      gamesPlayed: getPercentGamesPlayed()
+      gamesPlayed: _this.getPercentGamesPlayed()
     };
 
     _this.view.render({
@@ -73,9 +62,15 @@ module.exports.prototype = GamesController.prototype.extend({
     })
   },
 
+  // Timed function that generates every day a new set of games
+  //
   generateDailyGame: function() {
     var _this = this;
 
+    // TODO: render game every day at 0:00, save in mongodb
+    // TODO: set hasPlayedDaily for all players to false
+    // TODO: also insert date to mongodb
+    // TODO: create a new leaderboard
     console.log("generating Daily Game")
     var missing = _this.mongodb.collection('missingparts_games').find({}).toArray(function(err, data) {
       for (var i = data.length - 1; i >= 0; i--) {
@@ -88,18 +83,18 @@ module.exports.prototype = GamesController.prototype.extend({
         console.log("sorting_games - " + data[i].title);  
       };
     });
-
-    // TODO: render game every day at 0:00, save in mongodb
-    // TODO: set hasPlayedDaily for all players to false
-    // TODO: also insert date to mongodb
-    // TODO: create a new leaderboard
   },
 
+  // GET daily game
+  //
+  // @return games - list of games
   gameAction: function() {
     var _this = this;
 
+    // TODO: create a db entry for daily_games, let generateDailyGame create a game and send that entry back to the client
+    // TODO: figure out how to make multiple games on clientside work
+
     // this counts the available games, takes a random of each and sends it back to the client
-    // TODO: create a db entry for daily game and send the entry back
     _this.generateDailyGame();
     var games;
     _this.mongodb.collection('missingparts_games').find().count(function (e, count1) {
@@ -132,6 +127,5 @@ module.exports.prototype = GamesController.prototype.extend({
       });
     });
   }
-
 
 });
