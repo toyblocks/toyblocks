@@ -1,7 +1,7 @@
 var extend = require('util')._extend;
 
 var config = {
-  mode: 'local',
+  mode: 'development',
   port: 3000,
   mongodb: {
     host: '127.0.0.1',
@@ -11,12 +11,12 @@ var config = {
 };
 
 module.exports = function(mode) {
-  mode = mode || process.argv[2] || 'local';
+  mode = mode || process.argv[2] || 'development';
   switch (mode)
   {
-  case 'staging':
-    config.mode = 'staging';
-    config.port = 4000;
+  case 'development':
+    config.mode = 'development';
+    config.port = 3000;
     break;
   case 'production':
     config.mode = 'production';

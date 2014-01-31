@@ -18,6 +18,17 @@ var app = express();
 
 app.engine('dust', dust);
 
+// development only
+if ('development' === config.mode) {
+  // set environment to development
+  process.env.NODE_ENV = 'development';
+
+  // enable pretty html printing
+  app.use(express.errorHandler());
+  app.locals.pretty = true;
+  dust.helpers.optimizers.format = function(ctx, node) { return node };
+  
+}
 
 // all environments
 app.set('port', config.port);
@@ -32,11 +43,6 @@ app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(express.static(path.join(__dirname, './public')));
 app.use(app.router);
-
-// development only
-if ('local' === config.mode) {
-  app.use(express.errorHandler());
-}
 
 function getControllerPath(area, controller) {
   var path = './controllers/' + area.toLowerCase();
