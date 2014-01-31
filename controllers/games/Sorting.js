@@ -5,8 +5,13 @@ module.exports = function () {
   
 };
 module.exports.prototype = GamesController.prototype.extend({
-  name: 'sorting',
+  name: 'multiplechoice',
 
+// GET - This Method is used for the index page, see http://127.0.0.1:3000/games/multiplechoice
+// Collect the game data from the database and show it
+//
+// @return title - the title of the game
+// @return sortGames - an array of Games
   indexAction: function() {
     var _this = this;
     this.mongodb
@@ -20,6 +25,10 @@ module.exports.prototype = GamesController.prototype.extend({
       });
   },
 
+// GET - This renders the main game
+//
+// @return game - information about the game, like title
+// @return buildings - an array of buildings to display for the template
   gameAction: function() {
     var _this = this;
 
@@ -36,6 +45,30 @@ module.exports.prototype = GamesController.prototype.extend({
       });
   },
 
+// GET request to show a new layout for sortinggame
+//
+// @return game - information about the game, like title
+// @return buildings - an array of buildings to display for the template
+  newgameAction: function() {
+    var _this = this;
+
+    this.mongodb
+      .collection('sorting_games')
+      .find({_id: this.mongo.ObjectID(this.request.param('id'))})
+      .nextObject(function(err, game) {
+        _this.renderGame(game, function(err, buildings){
+          _this.view.render({
+            game: game,
+            buildings: buildings
+          });
+        });
+      });
+  },
+
+// Gets the buildings from the database and returns ist with a callback
+//
+// @param game           - information about the current game
+// @param renderCallback - the callback to call after we got the buildings
   renderGame: function(game, renderCallback) {
     var buildingLimit = game.limit || 10;
     if (game.era && game.era.length > 0) {
@@ -55,6 +88,11 @@ module.exports.prototype = GamesController.prototype.extend({
     }
   },
 
+// POST request to check the solution
+// the parameters are from the <form> element
+//
+// @param gameid    - the id of the game
+// @param sortings  - an array of ids, shows how the images were sorted
   checkSortingAction: function() {
     var _this = this;
     this.mongodb
@@ -121,6 +159,5 @@ module.exports.prototype = GamesController.prototype.extend({
               });
           });
       });
-  },
-
+  }
 });
