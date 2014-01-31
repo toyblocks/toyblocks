@@ -4,8 +4,9 @@ var GamesController = require('../Games'),
 module.exports = function () {
   
 };
+
 module.exports.prototype = GamesController.prototype.extend({
-  name: 'multiplechoice',
+  name: 'sorting',
 
 // GET - This Method is used for the index page, see http://127.0.0.1:3000/games/multiplechoice
 // Collect the game data from the database and show it
@@ -54,7 +55,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
     this.mongodb
       .collection('sorting_games')
-      .find({_id: this.mongo.ObjectID(this.request.param('id'))})
+      .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
       .nextObject(function(err, game) {
         _this.renderGame(game, function(err, buildings){
           _this.view.render({

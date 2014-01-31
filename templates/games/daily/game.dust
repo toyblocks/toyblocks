@@ -10,14 +10,14 @@
     <input type="hidden" name="gameid" value="{_id}" />
   <input type="hidden" id="resultjs" name="result" value="-1"/>
   <a href="/games/{type}/game?id={id}">{title}</a>
-  
+
   <button id="submit" type="button" class="btn btn-primary" style="clear:left; margin-right: 10px;">Lösung senden</button>
   <div style="clear:both;height:10px;"></div>
   {:else}
   <span>Noch kein Daily verfügbar!</span>
   {/games}
 </form>
-{>"/games/{type}/game?id={id}"}
+
 <!-- Modal -->
 <div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">

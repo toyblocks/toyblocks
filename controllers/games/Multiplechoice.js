@@ -4,8 +4,9 @@ var GamesController = require('../Games'),
 module.exports = function () {
   
 };
+
 module.exports.prototype = GamesController.prototype.extend({
-  name: 'multiplechoice',
+  name: 'fucktard',
 
 // This Method is used for the index page, see http://127.0.0.1:3000/games/multiplechoice
 // Collect the game data from the database and show it
@@ -36,7 +37,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .collection('sorting_games')
       .find({_id: this.mongo.ObjectID(this.request.param('id'))})
       .nextObject(function(err, game) {
-        _this.renderGame(game, function(err, buildings){
+        _this.renderGame2(game, function(err, buildings){
           _this.view.render({
             game: game,
             buildings: buildings
@@ -49,7 +50,7 @@ module.exports.prototype = GamesController.prototype.extend({
 //
 // @param game           - information about the current game
 // @param renderCallback - the callback to call after we got the buildings
-  renderGame: function(game, renderCallback) {
+  renderGame2: function(game, renderCallback) {
     var buildingLimit = game.limit || 10;
     if (game.era && game.era.length > 0) {
       //filter buildings by era

@@ -40,11 +40,11 @@ module.exports.prototype = GamesController.prototype.extend({
     //TODO: get proper player data from mongodb
     var players2 = [];
     var players = [{
-      pos: 1, name: 'FayeValentine', score: 1337, logo: 'none'},{
-      pos: 2, name: 'Edward', score: 1200, logo: 'none'}, {
-      pos: 3, name: 'SpikeSpiegel', score: 1111, logo: 'none'},{
-      pos: 4, name: 'Ein', score: 734, logo: 'none'},{
-      pos: 5, name: 'Jet_Black', score: 234, logo: 'none'
+      playerid: 1, pos: 1, name: 'FayeValentine', score: 1337, logo: 'none'},{
+      playerid: 2, pos: 2, name: 'Edward', score: 1200, logo: 'none'}, {
+      playerid: 5, pos: 3, name: 'SpikeSpiegel', score: 1111, logo: 'none'},{
+      playerid: 4, pos: 4, name: 'Ein', score: 734, logo: 'none'},{
+      playerid: 3, pos: 5, name: 'Jet_Black', score: 234, logo: 'none'
     }];
 
     // TODO: get date from dailychallenge database
@@ -58,7 +58,8 @@ module.exports.prototype = GamesController.prototype.extend({
 
     _this.view.render({
       game: game,
-      players: players
+      players: players,
+      userid: 2
     })
   },
 
@@ -95,7 +96,7 @@ module.exports.prototype = GamesController.prototype.extend({
     // TODO: figure out how to make multiple games on clientside work
 
     // this counts the available games, takes a random of each and sends it back to the client
-    _this.generateDailyGame();
+    //_this.generateDailyGame();
     var games;
     _this.mongodb.collection('missingparts_games').find().count(function (e, count1) {
       var random = Math.random() * count1;

@@ -32,49 +32,48 @@ height: 14px;
 
 </style>
 
-    <div class="container">
-      <div class="jumbotron">
+<div class="container">
+  <div class="jumbotron">
 
-        <h1 class="label label-primary">Daily Challenge</h1>
-        <p class="lead">Spiele die tägliche Herausforderung!</p>
-        <div class="row explanation">
-            <div class="col-lg-6">
-              <p class="box">Jeden Tag gibt es ein neues zufällig generiertes Spiel.</p>
-              <br>
-              <p class="box">Du hast nur einen Versuch für das Daily!</p>
-          </div>
+    <h1 class="label label-primary">Daily Challenge</h1>
+    <p class="lead">Spiele die tägliche Herausforderung und werde der Beste!</p>
+    <div class="row explanation">
+      <div class="col-lg-6">
+        <p class="box">Jeden Tag gibt es ein neues zufällig generiertes Spiel.</p>
+        <br>
+        <p class="box">Du hast nur einen Versuch für das Daily!</p>
+      </div>
 
-          <div class="col-lg-6">
-            <p class="box">Alle Spieler spielen dasselbe Spiel!</p>
-            <br>
-            <p class="box">Jedes Daily hat seine eigene <a href="leaderboard">Rangliste</a>.</p>
-        </div>
+      <div class="col-lg-6">
+        <p class="box">Alle Spieler spielen dasselbe Spiel!</p>
+        <br>
+        <p class="box">Jedes Daily hat seine eigene <a href="leaderboard">Rangliste</a>.</p>
+      </div>
     </div>
     <br><br>
     <div class="panel panel-default">
       <div class="panel-body">
-          <p class="lead">Heute haben schon {gamesPlayed}% gespielt!</p>
-          <div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="{gamesPlayed}" aria-valuemin="0" aria-valuemax="100" style="width: {gamesPlayed}%;">
-                <span class="sr-only">{gamesPlayed}% haben heute schon gespielt!</span>
-              </div>
-          </div>
-        
+      <p class="lead">Heute haben schon {gamesPlayed}% gespielt!</p>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{gamesPlayed}" aria-valuemin="0" aria-valuemax="100" style="width: {gamesPlayed}%;">
+          <span class="sr-only">{gamesPlayed}% haben heute schon gespielt!</span>
+        </div>
+      </div>
       </div>
     </div>
     <form>
-        <input type="hidden" id="playerid" name="playerid" value="{player.id}"/>
-        <input type="hidden" id="date" name="date" value="{game.currentDate}"/>
-        <a id="play" type="button" class="btn btn-lg btn-success" style="clear:left; margin-right: 10px;" href="game">
-          Daily Spielen
-        </a>
+      <input type="hidden" id="playerid" name="playerid" value="{player.id}"/>
+      <input type="hidden" id="date" name="date" value="{game.currentDate}"/>
+      <a id="play" type="button" class="btn btn-lg btn-success" style="clear:left; margin-right: 10px;" href="game">
+      Daily Spielen
+      </a>
     </form>
-    </div>
-<!--
-<div class="footer">
+  </div>
+  <!--
+  <div class="footer">
   Credits to <a href="http://spelunkyworld.com/">Spelunky</a> for the DailyChallenge idea.
-</div class="footer">
--->
+  </div class="footer">
+  -->
 </div>
 
 <script>
@@ -82,7 +81,7 @@ height: 14px;
 $(window).ready(function() {
   $(function() {
     var $btn = $('#play');
-    if(true || {hasPlayedTodaysDaily}){
+    if(false && {hasPlayedTodaysDaily}){
         $btn.text('Du hast das heutige Daily schon gespielt!');
         $btn.attr('disabled', true);
     }else{
