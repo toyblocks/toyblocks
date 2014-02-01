@@ -1,7 +1,7 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<style>
+<style type="text/css">
 
 @media(min-width:768px) {
   .container{
@@ -64,7 +64,7 @@ height: 14px;
     <form>
       <input type="hidden" id="playerid" name="playerid" value="{player.id}"/>
       <input type="hidden" id="date" name="date" value="{game.currentDate}"/>
-      <a id="play" type="button" class="btn btn-lg btn-success" style="clear:left; margin-right: 10px;" href="game">
+      <a id="play" type="button" class="btn btn-lg btn-success" style="clear:left; margin-right: 10px;" href="game" type="/">
       Daily Spielen
       </a>
     </form>
