@@ -8,5 +8,14 @@ module.exports.prototype = BaseController.prototype.extend({
 
   indexAction: function() {
     this.view.render({title: 'Startseite'});
+  },
+
+
+  aboutAction: function () {
+    var _this = this;
+
+    _this.view.render({
+      title: 'Über uns'
+    });
   }
 });
