@@ -8,5 +8,12 @@
     <a href="game?id={_id}" class="list-group-item">{title} <span class="badge">3 mal gespielt</span></a>
     {/sortGames}
   </div>
+
+<h3>Sortierspiele mit Timeline</h3>
+  <div class="list-group">
+    {#sortGames}
+    <a href="newgame?id={_id}" class="list-group-item">{title} <span class="badge">1 mal gespielt</span></a>
+    {/sortGames}
+  </div>
 </div>
 {/content}
