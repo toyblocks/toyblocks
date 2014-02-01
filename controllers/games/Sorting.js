@@ -39,6 +39,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .nextObject(function(err, game) {
         _this.renderGame(game, function(err, buildings){
           _this.view.render({
+            title: "Sortierspiel",
             game: game,
             buildings: buildings
           });
@@ -59,6 +60,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .nextObject(function(err, game) {
         _this.renderGame(game, function(err, buildings){
           _this.view.render({
+            title: "Sortierspiel",
             game: game,
             buildings: buildings
           });

@@ -57,8 +57,9 @@ module.exports.prototype = GamesController.prototype.extend({
     };
 
     _this.view.render({
+      title: "DailyChallenge"
       game: game,
-      players: players,
+      players: players2,
       userid: 2
     })
   },
@@ -121,6 +122,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
             // send data back to client
             _this.view.render({
+              title: "DailyChallenge",
               games: games
             })
           });

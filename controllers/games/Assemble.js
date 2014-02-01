@@ -37,8 +37,9 @@ module.exports.prototype = GamesController.prototype.extend({
       .collection('sorting_games')
       .find({_id: this.mongo.ObjectID(this.request.param('id'))})
       .nextObject(function(err, game) {
-        _this.renderGame3(game, function(err, buildings){
+        _this.renderGame(game, function(err, buildings){
           _this.view.render({
+            title: "SortierSpiele",
             game: game,
             buildings: buildings
           });
@@ -50,7 +51,7 @@ module.exports.prototype = GamesController.prototype.extend({
 //
 // @param game           - information about the current game
 // @param renderCallback - the callback to call after we got the buildings
-  renderGame3: function(game, renderCallback) {
+  renderGame: function(game, renderCallback) {
     var buildingLimit = game.limit || 10;
     if (game.era && game.era.length > 0) {
       //filter buildings by era

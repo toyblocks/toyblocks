@@ -6,7 +6,7 @@ module.exports = function () {
 };
 
 module.exports.prototype = GamesController.prototype.extend({
-  name: 'fucktard',
+  name: 'multiplechoice',
 
 // This Method is used for the index page, see http://127.0.0.1:3000/games/multiplechoice
 // Collect the game data from the database and show it
@@ -39,34 +39,12 @@ module.exports.prototype = GamesController.prototype.extend({
       .nextObject(function(err, game) {
         _this.renderGame2(game, function(err, buildings){
           _this.view.render({
+            title: "Multiplechoice"
             game: game,
             buildings: buildings
           });
         });
       });
-  },
-
-// Gets the buildings from the database and returns ist with a callback
-//
-// @param game           - information about the current game
-// @param renderCallback - the callback to call after we got the buildings
-  renderGame2: function(game, renderCallback) {
-    var buildingLimit = game.limit || 10;
-    if (game.era && game.era.length > 0) {
-      //filter buildings by era
-      this.mongodb
-        .collection('buildings')
-        .find({era: {$in: game.era}, _random: {$near: [Math.random(), 0]}})
-        .limit(buildingLimit)
-        .toArray(renderCallback);
-    }
-    else {
-      this.mongodb
-        .collection('buildings')
-        .find({_random: {$near: [Math.random(), 0]}})
-        .limit(buildingLimit)
-        .toArray(renderCallback);
-    }
   },
 
 // POST request to check the solution

@@ -32,6 +32,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .nextObject(function(err, game) {
       _this.renderGame(game, function(err, images){
         _this.view.render({
+          title: "Fehlstellen-Spiel",
           game: game,
           mainimage: game.image,
           images: images
