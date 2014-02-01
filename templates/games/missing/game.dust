@@ -1,7 +1,7 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<style>
+<style type="text/css">
 #selectable li {
   float: left;
   width: 130px;
@@ -46,7 +46,7 @@
 
 
 
-
+<div class="container">
 <div class="col-md-4 col-sm-9">
   <h3>{game.title}</h3>
   <span class="help-block">Finde das fehlende Bauteil!</span>
@@ -61,7 +61,7 @@
             {#images}
             <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
               <input type="hidden" name="selects[]" value="{_id}" />
-              <img src="/ressources/image?id={image}&amp;width=190" title="Wähle ein Bild aus!" style="height:97%">
+              <img src="/ressources/image?id={image}&amp;width=190" alt="{title}" title="Wähle ein Bild aus!">
             </li>
             {/images}
           </ul>
@@ -82,36 +82,36 @@
 </form>
 
 <!-- Modal -->
-<div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="modalLabelCorrect" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Richtig</h4>
+        <h4 class="modal-title" id="modalLabelCorrect">Richtig</h4>
       </div>
       <div class="modal-body">
         Das ist richtig!
       </div>
       <div class="modal-footer">
-        <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+        <button id="closeCorrect" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <!-- Modal -->
-<div class="modal fade" id="checkModalWrong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="checkModalWrong" tabindex="-1" role="dialog" aria-labelledby="modalLabelWrong" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Falsch</h4>
+        <h4 class="modal-title" id="modalLabelWrong">Falsch</h4>
       </div>
       <div class="modal-body">
         Das war falsch!
       </div>
       <div class="modal-footer">
-        <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+        <button id="closeWrong" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -119,7 +119,7 @@
 
 </div><!-- div class="col-md-1 col-sm-7" -->
 
-
+</div>
 <script>
 
 $(window).ready(function(){
