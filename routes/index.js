@@ -89,7 +89,7 @@ exports.dbimage = function(req, res){
 };
 
 /*
- * GET for user account page
+ * GET for user account page 
  */
 exports.users = function(req, res) {
   res.render('users/', {

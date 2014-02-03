@@ -78,17 +78,18 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
           controller = req.params.controller || 'index',
           action = req.params.action || 'index',
           controllerClass;
+          console.log(getControllerPath(area, controller));
         try {
           controllerClass = require(getControllerPath(area, controller));
         }
         catch (e) {
-          if (e.code === 'AREA_NOT_FOUND') {
+          if (e.code === 'AREA_NOT_FOUND' || e.code === 'MODULE_NOT_FOUND') {
             try {
               controllerClass = require(getControllerPath('index', area));
               action = controller || 'index';
             }
             catch (e) {
-              if (e.code === 'AREA_NOT_FOUND') {
+              if (e.code === 'AREA_NOT_FOUND'|| e.code === 'MODULE_NOT_FOUND') {
                 // throw the error if we're in development
                 if(config.mode != 'development')
                   throw e;
