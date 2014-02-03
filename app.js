@@ -5,7 +5,7 @@
 
 var config = require('./configs')(),
     express = require('express'),
-    routes = require('./routes'),
+    // routes = require('./routes'),
     http = require('http'),
     path = require('path'),
     cons = require('consolidate'),
@@ -82,7 +82,7 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
           controllerClass = require(getControllerPath(area, controller));
         }
         catch (e) {
-          if (e.code === 'AREA_NOT_FOUND') {
+          if (e.code === 'AREA_NOT_FOUND' || e.code === 'MODULE_NOT_FOUND') {
             try {
               controllerClass = require(getControllerPath('index', area));
               action = controller || 'index';
