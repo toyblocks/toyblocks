@@ -10,7 +10,7 @@
   <a href="javascript:$('#create_attribute').toggle()">Neues Attribut erstellen</a>
   <div class="row">
     <div class="col-sm-8 col-md-8">
-      <form class="form-horizontal" id="create_attribute" action="create" role="form" method="post" style="display:none; margin-bottom:30px;">
+      <form class="form-horizontal" id="create_attribute" action="/admin/attributes/create" role="form" method="post" style="display:none; margin-bottom:30px;">
         <div class="form-group">
           <label class="col-sm-2 control-label" for="attribute_name">Name</label>
           <div class="col-sm-10">
@@ -67,7 +67,7 @@
           <td>{title}</td>
           <td>{type}</td>
           <td>{?is_enum}Ja{:else}Nein{/is_enum}</td>
-          <td>{?is_enum}<a href="show-enums?attribute={name}" data-target="#enumsModal" data-toggle="modal">Werte</a>{/is_enum}</td>
+          <td>{?is_enum}<a href="/admin/attributes/show-enums?attribute={name}" data-target="#enumsModal" data-toggle="modal">Werte</a>{/is_enum}</td>
         </tr>
         {:else}
         <tr><td colspan="3">Bisher keine Attribute vorhanden</td></tr>
@@ -78,7 +78,7 @@
   <div class="modal fade" id="enumsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 </div>
 <script>
-$('body').on('shown.bs.modal', '#enumsModal', function () {
+$('body').on('shown.bs.modal', '#enumsModal', function (a) {
   $modal = $(this);
   $(this).find('#enumsList').sortable();
   $(this).find('#enumsList').disableSelection();
@@ -88,10 +88,7 @@ $('body').on('shown.bs.modal', '#enumsModal', function () {
   $(this).find('#addNewEnum').click(function(){
     var $input = $('#newEnumValue'),
       newValue = $input.val();
-    $('#enumsList').append('<li class="list-group-item">' + newValue + '
-      <input type="hidden" name="enums[]" value="' + newValue + '" />
-      <span class="badge delete-enum"><span class="glyphicon glyphicon-remove"></span></span>
-    </li>');
+    $('#enumsList').append('<li class="list-group-item">' + newValue + '<input type="hidden" name="enums[]" value="' + newValue + '" /><span class="badge delete-enum"><span class="glyphicon glyphicon-remove"></span></span></li>');
     $input.val('');
   });
   $(this).find('#saveEnums').click(function(){
