@@ -6,7 +6,7 @@
   <a href="javascript:$('#create_type').toggle()">Neuen Typ erstellen</a>
   <div class="row">
     <div class="col-sm-12 col-md-12">
-      <form class="form-horizontal" id="create_type" action="create-type" role="form" method="post" style="display:none; margin-bottom:30px;">
+      <form class="form-horizontal" id="create_type" action="/admin/objects/create-type" role="form" method="post" style="display:none; margin-bottom:30px;">
         <div class="form-group">
           <label class="col-sm-2 control-label" for="type_name">Name</label>
           <div class="col-sm-9">
@@ -81,7 +81,7 @@
         </tr>
         {#types}
         <tr>
-          <td><a href="objects?type={name}">{name}</a></td>
+          <td><a href="/admin/objects/objects?type={name}">{name}</a></td>
           <td>{title}</td>
           <td>{#attributeNames}{.}{@sep}, {/sep}{/attributeNames}</td>
           <td>Bearbeiten</td>
