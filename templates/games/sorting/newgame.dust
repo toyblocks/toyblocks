@@ -3,19 +3,19 @@
 {<content}
 <style type="text/css">
 
-  #sortable li .glyphicon {
-    position: absolute;
-    right: -8px;
-    top: -8px;
-    font-size:40px;
-  }
-  #sortable li .glyphicon-ok { color: lime; }
-  #sortable li .glyphicon-remove { color: red; }
-  #sortable li img { max-width:190px; max-height: 130px;}
-  .tries-wrapper {display: none;}
-  #tryagain {display: none;}
+#sortabletop li .glyphicon {
+{! FIXME: position abosulte doesnt work for glyphicon!}
+  //position: absolute;
+  right: -8px;
+  top: -8px;
+  font-size:40px;
+}
+#sortabletop li .glyphicon-ok { color: lime; }
+#sortabletop li .glyphicon-remove { color: red; }
+#sortabletop li img { max-width:190px; max-height: 130px;}
+.tries-wrapper {display: none;}
+#tryagain {display: none;}
 
-/* */
 #sortablebot, #sortabletop {
   list-style-type: none;
   margin: 0;
@@ -34,9 +34,10 @@
   padding: 5px;
   font-size: 1.2em;
   width: 13%;
-}
-#sortablebot li{
-  
+  -moz-transition: none;
+  -webkit-transition: none;
+  -o-transition: color 0 ease-in;
+  transition: none;
 }
 
 /* Timeline Stuff */
@@ -46,9 +47,7 @@
   border: 5px #fff solid;
   border-radius: 66px;
   color: #fff;
-  font-size: 14px;
   line-height: 58px;
-  position: relative;
   text-align: center;
   float: left;
 }
@@ -65,8 +64,7 @@
 .timeline{
   width: 90%;
   height: 30px;
-  position: relative; 
-  margin-left: 15px;
+  margin-left: 60px;
   float: left;
   background-image: linear-gradient(to right,#3D9970 0,#2ECC40 100%);
 }
@@ -78,6 +76,11 @@
   clear: both;
 }
 
+.help-text{
+  padding: 1px!;
+  text-align: center; 
+  font-size: 1em;
+}
 </style>
 <script>
 $(function() {
@@ -89,30 +92,32 @@ $(function() {
 });
 </script>
 <div class="container">
+
     <form id="sortingform">
       <input type="hidden" name="gameid" value="{game._id}" />
       <h3>{game.title}</h3>
       <span class="help-block">Ordne die Gebäude nach ihren Epochen!</span>
+      <div style="height: 10px;"></div>
+      <div><!-- style="margin-bottom: -40px;">-->
+        <div class="timeline"></div>
+        <div class="timeline-tag l">Älteste</div>
+        <div class="timeline-tag r">Neuste</div>
+      </div>
 
-       <div style="margin-bottom: -40px;">
-      <div class="timeline"></div>
-      <div class="timeline-tag l">Älteste</div>
-      <div class="timeline-tag r">Neuste</div>
-    </div>
       <ul id="sortabletop" class="droptrue">
       </ul>
 
       <div class="divider"/>
-      <br style="clear:both">
+      <br>
       <ul id="sortablebot" class="droptrue">
         {#buildings}
-        <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
+        <li data-id="{_id}" class="thumbnail">
           <input type="hidden" name="sortings[]" value="{_id}" />
           <img src="/ressources/image?id={image}&amp;width=106" title="{title}">
           {! TODO: hover show title !}
-          <!--<div class="caption">
-          <h4>{title}</h4>
-          </div>-->
+          <div class="help-text">
+          {title}
+          </div>
         </li>
         {/buildings}
       </ul>
@@ -120,9 +125,11 @@ $(function() {
       <div class="divider"/>
       <br style="clear:both">
 
-<div style="clear:both;height:50px;"></div>
+<div style="clear:both;height:10px;"></div>
+<center>
 <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
 <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
+</center>
 </form>
 
 <!-- Modal -->
@@ -160,7 +167,7 @@ $(function() {
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
+<div style="clear:both;height:10px;"></div>
 </div>
 <script>
 var game_sort_tries = {game.game_sort_tries}+0;
@@ -180,7 +187,7 @@ $(window).ready(function(){
     var $button = $(this);
 
     $button.prop('disabled', true);
-    $('#sortable').sortable('disable');
+    $('#sortabletop').sortable('disable');
 
     var serialized = $('#sortingform').serialize();
     $.post('check-sorting', serialized, function(data) {
@@ -195,7 +202,7 @@ $(window).ready(function(){
           $('#checkModalWrong .tries-wrapper').show();
           if (num_tried < game_sort_tries) {
             $('#checkModalWrong .num-tries').text(game_sort_tries - num_tried);
-            $('#sortable').sortable('enable');
+            $('#sortabletop').sortable('enable');
             $button.prop('disabled', false);
           }
           else {
@@ -214,7 +221,7 @@ $(window).ready(function(){
   });
 
   function showCorrection(tillIndex) {
-    $('#sortable li').each(function(index){
+    $('#sortabletop li').each(function(index){
       if (index <= tillIndex || tillIndex == -1) {
         $(this).append('<span class="glyphicon glyphicon-ok"></span>');
       }
@@ -225,7 +232,7 @@ $(window).ready(function(){
   }
 
   function removeCorrection() {
-    $('#sortable').remove('.glyphicon');
+    $('#sortabletop').remove('.glyphicon');
   }
 
   $(".alert").alert();
