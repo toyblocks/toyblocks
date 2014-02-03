@@ -5,7 +5,6 @@
 
 var config = require('./configs')(),
     express = require('express'),
-    // routes = require('./routes'),
     http = require('http'),
     path = require('path'),
     cons = require('consolidate'),
