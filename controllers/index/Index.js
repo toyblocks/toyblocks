@@ -7,15 +7,24 @@ module.exports.prototype = BaseController.prototype.extend({
   name: 'index',
 
   indexAction: function() {
-    this.view.render({title: 'Startseite'});
+    this.view.render({
+      title: 'Startseite',
+      route: '/'
+    });
   },
 
 
-  aboutAction: function () {
-    var _this = this;
 
-    _this.view.render({
-      title: 'Über uns'
+  aboutAction: function () {
+    this.view.render({
+      title: 'Über uns',
+      route: '/index/about'
+    });
+  },
+
+  error404Action: function () {
+    this.view.render({
+      title: '404 Seite nicht gefunden'
     });
   }
 });
