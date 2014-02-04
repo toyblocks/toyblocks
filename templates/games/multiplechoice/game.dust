@@ -37,7 +37,7 @@
       {#buildings}
       <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
         <input type="hidden" name="sortings[]" value="{_id}" />
-        <img src="/ressources/image?id={image}&amp;width=190" title="{title}">
+        <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
         {! TODO: gameparam: show title? !}
         <div class="caption">
           <h4>{title}</h4>
