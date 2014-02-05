@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(response) {
   this.response = response;
 };

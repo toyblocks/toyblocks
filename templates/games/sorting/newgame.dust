@@ -13,7 +13,6 @@
 #sortabletop li .glyphicon { position: absolute; }
 #sortabletop li .glyphicon-ok { color: lime; }
 #sortabletop li .glyphicon-remove { color: red; }
-#sortabletop li img { max-width:190px; max-height: 130px;}
 .tries-wrapper {display: none;}
 #tryagain {display: none;}
 
@@ -22,7 +21,6 @@
   margin: 0;
   padding: 0;
   margin-right: 10px;
-
   padding: 5px;
   width: 100%;
   min-height: 250px;
@@ -109,7 +107,7 @@
       {#buildings}
       <li data-id="{_id}" class="thumbnail">
         <input type="hidden" name="sortings[]" value="{_id}">
-        <img src="/ressources/image?id={image}&amp;width=106" title="{title}">
+        <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
         {! TODO: hover show title !}
         <div class="help-text">
         {title}

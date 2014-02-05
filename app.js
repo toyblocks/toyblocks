@@ -1,3 +1,4 @@
+'use strict';
 
 /**
  * Module dependencies.
@@ -28,7 +29,7 @@ if ('development' === config.mode) {
   // enable pretty html printing
   app.use(express.errorHandler());
   app.locals.pretty = true;
-  dust.helpers.optimizers.format = function(ctx, node) { return node };
+  dust.helpers.optimizers.format = function(ctx, node) { return node; };
 }
 
 // all environments
@@ -47,17 +48,17 @@ app.use(app.router);
 
 function getControllerPath(area, controller) {
   var path = './controllers/' + area.toLowerCase();
-      path += '/' +
-        controller.toLowerCase()
-        .replace(/(^[a-z]|-[a-z])/g,
-          function(v) {
-            return v.replace(/-/,'').toUpperCase();
-          });
+  path += '/' +
+    controller.toLowerCase()
+    .replace(/(^[a-z]|-[a-z])/g,
+    function(v) {
+      return v.replace(/-/,'').toUpperCase();
+    });
   return path;
 }
 
-mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mongodb.port + '/' + config.mongodb.db,
-  function(err, db) {
+mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
+    config.mongodb.port + '/' + config.mongodb.db, function(err, db) {
     if(err) {
       console.log('Sorry, there is no mongo db server running.');
     } else {
@@ -70,14 +71,13 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
 
       // we hear on every request url here in form of
       // areaname / controllername / actionname
-      // defaults are index in every case. in case of the controller was not found,
-      // we try to search in index area
+      // defaults are index in every case. in case of the controller was not
+      // found, we try to search in index area
       app.all('/:area?/:controller?/:action?', attachDB, function (req, res, next) {
         var area = req.params.area || 'index',
           controller = req.params.controller || 'index',
           action = req.params.action || 'index',
           controllerClass;
-          console.log(getControllerPath(area, controller));
         try {
           controllerClass = require(getControllerPath(area, controller));
         }
@@ -93,7 +93,7 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
                 if(config.mode != 'development')
                   throw e;
                 // send 404 if not
-                res.status(404).send("404 - Page not found");
+                res.status(404).send('404 - Page not found');
                 return;
               }
               else {

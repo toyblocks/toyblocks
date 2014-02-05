@@ -1,8 +1,10 @@
+'use strict';
+
 var GamesController = require('../Games'),
   attributeModel = require('../../models/Attribute');
 
 module.exports = function () {
-  
+
 };
 
 module.exports.prototype = GamesController.prototype.extend({
@@ -100,7 +102,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
                   // go through all buildings and check the index of era in era-array
                   var buildingEraIndex = eras.indexOf(sortedBuildings[_id].era);
-                  
+
                   if (buildingEraIndex < lastEraIndex) {
                     correct = false;
                     break;

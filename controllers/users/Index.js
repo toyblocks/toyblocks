@@ -1,8 +1,10 @@
+'use strict';
+
 var UsersController = require('../Users');
 
 
 module.exports = function () {
-  
+
 };
 module.exports.prototype = UsersController.prototype.extend({
   name: 'index',

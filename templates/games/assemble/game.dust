@@ -58,7 +58,7 @@
   {#buildingparts}
     <li data-id="{_id}" class="list-group-item">
       <input type="hidden" name="sortings[]" value="{_id}" />
-      <img src="/ressources/image?id={image}&amp;width=300" title="{title}">
+      <img src="/ressources/image?id={image}&amp;size=large" title="{title}">
       <span class="pull-right remove glyphicon glyphicon-remove"></span>
       <span class="pull-right add glyphicon glyphicon-plus"></span>
   </li>
@@ -131,7 +131,6 @@ $('#submit').click(function(){
 
   var serialized = $('#assemblyform').serialize().split("&").reverse().join("&");
   $.post('check-sorting', serialized, function(data) {
-    console.log(data.solution)
     // if error from server (i.e. wrong count of submitted elements)
     if(data.error) {
       // show modal 'not enough elements'
