@@ -10,15 +10,21 @@ module.exports.prototype = AdminController.prototype.extend({
   indexAction: function() {
     var attributes = [],
       _this = this;
-    this.mongodb
+    _this.mongodb
       .collection(attributeModel.collection)
       .find({})
       .toArray(function(err, attributes){
-        _this.view.render({
-          title: 'Attribute Verwaltung',
-          attributes: attributes,
-          attributeTypes: attributeModel.getTypes()
-        });
+        _this.mongodb
+          .collection('object_types')
+          .find({})
+          .toArray(function(err, objectTypes){
+            _this.view.render({
+              title: 'Attribute Verwaltung',
+              attributes: attributes,
+              attributeTypes: attributeModel.getTypes(),
+              objectTypes: objectTypes
+            });
+          });
       });
   },
 
@@ -41,9 +47,9 @@ module.exports.prototype = AdminController.prototype.extend({
           });
     }
     else {
-      throw new Error('fuck');
       // TODO: error handler
       this.response.redirect('..');
+      throw new Error('attribute not found');
     }
   },
 
@@ -89,7 +95,9 @@ module.exports.prototype = AdminController.prototype.extend({
       types = attributeModel.getTypes();
     for (var typeIndex in types) {
       if (types[typeIndex].name === paramType) {
-        // TODO: check for enum
+        if (paramType === 'objecttype') {
+          attribute.object_type = req.param('objecttype');
+        }
         attribute.type = paramType;
         return attribute;
       }

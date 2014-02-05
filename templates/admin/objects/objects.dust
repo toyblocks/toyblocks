@@ -45,4 +45,22 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="objectTypesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+<script>
+var $objecttypeTrigger;
+$('#create_object').on('click', '.select-objecttype', function() {
+  $objecttypeTrigger = $(this);
+});
+$('body').on('shown.bs.modal', '#objectTypesModal', function () {
+  $modal = $(this);
+  $modal.find('.select-object').click(function(){
+    $objecttypeTrigger.siblings('input').val($(this).data('object-id'));
+    $objecttypeTrigger
+      .removeClass('btn-default')
+      .addClass('btn-success')
+      .html($(this).parents('tr').children().first().html());
+    $modal.modal('hide');
+  });
+});
+</script>
 {/content}

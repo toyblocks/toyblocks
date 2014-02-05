@@ -59,6 +59,9 @@ module.exports = base.extend({
         ext = matches[1],
         buffer = new Buffer(value.slice(basePos+7), 'base64');
       return {ext: ext, buffer: buffer};
+
+    default:
+      return value;
     }
   }
 
