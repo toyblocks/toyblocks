@@ -116,4 +116,3 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
     }
   }
 );
-

@@ -1,27 +1,26 @@
-var GamesController = require('../Games'),
-  attributeModel = require('../../models/Attribute');
+var GamesController = require('../Games');
 
 module.exports = function () {
-  
+
 };
 
 module.exports.prototype = GamesController.prototype.extend({
   name: 'assemble',
 
-// This Method is used for the index page, see http://127.0.0.1:3000/games/multiplechoice
+// This Method is used for the game index page,
 // Collect the game data from the database and show it
 //
 // @return title - the title of the game
-// @return sortGames - an array of Games
+// @return assembleGames - an array of Games
   indexAction: function() {
     var _this = this;
     this.mongodb
-      .collection('sorting_games')
+      .collection('assemble_games')
       .find({})
-      .toArray(function(err, sortGames){
+      .toArray(function(err, assembleGames){
         _this.view.render({
-          title: 'Sortier Spiele',
-          sortGames: sortGames
+          title: 'Zusammensetzen-Spiele',
+          assemblegames: assembleGames
         });
       });
   },
@@ -29,45 +28,36 @@ module.exports.prototype = GamesController.prototype.extend({
 // This renders the main game
 //
 // @return game - information about the game, like title
-// @return buildings - an array of buildings to display for the template
+// @return buildingParts - an array of buildingParts to display for the template
   gameAction: function() {
     var _this = this;
 
     this.mongodb
-      .collection('sorting_games')
+      .collection('assemble_games')
       .find({_id: this.mongo.ObjectID(this.request.param('id'))})
       .nextObject(function(err, game) {
-        _this.renderGame(game, function(err, buildings){
+        _this.renderGame(game, function(err, buildingParts){
           _this.view.render({
-            title: "SortierSpiele",
+            title: 'Zusammensetzen-Spiele',
+            route: '/games/assemble',
             game: game,
-            buildings: buildings
+            buildingparts: buildingParts
           });
         });
       });
   },
 
-// Gets the buildings from the database and returns ist with a callback
+// Gets the buildings from the database and returns it with a callback
 //
 // @param game           - information about the current game
 // @param renderCallback - the callback to call after we got the buildings
   renderGame: function(game, renderCallback) {
-    var buildingLimit = game.limit || 10;
-    if (game.era && game.era.length > 0) {
-      //filter buildings by era
-      this.mongodb
-        .collection('buildings')
-        .find({era: {$in: game.era}, _random: {$near: [Math.random(), 0]}})
-        .limit(buildingLimit)
-        .toArray(renderCallback);
-    }
-    else {
-      this.mongodb
-        .collection('buildings')
-        .find({_random: {$near: [Math.random(), 0]}})
-        .limit(buildingLimit)
-        .toArray(renderCallback);
-    }
+    var partsLimit = game.limit || 15;
+    this.mongodb
+      .collection('assemble_images')
+      .find({assemble_category: game.assemble_category/*, _random: {$near: [Math.random(), 0]}*/})
+      // .limit(partsLimit)
+      .toArray(renderCallback);
   },
 
 // POST request to check the solution
@@ -123,7 +113,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
                   // go through all buildings and check the index of era in era-array
                   var buildingEraIndex = eras.indexOf(sortedBuildings[_id].era);
-                  
+
                   if (buildingEraIndex < lastEraIndex) {
                     correct = false;
                     break;

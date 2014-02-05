@@ -1,3 +1,5 @@
+'use strict';
+
 var GamesController = require('../Games');
 
 module.exports = function () {};
@@ -10,10 +12,9 @@ module.exports.prototype = GamesController.prototype.extend({
   *  for the overview of missingpart games
   *
   * @return <String> title Title of indexpage
-  * @return <Array> data 
+  * @return <Array> data
   */
   indexAction: function() {
-    'use strict';
     var _this = this;
     this.mongodb
     .collection('missingparts_games')
@@ -36,7 +37,6 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Array> images
   */
   gameAction: function() {
-    'use strict';
     var _this = this;
     this.mongodb
     .collection('missingparts_games')
@@ -61,7 +61,6 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Array> images in Callback //FIXME: what is the type of a callback?
   */
   renderGame: function(game, renderCallback) {
-    'use strict';
     var type = game.category;
 
     // filter buildings by category
@@ -84,7 +83,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .toArray(renderCallback);
     }
   },
-  
+
   /**
   * checkSelectedAction() checks if game selection is correct
   *
@@ -94,7 +93,6 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Number> correctBuilding
   */
   checkSelectedAction: function() {
-    'use strict';
     var _this = this,
      result = _this.request.param('result'),
      gameid = _this.request.param('gameid');
