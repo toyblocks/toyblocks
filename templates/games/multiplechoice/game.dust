@@ -28,27 +28,15 @@
   <form id="sortingform">
     <input type="hidden" name="gameid" value="{game._id}" />
     <h3>{game.title}</h3>
-    <span class="help-block">Ordne die Gebäude nach ihren Epochen!</span>
-    
-    <ul id="sortable" class="list-unstyled" style="width:100%">
-<!--     <li class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
-      <b>Ältestes Gebäude</b>
-    </li> -->
-      {#buildings}
-      <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
-        <input type="hidden" name="sortings[]" value="{_id}" />
-        <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
-        {! TODO: gameparam: show title? !}
-        <div class="caption">
-          <h4>{title}</h4>
-        </div>
-      </li>
-      {/buildings}
-<!--     <li class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
-      <b>Neustes Gebäude</b>
-    </li> -->
-    </ul>
-    <div style="clear:both;height:50px;"></div>
+
+    {#questions}<div>
+        <img src="/ressources/image?id={image}&size=middle" />
+        {multiplechoice_question}
+        {#multiplechoice_answer_right}{.}<br>{/multiplechoice_answer_right}
+        {#multiplechoice_answer_wrong}{.}<br>{/multiplechoice_answer_wrong}
+
+    </div>{/questions}
+
     <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
     <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
   </form>

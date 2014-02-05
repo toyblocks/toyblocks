@@ -16,7 +16,7 @@
         {! TODO: überall die route übergeben !}
         <li {@eq key=route value="/"}class="active"{/eq}><a href="/">Home</a></li>
         <li><a href="/admin/">Admin</a></li>
-        <li><a href="/admin/objects">Objecte</a></li>
+        <li><a href="/admin/objects">Objekte</a></li>
         <li><a href="/admin/attributes">Attribute</a></li>
 
         <li class="dropdown {@eq key=route value="/games"}active{/eq}">

@@ -42,7 +42,7 @@ module.exports.prototype = AdminController.prototype.extend({
     var type = this.getTypeFromRequest(),
       _this = this;
     if (type) {
-      this.mongodb
+      _this.mongodb
         .collection('object_types')
         .insert(
           type,
@@ -56,7 +56,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
             // rewrite to set indeces
             if (type.randomized) {
-              this.mongodb
+              _this.mongodb
                 .collection('object_types')
                 .ensureIndex({_random: '2d'}, function(){
                   _this.response.redirect('..');
@@ -204,8 +204,8 @@ module.exports.prototype = AdminController.prototype.extend({
     var _this = this;
 
     // getting main type
-    this.getType(
-      this.request.param('type'),
+    _this.getType(
+      _this.request.param('type'),
       function(err, type) {
         if (err)
           throw new Error(err);
@@ -236,7 +236,8 @@ module.exports.prototype = AdminController.prototype.extend({
                 object[attributeName] = attributeModel.validateAndTransform(
                   attributes[i],
                   typeProps,
-                  reqValue);
+                  reqValue,
+                  _this.mongo);
                 // prepare images for saving
                 if (attributes[i].type === 'image') {
                   if (typeProps.multiple) {
