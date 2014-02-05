@@ -22,25 +22,28 @@ module.exports = base.extend({
     return types;
   },
 
-  validateAndTransform: function (attribute, typeProps, value) {
+  validateAndTransform: function (attribute, typeProps, value, mongo) {
     if (typeProps.multiple) {
       for (var valIndex in value) {
-        value[valIndex] = this._validateAndTransformOne(attribute, typeProps, value[valIndex]);
+        value[valIndex] = this._validateAndTransformOne(attribute, typeProps, value[valIndex], mongo);
       }
     }
     else {
-      value = this._validateAndTransformOne(attribute, typeProps, value);
+      value = this._validateAndTransformOne(attribute, typeProps, value, mongo);
     }
     return value;
   },
 
-  _validateAndTransformOne: function (attribute, typeProps, value) {
+  _validateAndTransformOne: function (attribute, typeProps, value, mongo) {
     value = value.trim();
     if (typeProps.mandatory && !value)
       throw new Error('please fill out ' + attribute.name);
     switch (attribute.type) {
     case 'string':
       return '' + value;
+
+    case 'objecttype':
+      return mongo.ObjectID(value);
 
     case 'int':
       if (!value.match(/^-?[\d]*$/))

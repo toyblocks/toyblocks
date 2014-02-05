@@ -2,11 +2,11 @@
 
 {<content}
 <div class="col-md-4 col-sm-4">
-  <h3>Sortier Spiele</h3>
+  <h3>Multiple Choice Spiele</h3>
   <div class="list-group">
-    {#sortGames}
-    <a href="game?id={_id}" class="list-group-item">{title} <span class="badge">3 mal gespielt</span></a>
-    {/sortGames}
+    {#multiplechoiceGames}
+    <a href="game?id={_id}" class="list-group-item">{title} <span class="badge">xyz</span></a>
+    {/multiplechoiceGames}
   </div>
 </div>
 {/content}
