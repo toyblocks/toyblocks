@@ -1,3 +1,6 @@
+{?_viewOnlyContent}
+  {+content}{/content}
+{:else}
 <!DOCTYPE html>
 <html lang="de">
   {>"layout/header"/}
@@ -56,3 +59,4 @@
     {>"layout/footer"/}
   </body>
 </html>
+{/_viewOnlyContent}

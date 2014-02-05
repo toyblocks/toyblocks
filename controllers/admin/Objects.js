@@ -125,6 +125,9 @@ module.exports.prototype = AdminController.prototype.extend({
               .find({})
               // TODO: implement skip and limit
               .toArray(function(err, objects) {
+                if (_this.request.xhr) {
+                  _this.view.setTemplate(_this.view.getTemplate() + '-remote');
+                }
                 _this.view.render({
                   title: type.title + ' Verwaltung',
                   type: type,

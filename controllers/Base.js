@@ -26,6 +26,7 @@ module.exports.prototype = {
   },
   init: function(req, res, next) {
     this.view = new View(res);
+    this.view.setOnlyContent(req.param('_view') === 'only_content');
     this.request = req;
     this.response = res;
     this.mongodb = req.mongodb;

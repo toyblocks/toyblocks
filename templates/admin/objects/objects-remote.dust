@@ -1,0 +1,30 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+    <h3>{type.title} Übersicht</h3>
+    </div>
+    <div class="modal-body">
+      <table class="table">
+        <tr>
+          {#attributes object_type=type}
+          <th>{title}</th>
+          {/attributes}
+        </tr>
+        {#objects attributes=attributes object_type=type}
+        <tr>
+          {#attributes object=.}
+          {@if cond="'{type}' == 'image'"}
+          <td>{#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" />{/object[name]}</td>
+          {:else}
+          <td>{#object[name]}{.}{/object[name]}</td>
+          {/if}
+          {/attributes}
+          <td><button type="button" class="btn select-object" data-object-id="{_id}">Auswählen</button></td>
+        </tr>
+        {:else}
+        <tr><td colspan="4">Bisher keine {type.title} vorhanden</td></tr>
+        {/objects}
+      </table>
+    </div>
+  </div>
+</div>
