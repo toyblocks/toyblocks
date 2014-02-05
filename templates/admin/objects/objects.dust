@@ -31,7 +31,7 @@
         <tr>
           {#attributes object=.}
           {@if cond="'{type}' == 'image'"}
-          <td>{#object[name]}<img src="/ressources/image?id={.}" style="max-width:50px;" />{/object[name]}</td>
+          <td>{#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" />{/object[name]}</td>
           {:else}
           <td>{#object[name]}{.}{/object[name]}</td>
           {/if}

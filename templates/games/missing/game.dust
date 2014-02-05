@@ -61,14 +61,14 @@
             {#images}
             <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
               <input type="hidden" name="selects[]" value="{_id}" />
-              <img src="/ressources/image?id={image}&amp;width=190" alt="{title}" title="Wähle ein Bild aus!">
+              <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
             </li>
             {/images}
           </ul>
         </td>
         <td>
 
-          <img id="thebigbadimage" src="/ressources/image?id={game.image}&amp;width=500" title="{game.title}">
+          <img id="thebigbadimage" src="/ressources/image?id={game.image}&amp;size=large" title="{game.title}">
           
         </td>
       </tr>
