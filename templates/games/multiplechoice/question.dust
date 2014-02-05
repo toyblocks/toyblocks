@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-lg-6">
+    <img src="/ressources/image?id={question.image}&size=middle" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-6">
+    {question.multiplechoice_question}
+  </div>
+</div>
+{#answers}
+<div class="row">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <input type="text" class="form-control answer" value="{.}" readonly>
+      <span class="input-group-btn">
+        <button class="btn btn-default select-answer" type="button"><span class="glyphicon glyphicon-ok"></span></button>
+      </span>
+    </div>
+  </div>
+</div>
+{/answers}
+<div class="right-answers" style="display:none">{#right_answers}{.}{@sep},{/sep}{/right_answers}</div>

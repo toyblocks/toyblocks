@@ -29,124 +29,73 @@
     <input type="hidden" name="gameid" value="{game._id}" />
     <h3>{game.title}</h3>
 
-    {#questions}<div>
-        <img src="/ressources/image?id={image}&size=middle" />
-        {multiplechoice_question}
-        {#multiplechoice_answer_right}{.}<br>{/multiplechoice_answer_right}
-        {#multiplechoice_answer_wrong}{.}<br>{/multiplechoice_answer_wrong}
+    <div id="questions_container" class="jumbotron"></div>
 
-    </div>{/questions}
-
-    <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
-    <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
   </form>
 
-<!-- Modal -->
-<div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Richtig</h4>
-      </div>
-      <div class="modal-body">
-        Ihre Lösung ist korrekt!
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- Modal -->
-<div class="modal fade" id="checkModalWrong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Falsch</h4>
-      </div>
-      <div class="modal-body">
-        Ihre Lösung ist leider falsch. <span class="tries-wrapper">Sie haben noch <span class="num-tries"></span> Versuche.</span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+  <button style="display:none" id="next_question" type="button" class="btn btn-default">Nächste Frage</button>
+  <button style="display:none" id="game_overview" type="button" class="btn btn-default">Zurück zur Spielübersicht</button>
 
 </div>
 <script>
-var game_sort_tries = {game.game_sort_tries}+0;
-var num_tried = 0;
+var questionIds = [{#game.multiplechoice_question_reference}"{.}"{@sep},{/sep}{/game.multiplechoice_question_reference}],
+  actualIndex = 0;
+
+String.prototype.hashCode = function(){
+    var hash = 0, i, char;
+    if (this.length == 0) return hash;
+    for (i = 0, l = this.length; i < l; i++) {
+        char  = this.charCodeAt(i);
+        hash  = ((hash<<5)-hash)+char;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};
+
 $(window).ready(function(){
-  $(function() {
-    $( "#sortable" ).sortable({revert: 200});
-    $( "#sortable" ).disableSelection();
-  });
-
-  $('#tryagain').click(function(){
-    location.reload();
-  });
-
-  $('#submit').click(function(){
-
-    {! TODO: gameparam: number of tries !}
-
-    var $button = $(this);
-
-    $button.prop('disabled', true);
-    $('#sortable').sortable('disable');
-
-    var serialized = $('#sortingform').serialize();
-    $.post('check-sorting', serialized, function(data) {
-      num_tried++;
-      if (data.correct) {
-        showCorrection(data.lastCorrectBuilding);
-        $('#tryagain').show();
-        $('#checkModalCorrect').modal();
-      }
-      else {
-        if (game_sort_tries) {
-          $('#checkModalWrong .tries-wrapper').show();
-          if (num_tried < game_sort_tries) {
-            $('#checkModalWrong .num-tries').text(game_sort_tries - num_tried);
-            $('#sortable').sortable('enable');
-            $button.prop('disabled', false);
-          }
-          else {
-            $('#checkModalWrong .tries-wrapper').text("Sie haben keine Versuche mehr.");
-            $('#tryagain').show();
-          }
-        }
-        else {
-          showCorrection(data.lastCorrectBuilding);
-          $('#checkModalWrong .tries-wrapper').hide();
-          $('#tryagain').show();
-        }
-        $('#checkModalWrong').modal();
-      }
-    });
-  });
-
-  function showCorrection(tillIndex) {
-    $('#sortable li').each(function(index){
-      if (index <= tillIndex || tillIndex == -1) {
-        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
-      }
-      else {
-        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
-      }
-    });
+  function loadQuestion(questionId) {
+    $.ajax({url: "/games/multiplechoice/question?id="+questionId})
+      .done(function( data ) {
+        $('#questions_container').html(data);
+      });
   }
 
-  function removeCorrection() {
-    $('#sortable').remove('.glyphicon');
+  function doNext() {
+    actualIndex++;
+    if (questionIds.length > actualIndex ) {
+      $('#next_question').show();
+    }
+    else {
+      $('#game_overview').show();
+    }
   }
 
-  $(".alert").alert();
+  $('#next_question').click(function(){
+    loadQuestion(questionIds[actualIndex]);
+    $(this).hide();
+  });
+
+  $('#game_overview').click(function(){
+    location.href = '/games/multiplechoice/';
+  });
+
+  $('#questions_container').on('click', '.select-answer', function(){
+    var rightAnswers = $('#questions_container').find('.right-answers').text().split(','),
+      answer = $(this).parents('.input-group').find('.answer').val(),
+      hash = '' + answer.hashCode();
+
+    $(this).removeClass('btn-default');
+    $('#questions_container button').prop('disabled', true);
+    if ($.inArray(hash, rightAnswers) >= 0) {
+      $(this).addClass('btn-success');
+    }
+    else {
+      $(this).addClass('btn-danger');
+    }
+    doNext();
+  });
+
+  loadQuestion(questionIds[actualIndex]);
 });
 </script>
 {/content}
