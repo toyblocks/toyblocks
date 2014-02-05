@@ -39,7 +39,6 @@ module.exports.prototype = GamesController.prototype.extend({
       .find({_id: this.mongo.ObjectID(this.request.param('id'))})
       .nextObject(function(err, game) {
         _this.renderGame(game, function(err, buildingParts){
-          console.log(buildingParts);
           _this.view.render({
             title: 'Zusammensetzen-Spiele',
             route: '/games/assemble',
@@ -75,16 +74,13 @@ module.exports.prototype = GamesController.prototype.extend({
       .collection('assemble_games')
       .find({_id: this.mongo.ObjectID(this.request.param('gameid'))})
       .nextObject(function(err, game) {
-        console.log(game);
         // first we got the game params
         _this.mongodb
           .collection('assemble_images')
           .find({assemble_category: game.assemble_category})
           .toArray(function(err, images) {
             // got the era attribute with correct sorting of eras
-            console.log(images);
             var sortIDs = _this.request.param('sortings');
-            console.log(sortIDs);
 
             // check for correct number of building elements submitted
 

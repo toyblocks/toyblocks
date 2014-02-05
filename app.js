@@ -77,7 +77,6 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' + config.mo
           controller = req.params.controller || 'index',
           action = req.params.action || 'index',
           controllerClass;
-          console.log(getControllerPath(area, controller));
         try {
           controllerClass = require(getControllerPath(area, controller));
         }

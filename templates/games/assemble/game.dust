@@ -131,7 +131,6 @@ $('#submit').click(function(){
 
   var serialized = $('#assemblyform').serialize().split("&").reverse().join("&");
   $.post('check-sorting', serialized, function(data) {
-    console.log(data.solution)
     // if error from server (i.e. wrong count of submitted elements)
     if(data.error) {
       // show modal 'not enough elements'
