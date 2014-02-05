@@ -1,5 +1,4 @@
-var GamesController = require('../Games'),
-  attributeModel = require('../../models/Attribute');
+var GamesController = require('../Games');
 
 module.exports = function () {
 
@@ -8,7 +7,7 @@ module.exports = function () {
 module.exports.prototype = GamesController.prototype.extend({
   name: 'assemble',
 
-// This Method is used for the index page, see http://127.0.0.1:3000/games/assemble
+// This Method is used for the game index page,
 // Collect the game data from the database and show it
 //
 // @return title - the title of the game
@@ -39,7 +38,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .nextObject(function(err, game) {
         _this.renderGame(game, function(err, buildingParts){
           _this.view.render({
-            title: "Zusammensetzen-Spiele",
+            title: 'Zusammensetzen-Spiele',
             route: '/games/assemble',
             game: game,
             buildingparts: buildingParts
