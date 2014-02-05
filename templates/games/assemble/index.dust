@@ -1,12 +1,12 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<div class="col-md-4 col-sm-4">
-  <h3>Sortier Spiele</h3>
+<div class="col-md-4">
+  <h3>Zusammensetzen-Spiele</h3>
   <div class="list-group">
-    {#sortGames}
-    <a href="game?id={_id}" class="list-group-item">{title} <span class="badge">3 mal gespielt</span></a>
-    {/sortGames}
+    {#assemblegames}
+    <a href="game?id={_id}" class="list-group-item">{assemble_category} <span class="badge">3 mal gespielt</span></a>
+    {/assemblegames}
   </div>
 </div>
 {/content}
