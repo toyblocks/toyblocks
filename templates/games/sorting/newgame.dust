@@ -10,6 +10,7 @@
   top: -8px;
   font-size:40px;
 }
+#sortabletop li .glyphicon { position: absolute; }
 #sortabletop li .glyphicon-ok { color: lime; }
 #sortabletop li .glyphicon-remove { color: red; }
 #sortabletop li img { max-width:190px; max-height: 130px;}
@@ -22,18 +23,20 @@
   padding: 0;
   float: left;
   margin-right: 10px;
-  background: #eee;
+
   padding: 5px;
   width: 100%;
   min-height: 140px;
   margin-bot: 140px;
+  margin-bottom: 7px solid #DDD;
 }
 #sortablebot li, #sortabletop li {
+  position: relative;
   float: left;
   margin: 5px;
   padding: 5px;
   font-size: 1.2em;
-  width: 13%;
+  width: 120px;
   -moz-transition: none;
   -webkit-transition: none;
   -o-transition: color 0 ease-in;
@@ -49,23 +52,23 @@
   color: #fff;
   line-height: 58px;
   text-align: center;
-  float: left;
+  position: absolute;
+  bottom: -18px;
 }
 
 .timeline-tag.r{
-  margin: -15px 0 10px -15px;
+  right: 15px;
   background: #2ECC40;
 }
 .timeline-tag.l{
-  margin: -15px 0 10px -95%;
+  left: 15px;
   background: #3D9970;
 }
 
 .timeline{
   width: 90%;
   height: 30px;
-  margin-left: 60px;
-  float: left;
+  margin: 0 auto;
   background-image: linear-gradient(to right,#3D9970 0,#2ECC40 100%);
 }
 
@@ -78,58 +81,51 @@
 
 .help-text{
   padding: 1px!;
-  text-align: center; 
+  text-align: center;
   font-size: 1em;
 }
 </style>
-<script>
-$(function() {
-  $( "ul.droptrue" ).sortable({
-    connectWith: "ul"
-  });
-  $("#sortablel").sortable();
-  $( "#sortablebot, #sortabletop" ).disableSelection();
-});
-</script>
-<div class="container">
+<form id="sortingform">
+  <input type="hidden" name="gameid" value="{game._id}">
 
-    <form id="sortingform">
-      <input type="hidden" name="gameid" value="{game._id}" />
+  <div class="row">
+    <div class="col-sm-12">
       <h3>{game.title}</h3>
       <span class="help-block">Ordne die Gebäude nach ihren Epochen!</span>
-      <div style="height: 10px;"></div>
-      <div><!-- style="margin-bottom: -40px;">-->
-        <div class="timeline"></div>
-        <div class="timeline-tag l">Älteste</div>
-        <div class="timeline-tag r">Neuste</div>
-      </div>
-
-      <ul id="sortabletop" class="droptrue">
-      </ul>
-
-      <div class="divider"/>
       <br>
-      <ul id="sortablebot" class="droptrue">
-        {#buildings}
-        <li data-id="{_id}" class="thumbnail">
-          <input type="hidden" name="sortings[]" value="{_id}" />
-          <img src="/ressources/image?id={image}&amp;width=106" title="{title}">
-          {! TODO: hover show title !}
-          <div class="help-text">
-          {title}
-          </div>
-        </li>
-        {/buildings}
-      </ul>
+      <div class="timeline"></div>
+      <div class="timeline-tag l">Älteste</div>
+      <div class="timeline-tag r">Neuste</div>
+    </div>
+  </div>
+  <br>
 
-      <div class="divider"/>
-      <br style="clear:both">
+  <div class="row">
 
-<div style="clear:both;height:10px;"></div>
-<center>
-<button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
-<button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
-</center>
+    <ul id="sortabletop" class="well droptrue"></ul>
+  </div>
+  <br>
+  <div class="row">
+
+    <ul id="sortablebot" class="well droptrue">
+      {#buildings}
+      <li data-id="{_id}" class="thumbnail">
+        <input type="hidden" name="sortings[]" value="{_id}">
+        <img src="/ressources/image?id={image}&amp;width=106" title="{title}">
+        {! TODO: hover show title !}
+        <div class="help-text">
+        {title}
+        </div>
+      </li>
+      {/buildings}
+    </ul>
+  </div>
+
+
+  <center>
+    <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
+    <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
+  </center>
 </form>
 
 <!-- Modal -->
@@ -168,12 +164,17 @@ $(function() {
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <div style="clear:both;height:10px;"></div>
-</div>
 <script>
-var game_sort_tries = {game.game_sort_tries}+0;
-var num_tried = 0;
 
 $(window).ready(function(){
+  var game_sort_tries = {game.game_sort_tries}+0;
+  var num_tried = 0;
+
+  $( "ul.droptrue" ).sortable({
+    connectWith: "ul"
+  });
+  $("#sortablel").sortable();
+  $( "#sortablebot, #sortabletop" ).disableSelection();
 
 
   $('#tryagain').click(function(){
