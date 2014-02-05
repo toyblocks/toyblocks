@@ -21,11 +21,11 @@
   position: absolute;
 }
 
-.remove {
+.glyphicon-remove {
   color: #d44950;
 }
 
-.add {
+.glyphicon-ok, .glyphicon-plus {
   color: #4cae4c;
 }
 
@@ -37,57 +37,152 @@
   display: inline;
 }
 
-</style>
+#tryagain {
+  display: none;
+}
 
+</style>
+<div class="row">
 <div class="col-sm-5">
-  <form>
+  <h2 class="text-center">Zusammensetzung</h2>
+  <form id="assemblyform">
+    <input type="hidden" name="gameid" value="{game._id}">
     <ol class="well list-group" id="assembly">
     </ol>
   </form>
 </div>
 
 <div class="col-sm-5 col-sm-offset-2">
-    <ul class="well list-group" id="elements">
-    {#buildingparts}
-      <li data-id="{_id}" class="list-group-item">
-        <input type="hidden" name="sortings[]" value="{_id}" />
-        <img src="/ressources/image?id={image}&amp;width=300" title="{title}">
-        <span class="pull-right remove glyphicon glyphicon-remove"></span>
-        <span class="pull-right add glyphicon glyphicon-plus"></span>
-      </li>
-    {/buildingparts}
-    </ul>
-  </div>
+  <h2 class="text-center elements">Bauteile</h2>
+  <ul class="well list-group" id="elements">
+  {#buildingparts}
+    <li data-id="{_id}" class="list-group-item">
+      <input type="hidden" name="sortings[]" value="{_id}" />
+      <img src="/ressources/image?id={image}&amp;width=300" title="{title}">
+      <span class="pull-right remove glyphicon glyphicon-remove"></span>
+      <span class="pull-right add glyphicon glyphicon-plus"></span>
+  </li>
+  {/buildingparts}
+  </ul>
+</div>
+</div>
+<div class="row">
+  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
+  <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
+</div>
+<br>
 
-
-
+<!-- Modal -->
+<div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Richtig</h4>
+      </div>
+      <div class="modal-body">
+        Ihre Lösung ist korrekt!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script>
 
 $(window).ready(function() {
+
+  // sortable initialization
   $('#sortablebot, #sortabletop').disableSelection();
   $('#assembly').sortable();
 
+  // bindings for remove and add buttons
   var initBindings = function() {
     $('#elements li').off().on('click', elementsBinding);
     $('#assembly li').off().on('click', assemblyBinding);
   };
-
   var elementsBinding = function(e) {
     e.preventDefault();
     $(this).prependTo('#assembly');
     $("#assembly").closest('li').sortable('refresh');
     initBindings();
   };
-
   var assemblyBinding = function(e) {
     e.preventDefault();
     $(this).closest('li').prependTo('#elements');
     $('#assembly').sortable('refresh');
     initBindings();
   };
-
   initBindings();
+
+
+  // submit
+$('#tryagain').click(function(){
+    location.reload();
+});
+
+$('#submit').click(function(){
+
+  {! TODO: gameparam: number of tries !}
+
+  var $button = $(this);
+
+  var serialized = $('#assemblyform').serialize().split("&").reverse().join("&");
+  $.post('check-sorting', serialized, function(data) {
+    console.log(data.solution)
+    // if error from server (i.e. wrong count of submitted elements)
+    if(data.error) {
+      // show modal 'not enough elements'
+      $('#checkModal .modal-title').text('Fehler');
+      $('#checkModal .modal-body').text(data.error);
+      $('#checkModal').modal();
+    } else {
+      // disable button, sortable and hover buttons
+      $button.prop('disabled', true);
+      $('#assembly').sortable('disable');
+      $('#elements li, #assembly li').off();
+
+      // remove all unused elements in #elements
+      $('#elements li').remove();
+
+      // show solution image in #elements
+      $('<img>').attr('src', '/ressources/image?id=' + data.solution).appendTo($('#elements'));
+
+      // change heading
+      $('h2.elements').text('Lösungsbild');
+
+      // mark wrong/right elements
+      showCorrection(data.order);
+      $('#tryagain').show();
+
+      if(data.correct) {
+        $('#checkModal .modal-title').text('Richtig!');
+        $('#checkModal .modal-body').text('Ihre Lösung ist korrekt!');
+        $('#checkModal').modal();
+      } else {
+        $('#checkModal .modal-title').text('Falsch!');
+        $('#checkModal .modal-body').text('Ihre Lösung ist leider falsch.');
+        $('#checkModal').modal();
+      }
+    }
+  });
+});
+
+function showCorrection(order) {
+    $('#assembly li').each(function(index, element){
+      // remove hover buttons
+      $('.remove, .add').hide();
+
+      if (order[index]) {
+        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
+      }
+      else {
+        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
+      }
+    });
+  }
 
 });
 

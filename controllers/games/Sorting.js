@@ -1,3 +1,5 @@
+'use strict';
+
 var GamesController = require('../Games'),
   attributeModel = require('../../models/Attribute');
 
@@ -21,6 +23,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .toArray(function(err, sortGames){
         _this.view.render({
           title: 'Sortier Spiele',
+          route: '/games/sorting',
           sortGames: sortGames
         });
       });
@@ -40,6 +43,7 @@ module.exports.prototype = GamesController.prototype.extend({
         _this.renderGame(game, function(err, buildings){
           _this.view.render({
             title: "Sortierspiel",
+            route: '/games/sorting',
             game: game,
             buildings: buildings
           });
@@ -60,7 +64,8 @@ module.exports.prototype = GamesController.prototype.extend({
       .nextObject(function(err, game) {
         _this.renderGame(game, function(err, buildings){
           _this.view.render({
-            title: "Sortierspiel",
+            title: 'Sortierspiel',
+            route: '/games/sorting',
             game: game,
             buildings: buildings
           });
@@ -73,7 +78,7 @@ module.exports.prototype = GamesController.prototype.extend({
 // @param game           - information about the current game
 // @param renderCallback - the callback to call after we got the buildings
   renderGame: function(game, renderCallback) {
-    var buildingLimit = game.limit || 10;
+    var buildingLimit = game.limit || 7;
     if (game.era && game.era.length > 0) {
       //filter buildings by era
       this.mongodb

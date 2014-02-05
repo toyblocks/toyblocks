@@ -1,3 +1,5 @@
+'use strict';
+
 var GamesController = require('../Games');
 
 module.exports = function () {
@@ -37,6 +39,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .find({_id: this.mongo.ObjectID(this.request.param('id'))})
       .nextObject(function(err, game) {
         _this.renderGame(game, function(err, buildingParts){
+          console.log(buildingParts);
           _this.view.render({
             title: 'Zusammensetzen-Spiele',
             route: '/games/assemble',
@@ -55,8 +58,9 @@ module.exports.prototype = GamesController.prototype.extend({
     var partsLimit = game.limit || 15;
     this.mongodb
       .collection('assemble_images')
-      .find({assemble_category: game.assemble_category/*, _random: {$near: [Math.random(), 0]}*/})
-      // .limit(partsLimit)
+      .find({assemble_category: game.assemble_category,
+        _random: {$near: [Math.random(), 0]}
+      }).limit(partsLimit)
       .toArray(renderCallback);
   },
 
@@ -68,67 +72,43 @@ module.exports.prototype = GamesController.prototype.extend({
   checkSortingAction: function() {
     var _this = this;
     this.mongodb
-      .collection('sorting_games')
+      .collection('assemble_games')
       .find({_id: this.mongo.ObjectID(this.request.param('gameid'))})
       .nextObject(function(err, game) {
+        console.log(game);
         // first we got the game params
-
         _this.mongodb
-          .collection('attributes')
-          .find({name: 'era'})
-          .nextObject(function(err, attribute) {
+          .collection('assemble_images')
+          .find({assemble_category: game.assemble_category})
+          .toArray(function(err, images) {
             // got the era attribute with correct sorting of eras
+            console.log(images);
+            var sortIDs = _this.request.param('sortings');
+            console.log(sortIDs);
 
-            var sortIds = _this.request.param('sortings'),
-              eras = attribute.values,
-              sortedBuildings = {};
-            for (var i = 0; i < sortIds.length; i++) {
-              // we have to cast the mongo ids for the db-request
-              sortIds[i] = _this.mongo.ObjectID(sortIds[i]);
-              sortedBuildings[sortIds[i]] = null;
-            }
+            // check for correct number of building elements submitted
 
-            _this.mongodb.collection('buildings')
-              .find({_id: {$in: sortIds}})
-              .toArray(function(err, buildings) {
-                // got all requested buildings, now calculate if sorting is right
-
-                var lastEraIndex = 0,
-                  lastCorrectBuilding = -1,
-                  correct = true;
-                // TODO:
-                // gameparam: show last right
-                // gameparam: show right solution
-                // gameparam: show only correct or false
-                // gameparam: num of possible tries
-
-                for (var i = 0; i < buildings.length; i++) {
-                  sortedBuildings[''+buildings[i]._id] = buildings[i];
-                }
-
-                var buildingIndex = 0;
-                for (var _id in sortedBuildings) {
-                  if (!sortedBuildings[_id])
-                    continue;
-
-                  // go through all buildings and check the index of era in era-array
-                  var buildingEraIndex = eras.indexOf(sortedBuildings[_id].era);
-
-                  if (buildingEraIndex < lastEraIndex) {
-                    correct = false;
-                    break;
-                  }
-                  lastEraIndex = buildingEraIndex;
-                  lastCorrectBuilding = buildingIndex;
-                  buildingIndex++;
-                }
-
-                // response with a json object
-                _this.response.json({
-                  correct: correct,
-                  lastCorrectBuilding: lastCorrectBuilding
-                });
+            if(images.length !== sortIDs.length) {
+              _this.response.json({
+                error: 'Nicht genug Elemente ausgewählt.'
               });
+              return;
+            }
+            var isElementCorrect = [];
+            var isSolutionCorrect = true;
+            for (var i = 0; i < images.length; i++) {
+              var index = images[i].assemble_order - 1;
+              var isCorrect = parseInt(images[i]._id, 16) ===
+                parseInt(sortIDs[index], 16);
+              isElementCorrect.unshift(isCorrect);
+              isSolutionCorrect = isSolutionCorrect && isCorrect;
+            };
+            _this.response.json({
+              correct: isSolutionCorrect,
+              order: isElementCorrect,
+              solution: game.image
+            });
+
           });
       });
   }

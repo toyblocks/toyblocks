@@ -26,7 +26,7 @@
             <li class="divider"></li>
             <li><a href="/games/sorting/">Sortierspiel</a></li>
             <li><a href="/games/missing/">Fehlstellen</a></li>
-            <li><a href="/games/assemble/">Zusammensetz</a></li>
+            <li><a href="/games/assemble/">Zusammensetzen</a></li>
             <li><a href="/games/multiplechoice/">MultipleChoice</a></li>
             <li class="divider"></li>
             <li class="dropdown-header">Daily Challenge</li>
@@ -34,7 +34,7 @@
             <li><a href="/games/daily/leaderboard">Rangliste</a></li>
           </ul>
         </li>
-        
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/index/error404">Kontakt</a></li>
