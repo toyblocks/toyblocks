@@ -1,8 +1,10 @@
+'use strict';
+
 var AdminController = require('../Admin'),
   attributeModel = require('../../models/Attribute');
 
 module.exports = function () {
-  
+
 };
 module.exports.prototype = AdminController.prototype.extend({
   name: 'attributes',

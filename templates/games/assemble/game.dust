@@ -58,7 +58,7 @@
   {#buildingparts}
     <li data-id="{_id}" class="list-group-item">
       <input type="hidden" name="sortings[]" value="{_id}" />
-      <img src="/ressources/image?id={image}&amp;width=300" title="{title}">
+      <img src="/ressources/image?id={image}&amp;size=large" title="{title}">
       <span class="pull-right remove glyphicon glyphicon-remove"></span>
       <span class="pull-right add glyphicon glyphicon-plus"></span>
   </li>

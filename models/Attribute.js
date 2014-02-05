@@ -1,3 +1,5 @@
+'use strict';
+
 var BaseModel = require('./Base'),
 	base = new BaseModel();
 

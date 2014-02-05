@@ -1,7 +1,9 @@
+'use strict';
+
 var BaseController = require('../Admin');
 
 module.exports = function () {
-  
+
 };
 module.exports.prototype = BaseController.prototype.extend({
   name: 'pictures',

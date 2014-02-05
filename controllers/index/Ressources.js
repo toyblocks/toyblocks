@@ -1,3 +1,5 @@
+'use strict';
+
 var BaseController = require('../Base'),
   gm = require('gm');
 

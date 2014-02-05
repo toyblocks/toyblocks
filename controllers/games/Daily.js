@@ -1,3 +1,5 @@
+'use strict';
+
 var GamesController = require('../Games'),
 attributeModel = require('../../models/Attribute');
 
@@ -76,13 +78,13 @@ module.exports.prototype = GamesController.prototype.extend({
     console.log("generating Daily Game")
     var missing = _this.mongodb.collection('missingparts_games').find({}).toArray(function(err, data) {
       for (var i = data.length - 1; i >= 0; i--) {
-        console.log("missingparts_games - " + data[i].title);  
-      };    
+        console.log("missingparts_games - " + data[i].title);
+      };
     });
 
     sorting = _this.mongodb.collection('sorting_games').find().toArray(function(err, data) {
       for (var i = data.length - 1; i >= 0; i--) {
-        console.log("sorting_games - " + data[i].title);  
+        console.log("sorting_games - " + data[i].title);
       };
     });
   },
