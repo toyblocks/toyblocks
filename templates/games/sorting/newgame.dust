@@ -1,21 +1,22 @@
 {>"layout/layout.dust"/}
-
 {<content}
 <style type="text/css">
 
+/* Glyhicon Stuff */
 #sortabletop li .glyphicon {
-{! FIXME: position abosulte doesnt work for glyphicon!}
-  //position: absolute;
+  position: absolute;
   right: -8px;
   top: -8px;
   font-size:40px;
 }
-#sortabletop li .glyphicon { position: absolute; }
 #sortabletop li .glyphicon-ok { color: lime; }
 #sortabletop li .glyphicon-remove { color: red; }
+
+/* Tries Stuff */
 .tries-wrapper {display: none;}
 #tryagain {display: none;}
 
+/* Sorttable Stuff */
 #sortablebot, #sortabletop {
   list-style-type: none;
   margin: 0;
@@ -39,6 +40,10 @@
   -o-transition: color 0 ease-in;
   transition: none;
 }
+.description{
+  text-align: center;
+  font-size: 0.8em;
+}
 
 /* Timeline Stuff */
 .timeline-tag{
@@ -52,7 +57,6 @@
   position: absolute;
   bottom: -18px;
 }
-
 .timeline-tag.r{
   right: 15px;
   background: #0074D9;
@@ -61,68 +65,57 @@
   left: 15px;
   background: #001F3F;
 }
-
 .timeline{
   width: 90%;
   height: 30px;
   margin: 0 auto;
   background-image: linear-gradient(to right,#001F3F 0,#0074D9 100%);
 }
-
-.divider{
-  width: 100%;
-  height: 7px;
-  background: #DDD;
-  clear: both;
-}
-
-.help-text{
-  text-align: center;
-  font-size: 0.8em;
-}
 </style>
-<form id="sortingform">
+
+
+<div class="row">
+  <div class="col-sm-12">
+    <h3>{game.title}</h3>
+    <span class="help-block">Ordne die Gebäude nach ihren Epochen!</span>
+    <br>
+    <div class="timeline"></div>
+    <div class="timeline-tag l">Älteste</div>
+    <div class="timeline-tag r">Neuste</div>
+  </div>
+</div>
+<br>
+
+<div class="row">
+  <form id="sortingform">
   <input type="hidden" name="gameid" value="{game._id}">
+  <ul id="sortabletop" class="well droptrue"></ul>
+  </form>
+</div>
 
-  <div class="row">
-    <div class="col-sm-12">
-      <h3>{game.title}</h3>
-      <span class="help-block">Ordne die Gebäude nach ihren Epochen!</span>
-      <br>
-      <div class="timeline"></div>
-      <div class="timeline-tag l">Älteste</div>
-      <div class="timeline-tag r">Neuste</div>
-    </div>
-  </div>
-  <br>
+<br>
 
-  <div class="row">
-
-    <ul id="sortabletop" class="well droptrue"></ul>
-  </div>
-  <br>
-  <div class="row">
-
-    <ul id="sortablebot" class="well droptrue">
-      {#buildings}
-      <li data-id="{_id}" class="thumbnail">
-        <input type="hidden" name="sortings[]" value="{_id}">
-        <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
-        {! TODO: hover show title !}
-        <div class="help-text">
-        {title}
-        </div>
-      </li>
-      {/buildings}
-    </ul>
-  </div>
+<div class="row">
+  <ul id="sortablebot" class="well droptrue">
+    {#buildings}
+    <li data-id="{_id}" class="thumbnail">
+      <input type="hidden" name="sortings[]" value="{_id}">
+      <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
+      {! TODO: hover show title !}
+      <div class="description">
+      {title}
+      </div>
+    </li>
+    {/buildings}
+  </ul>
+</div>
 
 
-  <center>
-    <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
-    <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
-  </center>
-</form>
+<center>
+  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
+  <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
+</center>
+
 
 <!-- Modal -->
 <div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
