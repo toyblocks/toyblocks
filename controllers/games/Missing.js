@@ -66,16 +66,16 @@ module.exports.prototype = GamesController.prototype.extend({
     // filter buildings by category
     if (type) {
 
-        // TODO: add random and limit count of images?
+        // TODO: limit count of images and include correct one
       this.mongodb
         .collection('missingparts_images')
-        .find({category: type}) //, _random: {$near: [Math.random(), 0]}})
+        .find({category: type, _random: {$near: [Math.random(), 0]}})
         .toArray(renderCallback);
     }
     else {
 
       // should never happen
-      console.log('[FAIL]: missing game.category for missingparts game.id: ' +
+      console.error('[FAIL]: missing game.category for missingparts game.id: ' +
        game._id + ' - \ncheck the database for corrupt or missing data.');
       this.mongodb
         .collection('missingparts_images')
@@ -95,8 +95,8 @@ module.exports.prototype = GamesController.prototype.extend({
   checkSelectedAction: function() {
     var _this = this,
      result = _this.request.param('result'),
-     gameid = _this.request.param('gameid');
-
+     gameid = _this.request.param('gameid'),
+     sortIDs = _this.request.param('sortings');
     // get the game paramenters first
     _this.mongodb
     .collection('missingparts_games')
@@ -109,30 +109,37 @@ module.exports.prototype = GamesController.prototype.extend({
       .find( { category: game.category })
       .toArray(function(err, images) {
 
+        // return error if no image was selected
+        if(result < 0 || result > images.length){
+          _this.response.json({
+            error: 'Irgendwas ist schiefgegangen, versuchs nochmal.'
+          });
+          return;
+        }
+
         // lets see if the correct image is clicked
         var correctImageSelected = false,
-            correctImageNumber = -1;
-        for (var i = 0; i < images.length; i++) {
+            correctImageNumber = -1,
+            selected = sortIDs[result];
 
-          // TODO: we should not compare string names
-          // TODO: the db should have a reference to the img id
+        if(parseInt(selected,16) ===
+          parseInt(game.missingparts_correctimage[0],16)){
+          correctImageSelected = true;
+        }
 
-          // parse Strings and Numbers to prevent bugs
-          // and check them for equality
-          if(String(images[i].title) === String(game.correctpart)) {
-            if(Number(result) === Number(i)) {
-              correctImageSelected = true;
-            }
+        for (var i = 0; i < sortIDs.length; i++) {
+          if(parseInt(sortIDs[i],16) ===
+          parseInt(game.missingparts_correctimage[0],16)){
             correctImageNumber = i;
           }
         }
 
         // send the solution back to client
-
         _this.response.json( {
           correct: correctImageSelected,
-          correctBuilding: correctImageNumber
-        });
+          correctBuilding: correctImageNumber,
+          solution: game.image // TODO: add solution img, fix bug in frontend
+        });                    // TODO: cant have 2 img attr
       });
     });
   }

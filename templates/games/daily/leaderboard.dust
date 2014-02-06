@@ -6,6 +6,9 @@
   background-color: #3D9970;
   color:#eeeeee;
 }
+.yeahyoumadeitintothetop5 span:before{
+  content: "Du!";
+}
 </style>
 <!--<div class="col-md-5 col-sm-9">-->
 <div class="container">
@@ -15,7 +18,7 @@
     <div class="panel-heading">Die besten Spieler am {game.day}.{game.month}.{game.year}!</div>
 
     {?players}
-    <table class="table">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th>#</th>

@@ -60,7 +60,7 @@
           <ul id="selectable" class="list-unstyled" style="width:100%;">
             {#images}
             <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
-              <input type="hidden" name="selects[]" value="{_id}" />
+              <input type="hidden" name="sortings[]" value="{_id}" />
               <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
             </li>
             {/images}
