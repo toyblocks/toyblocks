@@ -1,7 +1,6 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<div class="container">
 <div class="col-md-4 col-sm-4">
   <h3>Fehlstellenspiele</h3>
   <div class="list-group">
@@ -9,6 +8,5 @@
     <a href="game?id={_id}" class="list-group-item">{title} <span class="badge">3 mal gespielt</span></a>
     {/data}
   </div>
-</div>
 </div>
 {/content}
