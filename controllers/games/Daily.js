@@ -61,7 +61,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.view.render({
       title: "DailyChallenge",
       game: game,
-      players: players2,
+      players: players,
       userid: 2
     })
   },

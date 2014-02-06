@@ -82,14 +82,14 @@ module.exports.prototype = GamesController.prototype.extend({
     if (game.era && game.era.length > 0) {
       //filter buildings by era
       this.mongodb
-        .collection('buildings')
+        .collection('sorting_buildings')
         .find({era: {$in: game.era}, _random: {$near: [Math.random(), 0]}})
         .limit(buildingLimit)
         .toArray(renderCallback);
     }
     else {
       this.mongodb
-        .collection('buildings')
+        .collection('sorting_buildings')
         .find({_random: {$near: [Math.random(), 0]}})
         .limit(buildingLimit)
         .toArray(renderCallback);
@@ -124,7 +124,7 @@ module.exports.prototype = GamesController.prototype.extend({
               sortedBuildings[sortIds[i]] = null;
             }
 
-            _this.mongodb.collection('buildings')
+            _this.mongodb.collection('sorting_buildings')
               .find({_id: {$in: sortIds}})
               .toArray(function(err, buildings) {
                 // got all requested buildings, now calculate if sorting is right
