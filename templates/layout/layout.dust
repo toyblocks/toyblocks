@@ -9,14 +9,14 @@
     <div id="page_container" class="container-fluid">
         {>"layout/sidebar"/}
         <div id="content">
-        <div class="container"> {! TODO: class container here or in every content page? !}
+        <div class="container">
         {+content}
         <div class="col-md-9 col-sm-9">
           <div class="jumbotron">
             <h1>Willkommen zu ToyBlocks!</h1>
             <p>Dies ist ein webbasiertes Lernspiel für Studenten des Fachbereichs Architektur an der Technischen Universität Darmstadt. 
               Entwickelt wird es von vier Informatik Studenten mithilfe von Nodejs, Bootstrap, Dust, MongoDB, jQuery und Kaffee.</p>
-            <p><a class="btn btn-primary btn-lg" role="button" href="/index/about">Erfahre mehr!</a></p>
+            <p><a class="btn btn-primary btn-lg" role="button" href="/index/error404">Erfahre mehr!</a></p>
           </div>
           <div class="row">
       <div class="col-sm-6 col-md-4">
