@@ -35,17 +35,55 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this;
 
-    this.mongodb
+    _this.mongodb
       .collection('multiplechoice_games')
-      .find({_id: this.mongo.ObjectID(this.request.param('id'))})
+      .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
       .nextObject(function(err, game) {
-        _this.renderGame(game, function(err, questions){
-          console.log(questions);
-          _this.view.render({
-            title: "Multiplechoice",
-            game: game,
-            questions: questions
-          });
+        _this.view.render({
+          title: "Multiplechoice",
+          game: game
+        });
+      });
+  },
+
+  questionAction: function() {
+    var _this = this;
+
+    //+ Jonas Raoni Soares Silva
+    //@ http://jsfromhell.com/array/shuffle [v1.0]
+    function shuffle(o){ //v1.0
+      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+      return o;
+    };
+
+    function hashString( str ){
+      var hash = 0, i, l, char;
+      if (str.length == 0) return hash;
+      for (i = 0, l = str.length; i < l; i++) {
+          char  = str.charCodeAt(i);
+          hash  = ((hash<<5)-hash)+char;
+          hash |= 0; // Convert to 32bit integer
+      }
+      return hash;
+    };
+
+    _this.mongodb
+      .collection('multiplechoice_questions')
+      .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
+      .nextObject(function(err, question) {
+        console.log(question);
+        var answers = question.multiplechoice_answer_right.concat(question.multiplechoice_answer_wrong),
+          right_answers = question.multiplechoice_answer_right;
+        answers = shuffle(answers);
+
+        for (var i in right_answers) {
+          right_answers[i] = hashString(right_answers[i]);
+        }
+
+        _this.view.render({
+          question: question,
+          answers: answers,
+          right_answers: right_answers
         });
       });
   },
@@ -55,8 +93,13 @@ module.exports.prototype = GamesController.prototype.extend({
 // @param game           - information about the current game
 // @param renderCallback - the callback to call after we got the questions
   renderGame: function(game, renderCallback) {
-    var _this = this;
+    var _this = this,
+      references;
     //get all question for this game
+    for (ref in game.multiplechoice_question_reference) {
+
+    }
+
     _this.mongodb
       .collection('multiplechoice_questions')
       .find({_id: {$in: game.multiplechoice_question_reference}, _random: {$near: [Math.random(), 0]}})
