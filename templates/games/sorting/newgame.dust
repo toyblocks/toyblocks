@@ -55,18 +55,18 @@
 
 .timeline-tag.r{
   right: 15px;
-  background: #2ECC40;
+  background: #0074D9;
 }
 .timeline-tag.l{
   left: 15px;
-  background: #3D9970;
+  background: #001F3F;
 }
 
 .timeline{
   width: 90%;
   height: 30px;
   margin: 0 auto;
-  background-image: linear-gradient(to right,#3D9970 0,#2ECC40 100%);
+  background-image: linear-gradient(to right,#001F3F 0,#0074D9 100%);
 }
 
 .divider{
