@@ -29,6 +29,7 @@
 #sortablebot li, #sortabletop li {
   position: relative;
   display: inline-block;
+  vertical-align: top;
   margin: 5px;
   padding: 5px;
   font-size: 1.2em;
@@ -76,9 +77,8 @@
 }
 
 .help-text{
-  padding: 1px!;
   text-align: center;
-  font-size: 1em;
+  font-size: 0.8em;
 }
 </style>
 <form id="sortingform">
