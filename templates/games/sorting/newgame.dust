@@ -29,6 +29,7 @@
 #sortablebot li, #sortabletop li {
   position: relative;
   display: inline-block;
+  vertical-align: top;
   margin: 5px;
   padding: 5px;
   font-size: 1.2em;
