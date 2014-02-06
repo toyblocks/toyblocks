@@ -76,9 +76,8 @@
 }
 
 .help-text{
-  padding: 1px!;
   text-align: center;
-  font-size: 1em;
+  font-size: 0.8em;
 }
 </style>
 <form id="sortingform">
