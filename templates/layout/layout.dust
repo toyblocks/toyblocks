@@ -6,13 +6,13 @@
 {>"layout/header"/}
   <body>
     <div id="page_container" class="container-fluid">
-{>"layout/sidebar"/}
-        <div id="content">
+{>"layout/navbar"/}
+      <div id="content">
         <div class="container">
 {+content}
 {>"layout/mainpage"/}
 {/content}
-      </div>
+        </div>
       </div>
     </div>
 {>"layout/footer"/}
