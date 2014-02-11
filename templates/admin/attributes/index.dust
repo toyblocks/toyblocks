@@ -5,11 +5,11 @@
 #enumsList .delete-enum { cursor: pointer; }
 #enumsList li { cursor: move; }
 </style>
-<div class="col-md-8 col-sm-4">
+<div class="col-md-12 col-sm-12">
   <h3>Attribute Übersicht</h3>
   <a href="javascript:$('#create_attribute').toggle()">Neues Attribut erstellen</a>
   <div class="row">
-    <div class="col-sm-8 col-md-8">
+    <div class="col-sm-12 col-md-12">
       <form class="form-horizontal" id="create_attribute" action="/admin/attributes/create" role="form" method="post" style="display:none; margin-bottom:30px;">
         <div class="form-group">
           <label class="col-sm-2 control-label" for="attribute_name">Name</label>
