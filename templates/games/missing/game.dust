@@ -30,11 +30,6 @@
 #selectable .glyphicon-ok { color: lime; z-index: 999}
 #selectable .glyphicon-remove { color: red; z-index: 999}
 
-.input_hidden {
-    position: absolute;
-    left: -9999px;
-}
-
 .box{
   position: relative;
 }
@@ -75,11 +70,11 @@
   <h4>{game.title}</h4>
   <span class="help-block">Finde das fehlende Bauteil!</span>
   <form id="gameform">
-    <input type="hidden" name="gameid" value="{game._id}" />
+    <input type="hidden" name="gameid" value="{game._id}">
     <div id="selectable" class="col-md-4">
       {#images}
       <label class="box" for="{_id}">
-        <input type="radio" name="sortings" id="{_id}" value="{_id}" />
+        <input type="radio" name="sortings" id="{_id}" value="{_id}" class="hidden">
         <div class="inner">
           <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
         </div>
@@ -140,7 +135,6 @@
 <script>
 $(window).ready(function(){
   /* radio button stuff */
-  $('#selectable input:radio').addClass('input_hidden');
   $('#selectable .box').click(function() {
       $(this).addClass('selected').siblings().removeClass('selected');
   });
@@ -185,7 +179,9 @@ $(window).ready(function(){
   /* shows the correct solution image */
   function showSolutionImage(solutionId) {
     $('.modal-body').each(function(index){
-      $(this).append('<img src="/ressources/image?id=' + solutionId + '">');
+      $(this).append('<br><a href="/ressources/image?id=' +
+       solutionId + '&amp;size=large"><img src="/ressources/image?id=' +
+        solutionId + '&amp;size=middle"></a>');
     });
   };
 

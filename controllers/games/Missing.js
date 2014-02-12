@@ -61,7 +61,7 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Array> images in Callback //FIXME: what is the type of a callback?
   */
   renderGame: function(game, renderCallback) {
-    var type = game.category;
+    var type = game.missingparts_category;
 
     // filter buildings by category
     if (type) {
@@ -69,13 +69,13 @@ module.exports.prototype = GamesController.prototype.extend({
         // TODO: limit count of images and include correct one
       this.mongodb
         .collection('missingparts_images')
-        .find({category: type, _random: {$near: [Math.random(), 0]}})
+        .find({missingparts_category: type, _random: {$near: [Math.random(), 0]}})
         .toArray(renderCallback);
     }
     else {
 
       // should never happen
-      console.error('[FAIL]: missing game.category for missingparts game.id: ' +
+      console.error('[FAIL]: missing game.missingparts_category for missingparts game.id: ' +
        game._id + ' - \ncheck the database for corrupt or missing data.');
       this.mongodb
         .collection('missingparts_images')
@@ -110,7 +110,7 @@ module.exports.prototype = GamesController.prototype.extend({
       // get the image data now
       _this.mongodb
       .collection('missingparts_images')
-      .find( { category: game.category })
+      .find( { missingparts_category: game.missingparts_category })
       .toArray(function(err, images) {
 
         // lets see if the correct image is clicked
@@ -133,9 +133,8 @@ module.exports.prototype = GamesController.prototype.extend({
         _this.response.json( {
           correct: correctImageSelected,
           correctBuilding: correctImageId,
-          solutionImage: result //game.image
-          // TODO: add solution img, fix bug in frontend
-        });// TODO: cant have 2 img attr
+          solutionImage: game.missingparts_solutionimage
+        });
       });
     });
   }
