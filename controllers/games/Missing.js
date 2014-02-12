@@ -94,9 +94,13 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   checkSelectedAction: function() {
     var _this = this,
-     result = _this.request.param('result'),
-     gameid = _this.request.param('gameid'),
-     sortIDs = _this.request.param('sortings');
+    gameid = _this.request.param('gameid'),
+    result = _this.request.param('sortings');
+
+    if(result === undefined){
+      _this.response.json({error:'Error'});
+      return;
+    }
     // get the game paramenters first
     _this.mongodb
     .collection('missingparts_games')
@@ -109,37 +113,29 @@ module.exports.prototype = GamesController.prototype.extend({
       .find( { category: game.category })
       .toArray(function(err, images) {
 
-        // return error if no image was selected
-        if(result < 0 || result > images.length){
-          _this.response.json({
-            error: 'Irgendwas ist schiefgegangen, versuchs nochmal.'
-          });
-          return;
-        }
-
         // lets see if the correct image is clicked
         var correctImageSelected = false,
-            correctImageNumber = -1,
-            selected = sortIDs[result];
+            correctImageId = game.missingparts_correctimage[0];
 
-        if(parseInt(selected,16) ===
-          parseInt(game.missingparts_correctimage[0],16)){
+        if(parseInt(result,16) ===
+          parseInt(correctImageId,16)){
           correctImageSelected = true;
         }
-
-        for (var i = 0; i < sortIDs.length; i++) {
+/*
+        for (var i = 0; i < images.length; i++) {
           if(parseInt(sortIDs[i],16) ===
           parseInt(game.missingparts_correctimage[0],16)){
-            correctImageNumber = i;
+            correctImageId = i;
           }
-        }
+        }*/
 
         // send the solution back to client
         _this.response.json( {
           correct: correctImageSelected,
-          correctBuilding: correctImageNumber,
-          solution: game.image // TODO: add solution img, fix bug in frontend
-        });                    // TODO: cant have 2 img attr
+          correctBuilding: correctImageId,
+          solutionImage: result //game.image
+          // TODO: add solution img, fix bug in frontend
+        });// TODO: cant have 2 img attr
       });
     });
   }

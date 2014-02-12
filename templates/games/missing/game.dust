@@ -2,84 +2,103 @@
 
 {<content}
 <style type="text/css">
-#selectable li {
-  float: left;
-  width: 130px;
+#selectable img{
+  width: auto;
   height: 130px;
-  margin-right:10px;
-  margin-bottom: 0px;
+  margin: 6px;
   padding: 0px;
-  overflow: hidden;
+  max-width: 400px;
+  display: block;
   position: relative;
+  left: -50%;
 }
-#selectable li .glyphicon {
+.inner {
+    float: left;
+    position: relative;
+    left: 50%;
+}
+#selectable .glyphicon {
   position: absolute;
-  right: -8px;
-  top: -8px;
+  right: 4px;
+  top: 6px;
   font-size:40px;
 }
-#selectable .ui-selecting {
-  background: #ff4136;
-}
-#selectable .ui-selected {
-  background: #ff4136;
-  border: 1px solid black;
-}
-#mainimage {
-  display: block;
-  height: auto;
-  margin-left: auto;
-  margin-right: auto;
-  vertical-align: middle;
-  max-width: 400px;
-  max-height: 400px;
-}
 #thebigbadimage {
-  max-width: 500px;
   width: 500px;
 }
-#selectable li .glyphicon-ok { color: lime; z-index: 999}
-#selectable li .glyphicon-remove { color: red; z-index: 999}
-//#selectable li img { max-width:110px; max-height: 110px;}
-#tryagain {display: none;}
+
+#selectable .glyphicon-ok { color: lime; z-index: 999}
+#selectable .glyphicon-remove { color: red; z-index: 999}
+
+.input_hidden {
+    position: absolute;
+    left: -9999px;
+}
+
+.box{
+  position: relative;
+}
+.selected {
+    background-color: #0074D9 !important;
+}
+
+.selected:hover {
+    background-color: #0074D9 !important;
+}
+
+#selectable .box {
+  display: block;
+  cursor: pointer;
+  width: 300px;
+  border: 1px solid red;
+  overflow: hidden;
+  *position: relative;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}
+
+#selectable .box:hover {
+    background-color: #39CCCC;
+}
+#submit{
+  clear:left;
+  margin-right: 10px;
+}
+
 </style>
 
 
 
-<div class="container">
-<div class="col-md-4 col-sm-9">
-  <h3>{game.title}</h3>
+<div class="col-md-12">
+  <h4>{game.title}</h4>
   <span class="help-block">Finde das fehlende Bauteil!</span>
-  <form id="selectform">
+  <form id="gameform">
     <input type="hidden" name="gameid" value="{game._id}" />
+    <div id="selectable" class="col-md-4">
+      {#images}
+      <label class="box" for="{_id}">
+        <input type="radio" name="sortings" id="{_id}" value="{_id}" />
+        <div class="inner">
+          <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
+        </div>
+      </label>
+      {/images}
+    </div>
+    <div class="col-md-5 well" style="width: 540px;">
+      <img id="thebigbadimage" src="/ressources/image?id={game.image}&amp;size=large" title="{game.title}">
+    </div>
 
-    <table class="table table-bordered table-striped">
-      <tbody>
-       <tr>
-         <td>
-          <ul id="selectable" class="list-unstyled" style="width:100%;">
-            {#images}
-            <li data-id="{_id}" class="thumbnail" style="-moz-transition: none;-webkit-transition: none;-o-transition: color 0 ease-in;transition: none;">
-              <input type="hidden" name="sortings[]" value="{_id}" />
-              <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
-            </li>
-            {/images}
-          </ul>
-        </td>
-        <td>
+    <div style="clear:both;height:10px;"></div>
+    <button id="submit" type="button" class="btn btn-primary">Lösung senden</button>
+    <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
+    <div style="clear:both;height:10px;"></div>
 
-          <img id="thebigbadimage" src="/ressources/image?id={game.image}&amp;size=large" title="{game.title}">
-          
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div style="clear:both;height:10px;"></div>
-  <input type="hidden" id="resultjs" name="result" value="-1"/>
-  <button id="submit" type="button" class="btn btn-primary" style="clear:left; margin-right: 10px;">Lösung senden</button>
-  <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
-  <div style="clear:both;height:10px;"></div>
-</form>
+  </form>
+</div><!-- div class="col-md-12" -->
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="modalLabelCorrect" aria-hidden="true">
@@ -117,73 +136,64 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-</div><!-- div class="col-md-1 col-sm-7" -->
 
-</div>
 <script>
-
 $(window).ready(function(){
-  $(function() {
-    $('button').prop('disabled', true);
-    $( "#selectable" ).selectable();
-    $( "#selectable" ).disableSelection();
+  /* radio button stuff */
+  $('#selectable input:radio').addClass('input_hidden');
+  $('#selectable .box').click(function() {
+      $(this).addClass('selected').siblings().removeClass('selected');
   });
 
+  /* try again stuff */
   $('#tryagain').click(function(){
     location.reload();
   });
 
+  /* POST request */
   $('#submit').click(function(){
     $(this).prop('disabled', true);
-    $('#selectable').selectable('disable');
-    var serialized = $('#selectform').serialize();
 
-    $.post('check-selected', serialized, function(data) {
+    // get all form elements
+    var serialize = $('#gameform').serialize();
+    $.post('check-selected', serialize, function(data) {
       if (data.correct) {
         $('#checkModalCorrect').modal();
       }
       else {
         $('#checkModalWrong').modal();
       }
-      console.log(data);
       showCorrection(data.correctBuilding);
+      showSolutionImage(data.solutionImage);
       $('#tryagain').show();
     });
   });
   $(".alert").alert();
 
+  /* shows the correct img selection */
   function showCorrection(correctId) {
-    console.log("enter showCorrection");
-    $('#selectable li').each(function(index){
-      console.log("appending - " + index + " - " + correctId);
-      if (index ==  correctId) {
+    $('#selectable label').each(function(){
+      if (correctId === $(this).context.htmlFor) {
         $(this).append('<span class="glyphicon glyphicon-ok"></span>');
       }
       else {
         $(this).append('<span class="glyphicon glyphicon-remove"></span>');
       }
     });
-  }
+  };
 
+  /* shows the correct solution image */
+  function showSolutionImage(solutionId) {
+    $('.modal-body').each(function(index){
+      $(this).append('<img src="/ressources/image?id=' + solutionId + '">');
+    });
+  };
+
+  /* removes that damn glypicons again */
   function removeCorrection() {
     $('#selectable').remove('.glyphicon');
-  }
+  };
 
 });
-$(function () {
-  $('#selectable').selectable({
-    selected: function (event, ui) {
-      $('button').prop('disabled', false);
-      $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
-      var index = $( "#selectable li" ).index(ui.selected);
-      if(-1 == index){ 
-        return;
-      }
-      document.getElementById("resultjs").value = index;
-    }
-  });
-  
-});
-
 </script>
 {/content}
