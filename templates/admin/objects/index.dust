@@ -2,12 +2,6 @@
 
 {<content}
 
-<ol class="breadcrumb">
-  <li><a href="/">Home</a></li>
-  <li>Administration</li>
-  <li class="active">Objekte</li>
-</ol>
-
 <div class="col-md-12 col-sm-12">
   <h3>Objekte Übersicht</h3>
   <a href="javascript:$('#create_type').toggle()">Neuen Typ erstellen</a>
