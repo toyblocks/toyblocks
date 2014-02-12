@@ -5,6 +5,9 @@
 #enumsList .delete-enum { cursor: pointer; }
 #enumsList li { cursor: move; }
 </style>
+<<<<<<< HEAD
+<div class="col-md-12 col-sm-12">
+=======
 
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
@@ -12,7 +15,8 @@
   <li class="active">Attribute</li>
 </ol>
 
-<div class="col-md-12 col-sm-12">
+<div class="col-md-8 col-sm-4">
+>>>>>>> ffcaad760d26e22aeb61ff95e8835d4d2a05edfa
   <h3>Attribute Übersicht</h3>
   <a href="javascript:$('#create_attribute').toggle()">Neues Attribut erstellen</a>
   <div class="row">

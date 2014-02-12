@@ -1,6 +1,11 @@
 {>"layout/layout.dust"/}
 
 {<content}
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">Spiele</li>
+</ol>
+
 <div class="col-md-4 col-sm-4">
   <h3>Alle Spiele</h3>
   <div class="list-group">
