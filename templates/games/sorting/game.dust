@@ -112,7 +112,8 @@
 
 
 <center>
-  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
+  
+  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;"><span class="glyphicon glyphicon-record"></span>Lösung senden</button>
   <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
 </center>
 
