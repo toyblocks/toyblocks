@@ -1,6 +1,13 @@
 {>"layout/layout.dust"/}
 
 {<content}
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li>Administration</li>
+  <li class="active">Objekte</li>
+</ol>
+
 <div class="col-md-8 col-sm-8">
   <h3>Objekte Übersicht</h3>
   <a href="javascript:$('#create_type').toggle()">Neuen Typ erstellen</a>

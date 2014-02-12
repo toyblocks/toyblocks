@@ -12,7 +12,9 @@
     <img src="/ressources/image?id={image}&amp;size=middle">
   </div>
   <div class="panel panel-default col-md-6">
-    {article|s}
+    <div class="panel-body">
+      {article|s}
+    </div>
   </div>
 </div>
 {/content}

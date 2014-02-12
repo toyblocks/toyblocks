@@ -5,6 +5,13 @@
 #enumsList .delete-enum { cursor: pointer; }
 #enumsList li { cursor: move; }
 </style>
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li>Administration</li>
+  <li class="active">Attribute</li>
+</ol>
+
 <div class="col-md-8 col-sm-4">
   <h3>Attribute Übersicht</h3>
   <a href="javascript:$('#create_attribute').toggle()">Neues Attribut erstellen</a>
