@@ -15,9 +15,14 @@
         {! TODO: überall das hinzufügen für active {@eq key=route value="/sortbuildings"}class="active"{/eq} !}
         {! TODO: überall die route übergeben !}
         <li {@eq key=route value="/"}class="active"{/eq}><a href="/">Home</a></li>
-        <li><a href="/admin/">Admin</a></li>
-        <li><a href="/admin/objects">Objekte</a></li>
-        <li><a href="/admin/attributes">Attribute</a></li>
+
+        <li class="dropdown {@eq key=route value="/admin"}active{/eq}">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/admin/objects">Objekte</a></li>
+            <li><a href="/admin/attributes">Attribute</a></li>
+          </ul>
+        </li>
 
         <li class="dropdown {@eq key=route value="/games"}active{/eq}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Spiele <b class="caret"></b></a>
@@ -34,6 +39,8 @@
             <li><a href="/games/daily/leaderboard">Rangliste</a></li>
           </ul>
         </li>
+
+        <li {@eq key=route value="/encyclopedia"}class="active"{/eq}><a href="/encyclopedia">Enzyklopädie</a></li>
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
