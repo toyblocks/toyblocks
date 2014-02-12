@@ -66,14 +66,11 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   * @return <String> image
   */
   articleAction: function() {
-    console.log('articleAction');
     var _this = this;
-    console.log(this.request.param('id'));
     this.mongodb
     .collection('encyclopedia_articles')
     .find({_id: this.mongo.ObjectID(this.request.param('id'))})
     .nextObject(function(err, article) {
-      console.log(article);
       _this.view.render({
         title: 'Enzyklopädie - ' + article.title,
         article: article.article_body,
