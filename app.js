@@ -93,7 +93,7 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
                 if(config.mode != 'development')
                   throw e;
                 // send 404 if not
-                res.status(404).send('404 - Page not found');
+                res.render('error404', {title: 'Seite nicht gefunden'});
                 return;
               }
               else {
@@ -107,7 +107,17 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
         }
         var controllerInstance = new controllerClass;
         controllerInstance.init(req, res, next);
-        controllerInstance.run(action.toLowerCase());
+        try {
+          controllerInstance.run(action.toLowerCase());
+        }
+        catch (e) {
+          if (e.code === 'ACTION_NOT_FOUND') {
+            res.render('error404', {title: 'Action nicht gefunden'});
+          }
+          else {
+            throw e;
+          }
+        }
       });
 
       http.createServer(app).listen(app.get('port'), function(){

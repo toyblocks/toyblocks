@@ -1,7 +1,8 @@
 'use strict';
 
-module.exports = function(response) {
-  this.response = response;
+module.exports = function(controller) {
+  this.response = controller.response;
+  this.controller = controller;
 };
 module.exports.prototype = {
   onlyContent: false,
@@ -16,6 +17,9 @@ module.exports.prototype = {
   },
   render: function(data) {
     data._viewOnlyContent = this.onlyContent;
+    data._area = this.controller.area;
+    data._controller = this.controller.name;
+    data._action = this.controller.action;
     if(this.response && this.template && !this.disabled) {
       this.response.render(this.template, data);
     }
