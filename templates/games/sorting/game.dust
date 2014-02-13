@@ -44,6 +44,9 @@
   text-align: center;
   font-size: 0.8em;
 }
+.asd{
+  height: 240px;
+}
 
 /* Timeline Stuff */
 .timeline-tag{
@@ -87,33 +90,55 @@
 <br>
 
 <div class="row">
-  <form id="sortingform">
-  <input type="hidden" name="gameid" value="{game._id}">
-  <ul id="sortabletop" class="well droptrue"></ul>
-  </form>
-</div>
-
-<br>
-
-<div class="row">
-  <ul id="sortablebot" class="well droptrue">
+  <ul id="sortabletop" class="well droptrue ui-sortable">
     {#buildings}
-    <li data-id="{_id}" class="thumbnail">
-      <input type="hidden" name="sortings[]" value="{_id}">
-      <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
-      {! TODO: hover show title !}
-      <div class="description">
-      {title}
+    <li data-id="{_id}" class="asd">
+      <div class="thumbnail">
+        <input type="hidden" name="sortings[]" value="{_id}">
+        <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
+        {! TODO: hover show title !}
+        <div class="description">
+        {title}
+        </div>
       </div>
     </li>
     {/buildings}
   </ul>
 </div>
 
+<!--
+  {! TODO remove: old double layout, got a drag&drop bug in jquery !}
+<div class="row">
+  <form id="sortingform">
+  <input type="hidden" name="gameid" value="{game._id}">
+  <ul id="sortabletop" class="well droptrue ui-sortable">
+  </ul>
+  </form>
+</div>
+
+<br>
+
+<div class="row">
+  <ul id="sortablebot" class="well droptrue ui-sortable">
+    {#buildings}
+    <li data-id="{_id}" class="asd">
+      <div class="thumbnail">
+        <input type="hidden" name="sortings[]" value="{_id}">
+        <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
+        {! TODO: hover show title !}
+        <div class="description">
+        {title}
+        </div>
+      </div>
+    </li>
+    {/buildings}
+  </ul>
+</div>
+-->
 
 <center>
-  
-  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;"><span class="glyphicon glyphicon-record"></span>Lösung senden</button>
+  <br>
+  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;"><span class="glyphicon glyphicon-send"></span> Lösung senden</button>
   <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
 </center>
 
