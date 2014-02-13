@@ -2,6 +2,11 @@
 
 {<content}
 
+<style type="text/css">
+label .glyphicon {
+  font-size: 24px;
+}
+</style>
 <div class="col-md-12 col-sm-12">
 
 <ol class="breadcrumb">
@@ -39,7 +44,7 @@
           </div>
         </div>
         <div class="form-group type-attributes">
-          <label class="col-sm-2 control-label" for="type_attribute">Attribute <a href="" onclick="$(this).parents('.form-group').after($(this).parents('.form-group').clone());return false;">[+]</a></label>
+          <label class="col-sm-2 control-label" for="type_attribute">Attribute <a href="" onclick="$(this).parents('.form-group').after($(this).parents('.form-group').clone());return false;"><span class="glyphicon glyphicon-plus-sign"></span></a></label>
           <div class="col-sm-4">
             <select name="attributes[0][name]" id="type_attribute" class="form-control">
               {#attributes}
@@ -59,7 +64,7 @@
             </div>
             <div class="checkbox-inline">
               <label>
-                <a href="javascript:void(0)" onclick="$(this).parents('.form-group').remove();return false;">[-]</a>
+                <a href="javascript:void(0)" onclick="$(this).parents('.form-group').remove();return false;"><span class="glyphicon glyphicon-minus-sign"></span></a>
               </label>
             </div>
           </div>
