@@ -29,6 +29,9 @@
   color: #4cae4c;
 }
 
+#assembly li{
+  padding: 0px;
+}
 #assembly li:hover .remove {
   display: inline;
 }
@@ -57,7 +60,7 @@
   <ul class="well list-group" id="elements">
   {#buildingparts}
     <li data-id="{_id}" class="list-group-item">
-      <input type="hidden" name="sortings[]" value="{_id}" />
+      <input type="hidden" name="sortings[]" value="{_id}">
       <img src="/ressources/image?id={image}&amp;size=large" title="{title}">
       <span class="pull-right remove glyphicon glyphicon-remove"></span>
       <span class="pull-right add glyphicon glyphicon-plus"></span>
@@ -66,7 +69,8 @@
   </ul>
 </div>
 </div>
-<div class="row">
+<div class="row">   {! TODO: Implement controller-side session for user to get tries !}
+  <input type="hidden" id="tries" value="3"/>
   <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
   <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
 </div>
@@ -78,10 +82,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Richtig</h4>
+        <h4 class="modal-title" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
-        Ihre Lösung ist korrekt!
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -124,9 +128,6 @@ $('#tryagain').click(function(){
 });
 
 $('#submit').click(function(){
-
-  {! TODO: gameparam: number of tries !}
-
   var $button = $(this);
 
   var serialized = $('#assemblyform').serialize().split("&").reverse().join("&");
@@ -146,30 +147,35 @@ $('#submit').click(function(){
       // remove all unused elements in #elements
       $('#elements li').remove();
 
-      // show solution image in #elements
-      $('<img>').attr('src', '/ressources/image?id=' + data.solution).appendTo($('#elements'));
-
-      // change heading
-      $('h2.elements').text('Lösungsbild');
-
       // mark wrong/right elements
-      showCorrection(data.order);
       $('#tryagain').show();
+      showCorrection(data.order);
 
-      if(data.correct) {
+      // get tries
+      var tries = $('#tries').val();
+
+      if(data.correct){
         $('#checkModal .modal-title').text('Richtig!');
         $('#checkModal .modal-body').text('Ihre Lösung ist korrekt!');
-        $('#checkModal').modal();
-      } else {
+        showSolutionImage(data.solution);
+      }else{
         $('#checkModal .modal-title').text('Falsch!');
-        $('#checkModal .modal-body').text('Ihre Lösung ist leider falsch.');
-        $('#checkModal').modal();
+        $('#checkModal .modal-body').text('Ihre Lösung ist leider falsch. Du hast noch ' + tries + ' Versuche!');
+        if(parseInt(tries,10) === 0){
+          $('#checkModal .modal-title').text('Falsch!');
+          $('#checkModal .modal-body').text('Die Lösung wird aufgedeckt!');
+          showSolutionImage(data.solution);
+        }
+      } 
+      $('#checkModal').modal();
+        
+     
       }
     }
   });
 });
 
-function showCorrection(order) {
+  function showCorrection(order) {
     $('#assembly li').each(function(index, element){
       // remove hover buttons
       $('.remove, .add').hide();
@@ -181,6 +187,12 @@ function showCorrection(order) {
         $(this).append('<span class="glyphicon glyphicon-remove"></span>');
       }
     });
+  }
+  function showSolutionImage(img) {
+    // change heading
+    $('h2.elements').text('Lösungsbild');
+    // show solution image in #elements
+    $('<img>').attr('src', '/ressources/image?id=' + img).appendTo($('#elements'));
   }
 
 });

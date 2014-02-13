@@ -9,11 +9,12 @@ module.exports = function () {
 module.exports.prototype = GamesController.prototype.extend({
   name: 'assemble',
 
-// This Method is used for the game index page,
-// Collect the game data from the database and show it
-//
-// @return title - the title of the game
-// @return assembleGames - an array of Games
+/** This Method is used for the game index page,
+  * Collect the game data from the database and show it
+  *
+  * @return title - the title of the game
+  * @return assembleGames - an array of Games
+  */
   indexAction: function() {
     var _this = this;
     this.mongodb
@@ -27,18 +28,23 @@ module.exports.prototype = GamesController.prototype.extend({
       });
   },
 
-// This renders the main game
-//
-// @return game - information about the game, like title
-// @return buildingParts - an array of buildingParts to display for the template
+  /**
+   * This renders the main game
+   *
+   * @return game - information about the game, like title
+   * @return buildingParts - array of buildingParts to display for the template
+   */
   gameAction: function() {
-    var _this = this;
+    var _this = this,
+      id = this.request.param('id'),
+      level = parseInt(this.request.param('level'),10);
 
     this.mongodb
       .collection('assemble_games')
-      .find({_id: this.mongo.ObjectID(this.request.param('id'))})
+      .find({_id: this.mongo.ObjectID(id)})
       .nextObject(function(err, game) {
-        _this.renderGame(game, function(err, buildingParts){
+        _this.renderGame(game, level, function(err, buildingParts){
+          console.log(buildingParts);
           _this.view.render({
             title: 'Zusammensetzen-Spiele',
             route: '/games/assemble',
@@ -49,47 +55,83 @@ module.exports.prototype = GamesController.prototype.extend({
       });
   },
 
-// Gets the buildings from the database and returns it with a callback
-//
-// @param game           - information about the current game
-// @param renderCallback - the callback to call after we got the buildings
-  renderGame: function(game, renderCallback) {
+  /**
+   * This renders the main game
+   * Gets the buildings from the database and returns it with a callback
+   *
+   * @param game           - information about the current game
+   * @param difficulty     - normal images or with foul images?
+   * @param renderCallback - the callback to call after we got the buildings
+   */
+  renderGame: function(game, difficulty, renderCallback) {
     var partsLimit = game.limit || 15;
-    this.mongodb
+    var level = difficulty || 2;
+    console.log('level is ' + level);
+
+    if(level === 1){
+      this.mongodb
       .collection('assemble_images')
       .find({assemble_category: game.assemble_category,
         _random: {$near: [Math.random(), 0]}
       }).limit(partsLimit)
       .toArray(renderCallback);
+
+    }else if(level === 2){
+      this.mongodb
+      .collection('assemble_images')
+      .find({assemble_category: game.assemble_category,
+        _random: {$near: [Math.random(), 0]}
+      }).limit(partsLimit)
+      .toArray(function (err, images) {
+        var array = [];
+        for (var i = 0; i < images.length; i++) {
+          array.push(images[i]);
+          if(i%4===0){
+            array.push(images[i]);
+          }
+        }
+        renderCallback(err, array);
+      });
+      
+    }
+    
   },
 
-// POST request to check the solution
-// the parameters are from the <form> element
-//
-// @param gameid    - the id of the game
-// @param sortings  - an array of ids, shows how the images were sorted
+  /**
+   * POST request to check the solution
+   * the parameters are from the <form> element
+   *
+   * @param gameid    - the id of the game
+   * @param sortings  - an array of ids, shows how the images were sorted
+   */
   checkSortingAction: function() {
     var _this = this;
+
+    // first we got the game params
     this.mongodb
       .collection('assemble_games')
       .find({_id: this.mongo.ObjectID(this.request.param('gameid'))})
       .nextObject(function(err, game) {
-        // first we got the game params
+    
         _this.mongodb
           .collection('assemble_images')
           .find({assemble_category: game.assemble_category})
           .toArray(function(err, images) {
+
+            // TODO: Check/filter for wrong images
+            
+
             // got the era attribute with correct sorting of eras
             var sortIDs = _this.request.param('sortings');
 
             // check for correct number of building elements submitted
-
             if(images.length !== sortIDs.length) {
               _this.response.json({
                 error: 'Nicht genug Elemente ausgewählt.'
               });
               return;
             }
+            
             var isElementCorrect = [];
             var isSolutionCorrect = true;
             for (var i = 0; i < images.length; i++) {
@@ -98,7 +140,7 @@ module.exports.prototype = GamesController.prototype.extend({
                 parseInt(sortIDs[index], 16);
               isElementCorrect.unshift(isCorrect);
               isSolutionCorrect = isSolutionCorrect && isCorrect;
-            };
+            }
             _this.response.json({
               correct: isSolutionCorrect,
               order: isElementCorrect,
