@@ -1,3 +1,8 @@
+<style type="text/css">
+button:hover{
+  background-color: #2ECC40;
+}
+</style>
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
@@ -19,7 +24,7 @@
           <td>{#object[name]}{.}{/object[name]}</td>
           {/if}
           {/attributes}
-          <td><button type="button" class="btn select-object" data-object-id="{_id}">Auswählen</button></td>
+          <td><button type="button" class="btn select-object" data-object-id="{_id}"><span class="glyphicon glyphicon-ok"></span></button></td>
         </tr>
         {:else}
         <tr><td colspan="4">Bisher keine {type.title} vorhanden</td></tr>
