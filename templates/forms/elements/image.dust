@@ -1,6 +1,6 @@
 <div class="form-group">
-  <label class="col-sm-2 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;">[+]</a>{/props.multiple}</label>
-  <div class="col-sm-5">
+  <label class="col-sm-3 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;">[+]</a>{/props.multiple}</label>
+  <div class="col-sm-6">
     <input name="values[{name}_name]{?props.multiple}[]{/props.multiple}" type="file" class="form-attr-{name}" id="attr_{name}"{?props.mandatory} required{/props.mandatory}>
     <input name="values[{name}]{?props.multiple}[]{/props.multiple}" type="hidden">
   </div>

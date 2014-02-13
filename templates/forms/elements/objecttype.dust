@@ -1,6 +1,6 @@
 <div class="form-group">
-  <label class="col-sm-2 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;">[+]</a>{/props.multiple}</label>
-  <div class="col-sm-5">
+  <label class="col-sm-3 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;">[+]</a>{/props.multiple}</label>
+  <div class="col-sm-6">
     <button type="button" class="btn btn-primary select-objecttype" data-attribute="{name}" data-type="{object_type}"
       data-remote="/admin/objects/objects?type={object_type}&_view=only_content"
       data-target="#objectTypesModal" data-toggle="modal">Bitte Auswählen...</button>
