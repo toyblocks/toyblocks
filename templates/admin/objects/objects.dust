@@ -1,9 +1,19 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<div class="col-md-8 col-sm-8">
+
+<div class="col-md-12 col-sm-12">
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li>Administration</li>
+  <li><a href="/admin/objects/">Objekte</a></li>
+  <li class="active">{type.title}</li>
+</ol>
+
+<div class="col-md-12 col-sm-12">
   <h3>{type.title} Übersicht</h3>
-  <a href="javascript:$('#create_object').toggle()">Neues Objekt in {type.title} erstellen</a>
+  <a href="javascript:void(0)" onclick="$('#create_object').toggle();">Neues Objekt in {type.title} erstellen</a>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <form class="form-horizontal" id="create_object" action="create-object" role="form" method="post" style="display:none; margin-bottom:30px;">
@@ -12,7 +22,7 @@
         {>"forms/elements/{type}.dust"/}
         {/attributes}
         <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
+          <div class="col-sm-offset-3 col-sm-9">
             <button type="submit" class="btn btn-default">Erstellen</button>
           </div>
         </div>
@@ -20,7 +30,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-6 col-md-6">
+    <div class="col-sm-12 col-md-12">
       <table class="table">
         <tr>
           {#attributes object_type=type}
@@ -30,11 +40,12 @@
         {#objects attributes=attributes object_type=type}
         <tr>
           {#attributes object=.}
-          {@if cond="'{type}' == 'image'"}
-          <td>{#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" />{/object[name]}</td>
-          {:else}
-          <td>{#object[name]}{.}{/object[name]}</td>
-          {/if}
+            {@if cond="'{type}' == 'image'"}
+              <td>{#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" />{/object[name]}</td>
+            {:else}
+            {! TODO: Add if condition for 'object_type' to show images from references !}
+              <td>{#object[name]}{.} {/object[name]}</td>
+            {/if}
           {/attributes}
           <td><a href="/admin/objects/delete-object?type={object_type.name}&id={_id}">Löschen</a></td>
         </tr>

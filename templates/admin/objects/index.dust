@@ -3,8 +3,16 @@
 {<content}
 
 <div class="col-md-12 col-sm-12">
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li>Administration</li>
+  <li class="active">Objekte</li>
+</ol>
+
+<div class="col-md-12 col-sm-12">
   <h3>Objekte Übersicht</h3>
-  <a href="javascript:$('#create_type').toggle()">Neuen Typ erstellen</a>
+  <a href="javascript:void(0);" onclick="$('#create_type').toggle()">Neuen Typ erstellen</a>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <form class="form-horizontal" id="create_type" action="/admin/objects/create-type" role="form" method="post" style="display:none; margin-bottom:30px;">
@@ -32,7 +40,7 @@
         </div>
         <div class="form-group type-attributes">
           <label class="col-sm-2 control-label" for="type_attribute">Attribute <a href="" onclick="$(this).parents('.form-group').after($(this).parents('.form-group').clone());return false;">[+]</a></label>
-          <div class="col-sm-2">
+          <div class="col-sm-4">
             <select name="attributes[0][name]" id="type_attribute" class="form-control">
               {#attributes}
               <option value="{name}">{title}</option>
@@ -50,7 +58,9 @@
               <label><input type="checkbox" name="attributes[0][multiple]" value="1" /> Multiple</label>
             </div>
             <div class="checkbox-inline">
-              <label><a href="" onclick="$(this).parents('.form-group').remove();return false;">[-]</a></label>
+              <label>
+                <a href="javascript:void(0)" onclick="$(this).parents('.form-group').remove();return false;">[-]</a>
+              </label>
             </div>
           </div>
         </div>
@@ -93,5 +103,6 @@
       </table>
     </div>
   </div>
+</div>
 </div>
 {/content}
