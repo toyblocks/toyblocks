@@ -28,8 +28,10 @@ module.exports.prototype = GamesController.prototype.extend({
  */
   gameAction: function() {
     var _this = this,
-        level = this.request.param('level');
-    _this.renderGame(level, function(err, buildings){
+        level = parseInt(this.request.param('level'),10),
+        limit = parseInt(this.request.param('limit'),10);
+
+    _this.renderGame(level, limit, function(err, buildings){
       _this.view.render({
         title: 'Sortierspiel',
         route: '/games/sorting',
@@ -42,13 +44,13 @@ module.exports.prototype = GamesController.prototype.extend({
 /** 
  * Gets the buildings from the database and returns it with a callback
  * 
+ * @param countLimit     - count limit of buildings
  * @param renderCallback - the callback to call after we got the buildings
  * @param game           - information about the current game
  */
-  renderGame: function(level, renderCallback) {
-    var buildingLimit = 7;
-
-    if (parseInt(level,10) === 3) {
+  renderGame: function(level, countLimit, renderCallback) {
+    var buildingLimit = countLimit || 7;
+    if (level === 3) {
 
       // Only level 2 buildings
       this.mongodb
@@ -57,13 +59,12 @@ module.exports.prototype = GamesController.prototype.extend({
         .limit(buildingLimit)
         .toArray(renderCallback);
 
-    }  else if (parseInt(level,10) === 2) {
+    }else if (level === 2) {
 
       // Level 1 and level 2
       this.mongodb
         .collection('sorting_buildings')
-        .find({ /*$or: [{level: 1},{level: 2}],*/_random:
-          {$near: [Math.random(), 0]}})
+        .find({_random: {$near: [Math.random(), 0]}})
         .limit(buildingLimit)
         .toArray(renderCallback);
     }
@@ -75,7 +76,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .find({level: 1, _random: {$near: [Math.random(), 0]}})
         .limit(buildingLimit)
         .toArray(renderCallback);
-    };
+    }
   },
 
 /**
