@@ -1,12 +1,12 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<div class="col-md-5 col-sm-5">
-  <h3>Sortier Spiele</h3>
+<div class="col-md-10 col-sm-10">
+  <h3>Sortierspiele</h3>
   <div class="list-group">
-    {#sortGames}
-    <a href="game?id={_id}" class="list-group-item">{title} <span class="badge">3 mal gespielt</span></a>
-    {/sortGames}
+    <a href="game?level=1" class="well list-group-item">Schwierigskeitstufe <strong>1</strong> (Nur Vorlesungsgebäude)<span class="badge">3 mal gespielt</span></a>
+    <a href="game?level=2" class="well list-group-item">Schwierigskeitstufe <strong>2</strong> (Vorlesungsgebäude und Nicht-Vorlesungsgebäude)<span class="badge">3 mal gespielt</span></a>
+    <a href="game?level=3" class="well list-group-item">Schwierigskeitstufe <strong>3</strong> (Nur Nicht-Vorlesungsgebäude)<span class="badge">3 mal gespielt</span></a>
   </div>
 </div>
 {/content}
