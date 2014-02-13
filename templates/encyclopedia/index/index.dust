@@ -14,7 +14,7 @@
   <ul class="list-group">
     {#articles}
       <li class="list-group-item">
-        <a href="encyclopedia/index/article?id={_id}">{title}</a>
+        <a href="/encyclopedia/index/article?id={_id}">{title}</a>
       </li>
     {/articles}
   </ul>
