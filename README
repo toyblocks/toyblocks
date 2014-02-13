@@ -29,7 +29,7 @@ then you can access the server at http://127.0.0.1:3000
 
 
 The database gets changed often, to restore it run
-        mongorestore toyblocks_dump
+        mongorestore --drop toyblocks_dump
 and to create a new dump run
         mongodump -d toyblocks_dump
 
