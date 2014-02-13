@@ -3,21 +3,21 @@
 <style type="text/css">
 
 /* Glyhicon Stuff */
-#sortabletop li .glyphicon {
+#sortable li .glyphicon {
   position: absolute;
   right: -8px;
   top: -8px;
   font-size:40px;
 }
-#sortabletop li .glyphicon-ok { color: lime; }
-#sortabletop li .glyphicon-remove { color: red; }
+#sortable li .glyphicon-ok { color: lime; }
+#sortable li .glyphicon-remove { color: red; }
 
 /* Tries Stuff */
 .tries-wrapper {display: none;}
 #tryagain {display: none;}
 
 /* Sorttable Stuff */
-#sortablebot, #sortabletop {
+#sortable {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -27,7 +27,7 @@
   min-height: 250px;
   margin-bottom: 7px solid #DDD;
 }
-#sortablebot li, #sortabletop li {
+#sortable li {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -88,63 +88,36 @@
   </div>
 </div>
 <br>
-
-<div class="row">
-  <ul id="sortabletop" class="well droptrue ui-sortable">
-    {#buildings}
-    <li data-id="{_id}" class="asd">
-      <div class="thumbnail">
-        <input type="hidden" name="sortings[]" value="{_id}">
-        <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
-        {! TODO: hover show title !}
-        <div class="description">
-        {title}
+<form id="sortingform">
+  <div class="row">
+    <ul id="sortable" class="well droptrue ui-sortable">
+      {#buildings}
+      <li data-id="{_id}" class="asd">
+        <div class="thumbnail">
+          <input type="hidden" name="sortings[]" value="{_id}">
+          <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
+          {! TODO: hover show title !}
+          <div class="description">
+          {title}
+          </div>
         </div>
-      </div>
-    </li>
-    {/buildings}
-  </ul>
-</div>
-
-<!--
-  {! TODO remove: old double layout, got a drag&drop bug in jquery !}
-<div class="row">
-  <form id="sortingform">
-  <input type="hidden" name="gameid" value="{game._id}">
-  <ul id="sortabletop" class="well droptrue ui-sortable">
-  </ul>
-  </form>
-</div>
-
-<br>
-
-<div class="row">
-  <ul id="sortablebot" class="well droptrue ui-sortable">
-    {#buildings}
-    <li data-id="{_id}" class="asd">
-      <div class="thumbnail">
-        <input type="hidden" name="sortings[]" value="{_id}">
-        <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
-        {! TODO: hover show title !}
-        <div class="description">
-        {title}
-        </div>
-      </div>
-    </li>
-    {/buildings}
-  </ul>
-</div>
--->
+      </li>
+      {/buildings}
+    </ul>
+  </div>
+</form>
 
 <center>
   <br>
-  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;"><span class="glyphicon glyphicon-send"></span> Lösung senden</button>
+  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">
+    <span class="glyphicon glyphicon-send"></span> Lösung senden
+  </button>
   <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
 </center>
 
 
 <!-- Modal -->
-<div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -160,84 +133,64 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<!-- Modal -->
-<div class="modal fade" id="checkModalWrong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Falsch</h4>
-      </div>
-      <div class="modal-body">
-        Ihre Lösung ist leider falsch. <span class="tries-wrapper">Sie haben noch <span class="num-tries"></span> Versuche.</span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<div style="clear:both;height:10px;"></div>
 <script>
-
 $(window).ready(function(){
-  var game_sort_tries = {game.game_sort_tries}+0;
-  var num_tried = 0;
+
+{! TODO: Add Session User Tries!}
+  var max_tries = 99;
+  var tries = 0;
 
   $( "ul.droptrue" ).sortable({
     connectWith: "ul"
   });
-  $("#sortablel").sortable();
-  $( "#sortablebot, #sortabletop" ).disableSelection();
+  $("#sortable").sortable();
+  $( "#sortable" ).disableSelection();
 
 
   $('#tryagain').click(function(){
-    location.reload();
+    console.log("again");
+    $('#sortable').sortable('enable');
+    $('#sortable').disableSelection();
+    $('#submit').prop('disabled', false);
+    $('#tryagain').prop('disabled', true);
+    removeCorrection();  
+    //location.reload();
   });
 
   $('#submit').click(function(){
-
-    {! TODO: gameparam: number of tries !}
-
+    if(tries === max_tries){
+      $('#checkModal .modal-title').text('Keine Versuche mehr!');
+      $('#checkModal .modal-body').text('Ihre Versuche sind aufgebraucht!');
+      $('#checkModal').modal();
+      return;
+    }
     var $button = $(this);
-
     $button.prop('disabled', true);
-    $('#sortabletop').sortable('disable');
+    $('#sortable').sortable('disable');
 
     var serialized = $('#sortingform').serialize();
     $.post('check-sorting', serialized, function(data) {
-      num_tried++;
-      if (data.correct) {
+      tries++;
+
+      $('#tryagain').show();
+      $('#tryagain').prop('disabled', false);
+
+      if(data.correct){
+        $('#checkModal .modal-title').text('Richtig!');
+        $('#checkModal .modal-body').text('Ihre Lösung ist korrekt!');
         showCorrection(data.lastCorrectBuilding);
-        $('#tryagain').show();
-        $('#checkModalCorrect').modal();
+      }else{
+        $('#checkModal .modal-title').text('Falsch!');
+        $('#checkModal .modal-body').text('Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
+        showCorrection(data.lastCorrectBuilding);
+        
       }
-      else {
-        if (game_sort_tries) {
-          $('#checkModalWrong .tries-wrapper').show();
-          if (num_tried < game_sort_tries) {
-            $('#checkModalWrong .num-tries').text(game_sort_tries - num_tried);
-            $('#sortabletop').sortable('enable');
-            $button.prop('disabled', false);
-          }
-          else {
-            $('#checkModalWrong .tries-wrapper').text("Sie haben keine Versuche mehr.");
-            $('#tryagain').show();
-          }
-        }
-        else {
-          showCorrection(data.lastCorrectBuilding);
-          $('#checkModalWrong .tries-wrapper').hide();
-          $('#tryagain').show();
-        }
-        $('#checkModalWrong').modal();
-      }
+      $('#checkModal').modal();
     });
   });
 
   function showCorrection(tillIndex) {
-    $('#sortabletop li').each(function(index){
+    $('#sortable li').each(function(index){
       if (index <= tillIndex || tillIndex == -1) {
         $(this).append('<span class="glyphicon glyphicon-ok"></span>');
       }
@@ -248,7 +201,9 @@ $(window).ready(function(){
   }
 
   function removeCorrection() {
-    $('#sortabletop').remove('.glyphicon');
+    $('#sortable li .glyphicon').each(function(index){
+      $(this).remove();
+    });
   }
 
   $(".alert").alert();
