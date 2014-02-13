@@ -8,9 +8,12 @@
 </ol>
 <div class="row">
   <h3 class="col-md-offset-1 col-xs-offset-1">{headline}</h3>
+  <h3>{headline}</h3>
+  {?image}
   <div class="col-md-3">
     <img src="/ressources/image?id={image}&amp;size=middle">
   </div>
+  {/image}
   <div class="panel panel-default col-md-6">
     <div class="panel-body">
       {article|s}

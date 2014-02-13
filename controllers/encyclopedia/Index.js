@@ -29,14 +29,16 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
 
       var articles = [];
 
+      var filterHeadlines = function(element) {
+        return element.headline === currentLetter;
+      };
+
       for (var i = 0; i < data.length; i++) {
         // get first letter of article title
         var currentLetter = data[i].title.charAt(0).toUpperCase();
 
         // filter articles array for first letter
-        var currentElement = articles.filter(function(element) {
-          return element.headline === currentLetter;
-        });
+        var currentElement = articles.filter(filterHeadlines);
 
         // check if there already is an object for the current first letter
         if (currentElement.length) {

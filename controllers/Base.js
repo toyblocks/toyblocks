@@ -7,11 +7,16 @@ module.exports = function() {
 
 };
 module.exports.prototype = {
+
   name: 'base',
+  loginRequired: false,
+
   extend: function(child) {
     return _.extend({}, this, child);
   },
+
   run: function(action) {
+    this.action = action;
     this.view.setTemplate(this.area + '/' + this.name + '/' + action);
     var callFunc = action.replace(/(-[a-z])/g, function(v) { return v.replace(/-/,'').toUpperCase();});
     if (this[callFunc + 'Action']) {
@@ -24,12 +29,21 @@ module.exports.prototype = {
     }
     // can not render view here, because most of the time the db requests are async
   },
+
   init: function(req, res, next) {
-    this.view = new View(res);
-    this.view.setOnlyContent(req.param('_view') === 'only_content');
+
+    if (this.loginRequired && !req.session.user) {
+      var querystring = require('querystring');
+      var escaped = querystring.escape(req.originalUrl);
+      res.redirect('/user/login?returnto=' + escaped);
+    }
+
     this.request = req;
     this.response = res;
     this.mongodb = req.mongodb;
     this.mongo = req.mongo;
+
+    this.view = new View(this);
+    this.view.setOnlyContent(req.param('_view') === 'only_content');
   }
 };

@@ -14,9 +14,10 @@
       <ul class="nav navbar-nav">
         {! TODO: überall das hinzufügen für active {@eq key=route value="/sortbuildings"}class="active"{/eq} !}
         {! TODO: überall die route übergeben !}
-        <li {@eq key=route value="/"}class="active"{/eq}><a href="/">Home</a></li>
+        <li {@eq key=_area value="index"}{@eq key=_controller value="index"}{@eq key=_action value="index"}class="active"{/eq}{/eq}{/eq}>
+          <a href="/">Home</a></li>
 
-        <li class="dropdown {@eq key=route value="/admin"}active{/eq}">
+        <li class="dropdown {@eq key=_area value="admin"}active{/eq}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="/admin/objects">Objekte</a></li>
@@ -24,7 +25,7 @@
           </ul>
         </li>
 
-        <li class="dropdown {@eq key=route value="/games"}active{/eq}">
+        <li class="dropdown {@eq key=_area value="games"}active{/eq}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Spiele <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="/games">Übersicht</a></li>
@@ -40,12 +41,12 @@
           </ul>
         </li>
 
-        <li {@eq key=route value="/encyclopedia"}class="active"{/eq}><a href="/encyclopedia">Enzyklopädie</a></li>
+        <li {@eq key=_area value="encyclopedia"}class="active"{/eq}><a href="/encyclopedia">Enzyklopädie</a></li>
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/index/error404">Kontakt</a></li>
-        <li {@eq key=route value="/index/about"}class="active"{/eq}><a href="/index/error404">Über Uns</a></li>
+        <li><a href="/index/contact">Kontakt</a></li>
+        <li {@eq key=_controller value="index"}{@eq key=_action value="about"}class="active"{/eq}{/eq}><a href="/index/about">Über Uns</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
