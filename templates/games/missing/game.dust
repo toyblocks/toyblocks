@@ -180,7 +180,7 @@ $(window).ready(function(){
   function showSolutionImage(solutionId) {
     $('.modal-body').each(function(index){
       $(this).append('<br><a href="/ressources/image?id=' +
-       solutionId + '&amp;size=large"><img src="/ressources/image?id=' +
+       solutionId + '&amp;size=large"><img class="center-block" src="/ressources/image?id=' +
         solutionId + '&amp;size=middle"></a>');
     });
   };
