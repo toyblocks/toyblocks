@@ -64,37 +64,43 @@ module.exports.prototype = GamesController.prototype.extend({
    * @param renderCallback - the callback to call after we got the buildings
    */
   renderGame: function(game, difficulty, renderCallback) {
+    var _this = this;
     var partsLimit = game.limit || 15;
     var level = difficulty || 2;
+    var countOfFakeImages = 3;
     console.log('level is ' + level);
-
-    if(level === 1){
-      this.mongodb
-      .collection('assemble_images')
-      .find({assemble_category: game.assemble_category,
-        _random: {$near: [Math.random(), 0]}
-      }).limit(partsLimit)
-      .toArray(renderCallback);
-
-    }else if(level === 2){
-      this.mongodb
-      .collection('assemble_images')
-      .find({assemble_category: game.assemble_category,
-        _random: {$near: [Math.random(), 0]}
-      }).limit(partsLimit)
-      .toArray(function (err, images) {
-        var array = [];
-        for (var i = 0; i < images.length; i++) {
-          array.push(images[i]);
-          if(i%4===0){
-            array.push(images[i]);
-          }
-        }
-        renderCallback(err, array);
-      });
-      
+    //+ Jonas Raoni Soares Silva
+    //@ http://jsfromhell.com/array/shuffle [v1.0]
+    function shuffle(o){ //v1.0
+      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+      return o;
     }
-    
+
+    _this.mongodb
+    .collection('assemble_images')
+    .find({assemble_category: game.assemble_category,
+      _random: {$near: [Math.random(), 0]}})
+    .limit(partsLimit)
+    .toArray( function(err, images){
+
+      if(level === 1){
+        renderCallback(err, images);
+
+      }else if(level === 2){
+        var fakeIds = game.assemble_fakeimages;
+        _this.mongodb
+        .collection('assemble_images')
+        .find({_id:{$in: fakeIds}})
+        .toArray(function(err2, fakes){
+
+          for (var i = 0; i < fakes.length; i++) {
+            images.push(fakes[i]);
+          }
+          images = shuffle(images);
+          renderCallback(err, images);
+        });
+      }
+    });
   },
 
   /**
@@ -118,20 +124,28 @@ module.exports.prototype = GamesController.prototype.extend({
           .find({assemble_category: game.assemble_category})
           .toArray(function(err, images) {
 
+            // 
+            // 
             // TODO: Check/filter for wrong images
+            // 
+            // 
             
 
             // got the era attribute with correct sorting of eras
             var sortIDs = _this.request.param('sortings');
 
             // check for correct number of building elements submitted
-            if(images.length !== sortIDs.length) {
+            if(images.length > sortIDs.length) {
               _this.response.json({
                 error: 'Nicht genug Elemente ausgewählt.'
               });
               return;
+            } else if(images.length < sortIDs.length) {
+              _this.response.json({
+                error: 'Zu viele Elemente ausgewählt.'
+              });
+              return;
             }
-            
             var isElementCorrect = [];
             var isSolutionCorrect = true;
             for (var i = 0; i < images.length; i++) {

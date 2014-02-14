@@ -69,11 +69,10 @@
   </ul>
 </div>
 </div>
-<div class="row">   {! TODO: Implement controller-side session for user to get tries !}
-  <input type="hidden" id="tries" value="3"/>
+<center>
   <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
   <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
-</div>
+</center>
 <br>
 
 <!-- Modal -->
@@ -97,6 +96,10 @@
 <script>
 
 $(window).ready(function() {
+
+{! TODO: Add Session User Tries!}
+  var max_tries = 3;
+  var tries = 0;
 
   // sortable initialization
   $('#sortablebot, #sortabletop').disableSelection();
@@ -122,77 +125,86 @@ $(window).ready(function() {
   initBindings();
 
 
-  // submit
-$('#tryagain').click(function(){
-    location.reload();
-});
+  
+  $('#tryagain').click(function(){
+    removeCorrection();  
+    $('#assembly').sortable('enable');
+    $('#assembly li').each( function(){
+      $(this).prependTo('#elements');
+    });
+    $('#assembly').sortable('refresh');
+    initBindings();
+    $('#submit').prop('disabled', false);
+    $('#tryagain').prop('disabled', true);
+  });
 
-$('#submit').click(function(){
-  var $button = $(this);
+  $('#submit').click(function(){
+    var $button = $(this);
 
-  var serialized = $('#assemblyform').serialize().split("&").reverse().join("&");
-  $.post('check-sorting', serialized, function(data) {
-    // if error from server (i.e. wrong count of submitted elements)
-    if(data.error) {
-      // show modal 'not enough elements'
-      $('#checkModal .modal-title').text('Fehler');
-      $('#checkModal .modal-body').text(data.error);
-      $('#checkModal').modal();
-    } else {
-      // disable button, sortable and hover buttons
-      $button.prop('disabled', true);
-      $('#assembly').sortable('disable');
-      $('#elements li, #assembly li').off();
+    var serialized = $('#assemblyform').serialize().split("&").reverse().join("&");
+    $.post('check-sorting', serialized, function(data) {
+      // if error from server (i.e. wrong count of submitted elements)
+      if(data.error) {
+        // show modal 'not enough elements'
+        $('#checkModal .modal-title').text('Fehler');
+        $('#checkModal .modal-body').text(data.error);
+      } else {
+        // disable button, sortable and hover buttons
+        $button.prop('disabled', true);
+        $('#assembly').sortable('disable');
+        $('#elements li, #assembly li').off();
 
-      // remove all unused elements in #elements
-      $('#elements li').remove();
+        // tryhards
+        tries++;
+        // mark wrong/right elements
+        $('#tryagain').show();
+        $('#tryagain').prop('disabled', false);
+        showCorrection(data.order);
 
-      // mark wrong/right elements
-      $('#tryagain').show();
-      showCorrection(data.order);
-
-      // get tries
-      var tries = $('#tries').val();
-
-      if(data.correct){
-        $('#checkModal .modal-title').text('Richtig!');
-        $('#checkModal .modal-body').text('Ihre Lösung ist korrekt!');
-        showSolutionImage(data.solution);
-      }else{
-        $('#checkModal .modal-title').text('Falsch!');
-        $('#checkModal .modal-body').text('Ihre Lösung ist leider falsch. Du hast noch ' + tries + ' Versuche!');
-        if(parseInt(tries,10) === 0){
+        if(data.correct){
+          $('#checkModal .modal-title').text('Richtig!');
+          $('#checkModal .modal-body').text('Ihre Lösung ist korrekt!');
+          showSolutionImage(data.solution);
+        }else if(max_tries === tries){
           $('#checkModal .modal-title').text('Falsch!');
           $('#checkModal .modal-body').text('Die Lösung wird aufgedeckt!');
           showSolutionImage(data.solution);
-        }
-      } 
-      $('#checkModal').modal();
-        
-     
+        }else{
+          $('#checkModal .modal-title').text('Falsch!');
+          $('#checkModal .modal-body').text('Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
+        } 
       }
-    }
+      $('#checkModal').modal();
+    });
   });
-});
 
   function showCorrection(order) {
     $('#assembly li').each(function(index, element){
       // remove hover buttons
       $('.remove, .add').hide();
-
       if (order[index]) {
-        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
+        $(this).prepend('<span class="solution glyphicon glyphicon-ok"></span>');
       }
       else {
-        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
+        $(this).prepend('<span class="solution glyphicon glyphicon-remove"></span>');
       }
     });
   }
   function showSolutionImage(img) {
+    // remove all unused elements in #elements
+    $('#elements li').remove();
     // change heading
     $('h2.elements').text('Lösungsbild');
     // show solution image in #elements
     $('<img>').attr('src', '/ressources/image?id=' + img).appendTo($('#elements'));
+  }
+
+  function removeCorrection() {
+    $('#assembly li').each(function(){
+      $('.solution').remove();
+      // show hover buttons
+      $('.remove, .add').removeAttr('style');
+    });
   }
 
 });
