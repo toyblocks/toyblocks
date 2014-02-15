@@ -83,7 +83,6 @@ module.exports.prototype = GamesController.prototype.extend({
  * POST request to check the solution
  * the parameters are from the <form> element
  *
- * @param gameid    - the id of the game
  * @param sortings  - an array of ids, shows how the images were sorted
  */
   checkSortingAction: function() {
@@ -98,7 +97,11 @@ module.exports.prototype = GamesController.prototype.extend({
         var eras = attribute.values,
             sortIds = _this.request.param('sortings'),
             sortedBuildings = {};
-
+        if(sortIds === undefined){
+          _this.response.json({
+            error: 'Irgendwas ist schiefgelaufen!'
+          });
+        }
         // we have to cast the mongo ids for the db-request
         for (var i = 0; i < sortIds.length; i++) {
           sortIds[i] = _this.mongo.ObjectID(sortIds[i]);
