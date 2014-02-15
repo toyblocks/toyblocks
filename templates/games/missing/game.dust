@@ -96,36 +96,18 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="checkModalCorrect" tabindex="-1" role="dialog" aria-labelledby="modalLabelCorrect" aria-hidden="true">
+<div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="modalLabelCorrect">Richtig</h4>
+        <h4 class="modal-title" id="modalLabel">Richtig</h4>
       </div>
       <div class="modal-body">
         Das ist richtig!
       </div>
       <div class="modal-footer">
-        <button id="closeCorrect" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<!-- Modal -->
-<div class="modal fade" id="checkModalWrong" tabindex="-1" role="dialog" aria-labelledby="modalLabelWrong" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="modalLabelWrong">Falsch</h4>
-      </div>
-      <div class="modal-body">
-        Das war falsch!
-      </div>
-      <div class="modal-footer">
-        <button id="closeWrong" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+        <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -134,6 +116,8 @@
 
 <script>
 $(window).ready(function(){
+  var maxTries = 3;
+  var tries = 0;
   /* radio button stuff */
   $('#selectable .box').click(function() {
       $(this).addClass('selected').siblings().removeClass('selected');
@@ -141,53 +125,69 @@ $(window).ready(function(){
 
   /* try again stuff */
   $('#tryagain').click(function(){
-    location.reload();
+    removeCorrection();
+    $('#submit').prop('disabled', false);
+    $('#tryagain').prop('disabled', true);
   });
 
   /* POST request */
   $('#submit').click(function(){
     $(this).prop('disabled', true);
-
+    tries++;
+    var wasLastTry = ((maxTries - tries) === 0);
     // get all form elements
     var serialize = $('#gameform').serialize();
     $.post('check-selected', serialize, function(data) {
       if (data.correct) {
-        $('#checkModalCorrect').modal();
+        setModalText('Richtig!', 'Ihre Lösung ist korrekt!');
+        showSolution(data.correctBuilding, data.solutionImage);
+        $('#tryagain').hide();
       }
       else {
-        $('#checkModalWrong').modal();
+        if(wasLastTry){
+          setModalText('Falsch!', 'Du hast keine Versuche mehr! Die Lösung wird aufgelöst!');
+          showSolution(data.correctBuilding, data.solutionImage);
+        }else{
+          setModalText('Falsch!', 'Ihre Lösung ist leider falsch. Du hast noch ' + (maxTries-tries) + ' Versuche!');
+        }
+        $('#submit').prop('disabled', false);
+        // TODO: Should there even be a Tryagain Button?
+        // TODO:   just let them try again atuomaticly after they failed
+        // TODO:   without showing the solution
+        // TODO:   if they _really_ want a Tryagain Button just show the tryagain btn here
+        $('#tryagain').hide();
+        $('#tryagain').prop('disabled', false);
       }
-      showCorrection(data.correctBuilding);
-      showSolutionImage(data.solutionImage);
-      $('#tryagain').show();
+      $('#checkModal').modal();
     });
   });
-  $(".alert").alert();
+
+  function setModalText (title, body) {
+    $('#checkModal .modal-title').text(title);
+    $('#checkModal .modal-body').text(body);
+  }
 
   /* shows the correct img selection */
-  function showCorrection(correctId) {
+  function showSolution(labelsId, imgId) {
     $('#selectable label').each(function(){
-      if (correctId === $(this).context.htmlFor) {
+      if($.inArray($(this).context.htmlFor, labelsId) >= 0) {
         $(this).append('<span class="glyphicon glyphicon-ok"></span>');
       }
       else {
         $(this).append('<span class="glyphicon glyphicon-remove"></span>');
       }
     });
-  };
-
-  /* shows the correct solution image */
-  function showSolutionImage(solutionId) {
-    $('.modal-body').each(function(index){
-      $(this).append('<br><a href="/ressources/image?id=' +
-       solutionId + '&amp;size=large"><img class="center-block" src="/ressources/image?id=' +
-        solutionId + '&amp;size=middle"></a>');
-    });
+    $('.modal-body').append('<br><a href="/ressources/image?id=' +
+       imgId + '&amp;size=large"><img class="center-block" src="/ressources/image?id=' +
+        imgId + '&amp;size=middle"></a>');
   };
 
   /* removes that damn glypicons again */
   function removeCorrection() {
-    $('#selectable').remove('.glyphicon');
+    $('#selectable label').each(function(){
+      $(this).removeClass('selected');
+      $('.glyphicon').remove();
+    });
   };
 
 });

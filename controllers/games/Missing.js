@@ -107,34 +107,28 @@ module.exports.prototype = GamesController.prototype.extend({
     .find( {_id: _this.mongo.ObjectID(gameid)} )
     .nextObject(function(err, game) {
 
-      // get the image data now
-      _this.mongodb
-      .collection('missingparts_images')
-      .find( { missingparts_category: game.missingparts_category })
-      .toArray(function(err, images) {
-
-        // lets see if the correct image is clicked
-        var correctImageSelected = false,
-            correctImageId = game.missingparts_correctimage[0];
-
+      // lets see if the correct image is clicked
+      var correctImageSelected = false,
+          correctImageId = game.missingparts_correctimage;
+      for (var i = 0; i < correctImageId.length; i++) {
         if(parseInt(result,16) ===
-          parseInt(correctImageId,16)){
+          parseInt(correctImageId[i],16)){
           correctImageSelected = true;
         }
+      }
 /*
-        for (var i = 0; i < images.length; i++) {
-          if(parseInt(sortIDs[i],16) ===
-          parseInt(game.missingparts_correctimage[0],16)){
-            correctImageId = i;
-          }
-        }*/
+      for (var i = 0; i < images.length; i++) {
+        if(parseInt(sortIDs[i],16) ===
+        parseInt(game.missingparts_correctimage[0],16)){
+          correctImageId = i;
+        }
+      }*/
 
-        // send the solution back to client
-        _this.response.json( {
-          correct: correctImageSelected,
-          correctBuilding: correctImageId,
-          solutionImage: game.missingparts_solutionimage
-        });
+      // send the solution back to client
+      _this.response.json( {
+        correct: correctImageSelected,
+        correctBuilding: correctImageId,
+        solutionImage: game.missingparts_solutionimage
       });
     });
   }
