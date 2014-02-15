@@ -1,5 +1,5 @@
 <div class="form-group">
-  <label class="col-sm-3 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;">[+]</a>{/props.multiple}</label>
+  <label class="col-sm-3 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;"><span class="green glyphicon glyphicon-plus-sign"></span></a>{/props.multiple}</label>
   <div class="col-sm-6">
     {?is_enum}
     <select name="values[{name}]{?props.multiple}[]{/props.multiple}" id="attr_{name}" class="form-control">
@@ -11,7 +11,7 @@
   </div>
   {?props.multiple}
   <div class="col-sm-1">
-    <label><a href="" onclick="if ($('.form-attr-{name}').length > 1) $(this).parents('.form-group').remove(); return false;">[-]</a></label>
+    <label><a href="" onclick="if ($('.form-attr-{name}').length > 1) $(this).parents('.form-group').remove(); return false;"><span class="red glyphicon glyphicon-minus-sign"></span></a></label>
   </div>
   {/props.multiple}
 </div>

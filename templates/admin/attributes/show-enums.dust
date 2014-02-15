@@ -10,7 +10,7 @@
         <ul id="enumsList" class="list-group">
           {#attribute.values}
           <li class="list-group-item">{.}<input type="hidden" name="enums[]" value="{.}" />
-            <span class="badge delete-enum"><span class="glyphicon glyphicon-remove"></span></span>
+            <span class="badge delete-enum"><span class="red glyphicon glyphicon-remove"></span></span>
           </li>
           {/attribute.values}
         </ul>
