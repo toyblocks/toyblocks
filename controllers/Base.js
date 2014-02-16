@@ -38,6 +38,7 @@ module.exports.prototype = {
         var escaped = querystring.escape(req.originalUrl);
         res.redirect('/users/log/in?returnto=' + escaped);
         res.end();
+        return;
       }
       else {
         if (req.session.user.rightLevel > this.rightLevel) {
