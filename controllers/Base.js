@@ -9,7 +9,7 @@ module.exports = function() {
 module.exports.prototype = {
 
   name: 'base',
-  loginRequired: false,
+  rightLevel: -1,
 
   extend: function(child) {
     return _.extend({}, this, child);
@@ -32,10 +32,18 @@ module.exports.prototype = {
 
   init: function(req, res, next) {
 
-    if (this.loginRequired && !req.session.user) {
-      var querystring = require('querystring');
-      var escaped = querystring.escape(req.originalUrl);
-      res.redirect('/user/login?returnto=' + escaped);
+    if (this.rightLevel >= 0) {
+      if (!req.session.user) {
+        var querystring = require('querystring');
+        var escaped = querystring.escape(req.originalUrl);
+        res.redirect('/users/log/in?returnto=' + escaped);
+        res.end();
+      }
+      else {
+        if (req.session.user.rightLevel > this.rightLevel) {
+          res.render('error-rights', {title: 'Keine erforderlichen Rechte'});
+        }
+      }
     }
 
     this.request = req;

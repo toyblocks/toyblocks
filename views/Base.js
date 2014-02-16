@@ -20,6 +20,7 @@ module.exports.prototype = {
     data._area = this.controller.area;
     data._controller = this.controller.name;
     data._action = this.controller.action;
+    data._user = this.controller.request.session.user;
     if(this.response && this.template && !this.disabled) {
       this.response.render(this.template, data);
     }

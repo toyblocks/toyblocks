@@ -40,9 +40,9 @@
             <li><a href="/games/daily/leaderboard">Rangliste</a></li>
           </ul>
         </li>
-
         <li {@eq key=_area value="encyclopedia"}class="active"{/eq}><a href="/encyclopedia">Enzyklopädie</a></li>
-
+        {?_user}<li {@eq key=_area value="users"}class="active"{/eq}><a href="/users">Profil</a></li>
+        <li><a href="/users/log/out">Ausloggen</a></li>{/_user}
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/index/contact">Kontakt</a></li>

@@ -1,0 +1,9 @@
+{>"layout/layout.dust"/}
+{<content}
+<div class="jumbotron">
+  <div class="page-header">
+    <h1>Ausgeloggt!</h1>
+    <p>Schönen Tag noch! <a href="/">Zur Startseite</a></p>
+  </div>
+</div>
+{/content}

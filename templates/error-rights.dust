@@ -1,0 +1,9 @@
+{>"layout/layout.dust"/}
+{<content}
+<div class="jumbotron">
+  <div class="page-header">
+    <h1>Keine erfolderlichen Rechte um diese Seite zu sehen!</h1>
+    <p>Wende dich an den Administrator.</p>
+  </div>
+</div>
+{/content}

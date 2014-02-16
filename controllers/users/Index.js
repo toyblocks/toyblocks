@@ -1,13 +1,14 @@
 'use strict';
 
-var UsersController = require('../Users');
-
+var UsersController = require('../Users'),
+  userModel = require('../../models/User');
 
 module.exports = function () {
 
 };
 module.exports.prototype = UsersController.prototype.extend({
   name: 'index',
+  rightLevel: 400,
 
   indexAction: function() {
     var _this = this;
@@ -16,9 +17,16 @@ module.exports.prototype = UsersController.prototype.extend({
     // TODO: TU-ID, Username, lastLoggin (?), timesPlayed
     // TODO: hasPlayedDaily, DailyHighscore
     // TODO: isAdmin, ...
-    _this.view.render({
-      title: 'Account'
-    });
+
+    this.mongodb
+      .collection(userModel.collection)
+      .find({'tuid': this.request.session.user.tuid})
+      .nextObject(function(err, doc) {
+        _this.view.render({
+          title: 'Profil',
+          user: doc
+        });
+      });
   }
 
 });
