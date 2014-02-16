@@ -228,43 +228,42 @@ module.exports.prototype = AdminController.prototype.extend({
               typeProps = type.attributes[attributes[i].name];
               attributeName = attributes[i].name;
 
-              try {
-                if (type.randomized) {
-                  object._random = [Math.random(), 0];
-                }
+              if (type.randomized) {
+                object._random = [Math.random(), 0];
+              }
 
-                object[attributeName] = attributeModel.validateAndTransform(
-                  attributes[i],
-                  typeProps,
-                  reqValue,
-                  _this.mongo);
-                // prepare images for saving
-                if (attributes[i].type === 'image') {
-                  if (typeProps.multiple) {
-                    imageValues.push(object[attributeName]);
-                    for (var j in object[attributeName]) {
-                      if (typeof object[attributeName][j] === 'object') {
-                        object[attributeName][j].index = images.length;
-                        images.push({
-                          type: object[attributeName][j].ext,
-                          data: _this.request.mongo.Binary(object[attributeName][j].buffer)
-                        });
-                      }
-                    }
-                  }
-                  else {
-                    if (typeof object[attributeName] === 'object') {
-                      imageValues.push({attr: attributeName, index: images.length});
+              object[attributeName] = attributeModel.validateAndTransform(
+                attributes[i],
+                typeProps,
+                reqValue,
+                _this.mongo);
+
+              if (object[attributeName] === null)
+                continue;
+
+              // prepare images for saving
+              if (attributes[i].type === 'image') {
+                if (typeProps.multiple) {
+                  imageValues.push(object[attributeName]);
+                  for (var j in object[attributeName]) {
+                    if (typeof object[attributeName][j] === 'object') {
+                      object[attributeName][j].index = images.length;
                       images.push({
-                        type: object[attributeName].ext,
-                        data: _this.request.mongo.Binary(object[attributeName].buffer)
+                        type: object[attributeName][j].ext,
+                        data: _this.request.mongo.Binary(object[attributeName][j].buffer)
                       });
                     }
                   }
                 }
-              }
-              catch (e) {
-                throw new Error('validation exception');
+                else {
+                  if (typeof object[attributeName] === 'object') {
+                    imageValues.push({attr: attributeName, index: images.length});
+                    images.push({
+                      type: object[attributeName].ext,
+                      data: _this.request.mongo.Binary(object[attributeName].buffer)
+                    });
+                  }
+                }
               }
             }
 

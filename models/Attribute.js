@@ -54,6 +54,8 @@ module.exports = base.extend({
         return parseInt(value, 10);
 
     case 'image':
+      if (!value)
+        return null;
       if (value.substr(0, 6) === 'saved:')
         return value.substr(6);
       var basePos = value.search(/base64,/);
