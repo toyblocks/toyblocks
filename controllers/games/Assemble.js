@@ -44,7 +44,6 @@ module.exports.prototype = GamesController.prototype.extend({
       .find({_id: this.mongo.ObjectID(id)})
       .nextObject(function(err, game) {
         _this.renderGame(game, level, function(err, buildingParts){
-          console.log(buildingParts);
           _this.view.render({
             title: 'Zusammensetzen-Spiele',
             route: '/games/assemble',
@@ -64,11 +63,11 @@ module.exports.prototype = GamesController.prototype.extend({
    * @param renderCallback - the callback to call after we got the buildings
    */
   renderGame: function(game, difficulty, renderCallback) {
-    var _this = this;
-    var partsLimit = game.limit || 15;
-    var level = difficulty || 2;
-    var countOfFakeImages = 3;
-    console.log('level is ' + level);
+    var _this = this,
+     partsLimit = game.limit || 15,
+     level = difficulty || 2,
+     countOfFakeImages = 3;
+
     //+ Jonas Raoni Soares Silva
     //@ http://jsfromhell.com/array/shuffle [v1.0]
     function shuffle(o){ //v1.0
@@ -87,6 +86,8 @@ module.exports.prototype = GamesController.prototype.extend({
         renderCallback(err, images);
 
       }else if(level === 2){
+
+        // Add fake images to array
         var fakeIds = game.assemble_fakeimages;
         _this.mongodb
         .collection('assemble_images')
@@ -124,13 +125,6 @@ module.exports.prototype = GamesController.prototype.extend({
           .find({assemble_category: game.assemble_category})
           .toArray(function(err, images) {
 
-            // 
-            // 
-            // TODO: Check/filter for wrong images
-            // 
-            // 
-            
-
             // got the era attribute with correct sorting of eras
             var sortIDs = _this.request.param('sortings');
 
@@ -146,6 +140,7 @@ module.exports.prototype = GamesController.prototype.extend({
               });
               return;
             }
+
             var isElementCorrect = [];
             var isSolutionCorrect = true;
             for (var i = 0; i < images.length; i++) {
