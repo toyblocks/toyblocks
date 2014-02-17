@@ -138,6 +138,8 @@ $(window).ready(function() {
     $('#tryagain').prop('disabled', true);
   });
 
+
+  /* POST Request */
   $('#submit').click(function(){
     var $button = $(this);
 
@@ -146,8 +148,7 @@ $(window).ready(function() {
       // if error from server (i.e. wrong count of submitted elements)
       if(data.error) {
         // show modal 'not enough elements'
-        $('#checkModal .modal-title').text('Fehler');
-        $('#checkModal .modal-body').text(data.error);
+        setModalText('Fehler', data.error);
       } else {
         // disable button, sortable and hover buttons
         $button.prop('disabled', true);
@@ -162,21 +163,23 @@ $(window).ready(function() {
         showCorrection(data.order);
 
         if(data.correct){
-          $('#checkModal .modal-title').text('Richtig!');
-          $('#checkModal .modal-body').text('Ihre Lösung ist korrekt!');
+          setModalText('Richtig!', 'Ihre Lösung ist korrekt!');
           showSolutionImage(data.solution);
         }else if(max_tries === tries){
-          $('#checkModal .modal-title').text('Falsch!');
-          $('#checkModal .modal-body').text('Die Lösung wird aufgedeckt!');
+          setModalText('Falsch!', 'Die Lösung wird aufgedeckt!');
           showSolutionImage(data.solution);
         }else{
-          $('#checkModal .modal-title').text('Falsch!');
-          $('#checkModal .modal-body').text('Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
+          setModalText('Falsch!', 'Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
         } 
       }
       $('#checkModal').modal();
     });
   });
+
+  function setModalText (title, body) {
+    $('#checkModal .modal-title').text(title);
+    $('#checkModal .modal-body').text(body);
+  }
 
   function showCorrection(order) {
     $('#assembly li').each(function(index, element){
@@ -197,6 +200,8 @@ $(window).ready(function() {
     $('h2.elements').text('Lösungsbild');
     // show solution image in #elements
     $('<img>').attr('src', '/ressources/image?id=' + img).appendTo($('#elements'));
+    // deactivate tryagain button, just in case
+    $('#tryagain').prop('disabled', false);
   }
 
   function removeCorrection() {
