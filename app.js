@@ -6,7 +6,9 @@
 
 var config = require('./configs')(),
     express = require('express'),
+    fs = require('fs'),
     http = require('http'),
+    https = require('https'),
     path = require('path'),
     cons = require('consolidate'),
     dust = cons.dust,
@@ -30,6 +32,12 @@ if ('development' === config.mode) {
   app.use(express.errorHandler());
   app.locals.pretty = true;
   dust.helpers.optimizers.format = function(ctx, node) { return node; };
+}
+
+if ('production' === config.mode) {
+  var privateKey = fs.readFileSync('/etc/ssl/private/toyblocks.key', 'utf8');
+  var certificate = fs.readFileSync('/etc/ssl/certs/toyblocks.pem', 'utf8');
+  var credentials = {key: privateKey, cert: certificate};
 }
 
 // all environments
@@ -123,6 +131,11 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
       http.createServer(app).listen(app.get('port'), function(){
         console.log('Express server listening on port ' + app.get('port'));
       });
+      if ('production' === config.mode) {
+        http.createServer(credentials, app).listen(443, function(){
+          console.log('Express server listening on port 443');
+        });
+      }
     }
   }
 );
