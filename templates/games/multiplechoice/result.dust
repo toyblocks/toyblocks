@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-lg-6">
+  </div>
+</div>
+<div class="col-lg-6">
+{#question}
+<div class="row">
+{question.multiplechoice_question}
+</div>
+{/question}
+</div>
+{#result}
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-6">
+    {.}
+  </div>
+</div>
+{/result}

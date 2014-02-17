@@ -11,6 +11,10 @@
     /*overflow: hidden;*/
     position: relative;
   }
+  .image{
+    width: 100%;
+    max-height: 400px;
+  }
   #sortable li .glyphicon {
     position: absolute;
     right: -8px;
@@ -24,7 +28,7 @@
   #tryagain {display: none;}
 </style>
 
-<div class="col-md-10 col-sm-10">
+<div class="col-md-12 col-sm-12">
   <form id="sortingform">
     <input type="hidden" name="gameid" value="{game._id}" />
     <h3>{game.title}</h3>
@@ -34,12 +38,14 @@
   </form>
 
   <button style="display:none" id="next_question" type="button" class="btn btn-default">Nächste Frage</button>
+  <button style="display:none" id="game_result" type="button" class="btn btn-default">Lösung anzeigen</button>
   <button style="display:none" id="game_overview" type="button" class="btn btn-default">Zurück zur Spielübersicht</button>
 
 </div>
 <script>
 var questionIds = [{#game.multiplechoice_question_reference}"{.}"{@sep},{/sep}{/game.multiplechoice_question_reference}],
-  actualIndex = 0;
+  actualIndex = 0,
+  selectedAnswers = [];
 
 String.prototype.hashCode = function(){
     var hash = 0, i, char;
@@ -53,6 +59,7 @@ String.prototype.hashCode = function(){
 };
 
 $(window).ready(function(){
+
   function loadQuestion(questionId) {
     $.ajax({url: "/games/multiplechoice/question?id="+questionId})
       .done(function( data ) {
@@ -61,37 +68,65 @@ $(window).ready(function(){
   }
 
   function doNext() {
-    actualIndex++;
-    if (questionIds.length > actualIndex ) {
+    console.log(questionIds.length + ' - ' + (actualIndex+1) );
+    if (questionIds.length > (actualIndex+1) ) {
       $('#next_question').show();
     }
     else {
+      $('#game_result').show();
       $('#game_overview').show();
     }
   }
 
+
+
   $('#next_question').click(function(){
+    actualIndex++;
     loadQuestion(questionIds[actualIndex]);
     $(this).hide();
   });
+
+
 
   $('#game_overview').click(function(){
     location.href = '/games/multiplechoice/';
   });
 
+
+  $('#game_result').click(function(){
+    selectedAnswers = selectedAnswers.join("-");
+    console.log(selectedAnswers)
+    $.ajax({url: "/games/multiplechoice/result?id=" + 
+      "{game._id}" +
+      "&result=" +
+      selectedAnswers})
+      .done(function( data ) {
+        $('#questions_container').html(data);
+      });
+  });
+
+
   $('#questions_container').on('click', '.select-answer', function(){
     var rightAnswers = $('#questions_container').find('.right-answers').text().split(','),
       answer = $(this).parents('.input-group').find('.answer').val(),
       hash = '' + answer.hashCode();
+    $('.input-group span button').each(function () {
+      $(this).removeClass('btn-info');    
+    })
+    $(this).addClass('btn-info');
 
-    $(this).removeClass('btn-default');
-    $('#questions_container button').prop('disabled', true);
+    // TODO: just add the hash to selectedAnswers
+    // 
+    //$('#questions_container button').prop('disabled', true);
     if ($.inArray(hash, rightAnswers) >= 0) {
-      $(this).addClass('btn-success');
+      selectedAnswers[actualIndex] = true;
+      //$(this).addClass('btn-success');
     }
     else {
-      $(this).addClass('btn-danger');
+      selectedAnswers[actualIndex] = false;
+      //$(this).addClass('btn-danger');
     }
+    console.log(selectedAnswers);
     doNext();
   });
 
