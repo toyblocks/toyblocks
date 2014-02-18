@@ -45,7 +45,6 @@ module.exports.prototype = {
         var querystring = require('querystring');
         var escaped = querystring.escape(req.originalUrl);
         res.redirect('/users/log/in?returnto=' + escaped);
-        res.end();
       }
       else {
         if (req.session.user.rightLevel > this.rightLevel) {
