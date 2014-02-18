@@ -77,9 +77,11 @@ module.exports.prototype = GamesController.prototype.extend({
       // should never happen
       console.error('[FAIL]: missing game.missingparts_category for missingparts game.id: ' +
        game._id + ' - \ncheck the database for corrupt or missing data.');
+
       this.mongodb
         .collection('missingparts_images')
         .find({_random: {$near: [Math.random(), 0]}})
+        .limit(4)
         .toArray(renderCallback);
     }
   },
@@ -110,19 +112,13 @@ module.exports.prototype = GamesController.prototype.extend({
       // lets see if the correct image is clicked
       var correctImageSelected = false,
           correctImageId = game.missingparts_correctimage;
+
       for (var i = 0; i < correctImageId.length; i++) {
         if(parseInt(result,16) ===
           parseInt(correctImageId[i],16)){
           correctImageSelected = true;
         }
       }
-/*
-      for (var i = 0; i < images.length; i++) {
-        if(parseInt(sortIDs[i],16) ===
-        parseInt(game.missingparts_correctimage[0],16)){
-          correctImageId = i;
-        }
-      }*/
 
       // send the solution back to client
       _this.response.json( {
