@@ -92,7 +92,6 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   resultAction: function(){
-    console.log('resultAction');
     var _this = this,
     result = _this.request.param('result'),
     id = _this.request.param('id'),
@@ -135,9 +134,9 @@ module.exports.prototype = GamesController.prototype.extend({
         }
       }
 
-      console.log(solution);
       _this.view.render({
-        result: solution
+        result: solution,
+        question: game.multiplechoice_question_reference
       });
     });
   },

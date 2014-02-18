@@ -2,45 +2,29 @@
 
 {<content}
 <style>
-  #sortable li {
-    float: left;
-    width: 200px;
-    height: 200px;
-    margin-right:10px;
-    margin-bottom: 10px;
-    /*overflow: hidden;*/
-    position: relative;
-  }
   .image{
     width: 100%;
     max-height: 400px;
   }
-  #sortable li .glyphicon {
-    position: absolute;
-    right: -8px;
-    top: -8px;
-    font-size:40px;
-  }
-  #sortable li .glyphicon-ok { color: lime; }
-  #sortable li .glyphicon-remove { color: red; }
-  #sortable li img { max-width:190px; max-height: 130px;}
   .tries-wrapper {display: none;}
   #tryagain {display: none;}
 </style>
 
 <div class="col-md-12 col-sm-12">
   <form id="sortingform">
-    <input type="hidden" name="gameid" value="{game._id}" />
     <h3>{game.title}</h3>
-
-    <div id="questions_container" class="jumbotron"></div>
-
+    <input type="hidden" name="gameid" value="{game._id}" />
+    <div class="jumbotron">
+      <div id="questions_container">
+        <!--Here be HTML-->
+      </div>
+      <div class="text-center">
+        <button id="next_question" type="button" class="btn btn-primary">Nächste Frage</button>
+        <button id="game_result" type="button" class="btn btn-success">Lösung anzeigen</button>
+        <button id="game_overview" type="button" class="btn btn-default">Zurück zur Spielübersicht</button>
+      </div>
+    </div>
   </form>
-
-  <button style="display:none" id="next_question" type="button" class="btn btn-default">Nächste Frage</button>
-  <button style="display:none" id="game_result" type="button" class="btn btn-default">Lösung anzeigen</button>
-  <button style="display:none" id="game_overview" type="button" class="btn btn-default">Zurück zur Spielübersicht</button>
-
 </div>
 <script>
 var questionIds = [{#game.multiplechoice_question_reference}"{.}"{@sep},{/sep}{/game.multiplechoice_question_reference}],
@@ -68,13 +52,14 @@ $(window).ready(function(){
   }
 
   function doNext() {
-    console.log(questionIds.length + ' - ' + (actualIndex+1) );
+    $('#next_question').prop('disabled', false);
     if (questionIds.length > (actualIndex+1) ) {
       $('#next_question').show();
     }
     else {
+      $('#next_question').hide();
+      $('#game_overview').hide();
       $('#game_result').show();
-      $('#game_overview').show();
     }
   }
 
@@ -83,7 +68,7 @@ $(window).ready(function(){
   $('#next_question').click(function(){
     actualIndex++;
     loadQuestion(questionIds[actualIndex]);
-    $(this).hide();
+    $(this).prop('disabled', true);
   });
 
 
@@ -103,6 +88,8 @@ $(window).ready(function(){
       .done(function( data ) {
         $('#questions_container').html(data);
       });
+      $('#game_result').hide();
+      $('#game_overview').show();
   });
 
 
@@ -115,6 +102,7 @@ $(window).ready(function(){
     })
     $(this).addClass('btn-info');
 
+    
     // TODO: just add the hash to selectedAnswers
     // 
     //$('#questions_container button').prop('disabled', true);
@@ -131,6 +119,10 @@ $(window).ready(function(){
   });
 
   loadQuestion(questionIds[actualIndex]);
+
+  $('#next_question').prop('disabled', true);
+  $('#game_result').hide();
+  $('#game_overview').hide();
 });
 </script>
 {/content}
