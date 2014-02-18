@@ -32,21 +32,6 @@ module.exports.prototype = {
 
   init: function(req, res, next) {
 
-    if (this.rightLevel >= 0) {
-      if (!req.session.user) {
-        var querystring = require('querystring');
-        var escaped = querystring.escape(req.originalUrl);
-        res.redirect('/users/log/in?returnto=' + escaped);
-        res.end();
-        return;
-      }
-      else {
-        if (req.session.user.rightLevel > this.rightLevel) {
-          res.render('error-rights', {title: 'Keine erforderlichen Rechte'});
-        }
-      }
-    }
-
     this.request = req;
     this.response = res;
     this.mongodb = req.mongodb;
@@ -54,5 +39,19 @@ module.exports.prototype = {
 
     this.view = new View(this);
     this.view.setOnlyContent(req.param('_view') === 'only_content');
+
+    if (this.rightLevel >= 0) {
+      if (!req.session.user) {
+        var querystring = require('querystring');
+        var escaped = querystring.escape(req.originalUrl);
+        res.redirect('/users/log/in?returnto=' + escaped);
+        res.end();
+      }
+      else {
+        if (req.session.user.rightLevel > this.rightLevel) {
+          res.render('error-rights', {title: 'Keine erforderlichen Rechte'});
+        }
+      }
+    }
   }
 };
