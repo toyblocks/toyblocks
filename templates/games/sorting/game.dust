@@ -137,7 +137,7 @@
 $(window).ready(function(){
 
 {! TODO: Add Session User Tries!}
-  var max_tries = 99;
+  var max_tries = 3;
   var tries = 0;
 
   $( "ul.droptrue" ).sortable({
