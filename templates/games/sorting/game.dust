@@ -9,12 +9,11 @@
   top: -8px;
   font-size:40px;
 }
-#sortable li .glyphicon-ok { color: lime; }
-#sortable li .glyphicon-remove { color: red; }
 
 /* Tries Stuff */
 .tries-wrapper {display: none;}
 #tryagain {display: none;}
+#newgame {display: none;}
 
 /* Sorttable Stuff */
 #sortable {
@@ -31,21 +30,19 @@
   position: relative;
   display: inline-block;
   vertical-align: top;
-  margin: 5px;
-  padding: 5px;
+  margin: 1px;
+  padding: 1px;
   font-size: 1.2em;
-  width: 120px;
+  width: 13%;
   -moz-transition: none;
   -webkit-transition: none;
   -o-transition: color 0 ease-in;
   transition: none;
+  height: 240px;
 }
 .description{
   text-align: center;
   font-size: 0.8em;
-}
-.asd{
-  height: 240px;
 }
 
 /* Timeline Stuff */
@@ -79,8 +76,8 @@
 
 <div class="row">
   <div class="col-sm-12">
-    <h3>{game.title}</h3>
-    <span class="help-block">Ordne die Gebäude nach ihren Epochen!</span>
+    <span id="triesLeft" class="badge pull-right"></span>
+    <h1>Ordne die Gebäude nach ihren Epochen!</h1>
     <br>
     <div class="timeline"></div>
     <div class="timeline-tag l">Älteste</div>
@@ -113,6 +110,7 @@
     <span class="glyphicon glyphicon-send"></span> Lösung senden
   </button>
   <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
+  <button id="newgame" type="button" class="btn btn-primary">Neues Spiel</button>
 </center>
 
 
@@ -137,7 +135,7 @@
 $(window).ready(function(){
 
 {! TODO: Add Session User Tries!}
-  var max_tries = 3;
+  var max_tries = 2;
   var tries = 0;
 
   $( "ul.droptrue" ).sortable({
@@ -157,13 +155,11 @@ $(window).ready(function(){
     //location.reload();
   });
 
+  $('#newgame').click(function () {
+    location.reload();
+  });
+
   $('#submit').click(function(){
-    if(tries === max_tries){
-      $('#checkModal .modal-title').text('Keine Versuche mehr!');
-      $('#checkModal .modal-body').text('Ihre Versuche sind aufgebraucht!');
-      $('#checkModal').modal();
-      return;
-    }
     var $button = $(this);
     $button.prop('disabled', true);
     $('#sortable').sortable('disable');
@@ -187,15 +183,23 @@ $(window).ready(function(){
       }
       $('#checkModal').modal();
     });
+    
+    $('#triesLeft').text((max_tries-tries)-1);
+    if(tries === max_tries){
+      $('#tryagain').prop('disabled', true);
+      $('#submit').prop('disabled', true);
+      $('#newgame').show();
+      $('#newgame').prop('disabled', false);
+    }
   });
 
   function showCorrection(tillIndex) {
     $('#sortable li').each(function(index){
       if (index <= tillIndex || tillIndex == -1) {
-        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
+        $(this).append('<span class="glyphicon glyphicon-ok green"></span>');
       }
       else {
-        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
+        $(this).append('<span class="glyphicon glyphicon-remove red"></span>');
       }
     });
   }
@@ -206,7 +210,6 @@ $(window).ready(function(){
     });
   }
 
-  $(".alert").alert();
 });
 </script>
 {/content}
