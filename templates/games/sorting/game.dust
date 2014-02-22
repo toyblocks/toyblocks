@@ -71,13 +71,32 @@
   margin: 0 auto;
   background-image: linear-gradient(to right,#001F3F 0,#0074D9 100%);
 }
+#triesLeft{
+  margin-top: -72px;
+  margin-right: -29px;
+}
+.bg-info{
+  background-color: #d9edf7;
+  padding: 15px;
+  border-left: 40px #d9edf7 solid;
+}
+
+.infocon{
+  font-size: 31px;
+  position: absolute;
+  margin-top: 7px;
+  margin-left: -47px;
+}
+
 </style>
 
 
 <div class="row">
   <div class="col-sm-12">
-    <span id="triesLeft" class="badge pull-right"></span>
-    <h1>Ordne die Gebäude nach ihren Epochen!</h1>
+    <p class="bg-info alert-dismissible">
+      <span class="infocon glyphicon glyphicon-question-sign invert"></span>
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      Ordne die Gebäude nach dem Alter ihrer Epochen. NICHT nach ihrem Baujahr!</p>
     <br>
     <div class="timeline"></div>
     <div class="timeline-tag l">Älteste</div>
@@ -87,9 +106,9 @@
 <br>
 <form id="sortingform">
   <div class="row">
-    <ul id="sortable" class="well droptrue ui-sortable">
+    <ul id="sortable" class="well ui-sortable">
       {#buildings}
-      <li data-id="{_id}" class="asd">
+      <li data-id="{_id}" class="center-block">
         <div class="thumbnail">
           <input type="hidden" name="sortings[]" value="{_id}">
           <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
@@ -103,16 +122,15 @@
     </ul>
   </div>
 </form>
-
-<center>
-  <br>
-  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">
-    <span class="glyphicon glyphicon-send"></span> Lösung senden
-  </button>
+<br>
+<div class="well" style="max-width:300px; margin: 0 auto 10px;">
+  <p>
+  <button id="submit" type="button" class="btn btn-primary">Lösung senden</button>
   <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
-  <button id="newgame" type="button" class="btn btn-primary">Neues Spiel</button>
-</center>
-
+  </p>
+  <span id="triesLeft" class="badge pull-right"></span>
+  <button id="newgame" type="button" class="btn btn-danger btn-block">Neues Spiel</button>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -131,28 +149,24 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <script>
 $(window).ready(function(){
 
 {! TODO: Add Session User Tries!}
-  var max_tries = 2;
+  var max_tries = 3;
   var tries = 0;
 
-  $( "ul.droptrue" ).sortable({
-    connectWith: "ul"
-  });
-  $("#sortable").sortable();
-  $( "#sortable" ).disableSelection();
+  $('#sortable').sortable();
+  $('#sortable').disableSelection();
 
 
   $('#tryagain').click(function(){
-    console.log("again");
     $('#sortable').sortable('enable');
     $('#sortable').disableSelection();
     $('#submit').prop('disabled', false);
     $('#tryagain').prop('disabled', true);
-    removeCorrection();  
-    //location.reload();
+    removeCorrection();
   });
 
   $('#newgame').click(function () {
@@ -167,31 +181,40 @@ $(window).ready(function(){
     var serialized = $('#sortingform').serialize();
     $.post('check-sorting', serialized, function(data) {
       tries++;
+      $('#triesLeft').text('Versuche: '+(max_tries-tries));
 
       $('#tryagain').show();
       $('#tryagain').prop('disabled', false);
 
       if(data.correct){
-        $('#checkModal .modal-title').text('Richtig!');
-        $('#checkModal .modal-body').text('Ihre Lösung ist korrekt!');
+        setModalText('Richtig!','Ihre Lösung ist korrekt!');
         showCorrection(data.lastCorrectBuilding);
       }else{
-        $('#checkModal .modal-title').text('Falsch!');
-        $('#checkModal .modal-body').text('Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
+        switch((max_tries-tries)){
+          case 0:
+            $('#tryagain').prop('disabled', true);
+            $('#submit').prop('disabled', true);
+            $('#newgame').show();
+            $('#newgame').prop('disabled', false);
+            setModalText('Falsch!','Du hast keine Versuche mehr!');
+            break;
+          case 1:
+            setModalText('Falsch!','Ihre Lösung ist falsch. Du hast noch einen Versuch!');
+            break;
+          default:
+            setModalText('Falsch!','Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
+          };
         showCorrection(data.lastCorrectBuilding);
-        
       }
       $('#checkModal').modal();
     });
-    
-    $('#triesLeft').text((max_tries-tries)-1);
-    if(tries === max_tries){
-      $('#tryagain').prop('disabled', true);
-      $('#submit').prop('disabled', true);
-      $('#newgame').show();
-      $('#newgame').prop('disabled', false);
-    }
   });
+
+  function setModalText (title, body) {
+    $('#checkModal .modal-title').text(title);
+    $('#checkModal .modal-body').text(body);
+  };
+
 
   function showCorrection(tillIndex) {
     $('#sortable li').each(function(index){
@@ -202,13 +225,13 @@ $(window).ready(function(){
         $(this).append('<span class="glyphicon glyphicon-remove red"></span>');
       }
     });
-  }
+  };
 
   function removeCorrection() {
     $('#sortable li .glyphicon').each(function(index){
       $(this).remove();
     });
-  }
+  };
 
 });
 </script>
