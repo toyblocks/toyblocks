@@ -43,6 +43,14 @@ module.exports.prototype = {
     var isLive = req.headers.host.indexOf("tu-darmstadt.de") > 0;
 
     if (this.rightLevel >= 0 && isLive) {
+      var nextWithRightsCheck = function() {
+        if (req.session.user.rightLevel > this.rightLevel) {
+          res.render('error-rights', {title: 'Keine erforderlichen Rechte'});
+        }
+        else {
+          next();
+        }
+      };
       if (!req.session.user) {
         var querystring = require('querystring'),
           escaped = querystring.escape(req.originalUrl),
@@ -118,12 +126,12 @@ module.exports.prototype = {
                           .collection('users')
                           .insert(user, {w: 1}, function(err, result) {
                             req.session.user = user;
-                            next();
+                            nextWithRightsCheck();
                           });
                       }
                       else {
                         req.session.user = doc;
-                        next();
+                        nextWithRightsCheck();
                       }
                     });
                 }
@@ -154,10 +162,7 @@ module.exports.prototype = {
         }
       }
       else {
-        if (req.session.user.rightLevel > this.rightLevel) {
-          res.render('error-rights', {title: 'Keine erforderlichen Rechte'});
-        }
-        next();
+        nextWithRightsCheck();
       }
     }
     else {
