@@ -56,6 +56,7 @@ module.exports.prototype = {
           var https = require('https');
           var fs = require('fs');
 
+          // not needed, but prepared for the future
           var body = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">' +
             '<SOAP-ENV:Header/>' +
             '<SOAP-ENV:Body>' +
@@ -72,18 +73,14 @@ module.exports.prototype = {
           var options = {
             host: 'sso.hrz.tu-darmstadt.de',
             port: 443,
-            path: '/samlValidate',
-            method: 'POST',
+            path: '/serviceValidate?service=https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de&ticket='+req.param('ticket'),
+            method: 'GET',
             headers: {
               'Content-Type': 'text/xml',
               'Content-Length': Buffer.byteLength(body)
             },
           //  ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
           };
-
-          var ticket = 'ST-313373-BoHiV6aXTkauzVkUfUJA-sso';
-          options.path = '/serviceValidate?service=https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de&ticket='+ticket;
-          options.method = 'GET';
 
           var verifyRequest = https.request(options, function(verifyResponse) {
             if (verifyResponse.statusCode != 200) {
