@@ -1,0 +1,9 @@
+{>"layout/layout.dust"/}
+{<content}
+<div class="jumbotron">
+  <div class="page-header">
+    <h1>Problem mit der Authentifizierung!</h1>
+    <p>{text}</p>
+  </div>
+</div>
+{/content}

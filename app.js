@@ -114,18 +114,19 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
           }
         }
         var controllerInstance = new controllerClass;
-        controllerInstance.init(req, res, next);
-        try {
-          controllerInstance.run(action.toLowerCase());
-        }
-        catch (e) {
-          if (e.code === 'ACTION_NOT_FOUND') {
-            res.render('error404', {title: 'Action nicht gefunden'});
+        controllerInstance.init(req, res, function(){
+          try {
+            controllerInstance.run(action.toLowerCase());
           }
-          else {
-            throw e;
+          catch (e) {
+            if (e.code === 'ACTION_NOT_FOUND') {
+              res.render('error404', {title: 'Action nicht gefunden'});
+            }
+            else {
+              throw e;
+            }
           }
-        }
+        });
       });
 
       http.createServer(app).listen(app.get('port'), function(){
