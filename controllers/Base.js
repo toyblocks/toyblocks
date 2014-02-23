@@ -44,7 +44,7 @@ module.exports.prototype = {
 
     if (this.rightLevel >= 0 && isLive) {
       var nextWithRightsCheck = function() {
-        if (req.session.user.rightLevel > this.rightLevel) {
+        if (req.session.user.rightLevel > _this.rightLevel) {
           res.render('error-rights', {title: 'Keine erforderlichen Rechte'});
         }
         else {
