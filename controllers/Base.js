@@ -44,18 +44,21 @@ module.exports.prototype = {
 
     if (this.rightLevel >= 0 && isLive) {
       if (!req.session.user) {
-        if (!req.param('ticket')) {
-          var querystring = require('querystring');
-          console.log(req);
-          var escaped = querystring.escape(req.originalUrl);
+        var querystring = require('querystring'),
+          escaped = querystring.escape(req.originalUrl),
+          service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escaped,
+          ticket = req.param('ticket');
+        if (!ticket) {
           //res.redirect('/users/log/in?returnto=' + escaped);
-          res.redirect('https://sso.hrz.tu-darmstadt.de/login?service=https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escaped);
+          // let user login via hrz
+          res.redirect('https://sso.hrz.tu-darmstadt.de/login?service=' + service);
         }
         else {
+          // hrz sends us back with a ticket
           // TODO: auslagern
           var https = require('https');
-          var fs = require('fs');
 
+          // not needed, but prepared for the future
           var body = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">' +
             '<SOAP-ENV:Header/>' +
             '<SOAP-ENV:Body>' +
@@ -63,7 +66,7 @@ module.exports.prototype = {
                 'MinorVersion="1" RequestID="_192.168.16.51.1024506224022"' +
                 'IssueInstant="2002-06-19T17:03:44.022Z">' +
                 '<samlp:AssertionArtifact>' +
-                  req.param('ticket') +
+                  ticket +
                 '</samlp:AssertionArtifact>' +
               '</samlp:Request>' +
             '</SOAP-ENV:Body>' +
@@ -72,18 +75,14 @@ module.exports.prototype = {
           var options = {
             host: 'sso.hrz.tu-darmstadt.de',
             port: 443,
-            path: '/samlValidate',
-            method: 'POST',
+            path: '/serviceValidate?service=' + service + '&ticket=' + ticket,
+            method: 'GET',
             headers: {
               'Content-Type': 'text/xml',
               'Content-Length': Buffer.byteLength(body)
             },
           //  ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
           };
-
-          var ticket = 'ST-313373-BoHiV6aXTkauzVkUfUJA-sso';
-          options.path = '/serviceValidate?service=https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de&ticket='+ticket;
-          options.method = 'GET';
 
           var verifyRequest = https.request(options, function(verifyResponse) {
             if (verifyResponse.statusCode != 200) {
