@@ -54,7 +54,8 @@ module.exports.prototype = {
           res.redirect('https://sso.hrz.tu-darmstadt.de/login?service=' + service);
         }
         else {
-          service = service.substr(0, service.indexOf('ticket=' + ticket) - 1);
+          // -3 because there is ? or & before which is %3F or %26 escaped
+          service = service.substr(0, service.indexOf('ticket%3D' + ticket) - 3);
           // hrz sends us back with a ticket
           // TODO: auslagern
           var https = require('https');
