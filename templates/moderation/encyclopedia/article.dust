@@ -1,0 +1,35 @@
+{>"layout/layout.dust"/}
+
+{<content}
+<div class="row">
+
+  {?image}
+  <div class="col-md-3">
+    <img src="/ressources/image?id={image}&amp;size=middle">
+  </div>
+  {/image}
+<div class="form-group">
+  <label class="col-sm-3 control-label" for="attr_title">Titel</label>
+  <div class="col-sm-6">
+
+    <input name="values[title]" type="text" id="attr_title" class="form-control" required="">
+
+  </div>
+
+</div>
+  <div class="col-md-6">
+    <h3 class="col-md-offset-1 col-xs-offset-1">{headline}</h3>
+
+    <div >
+      <div id='editor' >
+        {article|s}
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#editor').summernote();
+  });
+</script>
+{/content}
