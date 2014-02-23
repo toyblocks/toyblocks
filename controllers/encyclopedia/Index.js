@@ -81,5 +81,5 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
         image: article.image
       });
     });
-  },
+  }
 });

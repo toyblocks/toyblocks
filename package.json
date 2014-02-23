@@ -13,7 +13,8 @@
     "jasmine-node": "~1.11.0",
     "dustjs-helpers": "~1.1.1",
     "underscore": "~1.5.2",
-    "gm": "~1.14.2"
+    "gm": "~1.14.2",
+    "xml2json": "~0.4.0"
   },
   "devDependencies": {
     "grunt-contrib-clean": "~0.5.0"
