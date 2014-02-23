@@ -1,19 +1,29 @@
 <div class="row">
   <div class="col-lg-6">
+    <center>
     <img class="image" src="/ressources/image?id={question.image}&size=large">
+    </center>
   </div>
   <div class="row">
-    <div class="col-lg-6">
+
+    <center>
+    <div class="questionbox col-lg-6">
       {question.multiplechoice_question}
-  {#answers}
-      <div class="input-group">
-        <input type="text" class="form-control answer" value="{.}" readonly>
-        <span class="input-group-btn">
-          <button class="btn btn-default select-answer" type="button"><span class="glyphicon glyphicon-ok"></span></button>
-        </span>
-      </div>
-  {/answers}
+      <div style="height: 20px;"></div>
+      {#answers}
+        <div class="input-group questions">
+          <input type="hidden" class="form-control answer" value="{.}" readonly>
+          <span class="input-group-btn">
+            <button class="btn btn-default btn-block select-answer" type="button">
+              <span class="pull-left" style="margin-left: 10px;">{.}</span>
+              <span class="glyphicon glyphicon-ok pull-right" style="margin-right: 10px;"></span>
+            </button>
+          </span>
+        </div>
+      {/answers}
     </div>
+
+    </center>
   </div>
   <div class="right-answers" style="display:none">{#right_answers}{.}{@sep},{/sep}{/right_answers}</div>
 </div>

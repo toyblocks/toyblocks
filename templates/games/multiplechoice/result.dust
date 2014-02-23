@@ -1,4 +1,15 @@
-<div class="col-lg-6">
+<div class="row">
+
+<div class="progress">
+  <div class="progress-bar progress-bar-success" style="width: {percent.right}%">
+    <span class="sr-only">{percent.right}% Korrekt!</span>
+  </div>
+  <div class="progress-bar progress-bar-danger" style="width: {percent.wrong}%">
+    <span class="sr-only">{percent.wrong}% Fehlerhaft</span>
+  </div>
+</div>
+
+  <div class="col-lg-6">
   {!TODO: Add which question was asked!}
   {#question}
     <div class="row">
@@ -6,10 +17,14 @@
     </div>
   {/question}
 </div>
-{#result}
-  <div class="row">
-    <div class="col-lg-4 col-lg-offset-5">
-      {.}
-    </div>
-  </div>
-{/result}
+<br>
+<div class="col-lg-4 col-lg-offset-4">
+  <ul class="list-group">
+  {#result}
+    <li class="list-group-item">{.}</li>
+  {/result}
+  </ul>
+</div>
+<br>
+
+</div>

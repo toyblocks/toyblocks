@@ -95,7 +95,9 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this,
     result = _this.request.param('result'),
     id = _this.request.param('id'),
-    solution = [];
+    solution = [],
+    countCorrect = 0,
+    countWrong = 0;
 
 
     function hashString( str ){
@@ -109,72 +111,45 @@ module.exports.prototype = GamesController.prototype.extend({
       return hash;
     }
 
-//TODO: check from serverside if solution is correct
+    //TODO: check from serverside if solution is correct
     _this.mongodb
     .collection('multiplechoice_games')
     .find({_id: _this.mongo.ObjectID(id)})
     .nextObject(function(err, game) {
 
-    // _this.mongodb
-    // .collection('multiplechoice_questions')
-    // .find({_id: _this.mongo.ObjectID(id)})
-    // .nextObject(function(err, game) {
+      // _this.mongodb
+      // .collection('multiplechoice_questions')
+      // .find({_id: game._id})
+      // .nextObject(function(err, q) {
+      // });
 
 
       // var answers = question.multiplechoice_answer_right
       // .concat(question.multiplechoice_answer_wrong),
       // correctAnswers = question.multiplechoice_answer_right;
       var a = result.split('-');
-      for (var i = 0; i < 3; i ++) {
+      for (var i = 0; i < a.length; i ++) {
         if(a[i] === 'true'){
         //if(result[i] === hashString(correctAnswers[i]) ){
           solution.push('Richtig');
+          countCorrect++;
         }else{
           solution.push('Falsch');
+          countWrong++;
         }
       }
+      var percantage = {
+        'wrong':1/a.length*countWrong*100,
+        'right':1/a.length*countCorrect*100
+      };
 
       _this.view.render({
         result: solution,
-        question: game.multiplechoice_question_reference
+        question: game.multiplechoice_question_reference,
+        percent: percantage
       });
     });
   },
-
-//   checkSolutionAction: function(){
-//     var _this = this,
-//     answer = _this.request.param('answer'),
-//     gameid = _this.request.param('gameid');
-
-//     function hashString( str ){
-//       var hash = 0, i, l, char;
-//       if (str.length === 0) return hash;
-//       for (i = 0, l = str.length; i < l; i++) {
-//         char  = str.charCodeAt(i);
-//         hash  = ((hash<<5)-hash)+char;
-//       hash |= 0; // Convert to 32bit integer
-//     }
-//     return hash;
-//   }
-
-//   _this.mongodb
-//   .collection('multiplechoice_questions')
-//   .find({_id: _this.mongo.ObjectID(gameid)})
-//   .toArray(function(err, question) {
-//     var correctAnswers = question.multiplechoice_answer_right,
-//     answerIsCorrect = false;
-//     for (var i = 0; i < correctAnswers.length; i++) {
-//       if(answer === hashString(correctAnswers[i])){
-//         answerIsCorrect = true;
-//       }
-//     }
-//     // TODO: add next question
-//     _this.response.json({
-//       correct: answerIsCorrect,
-//       nextQuestion: question
-//     });
-//   });
-// },
 
   // Gets the questions from the database and returns it with a callback
   //

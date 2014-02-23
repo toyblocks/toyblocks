@@ -2,34 +2,75 @@
 
 {<content}
 <style>
-  .image{
-    width: 100%;
-    max-height: 400px;
-  }
-  .tries-wrapper {display: none;}
-  #tryagain {display: none;}
+.image{
+  max-width: 100%;
+  max-height: 400px;
+}
+.imgbox{
+  margin: 0 auto 10px;
+}
+.tries-wrapper {display: none;}
+#tryagain {display: none;}
+
+#gamesLeftBox{
+  margin-top: -63px;
+  margin-right: -29px;
+}
+.questionbox{
+  font-size: 25px;
+  text-align: center;
+  max-width: 450px;
+}
+
+.questions{
+  padding: 5px;
+  color: black;
+}
+
+.questions button{
+  font-size: 16px;
+  text-shadow: 0 0px 0 rgba(0,0,0,0) !important;
+}
+
+#game_overview, #game_result{
+  display: none;
+}
+
+.list-group-item{
+  margin: 0 auto;
+  float: none;
+}
+
 </style>
 
-<div class="col-md-12 col-sm-12">
-  <form id="sortingform">
-    <h3>{game.title}</h3>
-    <input type="hidden" name="gameid" value="{game._id}" />
-    <div class="jumbotron">
-      <div id="questions_container">
-        <!--Here be HTML-->
-      </div>
-      <div class="text-center">
-        <button id="next_question" type="button" class="btn btn-primary">Nächste Frage</button>
-        <button id="game_result" type="button" class="btn btn-success">Lösung anzeigen</button>
-        <button id="game_overview" type="button" class="btn btn-default">Zurück zur Spielübersicht</button>
+<h3>{game.title}</h3>
+<input type="hidden" name="gameid" value="{game._id}" />
+<div class="well">
+  <div id="questions_container">
+    <!--Here be HTML-->
+    <div class="progress progress-striped active">
+      <div class="progress-bar"  role="progressbar"
+      aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+        <span class="sr-only">Lädt...</span>
       </div>
     </div>
-  </form>
+    <!--Here be HTML-->
+  </div>
 </div>
+
+<br>
+<div class="well" style="max-width:300px; margin: 0 auto 10px;">
+  <button id="next_question" type="button" class="btn btn-primary btn-block">Nächste Frage</button>
+  <button id="game_result" type="button" class="btn btn-success btn-block">Lösung anzeigen</button>
+  <button id="game_overview" type="button" class="btn btn-danger btn-block">Zurück zur Spielübersicht</button>
+  <span id="gamesLeftBox" class="badge pull-right">Verbleibende Spiele: <span id="gamesLeft"></span></span>
+</div>
+
 <script>
 var questionIds = [{#game.multiplechoice_question_reference}"{.}"{@sep},{/sep}{/game.multiplechoice_question_reference}],
   actualIndex = 0,
-  selectedAnswers = [];
+  selectedAnswers = [],
+  gamesCount = {game.multiplechoice_question_reference.length}-1;
 
 String.prototype.hashCode = function(){
     var hash = 0, i, char;
@@ -68,6 +109,7 @@ $(window).ready(function(){
   $('#next_question').click(function(){
     actualIndex++;
     loadQuestion(questionIds[actualIndex]);
+    $('#gamesLeft').text(gamesCount--);
     $(this).prop('disabled', true);
   });
 
@@ -101,28 +143,22 @@ $(window).ready(function(){
       $(this).removeClass('btn-info');    
     })
     $(this).addClass('btn-info');
-
     
     // TODO: just add the hash to selectedAnswers
-    // 
-    //$('#questions_container button').prop('disabled', true);
+    // selectedAnswers[actualIndex] = hash;
     if ($.inArray(hash, rightAnswers) >= 0) {
       selectedAnswers[actualIndex] = true;
-      //$(this).addClass('btn-success');
     }
     else {
       selectedAnswers[actualIndex] = false;
-      //$(this).addClass('btn-danger');
     }
-    console.log(selectedAnswers);
     doNext();
   });
 
   loadQuestion(questionIds[actualIndex]);
 
+  $('#gamesLeft').text(gamesCount--);
   $('#next_question').prop('disabled', true);
-  $('#game_result').hide();
-  $('#game_overview').hide();
 });
 </script>
 {/content}
