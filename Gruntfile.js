@@ -7,35 +7,44 @@ module.exports = function(grunt) {
 
     copy: {
       bowerjsdeps: {
-        files: [
-          {expand: true,
-           flatten: true,
-           src: ['bower_components/jquery/dist/jquery.min.js',
-                 'bower_components/bootstrap/dist/js/bootstrap.min.js',
-                 'bower_components/jqueryui/ui/minified/jquery-ui.min.js',
-                 'bower_components/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js'],
-           dest: 'public/js/vendor/',
-           filter: 'isFile'}
-        ]
+        files: [{
+          expand: true,
+          flatten: true,
+          cwd: 'bower_components',
+          src: ['jquery/dist/jquery.min.js',
+            'bootstrap/dist/js/bootstrap.min.js',
+            'jqueryui/ui/minified/jquery-ui.min.js',
+            'jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
+            'summernote/dist/summernote.min.js'
+          ],
+          dest: 'public/js/vendor/',
+          filter: 'isFile'
+        }]
       },
       bowercssdeps: {
-        files: [
-          {expand: true,
-           flatten: true,
-           src: ['bower_components/bootstrap/dist/css/bootstrap.min.css',
-                 'bower_components/bootstrap/dist/css/bootstrap-theme.min.css'],
-           dest: 'public/css/vendor/',
-           filter: 'isFile'}
-        ]
+        files: [{
+          expand: true,
+          flatten: true,
+          cwd: 'bower_components',
+          src: ['bootstrap/dist/css/bootstrap.min.css',
+            'bootstrap/dist/css/bootstrap-theme.min.css',
+            'font-awesome/css/font-awesome.min.css',
+            'summernote/dist/summernote.css'
+          ],
+          dest: 'public/css/vendor/',
+          filter: 'isFile'
+        }]
       },
       bowerfontdeps: {
-        files: [
-          {expand: true,
-           flatten: true,
-           src: ['bower_components/bootstrap/dist/fonts/*'],
-           dest: 'public/css/fonts/',
-           filter: 'isFile'}
-        ]
+        files: [{
+          expand: true,
+          flatten: true,
+          cwd: 'bower_components',
+          src: ['bootstrap/dist/fonts/*',
+            'font-awesome/fonts/*'],
+          dest: 'public/css/fonts/',
+          filter: 'isFile'
+        }]
       },
     }
   });
@@ -44,7 +53,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.registerTask('init', ['clean',
-                              'copy:bowerjsdeps',
-                              'copy:bowercssdeps',
-                              'copy:bowerfontdeps']);
+    'copy:bowerjsdeps',
+    'copy:bowercssdeps',
+    'copy:bowerfontdeps'
+  ]);
 };
