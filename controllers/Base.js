@@ -54,6 +54,7 @@ module.exports.prototype = {
           res.redirect('https://sso.hrz.tu-darmstadt.de/login?service=' + service);
         }
         else {
+          service = service.substr(0, service.indexOf('ticket=' + ticket) - 1);
           // hrz sends us back with a ticket
           // TODO: auslagern
           var https = require('https');
