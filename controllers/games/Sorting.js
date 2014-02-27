@@ -40,7 +40,6 @@ module.exports.prototype = GamesController.prototype.extend({
     });
   },
 
-
 /** 
  * Gets the buildings from the database and returns it with a callback
  * 
@@ -86,7 +85,10 @@ module.exports.prototype = GamesController.prototype.extend({
  * @param sortings  - an array of ids, shows how the images were sorted
  */
   checkSortingAction: function() {
-    var _this = this;
+    var _this = this,
+      sortIds = _this.request.param('sortings');
+
+      //TODO: Rewrite this function...
 
     // get the era attribute with correct sorting of eras
     _this.mongodb
@@ -94,8 +96,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .find({name: 'era'})
       .nextObject(function(err, attribute) {
 
-        var eras = attribute.values,
-            sortIds = _this.request.param('sortings'),
+        var eras = attribute.values,      
             sortedBuildings = {};
         if(sortIds === undefined){
           _this.response.json({
@@ -142,7 +143,7 @@ module.exports.prototype = GamesController.prototype.extend({
               lastCorrectBuilding = buildingIndex;
               buildingIndex++;
             }
-
+            
             // response with a json object
             _this.response.json({
               correct: correct,

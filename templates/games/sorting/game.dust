@@ -92,11 +92,12 @@
 
 
 <div class="row">
-  <div class="col-sm-12">
+  <div class="col-md-12">
     <p class="bg-info alert-dismissible">
       <span class="infocon glyphicon glyphicon-question-sign invert"></span>
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      Ordne die Gebäude nach dem Alter ihrer Epochen. NICHT nach ihrem Baujahr!</p>
+      Ordne die Gebäude nach dem Alter ihrer Epochen. NICHT nach ihrem Baujahr!
+    </p>
     <br>
     <div class="timeline"></div>
     <div class="timeline-tag l">Älteste</div>
@@ -162,11 +163,7 @@ $(window).ready(function(){
 
 
   $('#tryagain').click(function(){
-    $('#sortable').sortable('enable');
-    $('#sortable').disableSelection();
-    $('#submit').prop('disabled', false);
-    $('#tryagain').prop('disabled', true);
-    removeCorrection();
+    tryAgain();
   });
 
   $('#newgame').click(function () {
@@ -176,7 +173,6 @@ $(window).ready(function(){
   $('#submit').click(function(){
     var $button = $(this);
     $button.prop('disabled', true);
-    $('#sortable').sortable('disable');
 
     var serialized = $('#sortingform').serialize();
     $.post('check-sorting', serialized, function(data) {
@@ -189,6 +185,7 @@ $(window).ready(function(){
       if(data.correct){
         setModalText('Richtig!','Ihre Lösung ist korrekt!');
         showCorrection(data.lastCorrectBuilding);
+        $('#sortable').sortable('disable');
       }else{
         switch((max_tries-tries)){
           case 0:
@@ -204,11 +201,20 @@ $(window).ready(function(){
           default:
             setModalText('Falsch!','Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
           };
+        $( "#sortable" ).on( "sortstart", function( event, ui ) { tryAgain(); });
         showCorrection(data.lastCorrectBuilding);
       }
       $('#checkModal').modal();
     });
   });
+
+  function tryAgain(){
+    $('#sortable').sortable('enable');
+    $('#sortable').disableSelection();
+    $('#submit').prop('disabled', false);
+    $('#tryagain').prop('disabled', true);
+    removeCorrection();
+  }
 
   function setModalText (title, body) {
     $('#checkModal .modal-title').text(title);
