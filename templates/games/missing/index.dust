@@ -1,12 +1,19 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<div class="col-md-4 col-sm-4">
-  <h3>Fehlstellenspiele</h3>
+<div class="col-md-10 col-sm-10">
+  <h3>Fehlstellenspiel</h3>
   <div class="list-group">
-    {#data}
-    <a href="game?id={_id}" class="list-group-item">{title} <span class="badge">3 mal gespielt</span></a>
-    {/data}
+    <a href="game?level=1&gamesLeft=3" class="well list-group-item">
+    	Schwierigskeitstufe <strong>1</strong> (4 Einzelteile) <span class="badge">3 mal gespielt</span>
+    </a>
+    <a href="game?level=2&gamesLeft=3" class="well list-group-item">
+    	Schwierigskeitstufe <strong>2</strong> (6 Einzelteile) <span class="badge">3 mal gespielt</span>
+    </a>
+    <a href="game?level=3&gamesLeft=3" class="well list-group-item">
+    	Schwierigskeitstufe <strong>3</strong> (10 Einzelteile) <span class="badge">3 mal gespielt</span>
+    </a>
   </div>
+  <p class="text-muted">Es kann sein das es noch nicht genug Einzelteile gibt um genug anzuzeigen.</p>
 </div>
 {/content}

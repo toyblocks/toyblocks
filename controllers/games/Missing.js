@@ -1,7 +1,6 @@
 'use strict';
 
 var GamesController = require('../Games');
-
 module.exports = function () {};
 
 module.exports.prototype = GamesController.prototype.extend({
@@ -18,7 +17,8 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this;
     this.mongodb
     .collection('missingparts_games')
-    .find({})
+    .find({_random: {$near: [Math.random(), 0]}})
+    .limit(3)
     .toArray(function(err, data){
       _this.view.render({
         title: 'Fehlstellen-Spiel',
@@ -37,20 +37,69 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Array> images
   */
   gameAction: function() {
-    var _this = this;
-    this.mongodb
-    .collection('missingparts_games')
-    .find({_id: this.mongo.ObjectID(this.request.param('id'))})
-    .nextObject(function(err, game) {
-      _this.renderGame(game, function(err, images){
-        _this.view.render({
-          title: 'Fehlstellen-Spiel',
-          game: game,
-          mainimage: game.image,
-          images: images
+    var _this = this,
+      id = this.request.param('id'),
+      level = parseInt(this.request.param('level'),10) || 1,
+      gamesLeft = parseInt(this.request.param('gamesLeft'),10) || 3;
+      console.log(id);
+
+    //TODO: remove first if code, we shouldn't need it
+    if(typeof id !== "undefined"){
+      this.mongodb
+      .collection('missingparts_games')
+      .find({_id: this.mongo.ObjectID(id)})
+      .nextObject(function(err, game) {
+        _this.renderGame(game, 4, function(err, images){
+          _this.view.render({
+            title: 'Fehlstellen-Spiel',
+            game: game,
+            mainimage: game.image,
+            images: images
+          });
         });
       });
-    });
+    }else{
+      var limit;
+      switch (level){
+        case 2:
+        limit = 6;
+        break;
+        case 3:
+        limit = 10;
+        break;
+        default:
+        limit = 4;
+        break;
+      }
+
+      // TODO: When database is filled remove the following
+      // shuffle and insert this into the find
+      //  .find({_random: {$near: [Math.random(), 0]}})
+      this.mongodb
+      .collection('missingparts_games')
+      .find() 
+      .toArray(function(err, game) {
+        //+ Jonas Raoni Soares Silva
+        //@ http://jsfromhell.com/array/shuffle [v1.0]
+        function shuffle(o){ //v1.0
+          for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+           x = o[--i], o[i] = o[j], o[j] = x);
+          return o;
+        }
+        game = shuffle(game)[0];
+
+        _this.renderGame(game, limit, function(err, images){
+          _this.view.render({
+            title: 'Fehlstellen-Spiel',
+            game: game,
+            mainimage: game.image,
+            images: images,
+            level: level,
+            gamesLeft: gamesLeft
+          });
+        });
+      });
+    }
   },
 
   /**
@@ -58,32 +107,42 @@ module.exports.prototype = GamesController.prototype.extend({
   *
   * @param <Array> game
   * @param <Callback> renderCallback
-  * @return <Array> images in Callback //FIXME: what is the type of a callback?
+  * @return <Array> images in Callback
   */
-  renderGame: function(game, renderCallback) {
-    var type = game.missingparts_category;
+  renderGame: function(game, limit, renderCallback) {
+    var _this = this,
+      type = game.missingparts_category;
 
-    // filter buildings by category
-    if (type) {
-
-        // TODO: limit count of images and include correct one
-      this.mongodb
-        .collection('missingparts_images')
-        .find({missingparts_category: type, _random: {$near: [Math.random(), 0]}})
-        .toArray(renderCallback);
+    //+ Jonas Raoni Soares Silva
+    //@ http://jsfromhell.com/array/shuffle [v1.0]
+    function shuffle(o){ //v1.0
+      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+       x = o[--i], o[i] = o[j], o[j] = x);
+      return o;
     }
-    else {
 
-      // should never happen
-      console.error('[FAIL]: missing game.missingparts_category for missingparts game.id: ' +
-       game._id + ' - \ncheck the database for corrupt or missing data.');
+    //get one solution
+    var solution = shuffle(game.missingparts_correctimage)[0];
 
-      this.mongodb
+    _this.mongodb
+      .collection('missingparts_images')
+      .find({
+        missingparts_category: type,
+        _random: {$near: [Math.random(), 0]},
+        _id: {$nin: game.missingparts_correctimage}}) // no 2 solutions
+      .limit(limit-1)
+      .toArray(
+        function (err, images) {
+        _this.mongodb
         .collection('missingparts_images')
-        .find({_random: {$near: [Math.random(), 0]}})
-        .limit(4)
-        .toArray(renderCallback);
-    }
+        .find({_id: _this.mongo.ObjectID(solution.toString()) })
+        .nextObject(
+          function (err2, images2) {
+          images.push(images2);
+          images = shuffle(images);
+          renderCallback(err, images);
+        });
+      });
   },
 
   /**
@@ -99,6 +158,7 @@ module.exports.prototype = GamesController.prototype.extend({
     gameid = _this.request.param('gameid'),
     result = _this.request.param('sortings');
 
+    // TODO: implement clientside error detection
     if(result === undefined){
       _this.response.json({error:'Error'});
       return;
