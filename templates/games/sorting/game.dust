@@ -95,7 +95,7 @@
   <div class="col-md-12">
     <p class="bg-info alert-dismissible">
       <span class="infocon glyphicon glyphicon-question-sign invert"></span>
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <button type="button" title="Klicken zum Entfernen." class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       Ordne die Gebäude nach dem Alter ihrer Epochen. NICHT nach ihrem Baujahr!
     </p>
     <br>
@@ -112,11 +112,8 @@
       <li data-id="{_id}" class="center-block">
         <div class="thumbnail">
           <input type="hidden" name="sortings[]" value="{_id}">
-          <img src="/ressources/image?id={image}&amp;size=middle" title="{title}">
-          {! TODO: hover show title !}
-          <div class="description">
-          {title}
-          </div>
+          <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}">
+          <div class="description">{title}</div>
         </div>
       </li>
       {/buildings}
@@ -184,7 +181,7 @@ $(window).ready(function(){
 
       if(data.correct){
         setModalText('Richtig!','Ihre Lösung ist korrekt!');
-        showCorrection(data.lastCorrectBuilding);
+        showCorrection(data.order);
         $('#sortable').sortable('disable');
       }else{
         switch((max_tries-tries)){
@@ -201,8 +198,11 @@ $(window).ready(function(){
           default:
             setModalText('Falsch!','Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
           };
-        $( "#sortable" ).on( "sortstart", function( event, ui ) { tryAgain(); });
-        showCorrection(data.lastCorrectBuilding);
+        $( "#sortable" ).on( "sortstart",
+          function () {
+            tryAgain();
+          });
+        showCorrection(data.order);
       }
       $('#checkModal').modal();
     });
@@ -221,8 +221,18 @@ $(window).ready(function(){
     $('#checkModal .modal-body').text(body);
   };
 
+  function showCorrection(order) {
+    $('#sortable li').each(function(index){
+      if (order[index]) {
+        $(this).prepend('<span class="green glyphicon glyphicon-ok"></span>');
+      }
+      else {
+        $(this).prepend('<span class="red glyphicon glyphicon-remove"></span>');
+      }
+    });
+  }
 
-  function showCorrection(tillIndex) {
+  function showCorrectionOld(tillIndex) {
     $('#sortable li').each(function(index){
       if (index <= tillIndex || tillIndex == -1) {
         $(this).append('<span class="glyphicon glyphicon-ok green"></span>');

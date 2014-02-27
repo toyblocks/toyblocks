@@ -88,7 +88,12 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this,
       sortIds = _this.request.param('sortings');
 
-      //TODO: Rewrite this function...
+    //TODO: catch error on clientside
+    if(sortIds === undefined){
+      _this.response.json({
+        error: 'Du hast keine Elemente sortiert, oder so?'
+      });
+    }
 
     // get the era attribute with correct sorting of eras
     _this.mongodb
@@ -96,13 +101,9 @@ module.exports.prototype = GamesController.prototype.extend({
       .find({name: 'era'})
       .nextObject(function(err, attribute) {
 
-        var eras = attribute.values,      
+        var eras = attribute.values,
             sortedBuildings = {};
-        if(sortIds === undefined){
-          _this.response.json({
-            error: 'Irgendwas ist schiefgelaufen!'
-          });
-        }
+        
         // we have to cast the mongo ids for the db-request
         for (var i = 0; i < sortIds.length; i++) {
           sortIds[i] = _this.mongo.ObjectID(sortIds[i]);
@@ -115,14 +116,8 @@ module.exports.prototype = GamesController.prototype.extend({
 
             // got all requested buildings, now calculate if sorting is right
             var lastEraIndex = 0,
-              lastCorrectBuilding = -1,
+              order = [],
               correct = true;
-
-            // TODO:
-            // gameparam: show last right
-            // gameparam: show right solution
-            // gameparam: show only correct or false
-            // gameparam: num of possible tries
 
             for (var i = 0; i < buildings.length; i++) {
               sortedBuildings[''+buildings[i]._id] = buildings[i];
@@ -137,17 +132,18 @@ module.exports.prototype = GamesController.prototype.extend({
 
               if (buildingEraIndex < lastEraIndex) {
                 correct = false;
-                break;
+                order.push(false);
+              }else{
+                order.push(true);
               }
               lastEraIndex = buildingEraIndex;
-              lastCorrectBuilding = buildingIndex;
               buildingIndex++;
             }
             
             // response with a json object
             _this.response.json({
               correct: correct,
-              lastCorrectBuilding: lastCorrectBuilding
+              order: order
             });
           });
       });
