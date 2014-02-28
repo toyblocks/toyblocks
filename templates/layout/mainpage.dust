@@ -3,7 +3,7 @@
     <h1>Willkommen zu ToyBlocks!</h1>
     <p>Dies ist ein webbasiertes Lernspiel für Studenten des Fachbereichs Architektur an der Technischen Universität Darmstadt. <br>
       Entwickelt wird es von vier Informatik Studenten mithilfe von Nodejs, Bootstrap, Dust, MongoDB, jQuery und Kaffee.</p>
-      <p><a class="btn btn-primary btn-lg" role="button" href="/index/error404">Erfahre mehr!</a></p>
+      <p><a class="btn btn-primary btn-lg" role="button" href="/index/about">Erfahre mehr!</a></p>
   </div>
 {>"games/index/gamesoverview.dust"/}
 </div>

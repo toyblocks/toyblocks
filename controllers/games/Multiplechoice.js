@@ -48,7 +48,16 @@ module.exports.prototype = GamesController.prototype.extend({
 
   questionAction: function() {
 
-    var _this = this;
+    var _this = this,
+      id = _this.request.param('id');
+
+
+    if(typeof id === "undefined"){
+      _this.view.render({
+        error: "No ID specified"
+      });
+      return;
+    }
 
     //+ Jonas Raoni Soares Silva
     //@ http://jsfromhell.com/array/shuffle [v1.0]
@@ -71,7 +80,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
     _this.mongodb
     .collection('multiplechoice_questions')
-    .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
+    .find({_id: _this.mongo.ObjectID(id)})
     .nextObject(function(err, question) {
 
       var answers = question.multiplechoice_answer_right

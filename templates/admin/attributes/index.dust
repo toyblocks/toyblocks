@@ -106,6 +106,7 @@ $('#attribute_type').change(function(){
 });
 
 $('body').on('shown.bs.modal', '#enumsModal', function (a) {
+  console.log('enumsModal');
   $modal = $(this);
   $(this).find('#enumsList').sortable();
   $(this).find('#enumsList').disableSelection();
