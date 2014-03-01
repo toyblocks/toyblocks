@@ -3,11 +3,13 @@
 <div class="jumbotron">
   <div class="page-header">
     <h1>404 - Seite nicht gefunden!</h1>
-    <p>Vesuchs nochmal!</p>
-    <br>
+    <p>Irgendwas ist schiefgelaufen. Vesuchs nochmal! Der Fehler war:</p>
+    <p>
+      <code>{error}</code>
+    </p>
     <p>
     <a class="btn btn-primary btn-lg" role="button"
-      mailto="dev@www5.architektur.tu-darmstadt.de">
+      mailto="dev@www5.architektur.tu-darmstadt.de" disabled>
       <span class="glyphicon glyphicon-envelope"></span>
       Oder melde einen Bug!</a>
     </p> 
