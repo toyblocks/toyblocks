@@ -3,7 +3,6 @@
 var GamesController = require('../Games');
 
 module.exports = function () {
-
 };
 
 module.exports.prototype = GamesController.prototype.extend({
@@ -19,10 +18,11 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this;
     this.mongodb
       .collection('assemble_games')
-      .find({})
+      .find()
       .toArray(function(err, assembleGames){
         _this.view.render({
           title: 'Zusammensetzen-Spiele',
+          route: '/games/assemble',
           assemblegames: assembleGames
         });
       });
@@ -39,19 +39,41 @@ module.exports.prototype = GamesController.prototype.extend({
       id = this.request.param('id'),
       level = parseInt(this.request.param('level'),10);
 
-    this.mongodb
-      .collection('assemble_games')
-      .find({_id: this.mongo.ObjectID(id)})
-      .nextObject(function(err, game) {
-        _this.renderGame(game, level, function(err, buildingParts){
-          _this.view.render({
-            title: 'Zusammensetzen-Spiele',
-            route: '/games/assemble',
-            game: game,
-            buildingparts: buildingParts
+    if(typeof id !== "undefined"){
+      _this.mongodb
+        .collection('assemble_games')
+        .find({_id: _this.mongo.ObjectID(id)})
+        .nextObject(function(err, game) {
+          _this.renderGame(game, level, function(err, buildingParts){
+            _this.view.render({
+              title: 'Zusammensetzen-Spiele',
+              route: '/games/assemble',
+              game: game,
+              buildingparts: buildingParts
+            });
           });
         });
-      });
+    }else{
+      _this.mongodb
+        .collection('assemble_games')
+        .find()
+        .toArray(function(err, game) {
+
+          // TODO: remove this, as in Missing.js ?
+
+          // Get a random element
+          game = game[Math.floor(game.length*Math.random())];
+
+          _this.renderGame(game, level, function(err, buildingParts){
+            _this.view.render({
+              title: 'Zusammensetzen-Spiele',
+              route: '/games/assemble',
+              game: game,
+              buildingparts: buildingParts
+            });
+          });
+        });
+    }
   },
 
   /**
@@ -65,24 +87,26 @@ module.exports.prototype = GamesController.prototype.extend({
   renderGame: function(game, difficulty, renderCallback) {
     var _this = this,
      partsLimit = game.limit || 15,
-     level = difficulty || 2,
+     level = difficulty || 1,
      countOfFakeImages = 3;
 
     //+ Jonas Raoni Soares Silva
     //@ http://jsfromhell.com/array/shuffle [v1.0]
     function shuffle(o){ //v1.0
-      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+        x = o[--i], o[i] = o[j], o[j] = x);
       return o;
     }
 
     _this.mongodb
     .collection('assemble_images')
-    .find({assemble_category: game.assemble_category,
-      _random: {$near: [Math.random(), 0]}})
+    .find({assemble_category: game.assemble_category})
+    //,_random: {$near: [Math.random(), 0]}
     .limit(partsLimit)
     .toArray( function(err, images){
 
       if(level === 1){
+        images = shuffle(images);
         renderCallback(err, images);
 
       }else if(level === 2){
@@ -92,6 +116,7 @@ module.exports.prototype = GamesController.prototype.extend({
         _this.mongodb
         .collection('assemble_images')
         .find({_id:{$in: fakeIds}})
+        .limit(countOfFakeImages)
         .toArray(function(err2, fakes){
 
           for (var i = 0; i < fakes.length; i++) {
@@ -141,8 +166,8 @@ module.exports.prototype = GamesController.prototype.extend({
               return;
             }
 
-            var isElementCorrect = [];
-            var isSolutionCorrect = true;
+            var isElementCorrect = [],
+                isSolutionCorrect = true;
             for (var i = 0; i < images.length; i++) {
               var index = images[i].assemble_order - 1;
               var isCorrect = parseInt(images[i]._id, 16) ===
