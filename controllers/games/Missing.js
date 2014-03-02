@@ -14,16 +14,9 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Array> data
   */
   indexAction: function() {
-    var _this = this;
-    this.mongodb
-    .collection('missingparts_games')
-    .find({_random: {$near: [Math.random(), 0]}})
-    .limit(3)
-    .toArray(function(err, data){
-      _this.view.render({
-        title: 'Fehlstellen-Spiel',
-        data: data
-      });
+    this.view.render({
+      title: 'Fehlstellen-Spiel',
+      route: '/games/missing'
     });
   },
 
@@ -38,47 +31,33 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   gameAction: function() {
     var _this = this,
-      id = this.request.param('id'),
-      level = parseInt(this.request.param('level'),10) || 1,
-      gamesLeft = parseInt(this.request.param('gamesLeft'),10) || 3;
-      console.log(id);
+      id = _this.request.param('id'),
+      level = parseInt(_this.request.param('level'),10) || 1,
+      gamesLeft = parseInt(_this.request.param('gamesLeft'),10) || 3;
 
-    //TODO: remove first if code, we shouldn't need it
     if(typeof id !== "undefined"){
-      this.mongodb
+      _this.mongodb
       .collection('missingparts_games')
-      .find({_id: this.mongo.ObjectID(id)})
-      .nextObject(function(err, game) {
-        _this.renderGame(game, 4, function(err, images){
+      .find({_id: _this.mongo.ObjectID(id)})
+      .nextObject(
+        function(err, game) {
+        _this.renderGame(game, level, function(err, images){
           _this.view.render({
             title: 'Fehlstellen-Spiel',
+            route: '/games/missing',
             game: game,
+            level: level,
             mainimage: game.image,
-            images: images
+            images: images,
+            gamesLeft: gamesLeft
           });
         });
       });
     }else{
-      var limit;
-      switch (level){
-        case 2:
-        limit = 6;
-        break;
-        case 3:
-        limit = 10;
-        break;
-        default:
-        limit = 4;
-        break;
-      }
-
-      // TODO: When database is filled remove the following
-      // shuffle and insert this into the find
-      //  .find({_random: {$near: [Math.random(), 0]}})
-      this.mongodb
-      .collection('missingparts_games')
+      _this.mongodb.collection('missingparts_games')
       .find() 
-      .toArray(function(err, game) {
+      .toArray(
+        function(err, game) {
         //+ Jonas Raoni Soares Silva
         //@ http://jsfromhell.com/array/shuffle [v1.0]
         function shuffle(o){ //v1.0
@@ -86,15 +65,16 @@ module.exports.prototype = GamesController.prototype.extend({
            x = o[--i], o[i] = o[j], o[j] = x);
           return o;
         }
-        game = shuffle(game)[0];
+        game = game[Math.floor(game.length*Math.random())];
 
-        _this.renderGame(game, limit, function(err, images){
+        _this.renderGame(game, level, function(err, images){
           _this.view.render({
             title: 'Fehlstellen-Spiel',
+            route: '/games/missing',
             game: game,
+            level: level,
             mainimage: game.image,
             images: images,
-            level: level,
             gamesLeft: gamesLeft
           });
         });
@@ -109,9 +89,16 @@ module.exports.prototype = GamesController.prototype.extend({
   * @param <Callback> renderCallback
   * @return <Array> images in Callback
   */
-  renderGame: function(game, limit, renderCallback) {
+  renderGame: function(game, level, renderCallback) {
     var _this = this,
-      type = game.missingparts_category;
+      type = game.missingparts_category,
+      limit;
+
+    switch (level){
+      case 2:  limit = 6; break;
+      case 3:  limit =10; break;
+      default: limit = 4; break;
+    }
 
     //+ Jonas Raoni Soares Silva
     //@ http://jsfromhell.com/array/shuffle [v1.0]
@@ -122,13 +109,13 @@ module.exports.prototype = GamesController.prototype.extend({
     }
 
     //get one solution
-    var solution = shuffle(game.missingparts_correctimage)[0];
+    var solution = game.missingparts_correctimage[
+        Math.floor(game.missingparts_correctimage.length * Math.random())];
 
     _this.mongodb
       .collection('missingparts_images')
       .find({
         missingparts_category: type,
-        _random: {$near: [Math.random(), 0]},
         _id: {$nin: game.missingparts_correctimage}}) // no 2 solutions
       .limit(limit-1)
       .toArray(
@@ -159,7 +146,7 @@ module.exports.prototype = GamesController.prototype.extend({
     result = _this.request.param('sortings');
 
     // TODO: implement clientside error detection
-    if(result === undefined){
+    if(result === undefined || gameid === undefined){
       _this.response.json({error:'Error'});
       return;
     }
@@ -167,7 +154,8 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
     .collection('missingparts_games')
     .find( {_id: _this.mongo.ObjectID(gameid)} )
-    .nextObject(function(err, game) {
+    .nextObject(
+      function(err, game) {
 
       // lets see if the correct image is clicked
       var correctImageSelected = false,
