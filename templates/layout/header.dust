@@ -31,4 +31,5 @@
   <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
   <meta name="msapplication-TileColor" content="#ffc40d">
   <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <script src="/js/vendor/jquery.min.js"></script>
 </head>
