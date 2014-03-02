@@ -28,10 +28,17 @@ module.exports.prototype = GamesController.prototype.extend({
  */
   gameAction: function() {
     var _this = this,
-        level = parseInt(this.request.param('level'),10),
-        limit = parseInt(this.request.param('limit'),10);
-
+      level = parseInt(_this.request.param('level'),10),
+      limit = parseInt(_this.request.param('limit'),10);
+    //+ Jonas Raoni Soares Silva
+    //@ http://jsfromhell.com/array/shuffle [v1.0]
+    function shuffle(o){ //v1.0
+      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+       x = o[--i], o[i] = o[j], o[j] = x);
+      return o;
+    }
     _this.renderGame(level, limit, function(err, buildings){
+      buildings = shuffle(buildings).slice(0,7);
       _this.view.render({
         title: 'Sortierspiel',
         route: '/games/sorting',
@@ -54,8 +61,7 @@ module.exports.prototype = GamesController.prototype.extend({
       // Only level 2 buildings
       this.mongodb
         .collection('sorting_buildings')
-        .find({level: 2, _random: {$near: [Math.random(), 0]}})
-        .limit(buildingLimit)
+        .find({level: 2})
         .toArray(renderCallback);
 
     }else if (level === 2) {
@@ -63,8 +69,7 @@ module.exports.prototype = GamesController.prototype.extend({
       // Level 1 and level 2
       this.mongodb
         .collection('sorting_buildings')
-        .find({_random: {$near: [Math.random(), 0]}})
-        .limit(buildingLimit)
+        .find()
         .toArray(renderCallback);
     }
     else {
@@ -72,8 +77,7 @@ module.exports.prototype = GamesController.prototype.extend({
       // only level 1
       this.mongodb
         .collection('sorting_buildings')
-        .find({level: 1, _random: {$near: [Math.random(), 0]}})
-        .limit(buildingLimit)
+        .find({level: 1})
         .toArray(renderCallback);
     }
   },
@@ -116,34 +120,46 @@ module.exports.prototype = GamesController.prototype.extend({
 
             // got all requested buildings, now calculate if sorting is right
             var lastEraIndex = 0,
-              order = [],
-              correct = true;
+              orderNumbers = [],
+              solutionIsCorrect = true;
 
             for (var i = 0; i < buildings.length; i++) {
               sortedBuildings[''+buildings[i]._id] = buildings[i];
             }
 
-            var buildingIndex = 0;
             for (var _id in sortedBuildings) {
               if (!sortedBuildings[_id]){ continue; }
-
               // go through all buildings and check index of era in era-array
               var buildingEraIndex = eras.indexOf(sortedBuildings[_id].era);
-
-              if (buildingEraIndex < lastEraIndex) {
-                correct = false;
-                order.push(false);
-              }else{
-                order.push(true);
-              }
+              orderNumbers.push(eras.indexOf(sortedBuildings[_id].era));
+              if (buildingEraIndex < lastEraIndex)
+                solutionIsCorrect = false;
               lastEraIndex = buildingEraIndex;
-              buildingIndex++;
             }
             
+            // Display which elements are on a wrong position
+            var order = [],
+              prepend,
+              same;
+            for (var i = 0; i < orderNumbers.length; i++) {
+              same = prepend = 0;
+              for (var j = 0; j < orderNumbers.length; j++) {
+                if(orderNumbers[i] > orderNumbers[j])
+                  prepend++;
+                else if(orderNumbers[i] === orderNumbers[j])
+                  same++;
+              }
+              if(prepend <= i && i <= (prepend + same -1) )
+                order.push(true);
+              else
+                order.push(false);
+            }
+
             // response with a json object
             _this.response.json({
-              correct: correct,
-              order: order
+              correct: solutionIsCorrect,
+              order: order,
+              orderNumbers: orderNumbers
             });
           });
       });

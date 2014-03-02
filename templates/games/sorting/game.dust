@@ -152,8 +152,10 @@
 $(window).ready(function(){
 
 {! TODO: Add Session User Tries!}
-  var max_tries = 3;
-  var tries = 0;
+  var max_tries = 3,
+   tries = 0,
+   isGlyphed = false;
+
 
   $('#sortable').sortable();
   $('#sortable').disableSelection();
@@ -181,8 +183,11 @@ $(window).ready(function(){
 
       if(data.correct){
         setModalText('Richtig!','Ihre Lösung ist korrekt!');
-        showCorrection(data.order);
         $('#sortable').sortable('disable');
+        $('#newgame').show();
+        $('#newgame').prop('disabled', false);
+        $('#tryagain').prop('disabled', true);
+        isGlyphed = false;
       }else{
         switch((max_tries-tries)){
           case 0:
@@ -198,17 +203,25 @@ $(window).ready(function(){
           default:
             setModalText('Falsch!','Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
           };
+
+        // Make the elements draggable even if glyphicon are added,
+        // but make sure not to activate the buttons everytime
+        // an element is dragged.
+        isGlyphed = true;
         $( "#sortable" ).on( "sortstart",
           function () {
-            tryAgain();
+            if(isGlyphed){
+              tryAgain();
+            }
           });
-        showCorrection(data.order);
       }
+      showCorrection(data.order, data.orderNumbers);
       $('#checkModal').modal();
     });
   });
 
   function tryAgain(){
+    isGlyphed = false;
     $('#sortable').sortable('enable');
     $('#sortable').disableSelection();
     $('#submit').prop('disabled', false);
@@ -221,7 +234,7 @@ $(window).ready(function(){
     $('#checkModal .modal-body').text(body);
   };
 
-  function showCorrection(order) {
+  function showCorrection(order, number) {
     $('#sortable li').each(function(index){
       if (order[index]) {
         $(this).prepend('<span class="green glyphicon glyphicon-ok"></span>');
@@ -231,17 +244,6 @@ $(window).ready(function(){
       }
     });
   }
-
-  function showCorrectionOld(tillIndex) {
-    $('#sortable li').each(function(index){
-      if (index <= tillIndex || tillIndex == -1) {
-        $(this).append('<span class="glyphicon glyphicon-ok green"></span>');
-      }
-      else {
-        $(this).append('<span class="glyphicon glyphicon-remove red"></span>');
-      }
-    });
-  };
 
   function removeCorrection() {
     $('#sortable li .glyphicon').each(function(index){
