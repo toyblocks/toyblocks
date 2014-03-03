@@ -9,9 +9,11 @@
     </p>
     <p>
     <a class="btn btn-primary btn-lg" role="button"
-      mailto="dev@www5.architektur.tu-darmstadt.de" disabled>
+    href="/">Zur Startseite</a>
+    <a class="btn btn-primary btn-lg" role="button"
+      mailto="dev@www5.architektur.tu-darmstadt.de">
       <span class="glyphicon glyphicon-envelope"></span>
-      Oder melde einen Bug!</a>
+      oder melde einen Bug!</a>
     </p> 
   </div>
 </div>

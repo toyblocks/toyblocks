@@ -1,0 +1,53 @@
+{>"layout/layout.dust"/}
+
+{<content}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Titel</th>
+      <th>Anzeigen</th>
+      <th>Bearbeiten</th>
+      <th>Löschen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><canvas id="sorting" width="150" height="150"></canvas>
+      </td>
+      <td><canvas id="missing" width="150" height="150"></canvas>
+      </td>
+      <td><canvas id="assemble" width="150" height="150"></canvas>
+      </td>
+      <td><canvas id="multiplechoice" width="150" height="150"></canvas>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+$(window).ready(function(){
+  function draw(){
+    var canvas = document.getElementById('sorting');
+    if (canvas.getContext){
+      var ctx = canvas.getContext('2d');
+
+  var img = new Image();
+  img.onload = function(){
+    ctx.drawImage(img,0,0);
+    ctx.beginPath();
+    ctx.moveTo(30,96);
+    ctx.lineTo(70,66);
+    ctx.lineTo(103,76);
+    ctx.lineTo(170,15);
+    ctx.stroke();
+  };
+  img.src = 'https://mdn.mozillademos.org/files/5395/backdrop.png';
+    }
+  };
+  draw();
+});
+</script>
+<style type="text/css">
+  canvas { border: 1px solid black; }
+</style>
+{/content}
