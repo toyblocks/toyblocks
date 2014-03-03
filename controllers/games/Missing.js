@@ -1,6 +1,7 @@
 'use strict';
 
-var GamesController = require('../Games');
+var GamesController = require('../Games'),
+  Statistics = require('../moderation/Stats');
 module.exports = function () {};
 
 module.exports.prototype = GamesController.prototype.extend({
@@ -142,8 +143,10 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   checkSelectedAction: function() {
     var _this = this,
-    gameid = _this.request.param('gameid'),
-    result = _this.request.param('sortings');
+      gameid  = _this.request.param('gameid'),
+      attempt = _this.request.param('attempt'),
+      level   = _this.request.param('level'),
+      result  = _this.request.param('sortings');
 
     // TODO: implement clientside error detection
     if(result === undefined || gameid === undefined){
@@ -167,6 +170,11 @@ module.exports.prototype = GamesController.prototype.extend({
           correctImageSelected = true;
         }
       }
+
+
+      // Update Stats
+      var userId  = _this.request.session.user.tuid;
+      Statistics.prototype.insertStats(_this, 'missing', gameid, level, userId, attempt, correctImageSelected);
 
       // send the solution back to client
       _this.response.json( {

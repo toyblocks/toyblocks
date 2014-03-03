@@ -21,6 +21,16 @@
               </div>
             </div>
             <div class="media">
+              <a class="pull-left" href="/moderation/statistics">
+                <span class="media-object glyphicon glyphicon-stats" style="font-size: 60px;width: 64px; height: 64px;">
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">Statistiken</h4>
+                Statistiken für Nerds.
+              </div>
+            </div>
+            <br>
+            <div class="media">
               <a class="pull-left" href="/moderation/games/missing">
                 <span class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;">
               </a>

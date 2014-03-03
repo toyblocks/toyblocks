@@ -10,23 +10,36 @@ module.exports.prototype = BaseController.prototype.extend({
 
   indexAction: function() {
     var _this = this;
-    _this.view.render({
-      title: 'Statistiken',
-      route: '/moderation/stats'
-    });
-  }
+    
+    _this.mongodb
+    .collection('statistics')
+    .find()
+    .toArray(
+      function (err, elements) {
+      _this.view.render({
+        title: 'Statistiken',
+        route: '/moderation/stats',
+        elements: elements
+      });
+    })
+  },
 
-  insertStats: function (game, gameid, player, result) {
-    var _this = this;
+  insertStats: function (that, gametype, gameid, level, player, attempt, result) {
+    var _this = that;
+    console.log("Adding: ", gametype, gameid, level, player, attempt, result);
 
     _this.mongodb
-    .collection('stats')
+    .collection('statistics')
     .insert({
       date: new Date(),
-      game: game,
+      gametype: gametype,
       gameid: gameid,
-      player: player.tuid,
+      level: level,
+      player: player,
+      attempt: attempt,
       result: result
+    }, function (err) {
+      console.log("success");
     });
   }
 });

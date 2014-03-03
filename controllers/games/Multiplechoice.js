@@ -1,7 +1,7 @@
 'use strict';
 
-var GamesController = require('../Games');
-
+var GamesController = require('../Games'),
+  Statistics = require('../moderation/Stats');
 module.exports = function () {
 
 };
@@ -33,17 +33,31 @@ module.exports.prototype = GamesController.prototype.extend({
    * @return buildings - an array of buildings to display for the template
    */
   gameAction: function() {
-    var _this = this;
+    var _this = this,
+      gameid = _this.request.param('id');
 
-    _this.mongodb
-    .collection('multiplechoice_games')
-    .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
-    .nextObject(function(err, game) {
-      _this.view.render({
-        title: 'Multiplechoice',
-        game: game
+    if(typeof gameid !== 'undefined'){
+      _this.mongodb
+      .collection('multiplechoice_games')
+      .find({_id: _this.mongo.ObjectID(gameid)})
+      .nextObject(function(err, game) {
+        _this.view.render({
+          title: 'Multiplechoice',
+          game: game
+        });
       });
-    });
+    }else{
+      _this.mongodb
+      .collection('multiplechoice_games')
+      .find()
+      .toArray(function(err, game) {
+        game=game[Math.floor(Math.random()*game.length)];
+        _this.view.render({
+          title: 'Multiplechoice',
+          game: game
+        });
+      });
+    }
   },
 
   questionAction: function() {
@@ -147,15 +161,20 @@ module.exports.prototype = GamesController.prototype.extend({
           countWrong++;
         }
       }
-      var percantage = {
+      var percentage = {
         'wrong':1/a.length*countWrong*100,
         'right':1/a.length*countCorrect*100
       };
 
+
+      // Update Stats
+      var userId  = _this.request.session.user.tuid;
+      Statistics.prototype.insertStats(_this, 'multiplechoice', game._id, 0, userId, 0, solution);
+
       _this.view.render({
         result: solution,
         question: game.multiplechoice_question_reference,
-        percent: percantage
+        percent: percentage
       });
     });
   },

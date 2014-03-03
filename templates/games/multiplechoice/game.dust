@@ -130,8 +130,8 @@ $(window).ready(function(){
       .done(function( data ) {
         $('#questions_container').html(data);
       });
-      $('#game_result').hide();
-      $('#game_overview').show();
+    $('#game_result').hide();
+    $('#game_overview').show();
   });
 
 
