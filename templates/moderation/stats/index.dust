@@ -1,13 +1,14 @@
 {>"layout/layout.dust"/}
 
 {<content}
+<canvas>Bitte update auf Chrome, Safari 2+, Firefox 1.5+, Internet Explorer 6+ oder Opera 9+.</canvas>
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>Titel</th>
-      <th>Anzeigen</th>
-      <th>Bearbeiten</th>
-      <th>Löschen</th>
+      <th>Sortieren</th>
+      <th>Fehlstellen</th>
+      <th>Zusammensetzspiel</th>
+      <th>MultipleChoice</th>
     </tr>
   </thead>
   <tbody>
@@ -30,7 +31,7 @@ $(window).ready(function(){
     var canvas = document.getElementById('sorting');
     if (canvas.getContext){
       var ctx = canvas.getContext('2d');
-
+      /* Use Flot - http://www.flotcharts.org/flot */
   var img = new Image();
   img.onload = function(){
     ctx.drawImage(img,0,0);
