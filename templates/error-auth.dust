@@ -4,6 +4,8 @@
   <div class="page-header">
     <h1>Problem mit der Authentifizierung!</h1>
     <p>{text}</p>
+    <a class="btn btn-primary btn-lg" role="button"
+    href="/">Zur Startseite</a>
   </div>
 </div>
 {/content}

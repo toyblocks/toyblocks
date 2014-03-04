@@ -41,6 +41,15 @@
   float: none;
 }
 
+.true{
+  background-color: #0BE224;
+  opacity: 1 !important;
+}
+.false{
+  background-color: #FF4135;
+  opacity: 1 !important;
+}
+
 </style>
 
 <h3>{game.title}</h3>
@@ -121,7 +130,7 @@ $(window).ready(function(){
 
 
   $('#game_result').click(function(){
-    selectedAnswers = selectedAnswers.join("-");
+    selectedAnswers = selectedAnswers.join(",");
     console.log(selectedAnswers)
     $.ajax({url: "/games/multiplechoice/result?id=" + 
       "{game._id}" +
@@ -130,8 +139,8 @@ $(window).ready(function(){
       .done(function( data ) {
         $('#questions_container').html(data);
       });
-      $('#game_result').hide();
-      $('#game_overview').show();
+    $('#game_result').hide();
+    $('#game_overview').show();
   });
 
 
@@ -145,13 +154,13 @@ $(window).ready(function(){
     $(this).addClass('btn-info');
     
     // TODO: just add the hash to selectedAnswers
-    // selectedAnswers[actualIndex] = hash;
-    if ($.inArray(hash, rightAnswers) >= 0) {
+    selectedAnswers[actualIndex] = hash;
+    /*if ($.inArray(hash, rightAnswers) >= 0) {
       selectedAnswers[actualIndex] = true;
     }
     else {
       selectedAnswers[actualIndex] = false;
-    }
+    }*/
     doNext();
   });
 

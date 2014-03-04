@@ -16,26 +16,30 @@ module.exports.prototype = BaseController.prototype.extend({
     .toArray(function(err, data){
       _this.view.render({
         title: 'Enzyklopädie',
+        route: '/moderation/encyclopedia',
         articles: data
       });
     });
   },
+  
   articleAction: function() {
     var _this = this;
-    if(this.request.param('id')) {
-      this.mongodb
+    if(_this.request.param('id')) {
+      _this.mongodb
       .collection('encyclopedia_articles')
-      .find({_id: this.mongo.ObjectID(this.request.param('id'))})
+      .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
       .nextObject(function(err, article) {
         _this.view.render({
           title: 'Enzyklopädie - ' + article.title,
+          route: '/moderation/encyclopedia',
           article: article.article_body,
           headline: article.title,
         });
       });
     } else {
       _this.view.render({
-          title: 'Enzyklopädie - Neuer Artikel'
+          title: 'Enzyklopädie - Neuer Artikel',
+          route: '/moderation/encyclopedia'
         });
     }
   }

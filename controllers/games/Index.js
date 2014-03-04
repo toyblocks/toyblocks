@@ -1,7 +1,6 @@
 'use strict';
 
-var GamesController = require('../Games'),
-  attributeModel = require('../../models/Attribute');
+var GamesController = require('../Games');
 
 module.exports = function () {
 
@@ -13,7 +12,8 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this;
 
     _this.view.render({
-      title: 'Alle Spiele'
+      title: 'Alle Spiele',
+      route: '/games'
     });
   }
 });

@@ -106,6 +106,8 @@
 </div>
 <br>
 <form id="sortingform">
+  <input type="hidden" name="level" value="{level}">
+  <input type="hidden" name="attempt" id="attempt" value="">
   <div class="row">
     <ul id="sortable" class="well ui-sortable">
       {#buildings}
@@ -172,6 +174,7 @@ $(window).ready(function(){
   $('#submit').click(function(){
     var $button = $(this);
     $button.prop('disabled', true);
+    $('#attempt').val(tries);
 
     var serialized = $('#sortingform').serialize();
     $.post('check-sorting', serialized, function(data) {
@@ -189,8 +192,20 @@ $(window).ready(function(){
         $('#tryagain').prop('disabled', true);
         isGlyphed = false;
       }else{
+        // Make the elements draggable even if glyphicon are added,
+        // but make sure not to activate the buttons everytime
+        // an element is dragged.
+        isGlyphed = true;
+        $( "#sortable" ).on( "sortstart",
+          function () {
+            if(isGlyphed){
+              tryAgain();
+            }
+          });
+
         switch((max_tries-tries)){
           case 0:
+            isGlyphed = false;
             $('#tryagain').prop('disabled', true);
             $('#submit').prop('disabled', true);
             $('#newgame').show();
@@ -204,16 +219,6 @@ $(window).ready(function(){
             setModalText('Falsch!','Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
           };
 
-        // Make the elements draggable even if glyphicon are added,
-        // but make sure not to activate the buttons everytime
-        // an element is dragged.
-        isGlyphed = true;
-        $( "#sortable" ).on( "sortstart",
-          function () {
-            if(isGlyphed){
-              tryAgain();
-            }
-          });
       }
       showCorrection(data.order, data.orderNumbers);
       $('#checkModal').modal();

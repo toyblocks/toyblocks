@@ -55,14 +55,13 @@ app.use(express.static(path.join(__dirname, './public')));
 app.use(app.router);
 
 function getControllerPath(area, controller) {
-  var path = './controllers/' + area.toLowerCase();
-  path += '/' +
+  return './controllers/' +
+    area.toLowerCase() +
+    '/' +
     controller.toLowerCase()
-    .replace(/(^[a-z]|-[a-z])/g,
-    function(v) {
+    .replace(/(^[a-z]|-[a-z])/g, function(v) {
       return v.replace(/-/,'').toUpperCase();
     });
-  return path;
 }
 
 mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
@@ -86,51 +85,29 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
           controller = req.params.controller || 'index',
           action = req.params.action || 'index',
           controllerClass;
-        try {
-          controllerClass = require(getControllerPath(area, controller));
-        }
-        catch (e) {
-          if (e.code === 'MODULE_NOT_FOUND') {
-            try {
+
+        try{
+          try {
+            controllerClass = require(getControllerPath(area, controller));
+          }
+          catch (e) {
+            if (e.code === 'MODULE_NOT_FOUND') {
               controllerClass = require(getControllerPath('index', area));
               action = controller || 'index';
             }
-            catch (e) {
-              if (e.code === 'MODULE_NOT_FOUND') {
-                // throw the error if we're in development
-                if(config.mode != 'development')
-                  throw e;
-                // send 404 if not
-                res.render('error404', {title: 'Seite nicht gefunden'});
-                return;
-              }
-              else {
-                throw e;
-              }
-            }
           }
-          else {
-            throw e;
-          }
-        }
-        var controllerInstance = new controllerClass;
-        controllerInstance.init(req, res, function(){
-          try {
+          var controllerInstance = new controllerClass;
+          controllerInstance.init(req, res, function(){
             controllerInstance.run(action.toLowerCase());
-          }
-          catch (e) {
-            if (e.code === 'ACTION_NOT_FOUND') {
-              res.render('error404', {title: 'Action nicht gefunden'});
-            }
-            else {
-              throw e;
-            }
-          }
-        });
+          });
+        }catch(e){
+          res.render('error404', {title: 'Fehler', error: e});
+        }
       });
-
-      http.createServer(app).listen(app.get('port'), function(){
-        console.log('Express server listening on port ' + app.get('port'));
+  
+      http.createServer(app).listen(app.get('port'), function(err){
+        if (err) return err;
+        console.log('Express server listening on port ' + app.get('port') + ", with UID " + process.getuid());
       });
       if ('production' === config.mode) {
         http.createServer(credentials, app).listen(443, function(){

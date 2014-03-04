@@ -3,12 +3,8 @@
 {<content}
 
 <div class="height: 100px;"></div>
-
 <div class="col-md-12">
-
     <div class="jumbotron">Neues Spiel hinzufügen</div>
-
-
         <div class="bs-example">
             <div class="media">
               <a class="pull-left" href="/moderation/encyclopedia">
@@ -20,6 +16,16 @@
                 Artikel haben einen Titel, einen Text und ein optionales Bild.
               </div>
             </div>
+            <div class="media">
+              <a class="pull-left" href="/moderation/stats">
+                <span class="media-object glyphicon glyphicon-stats" style="font-size: 60px;width: 64px; height: 64px;">
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">Statistiken</h4>
+                Statistiken für Nerds.
+              </div>
+            </div>
+            <br>
             <div class="media">
               <a class="pull-left" href="/moderation/games/missing">
                 <span class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;">

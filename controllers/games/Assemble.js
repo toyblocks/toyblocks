@@ -1,6 +1,7 @@
 'use strict';
 
-var GamesController = require('../Games');
+var GamesController = require('../Games'),
+  Statistics = require('../moderation/Stats');
 
 module.exports = function () {
 };
@@ -16,7 +17,7 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   indexAction: function() {
     var _this = this;
-    this.mongodb
+    _this.mongodb
       .collection('assemble_games')
       .find()
       .toArray(function(err, assembleGames){
@@ -36,8 +37,8 @@ module.exports.prototype = GamesController.prototype.extend({
    */
   gameAction: function() {
     var _this = this,
-      id = this.request.param('id'),
-      level = parseInt(this.request.param('level'),10);
+      id = _this.request.param('id'),
+      level = parseInt(_this.request.param('level'),10);
 
     _this.increaseStat('level'+level+'_count_played');
     if(typeof id !== "undefined"){
@@ -59,8 +60,6 @@ module.exports.prototype = GamesController.prototype.extend({
         .collection('assemble_games')
         .find()
         .toArray(function(err, game) {
-
-          // TODO: remove this, as in Missing.js ?
 
           // Get a random element
           game = game[Math.floor(game.length*Math.random())];
@@ -138,21 +137,23 @@ module.exports.prototype = GamesController.prototype.extend({
    * @param sortings  - an array of ids, shows how the images were sorted
    */
   checkSortingAction: function() {
-    var _this = this;
+    var _this = this,
+      gameid  = _this.request.param('gameid'),
+      sortIDs = _this.request.param('sortings'),
+      attempt = _this.request.param('attempt'),
+      level   = _this.request.param('level'),
+      userId  = _this.request.session.user.tuid;
 
     // first we got the game params
     this.mongodb
       .collection('assemble_games')
-      .find({_id: this.mongo.ObjectID(this.request.param('gameid'))})
+      .find({_id: this.mongo.ObjectID(gameid)})
       .nextObject(function(err, game) {
     
         _this.mongodb
           .collection('assemble_images')
           .find({assemble_category: game.assemble_category})
           .toArray(function(err, images) {
-
-            // got the era attribute with correct sorting of eras
-            var sortIDs = _this.request.param('sortings');
 
             // check for correct number of building elements submitted
             if(images.length > sortIDs.length) {
@@ -176,6 +177,11 @@ module.exports.prototype = GamesController.prototype.extend({
               isElementCorrect.unshift(isCorrect);
               isSolutionCorrect = isSolutionCorrect && isCorrect;
             }
+
+
+            // Update Stats
+            Statistics.prototype.insertStats(_this, 'assemble', gameid, level, userId, attempt, isSolutionCorrect);
+
             _this.response.json({
               correct: isSolutionCorrect,
               order: isElementCorrect,

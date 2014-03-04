@@ -5,7 +5,6 @@
     </center>
   </div>
   <div class="row">
-
     <center>
     <div class="questionbox col-lg-6">
       {question.multiplechoice_question}
@@ -22,7 +21,6 @@
         </div>
       {/answers}
     </div>
-
     </center>
   </div>
   <div class="right-answers" style="display:none">{#right_answers}{.}{@sep},{/sep}{/right_answers}</div>

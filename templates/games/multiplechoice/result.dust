@@ -1,30 +1,37 @@
 <div class="row">
-
-<div class="progress">
-  <div class="progress-bar progress-bar-success" style="width: {percent.right}%">
-    <span class="sr-only">{percent.right}% Korrekt!</span>
+  {! Show the Progressbar !}
+  <div class="progress">
+    <div class="progress-bar progress-bar-success" style="width: {percent.right}%">
+      <span class="sr-only">{percent.right}% Korrekt!</span></div>
+    <div class="progress-bar progress-bar-danger" style="width: {percent.wrong}%">
+      <span class="sr-only">{percent.wrong}% Fehlerhaft</span></div>
   </div>
-  <div class="progress-bar progress-bar-danger" style="width: {percent.wrong}%">
-    <span class="sr-only">{percent.wrong}% Fehlerhaft</span>
-  </div>
-</div>
-
-  <div class="col-lg-6">
-  {!TODO: Add which question was asked!}
+  {! Show the picture !}
   {#question}
-    <div class="row">
-      {question.multiplechoice_question}
+  <div class="row">
+    <div class="col-md-5">
+      <center>
+        <img class="image" src="/ressources/image?id={image}&size=large" style="max-height: 130px;">
+      </center>
     </div>
+  {! Show the Question !}
+    <div class="col-md-7">
+      <h3>{multiplechoice_question}</h3>
+      <div class="input-group questions">
+        <span class="input-group-btn">
+          <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
+            <span class="pull-left" style="margin-left: 10px;">{multiplechoice_answer_right}</span>
+            {@if cond="{selectedAnswer}"}
+            <span class="glyphicon glyphicon-ok pull-right" style="margin-right: 10px;"></span>
+            {:else}
+            <span class="glyphicon glyphicon-remove pull-right" style="margin-right: 10px;"></span>
+            {/if}
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div style="height:3px;"></div>
   {/question}
 </div>
-<br>
-<div class="col-lg-4 col-lg-offset-4">
-  <ul class="list-group">
-  {#result}
-    <li class="list-group-item">{.}</li>
-  {/result}
-  </ul>
-</div>
-<br>
 
-</div>

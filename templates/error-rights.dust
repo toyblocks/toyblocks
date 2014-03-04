@@ -4,6 +4,8 @@
   <div class="page-header">
     <h1>Keine erfolderlichen Rechte um diese Seite zu sehen!</h1>
     <p>Wende dich an den Administrator.</p>
+    <a class="btn btn-primary btn-lg" role="button"
+    href="/">Zur Startseite</a>
   </div>
 </div>
 {/content}
