@@ -35,6 +35,7 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this;
 
+    _this.increaseStat('count_played');
     _this.mongodb
     .collection('multiplechoice_games')
     .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})

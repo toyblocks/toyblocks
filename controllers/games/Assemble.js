@@ -39,6 +39,7 @@ module.exports.prototype = GamesController.prototype.extend({
       id = this.request.param('id'),
       level = parseInt(this.request.param('level'),10);
 
+    _this.increaseStat('level'+level+'_count_played');
     if(typeof id !== "undefined"){
       _this.mongodb
         .collection('assemble_games')

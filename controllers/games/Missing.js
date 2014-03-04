@@ -35,6 +35,7 @@ module.exports.prototype = GamesController.prototype.extend({
       level = parseInt(_this.request.param('level'),10) || 1,
       gamesLeft = parseInt(_this.request.param('gamesLeft'),10) || 3;
 
+    _this.increaseStat('level'+level+'_count_played');
     if(typeof id !== "undefined"){
       _this.mongodb
       .collection('missingparts_games')
