@@ -49,6 +49,12 @@ module.exports.prototype = {
         {$inc: incKey},
         {w:0}
       );
+    
+    if (!user.stats)
+      user.stats = {};
+    
+    if (!user.stats[this.name])
+      user.stats[this.name] = {};
 
     user.stats[this.name][key] ++;
   },
