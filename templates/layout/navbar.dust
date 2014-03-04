@@ -18,8 +18,9 @@
         <li class="dropdown {@eq key=_area value="admin"}active{/eq}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="/admin/objects">Objekte</a></li>
-            <li><a href="/admin/attributes">Attribute</a></li>
+            <li><a href="/admin/objects/">Objekte</a></li>
+            <li><a href="/admin/attributes/">Attribute</a></li>
+            <li><a href="/admin/users/">Users</a></li>
           </ul>
         </li>
 
@@ -38,7 +39,7 @@
             <li><a href="/games/multiplechoice/">MultipleChoice</a></li>
             <li class="divider"></li>
             <li class="dropdown-header">Daily Challenge</li>
-            <li><a href="/games/daily">Daily Spielen</a></li>
+            <li><a href="/games/daily/">Daily Spielen</a></li>
             <li><a href="/games/daily/leaderboard">Rangliste</a></li>
           </ul>
         </li>

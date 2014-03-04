@@ -37,6 +37,7 @@ module.exports.prototype = GamesController.prototype.extend({
        x = o[--i], o[i] = o[j], o[j] = x);
       return o;
     }
+    _this.increaseStat('level'+level+'_count_played');
     _this.renderGame(level, limit, function(err, buildings){
       buildings = shuffle(buildings).slice(0,7);
       _this.view.render({

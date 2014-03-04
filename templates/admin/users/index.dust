@@ -1,0 +1,57 @@
+{>"layout/layout.dust"/}
+
+{<content}
+
+<div class="col-md-12 col-sm-12">
+  <h3>User Übersicht</h3>
+  <div class="row">
+    <div class="col-sm-8 col-md-8">
+      <table class="table">
+        <tr>
+          <th>TU-ID</th>
+          <th>Vorname</th>
+          <th>Nachname</th>
+          <th>Student</th>
+          <th>Mitarbeiter</th>
+          <th>Rechte</th>
+        </tr>
+        {#users}
+        <tr>
+          <td>{tuid}</td>
+          <td>{givenName}</td>
+          <td>{surname}</td>
+          <td>{?student}Ja{:else}Nein{/student}</td>
+          <td>{?employee}Ja{:else}Nein{/employee}</td>
+          <td>
+            <input type="hidden" class="tuid" name="tuid" value="{tuid}" />
+            <select class="right-level" name="right_level" id="right_level" class="form-control">
+              <option value="100"{@eq key=right_level value=100} selected{/eq}>Admin</option>
+              <option value="200"{@eq key=right_level value=200} selected{/eq}>Moderator</option>
+              <option value="300"{@eq key=right_level value=300} selected{/eq}>Student</option>
+            </select>
+          </td>
+        </tr>
+        {:else}
+        <tr><td colspan="3">Bisher keine User vorhanden</td></tr>
+        {/users}
+      </table>
+    </div>
+  </div>
+  <div class="modal fade" id="enumsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+</div>
+
+<script>
+$('.right-level').change(function(){
+  var $this = $(this);
+  $.ajax({
+    type: "POST",
+    url: "update",
+    data: { tuid: $this.siblings('.tuid').val(), right_level: $this.val() }
+  })
+  .fail(function( jqXHR, textStatus ) {
+    alert( "Request failed: " + textStatus );
+  });
+});
+</script>
+
+{/content}
