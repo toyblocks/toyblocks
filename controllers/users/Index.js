@@ -18,9 +18,9 @@ module.exports.prototype = UsersController.prototype.extend({
     // TODO: hasPlayedDaily, DailyHighscore
     // TODO: isAdmin, ...
 
-    this.mongodb
+    _this.mongodb
       .collection(userModel.collection)
-      .find({'tuid': this.request.session.user.tuid})
+      .find({'tuid': _this.request.session.user.tuid})
       .nextObject(function(err, doc) {
         _this.view.render({
           title: 'Profil',

@@ -3,12 +3,8 @@
 {<content}
 
 <div class="height: 100px;"></div>
-
 <div class="col-md-12">
-
     <div class="jumbotron">Neues Spiel hinzufügen</div>
-
-
         <div class="bs-example">
             <div class="media">
               <a class="pull-left" href="/moderation/encyclopedia">

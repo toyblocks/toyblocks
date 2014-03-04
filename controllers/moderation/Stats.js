@@ -39,7 +39,9 @@ module.exports.prototype = BaseController.prototype.extend({
       attempt: attempt,
       result: result
     }, function (err) {
-      console.log("success");
+      if(err){
+        console.log(err);
+      }
     });
   }
 });

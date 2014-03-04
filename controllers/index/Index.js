@@ -27,6 +27,7 @@ module.exports.prototype = BaseController.prototype.extend({
   error404Action: function () {
     this.view.render({
       title: '404 Seite nicht gefunden'
+      route: '/'
     });
   }
 });
