@@ -2,7 +2,7 @@
 {<content}
 {>"moderation/index/navbar.dust"/}
 <div class="row col-md-10">
-
+<form>
     {?image}
       <div class="panel panel-default">
         <div class="panel-heading">Die Auswahl eines neuen Bildes überschreibt das vorhandene.</div>
@@ -24,13 +24,12 @@
       <input name="values[title]" type="text" class="form-control" placeholder="Titel des Artikels" value="{headline}">
     </div>
 
-  </div>
+  <br>
   <div class="row">
     <div id='editor'>{article|s}</div>
     <input id="article_body" name="values[article_body]" type="hidden">
   </div>
-
-
+  <br>
   <button id="submit-article" type="submit" class="btn btn-default">
     Speichern
   </button>
