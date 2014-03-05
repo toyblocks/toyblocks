@@ -37,6 +37,7 @@ module.exports.prototype = GamesController.prototype.extend({
       gameid  = _this.request.param('id'),
       level   = _this.request.param('level');
 
+
     if(typeof gameid !== 'undefined'){
       _this.mongodb
       .collection('multiplechoice_games')
@@ -64,7 +65,6 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   questionAction: function() {
-
     var _this = this,
       level = _this.request.param('level'),
       id = _this.request.param('id');
@@ -133,7 +133,6 @@ module.exports.prototype = GamesController.prototype.extend({
       countCorrect = 0,
       countWrong = 0;
 
-
     function hashString( str ){
       var hash = 0, i, l, char;
       if (str.length === 0) return hash;
@@ -192,10 +191,7 @@ module.exports.prototype = GamesController.prototype.extend({
           question: questions,
           percent: percentage
         });
-      
       });
-
-
     });
   },
 
