@@ -1,7 +1,7 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<form class="form-horizontal" id="createarticle" action="/moderation/encyclopedia/update" role="form" method="post">
+<form class="form-horizontal" id="createarticle" action="/admin/objects/create-object" role="form" method="post">
   <input type="hidden" name="type" value="encyclopedia_articles">
   <div class="row">
 
