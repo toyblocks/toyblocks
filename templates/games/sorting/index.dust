@@ -5,13 +5,13 @@
   <h3>Sortierspiele</h3>
   <div class="list-group">
     <a href="game?level=1" class="well list-group-item">
-    	Schwierigskeitstufe <strong>1</strong> (Nur Vorlesungsgebäude) <span class="badge">3 mal gespielt</span>
+    	Schwierigskeitstufe <strong>1</strong> (Nur Vorlesungsgebäude) <span class="badge">{#_user.stats.sorting.level1_count_played}{.}{:else}0{/_user.stats.sorting.level1_count_played} mal gespielt</span>
     </a>
     <a href="game?level=2" class="well list-group-item">
-    	Schwierigskeitstufe <strong>2</strong> (Vorlesungsgebäude und Nicht-Vorlesungsgebäude) <span class="badge">3 mal gespielt</span>
+    	Schwierigskeitstufe <strong>2</strong> (Vorlesungsgebäude und Nicht-Vorlesungsgebäude) <span class="badge">{#_user.stats.sorting.level2_count_played}{.}{:else}0{/_user.stats.sorting.level2_count_played} mal gespielt</span>
     </a>
     <a href="game?level=3" class="well list-group-item">
-    	Schwierigskeitstufe <strong>3</strong> (Nur Nicht-Vorlesungsgebäude) <span class="badge">3 mal gespielt</span>
+    	Schwierigskeitstufe <strong>3</strong> (Nur Nicht-Vorlesungsgebäude) <span class="badge">{#_user.stats.sorting.level3_count_played}{.}{:else}0{/_user.stats.sorting.level3_count_played} mal gespielt</span>
     </a>
   </div>
 </div>

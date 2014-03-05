@@ -16,7 +16,7 @@ module.exports.prototype = BaseController.prototype.extend({
     .toArray(function(err, data){
       _this.view.render({
         title: 'Enzyklopädie',
-        route: '/moderation/encyclopedia'
+        route: '/moderation/encyclopedia',
         articles: data
       });
     });
@@ -31,14 +31,14 @@ module.exports.prototype = BaseController.prototype.extend({
       .nextObject(function(err, article) {
         _this.view.render({
           title: 'Enzyklopädie - ' + article.title,
-          route: '/moderation/encyclopedia'
+          route: '/moderation/encyclopedia',
           article: article.article_body,
           headline: article.title,
         });
       });
     } else {
       _this.view.render({
-          title: 'Enzyklopädie - Neuer Artikel'
+          title: 'Enzyklopädie - Neuer Artikel',
           route: '/moderation/encyclopedia'
         });
     }

@@ -30,6 +30,35 @@ module.exports.prototype = {
     // can not render view here, because most of the time the db requests are async
   },
 
+  getUser: function() {
+    return this.request.session.user;
+  },
+
+  increaseStat: function(key) {
+    var _this = this,
+      user = this.getUser();
+    if (!user)
+      throw new Error('there is no user logged in');
+
+    var incKey = {};
+    incKey['stats.' + this.name + '.' + key] = 1;
+
+    _this.mongodb.collection('users')
+      .update(
+        {tuid: user.tuid},
+        {$inc: incKey},
+        {w:0}
+      );
+    
+    if (!user.stats)
+      user.stats = {};
+    
+    if (!user.stats[this.name])
+      user.stats[this.name] = {};
+
+    user.stats[this.name][key] ++;
+  },
+
   init: function(req, res, next) {
     var _this = this;
     this.request = req;
@@ -44,7 +73,7 @@ module.exports.prototype = {
 
     if (this.rightLevel >= 0 && isLive) {
       var nextWithRightsCheck = function() {
-        if (req.session.user.rightLevel > _this.rightLevel) {
+        if (req.session.user.right_level > _this.rightLevel) {
           res.render('error-rights', {title: 'Keine erforderlichen Rechte'});
         }
         else {
@@ -119,7 +148,11 @@ module.exports.prototype = {
                         // insert new user
                         var user = {
                           tuid: tuid,
-                          rightLevel: 400,
+                          right_level: 300,
+                          givenName: attributes['cas:givenName'],
+                          surname: attributes['cas:surname'],
+                          employee: (attributes['cas:eduPersonAffiliation'].indexOf('employee') >= 0),
+                          student: (attributes['cas:eduPersonAffiliation'].indexOf('student') >= 0),
                           _attributes: attributes
                         };
                         _this.mongodb
@@ -167,7 +200,23 @@ module.exports.prototype = {
     }
     else {
       if (!isLive) {
-        req.session.user = {'tuid': 'default', rightLevel: 0};
+        req.session.user = {
+          'employee' : false,
+          'givenName' : 'Mansur',
+          'name' : 'Mansur Iqbal',
+          'right_level' : 100,
+          'student' : true,
+          'surname' : 'Iqbal',
+          'tuid' : 'm_iqbal',
+          'stats': {
+            'sorting': {
+              'level1_count_played': 32
+            },
+            'missing': {
+              'level1_count_played': 42
+            }
+          }
+        };
       }
       next();
     }
