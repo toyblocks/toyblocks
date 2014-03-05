@@ -13,5 +13,20 @@ module.exports.prototype = BaseController.prototype.extend({
     _this.view.render({
       title: 'Fehlstellenspiel hinzufügen'
     });
+  },
+
+  sortingAction: function() {
+    var _this = this;
+
+    _this.mongodb
+    .collection('statistics')
+    .find({gametype: 'sorting' })
+    .toArray(function (err, ele) {
+      var count = ele.length;
+      _this.view.render({
+        title: 'Fehlstellenspiel hinzufügen',
+        count: count
+      });
+    })
   }
 });

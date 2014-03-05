@@ -1,6 +1,7 @@
 'use strict';
 
-var BaseController = require('../Moderation');
+var BaseController = require('../Moderation'),
+  adminObjects = require('../Admin');
 
 module.exports = function () {
 
@@ -21,7 +22,7 @@ module.exports.prototype = BaseController.prototype.extend({
       });
     });
   },
-  
+
   articleAction: function() {
     var _this = this;
     if(_this.request.param('id')) {
@@ -32,6 +33,7 @@ module.exports.prototype = BaseController.prototype.extend({
         _this.view.render({
           title: 'Enzyklopädie - ' + article.title,
           route: '/moderation/encyclopedia',
+          image: article.image,
           article: article.article_body,
           headline: article.title,
         });
@@ -42,5 +44,9 @@ module.exports.prototype = BaseController.prototype.extend({
           route: '/moderation/encyclopedia'
         });
     }
+  },
+
+  updateAction: function() {
+    // adminObjects.createObjectAction('/moderation/encyclopedia');
   }
 });
