@@ -1,7 +1,7 @@
 'use strict';
 
-var GamesController = require('../Games');
-
+var GamesController = require('../Games'),
+  Statistics = require('../moderation/Stats');
 module.exports = function () {
 
 };
@@ -33,12 +33,12 @@ module.exports.prototype = GamesController.prototype.extend({
    * @return buildings - an array of buildings to display for the template
    */
   gameAction: function() {
-<<<<<<< HEAD
     var _this = this,
       gameid  = _this.request.param('id'),
       level   = _this.request.param('level');
 
-
+    _this.increaseStat('count_played');
+    
     if(typeof gameid !== 'undefined'){
       _this.mongodb
       .collection('multiplechoice_games')
@@ -61,30 +61,20 @@ module.exports.prototype = GamesController.prototype.extend({
           level: level,
           game: game
         });
-=======
-    var _this = this;
-
-    _this.increaseStat('count_played');
-    _this.mongodb
-    .collection('multiplechoice_games')
-    .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
-    .nextObject(function(err, game) {
-      _this.view.render({
-        title: 'Multiplechoice',
-        game: game
->>>>>>> master
       });
-    });
+    }
   },
 
   questionAction: function() {
+
     var _this = this,
+      level = _this.request.param('level'),
       id = _this.request.param('id');
 
 
-    if(typeof id === "undefined"){
+    if(typeof id === 'undefined'){
       _this.view.render({
-        error: "No ID specified"
+        error: 'No ID specified'
       });
       return;
     }
@@ -107,6 +97,12 @@ module.exports.prototype = GamesController.prototype.extend({
       }
       return hash;
     }
+    var slice;
+    switch(level){
+      case 3: slice = 10; break;
+      case 2: slice = 6; break;
+      default: slice = 4; break;
+    }
 
     _this.mongodb
     .collection('multiplechoice_questions')
@@ -114,7 +110,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .nextObject(function(err, question) {
 
       var answers = question.multiplechoice_answer_right
-      .concat(shuffle(question.multiplechoice_answer_wrong).slice(0,3)),
+      .concat(shuffle(question.multiplechoice_answer_wrong).slice(0,slice)),
        correctAnswers = question.multiplechoice_answer_right;
 
       answers = shuffle(answers);
@@ -132,11 +128,13 @@ module.exports.prototype = GamesController.prototype.extend({
 
   resultAction: function(){
     var _this = this,
-    result = _this.request.param('result'),
-    id = _this.request.param('id'),
-    solution = [],
-    countCorrect = 0,
-    countWrong = 0;
+      result  = _this.request.param('result'),
+      id      = _this.request.param('id'),
+      level   = _this.request.param('level'),
+      solution = [],
+      countCorrect = 0,
+      countWrong = 0;
+
 
     function hashString( str ){
       var hash = 0, i, l, char;
@@ -149,33 +147,37 @@ module.exports.prototype = GamesController.prototype.extend({
       return hash;
     }
 
-    //TODO: check from serverside if solution is correct
+    // TODO: check from serverside if solution is correct
     _this.mongodb
     .collection('multiplechoice_games')
     .find({_id: _this.mongo.ObjectID(id)})
     .nextObject(function(err, game) {
 
-      // _this.mongodb
-      // .collection('multiplechoice_questions')
-      // .find({_id: game._id})
-      // .nextObject(function(err, q) {
-      // });
+      // TODO: Filter questions from given ids
+      // TODO: Give ids from clientside
+      // TODO: we dont really need games collection, do we?
+      _this.mongodb
+      .collection('multiplechoice_questions')
+      .find({_id: {$in: game.multiplechoice_question_reference}})
+      .toArray(function(err, questions) {
 
-
-      // var answers = question.multiplechoice_answer_right
-      // .concat(question.multiplechoice_answer_wrong),
-      // correctAnswers = question.multiplechoice_answer_right;
-      var a = result.split('-');
-      for (var i = 0; i < a.length; i ++) {
-        if(a[i] === 'true'){
-        //if(result[i] === hashString(correctAnswers[i]) ){
-          solution.push('Richtig');
-          countCorrect++;
-        }else{
-          solution.push('Falsch');
-          countWrong++;
+        result = result.split(',');
+        for (var i = 0; i < questions.length; i++) {
+          var answers = questions[i].multiplechoice_answer_right,
+            isCorrect = false;
+          for (var j = 0; j < answers.length; j++) {
+            if(String(result[i]) === String(hashString(answers[j]))){
+               isCorrect = true;
+            }
+          }
+          solution.push(isCorrect);
+          questions[i].selectedAnswer = isCorrect;
+          if(isCorrect){
+              countCorrect++;
+          }else{
+              countWrong++;
+          }
         }
-<<<<<<< HEAD
         var percentage = {
           'wrong': (countWrong   * 100) / result.length,
           'right': (countCorrect * 100) / result.length
@@ -192,39 +194,10 @@ module.exports.prototype = GamesController.prototype.extend({
           question: questions,
           percent: percentage
         });
-=======
-      }
-      var percantage = {
-        'wrong':1/a.length*countWrong*100,
-        'right':1/a.length*countCorrect*100
-      };
-
-      _this.view.render({
-        result: solution,
-        question: game.multiplechoice_question_reference,
-        percent: percantage
->>>>>>> master
+      
       });
+
+
     });
-  },
-
-  // Gets the questions from the database and returns it with a callback
-  //
-  // @param game           - information about the current game
-  // @param renderCallback - the callback to call after we got the questions
-  renderGame: function(game, renderCallback) {
-    var _this = this,
-    references;
-    //get all question for this game
-    for (ref in game.multiplechoice_question_reference) {
-
-    }
-
-    _this.mongodb
-    .collection('multiplechoice_questions')
-    .find({_id: {$in: game.multiplechoice_question_reference},
-      _random: {$near: [Math.random(), 0]}})
-    .toArray(renderCallback);
   }
-
 });

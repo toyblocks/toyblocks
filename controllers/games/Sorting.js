@@ -1,6 +1,7 @@
 'use strict';
 
-var GamesController = require('../Games');
+var GamesController = require('../Games'),
+  Statistics = require('../moderation/Stats');
 
 module.exports = function () {
 
@@ -30,6 +31,7 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this,
       level = parseInt(_this.request.param('level'),10),
       limit = parseInt(_this.request.param('limit'),10);
+
     //+ Jonas Raoni Soares Silva
     //@ http://jsfromhell.com/array/shuffle [v1.0]
     function shuffle(o){ //v1.0
@@ -37,12 +39,16 @@ module.exports.prototype = GamesController.prototype.extend({
        x = o[--i], o[i] = o[j], o[j] = x);
       return o;
     }
+
     _this.increaseStat('level'+level+'_count_played');
-    _this.renderGame(level, limit, function(err, buildings){
-      buildings = shuffle(buildings).slice(0,7);
+
+    _this.renderGame(level, function(err, buildings){
+      var buildingLimit = limit || 7;
+      buildings = shuffle(buildings).slice(0,buildingLimit);
       _this.view.render({
         title: 'Sortierspiel',
         route: '/games/sorting',
+        level: level,
         buildings: buildings
       });
     });
@@ -55,8 +61,7 @@ module.exports.prototype = GamesController.prototype.extend({
  * @param renderCallback - the callback to call after we got the buildings
  * @param game           - information about the current game
  */
-  renderGame: function(level, countLimit, renderCallback) {
-    var buildingLimit = countLimit || 7;
+  renderGame: function(level, renderCallback) {
     if (level === 3) {
 
       // Only level 2 buildings
@@ -91,7 +96,10 @@ module.exports.prototype = GamesController.prototype.extend({
  */
   checkSortingAction: function() {
     var _this = this,
-      sortIds = _this.request.param('sortings');
+      sortIds = _this.request.param('sortings'),
+      level   = _this.request.param('level'),
+      attempt = _this.request.param('attempt'),
+      userId  = _this.request.session.user.tuid;
 
     //TODO: catch error on clientside
     if(sortIds === undefined){
@@ -150,11 +158,11 @@ module.exports.prototype = GamesController.prototype.extend({
                 else if(orderNumbers[i] === orderNumbers[j])
                   same++;
               }
-              if(prepend <= i && i <= (prepend + same -1) )
-                order.push(true);
-              else
-                order.push(false);
+              order.push(prepend <= i && i <= (prepend + same - 1));
             }
+
+            // Update Stats
+            Statistics.prototype.insertStats(_this, 'sorting', 0, level, userId, attempt, solutionIsCorrect);
 
             // response with a json object
             _this.response.json({
