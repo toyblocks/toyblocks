@@ -1,35 +1,67 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<div class="row">
+<form class="form-horizontal" id="createarticle" action="/moderation/encyclopedia/update" role="form" method="post">
+  <input type="hidden" name="type" value="encyclopedia_articles">
+  <div class="row">
 
-  {?image}
-  <div class="col-md-3">
-    <img src="/ressources/image?id={image}&amp;size=middle">
-  </div>
-  {/image}
-<div class="form-group">
-  <label class="col-sm-3 control-label" for="attr_title">Titel</label>
-  <div class="col-sm-6">
-
-    <input name="values[title]" type="text" id="attr_title" class="form-control" required="">
-
-  </div>
-
-</div>
-  <div class="col-md-6">
-    <h3 class="col-md-offset-1 col-xs-offset-1">{headline}</h3>
-
-    <div >
-      <div id='editor' >
-        {article|s}
+    {?image}
+      <div class="panel panel-default">
+        <div class="panel-heading">Die Auswahl eines neuen Bildes überschreibt das vorhandene.</div>
+        <div class="panel-body">
+          <img src="/ressources/image?id={image}&amp;size=middle">
+        </div>
       </div>
+    {/image}
+
+    <div class="form-group">
+      <label for="pictureupload">Artikelbild</label>
+      <input name="values[image_name]" type="file" class="form-attr-image" id="attr_image">
+      <input name="values[image]" type="hidden">
+      <p class="help-block">Bitte nur JPEG Dateien</p>
     </div>
+
+    <div class="input-group">
+      <span class="input-group-addon">Titel</span>
+      <input name="values[title]" type="text" class="form-control" placeholder="Titel des Artikels" value="{headline}">
+    </div>
+
   </div>
-</div>
+  <div class="row">
+    <div id='editor'>{article|s}</div>
+    <input id="article_body" name="values[article_body]" type="hidden">
+  </div>
+
+
+  <button id="submit-article" type="submit" class="btn btn-default">
+    Speichern
+  </button>
+</form>
+
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#editor').summernote();
+    var $editor = $('#editor');
+    $editor.summernote({
+      toolbar: [
+        ['style', ['style']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        // ['height', ['height']],
+        ['insert', ['link', 'video']],
+        ['table', ['table']],
+        ['help', ['help']]
+      ]
+    });
+    $('#createarticle').submit(function() {
+        $('#article_body').val($editor.code());
+        return true; // return to default form submit action
+    });
+    $('#submit-article').on('click', function() {
+      var articleBody = $editor.code();
+
+    });
   });
 </script>
 {/content}

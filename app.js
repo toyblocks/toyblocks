@@ -34,12 +34,6 @@ if ('development' === config.mode) {
   dust.helpers.optimizers.format = function(ctx, node) { return node; };
 }
 
-if ('production' === config.mode) {
-  var privateKey = fs.readFileSync('/etc/ssl/private/toyblocks.key', 'utf8');
-  var certificate = fs.readFileSync('/etc/ssl/certs/toyblocks.pem', 'utf8');
-  var credentials = {key: privateKey, cert: certificate};
-}
-
 // all environments
 app.set('port', config.port);
 app.set('views', path.join(__dirname, './templates'));
