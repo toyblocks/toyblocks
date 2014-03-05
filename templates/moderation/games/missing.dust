@@ -1,71 +1,130 @@
 {>"layout/layout.dust"/}
-
 {<content}
-
-<div class="height: 100px;"></div>
-
-<div class="col-md-12">
-
-  <div class="jumbotron">Neues <b>Fehlstellenspiel</b> hinzufügen</div>
-
-  <div class="col-md-4 col-md-offset-4">
-    <div class="bs-example">
-        <div class="media">
-          <div class="pull-left">
-            <span id="glyph1" class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;">
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading">Fehlstellenbild</h4>
-            <div class="form-group">
-                <input name="values_name" type="file" class="form-attr-img" id="img1input" required>
-                <input name="img1" type="hidden">
+{>"moderation/index/navbar.dust"/}
+<div class="col-md-10">
+  <div class="col-md-4 col-md-offset-1">
+    <form id="newgameform">
+      <div class="bs-example">
+          <div class="media">
+            <div class="pull-left">
+              <span id="glyph1" class="media-object" style="font-size: 60px;width: 64px; height: 64px;"></span>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">Neues Fehlstellenspiel hinzufügen</h4>
             </div>
           </div>
-        </div>
-
-        <div class="media">
-          <div class="pull-left">
-            <span id="glyph2" class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;">
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading">Lösungbild</h4>
-            <div class="form-group">
-                <input name="values_name" type="file" class="form-attr-img" id="img2input" required>
-                <input name="img2" type="hidden">
+          <div class="media">
+            <div class="pull-left">
+              <span id="glyph1" class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;"></span>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">Titel</h4>
+              <div class="form-group">
+                  <input name="values_name" type="text" class="form-attr-img" id="text1input" required>
+              </div>
             </div>
           </div>
-        </div>
-      <div class="media">
-        <div class="pull-left">
-        <span class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;">
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">Einzelteile Kategorie</h4>
-        <div class="form-group">
-            <select name="values[missingparts_category]" id="category" class="form-control" required>
-              <option value="Kapitell">Kapitell</option>
-              <option value="Giebel">Giebel</option>
-              <option value="Fries">Fries</option>
-              <option value="Fenster">Fenster</option>
-              <option value="Dach">Dach</option>
-            </select>
+          <div class="media">
+            <div class="pull-left">
+              <span id="glyph1" class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;"></span>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">Fehlstellenbild</h4>
+              <div class="form-group">
+                  <input name="values_name" type="file" class="form-attr-img" id="img1input" required>
+                  <input name="img1" type="hidden">
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div class="media-body">
-        <h4 class="media-heading">Einzelteile Lösungsbild</h4>
-          <div class="form-group">
-            <div class="col-sm-6">
-    <button type="button" class="btn btn-primary select-objecttype" data-attribute="missingparts_correctimage" data-type="missingparts_images" data-remote="/admin/objects/objects?type=missingparts_images&amp;_view=only_content" data-target="#objectTypesModal" data-toggle="modal">Bitte Auswählen...</button>
-    <input type="hidden" name="values[missingparts_correctimage][]" value="">
-  </div>
+          <div class="media">
+            <div class="pull-left">
+              <span id="glyph2" class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;"></span>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">Lösungbild</h4>
+              <div class="form-group">
+                  <input name="values_name" type="file" class="form-attr-img" id="img2input" required>
+                  <input name="img2" type="hidden">
+              </div>
+            </div>
           </div>
+          <div class="media">
+            <div class="pull-left">
+            <span class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;"></span>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">Einzelteile Kategorie</h4>
+            <div class="form-group">
+              <select name="values[missingparts_category]" id="category" class="form-control" required>
+                <option value="Kapitell">Kapitell</option>
+                <option value="Giebel">Giebel</option>
+                <option value="Fries">Fries</option>
+                <option value="Fenster">Fenster</option>
+                <option value="Dach">Dach</option>
+              </select>
+            </div>
+          </div>
+          <div class="media">
+            <div class="pull-left">
+            <span class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;"></span>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">Einzelteile Lösungsbild</h4>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-primary select-objecttype" data-attribute="missingparts_correctimage" data-type="missingparts_images" data-remote="/admin/objects/objects?type=missingparts_images&amp;_view=only_content" data-target="#objectTypesModal" data-toggle="modal">Bitte Auswählen...</button>
+                <input type="hidden" name="values[missingparts_correctimage][]" value="">
+              </div>
+            </div>
+          </div>        
+          <button type="button" class="btn btn-primary btn-lg btn-block">Erstellen</button>
         </div>
-        
-        <button type="button" class="btn btn-primary btn-lg btn-block">Erstellen</button>
-        
       </div>
     </div>
+  </form>
+  </div>
+  <div class="col-md-4 col-md-offset-1">
+    <form id="newpieceform">
+    <div class="bs-example">
+          <div class="media">
+            <div class="pull-left">
+              <span id="glyph2" class="media-object" style="font-size: 60px;width: 64px; height: 64px;"></span>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">Neues Einzelteil hinzufügen</h4>
+              <div class="form-group">
+                  <input name="values_name" type="file" class="form-attr-img" id="img2input" required>
+                  <input name="img2" type="hidden">
+              </div>
+            </div>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">Einzelteile Kategorie</h4>
+            <div class="form-group">
+              <select name="values[missingparts_category]" id="category2" class="form-control" required>
+                <option value="Kapitell">Kapitell</option>
+                <option value="Giebel">Giebel</option>
+                <option value="Fries">Fries</option>
+                <option value="Fenster">Fenster</option>
+                <option value="Dach">Dach</option>
+                <option value="NEW">Neue Kategorie</option>
+              </select>
+            </div>
+          </div>
+          <div class="media">
+            <div class="pull-left">
+              <span id="glyph2" class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;"></span>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">Lösungbild</h4>
+              <div class="form-group">
+                  <input name="values_name" type="file" class="form-attr-img" id="img2input" required>
+                  <input name="img2" type="hidden">
+              </div>
+            </div>
+          </div>
+      </div>
+    </form>
   </div>
 </div>
 <script type="text/javascript">

@@ -2,14 +2,6 @@
 
 {<content}
 <style type="text/css">
-.thumbnail{
-  border-color: rgba(82,168,236,.8);
-  outline: 0;
-  outline: thin dotted \9;
-  -moz-box-shadow: 0 0 8px rgba(82,168,236,.6);
-  box-shadow: 0 0 8px rgba(82,168,236,.6);
-}
-
 h2{
   text-align: center;
   margin-top: 5px;
@@ -18,60 +10,60 @@ h2{
   font-size: 28px;
 }
 </style>
+{>"moderation/index/navbar.dust"/}
 <div class="height: 100px;"></div>
-<div class="col-md-12">
+<div class="col-md-10">
     <div class="jumbotron">Neues Spiel hinzufügen</div>
-        <div class="bs-example">
-            <div class="media">
-              <a class="pull-left" href="/moderation/encyclopedia">
-                <span class="media-object glyphicon glyphicon-book" style="font-size: 60px;width: 64px; height: 64px;">
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Enzyklopädie</h4>
-                Die Enzyklopäde besteht aus Artikeln.<br>
-                Artikel haben einen Titel, einen Text und ein optionales Bild.
-              </div>
-            </div>
-            <div class="media">
-              <a class="pull-left" href="/moderation/stats">
-                <span class="media-object glyphicon glyphicon-stats" style="font-size: 60px;width: 64px; height: 64px;">
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Statistiken</h4>
-                Statistiken für Nerds.
-              </div>
-            </div>
-            <br>
-            <div class="media">
-              <a class="pull-left" href="/moderation/games/missing">
-                <span class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;">
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Fehlstellenspiel</h4>
-                Das Fehlstellenspiel benötigt ein Hauptbild mit Fehlstellen, ein Lösungsbild, eine Kategorie der Einzelteile und gegebenenfalls eine neue Kategorie für die Einzelteile (sollte diese nicht vorhanden sein).
-              </div>
-            </div>
-            <div class="media">
-              <a class="pull-left" href="#">
-                <span class="media-object glyphicon glyphicon-sort-by-attributes" style="font-size: 60px; width: 64px; height: 64px;">
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Zusammensetzspiel</h4>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                <div class="media">
-                  <a class="pull-left" href="#">
-                    <span class="media-object glyphicon glyphicon-tower" style="font-size: 60px; width: 64px; height: 64px;"></span>
-                  </a>
-                  <div class="media-body">
-                    <h4 class="media-heading">Sortierspiel</h4>
-                    Für das Sortierspiel können nur mehr Gebäude angelegt werden. Diese werden dann automatisch hinzufügt und zufällig verteilt.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
+    <div class="bs-example">
+      <div class="media">
+        <a class="pull-left" href="/moderation/encyclopedia">
+          <span class="media-object glyphicon glyphicon-book" style="font-size: 60px;width: 64px; height: 64px;"></span>
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Enzyklopädie</h4>
+          Die Enzyklopäde besteht aus Artikeln.<br>
+          Artikel haben einen Titel, einen Text und ein optionales Bild.
+        </div>
+      </div>
+      <div class="media">
+        <a class="pull-left" href="/moderation/stats">
+          <span class="media-object glyphicon glyphicon-stats" style="font-size: 60px;width: 64px; height: 64px;"></span>
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Statistiken</h4>
+          Statistiken aller Spiele.
+        </div>
+      </div>
+      <br>
+      <div class="media">
+        <a class="pull-left" href="/moderation/games/missing">
+          <span class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;"></span>
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Fehlstellenspiel</h4>
+          Das Fehlstellenspiel benötigt ein Hauptbild mit Fehlstellen, ein Lösungsbild, eine Kategorie der Einzelteile und gegebenenfalls eine neue Kategorie für die Einzelteile (sollte diese nicht vorhanden sein).
+        </div>
+      </div>
+      <div class="media">
+        <a class="pull-left" href="#">
+          <span class="media-object glyphicon glyphicon-sort-by-attributes" style="font-size: 60px; width: 64px; height: 64px;"></span>
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Zusammensetzspiel</h4>
+          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+        </div>
+      </div>
+      <div class="media">
+        <a class="pull-left" href="#">
+          <span class="media-object glyphicon glyphicon-tower" style="font-size: 60px; width: 64px; height: 64px;"></span>
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Sortierspiel</h4>
+          Für das Sortierspiel können nur mehr Gebäude angelegt werden. Diese werden dann automatisch hinzufügt und zufällig verteilt.
+        </div>
+      </div>
+    </div>
 </div>
+
 
 {/content}

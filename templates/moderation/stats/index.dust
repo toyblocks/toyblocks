@@ -1,6 +1,9 @@
 {>"layout/layout.dust"/}
 
 {<content}
+<div class="row">
+{>"moderation/index/navbar.dust"/}
+<div class="col-md-10">
 <table class="table table-hover">
   <thead>
     <tr>
@@ -16,7 +19,7 @@
   {!that, gametype, gameid, level, player, attempt, result !}
   {#elements}
     <tr>
-      <td>{gameid}</td>
+      <td><a href="/games/{gametype}/game?id={gameid}&level={level}">{gameid}</a></td>
       <td>{gametype}</td>
       <td>{level}</td>
       <td>{player}</td>
@@ -26,4 +29,6 @@
   {/elements}
   </tbody>
 </table>
+</div>
+</div>
 {/content}

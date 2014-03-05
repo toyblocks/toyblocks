@@ -1,0 +1,12 @@
+{>"layout/layout.dust"/}
+{<content}
+{>"moderation/index/navbar.dust"/}
+<div class="col-md-10">
+
+<p><a href="/admin/objects/objects?type=sorting_buildings" class="btn btn-primary btn-lg" role="button">Sortierspiel erstellen</a></p>
+
+<p><a href="/admin/attributes/show-enums?attribute=era" class="btn btn-primary btn-lg" role="button">Epochen ordnen/erstellen</a></p>
+
+Insgesamt gespielte Sortierspiele: {count}
+</div>
+{/content}

@@ -1,26 +1,22 @@
 {>"layout/layout.dust"/}
-
 {<content}
-<div class="row">
+{>"moderation/index/navbar.dust"/}
+<div class="row col-md-10">
 
   {?image}
   <div class="col-md-3">
     <img src="/ressources/image?id={image}&amp;size=middle">
   </div>
   {/image}
-<div class="form-group">
-  <label class="col-sm-3 control-label" for="attr_title">Titel</label>
-  <div class="col-sm-6">
-
-    <input name="values[title]" type="text" id="attr_title" class="form-control" required="">
-
+<div class="form-group row">
+<div class="col-md-1"></div>
+  <div class="input-group input-group-lg col-md-8">
+    <span class="input-group-addon">Titel des Artikels</span>
+    <input name="values[title]" id="attr_title" type="text" class="form-control" required="" placeholder="Titel" value="{headline}">
   </div>
-
 </div>
-  <div class="col-md-6">
-    <h3 class="col-md-offset-1 col-xs-offset-1">{headline}</h3>
-
-    <div >
+  <div class="col-md-10">
+    <div>
       <div id='editor' >
         {article|s}
       </div>

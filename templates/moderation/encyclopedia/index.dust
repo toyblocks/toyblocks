@@ -1,39 +1,41 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Titel</th>
-      <th>Anzeigen</th>
-      <th>Bearbeiten</th>
-      <th>Löschen</th>
-    </tr>
-  </thead>
-  <tbody>
-    {#articles}
-    <tr>
-      <td>{title}</td>
-      <td>
-        <a href="/encyclopedia/index/article?id={_id}">
-          <span class="glyphicon glyphicon-zoom-in"></span>
-        </a>
-      </td>
-      <td>
-        <a href="/moderation/encyclopedia/article?id={_id}">
-          <span class="glyphicon glyphicon-pencil"></span>
-        </a>
-      </td>
-      <td>
-        <a href="#">
-          <span class="glyphicon glyphicon-trash"></span>
-        </a>
-      </td>
-    </tr>
-    {/articles}
-  </tbody>
-</table>
-
+{>"moderation/index/navbar.dust"/}
+<div class="col-md-10">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Titel</th>
+        <th>Anzeigen</th>
+        <th>Bearbeiten</th>
+        <th>Löschen</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#articles}
+      <tr>
+        <td>{title}</td>
+        <td>
+          <a href="/encyclopedia/index/article?id={_id}">
+            <span class="glyphicon glyphicon-zoom-in"></span>
+          </a>
+        </td>
+        <td>
+          <a href="/moderation/encyclopedia/article?id={_id}">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+        </td>
+        <td>
+          <a href="#">
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+        </td>
+      </tr>
+      {/articles}
+    </tbody>
+  </table>
+</div>
 <script type="text/javascript">
 
 </script>
