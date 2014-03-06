@@ -4,7 +4,7 @@
       <ul class="nav nav-pills nav-stacked">
           <li class="nav-text">Moderation</li>
           <li><a href="/moderation">Übersicht</a></li>
-          <li><a href="/moderation/games">Spiele</a></li>
+          <li><a>Spiele</a></li>
           <ul class="nav nav-pills nav-stacked nav-nested">
           <li><a href="/moderation/games/sorting">Sortierspiel</a></li>
           <li><a href="/moderation/games/missing">Fehlstellen</a></li>
