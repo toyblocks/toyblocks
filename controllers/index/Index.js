@@ -11,7 +11,7 @@ module.exports.prototype = BaseController.prototype.extend({
   indexAction: function() {
     var user = this.getUser();
     if (user) {
-      this.response.redirect('/index/welcome');
+      this.response.redirect('/welcome');
     }
     else {
       this.view.setNoNavBar(true);
