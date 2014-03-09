@@ -23,6 +23,8 @@ module.exports.prototype = {
     data._controller = this.controller.name;
     data._action = this.controller.action;
     data._user = this.controller.request.session.user;
+    data._isAdmin = (data._user && data._user.right_level <= 100) ? true : false;
+    data._isModerator = (data._user && data._user.right_level <= 200) ? true : false;
     if(this.response && this.template && !this.disabled) {
       this.response.render(this.template, data);
     }
