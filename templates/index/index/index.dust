@@ -8,6 +8,6 @@
       <span class="glyphicon glyphicon-sort-by-attributes"></span>
       <span class="glyphicon glyphicon-tower"></span>
     </div>
-    <button onclick="location.href='/games/';" type="button" class="btn btn-primary btn-lg">Anmelden</button>
+    <a role="button" href="/index/welcome/" class="btn btn-primary btn-lg">Anmelden</a>
   </div>
 {/content}
