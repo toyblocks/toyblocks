@@ -9,12 +9,22 @@ module.exports.prototype = BaseController.prototype.extend({
   name: 'index',
 
   indexAction: function() {
-    this.view.render({
-      title: 'Startseite',
-      route: '/'
-    });
+    var user = this.getUser();
+    if (user) {
+      this.response.redirect('/index/welcome');
+    }
+    else {
+      this.view.setNoNavBar(true);
+      this.view.render({
+        title: 'Startseite',
+        route: '/'
+      });
+    }
   },
 
+  welcomeAction: function() {
+    this.view.render({});
+  },
 
 
   aboutAction: function () {

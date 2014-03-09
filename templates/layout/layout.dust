@@ -6,7 +6,7 @@
 {>"layout/header"/}
   <body>
     <div id="page_container" class="container-fluid">
-{>"layout/navbar"/}
+      {?_noNavBar}{:else}{>"layout/navbar"/}{/_noNavBar}
       <div id="content">
         <div class="container">
 {+content}

@@ -6,6 +6,7 @@ module.exports = function(controller) {
 };
 module.exports.prototype = {
   onlyContent: false,
+  noNavBar: false,
 
   extend: function(properties) {
     var Child = module.exports;
@@ -17,6 +18,7 @@ module.exports.prototype = {
   },
   render: function(data) {
     data._viewOnlyContent = this.onlyContent;
+    data._noNavBar = this.noNavBar;
     data._area = this.controller.area;
     data._controller = this.controller.name;
     data._action = this.controller.action;
@@ -36,5 +38,8 @@ module.exports.prototype = {
   },
   setOnlyContent: function(onlyContent) {
     this.onlyContent = onlyContent;
+  },
+  setNoNavBar: function(noNavBar) {
+    this.noNavBar = noNavBar;
   }
 };

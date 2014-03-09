@@ -1,1 +1,13 @@
 {>"layout/layout.dust"/}
+{<content}
+  <div style="color: #428bca; font-size:150px;text-align:center;line-height:normal;">
+    <h1 id="toyblocks_title" style="font-variant: small-caps; font-size:150px;">ToyBlocks</h1>
+    <div>
+      <span class="glyphicon glyphicon-question-sign"></span>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      <span class="glyphicon glyphicon-sort-by-attributes"></span>
+      <span class="glyphicon glyphicon-tower"></span>
+    </div>
+    <button onclick="location.href='/games/';" type="button" class="btn btn-primary btn-lg">Anmelden</button>
+  </div>
+{/content}
