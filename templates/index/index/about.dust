@@ -1,28 +1,21 @@
 {>"layout/layout.dust"/}
 {<content}
 <div class="col-md-9 col-sm-9">
-    <div class="page-header">
-        <h1>Über Uns</h1>
-      <div id="media">
-      ToyBlocks ist ein Webbasiertes Lernspiel für <a href="http://www.gta.architektur.tu-darmstadt.de/gta/start/index.de.jsp">Architekturgeschichte</a><br>
-      Fachbereich Architektur (15)<br>
-      Fachgruppe A
-      </div>
-
-<br>
-</div>
-<h3>
-<small>
-  Entwickelt von vier Informatik Studenten an der
-  <a href="http://www.tu-darmstadt.de/">TU Darmstadt</a>
-</small>
-</h3>
+  <div class="page-header">
+    <div id="media">
+    ToyBlocks ist ein webbasiertes Lernspiel der Fachgruppe A - Historische Grundlagen am FB15 - Architektur der TU Darmstadt im Rahmen des Einführungskurses "Grundlagen und Methoden der Architekturgeschichte" (Modul 312).
+    Verantwortlich für den Inhalt sind die wissenschaftlichen Mitarbeiter_innen der drei Fachgebiete Klassische Archäologie, Kunstgeschichte und Geschichte und Theorie der Architektur.
+    </div>
+  </div>
     <div class="media">
       <div class="media-body">
-        <h4 class="media-heading">Andrej</h4>
-        <h4 class="media-heading">Mansur</h4>
-        <h4 class="media-heading">Simon</h4>
-        <h4 class="media-heading">Steven</h4>
+        <small>
+          Entwickelt im Zuge des Bachelorpraktikums im Studiengang Bachelor of Science Informatik von den Studierenden:
+        </small>
+        <h4 class="media-heading">Andrej Tretjakow</h4>
+        <h4 class="media-heading">Mansur Iqbal</h4>
+        <h4 class="media-heading">Simon Bugert</h4>
+        <h4 class="media-heading">Steven Reynolds</h4>
       </div>
     </div>
 </div>
