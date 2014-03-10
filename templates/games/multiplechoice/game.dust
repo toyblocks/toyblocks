@@ -69,8 +69,8 @@
 
 <br>
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
-  <button id="next_question" type="button" class="btn btn-primary btn-block">Nächste Frage</button>
-  <button id="game_result" type="button" class="btn btn-success btn-block">Lösung anzeigen</button>
+  <button id="next_question" type="button" class="btn btn-primary btn-block">Weiter</button>
+  <button id="game_result" type="button" class="btn btn-success btn-block">Weiter</button>
   <button id="game_overview" type="button" class="btn btn-danger btn-block">Zurück zur Spielübersicht</button>
   <span id="gamesLeftBox" class="badge pull-right">Verbleibende Spiele: <span id="gamesLeft"></span></span>
 </div>

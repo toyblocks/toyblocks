@@ -112,8 +112,8 @@
 </div>
 
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
-  <button id="submit" type="button" class="btn btn-primary btn-block">Lösung senden</button>
-  <a href="" id="newgame" type="button" class="btn btn-danger btn-block" style="display: none;">Nächstes Spiel</a>
+  <button id="submit" type="button" class="btn btn-primary btn-block">Bestätigen</button>
+  <a href="" id="newgame" type="button" class="btn btn-danger btn-block" style="display: none;">Weiter</a>
 </div>
 
 <!-- Modal -->
@@ -122,10 +122,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="modalLabel">Richtig</h4>
+        <h4 class="modal-title" id="modalLabel"></h4>
       </div>
       <div class="modal-body">
-        Das ist richtig!
       </div>
       <div class="modal-footer">
         <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -153,7 +152,8 @@ $(window).ready(function(){
     var serialize = $('#gameform').serialize();
     $.post('check-selected', serialize, function(data) {
       if (data.correct) {
-        setModalText('Richtig!', 'Ihre Lösung ist korrekt!');
+        setModalText('Ihre Lösung ist korrekt!', '');
+        {! Todo: add solutiontext !}
         showSolution(data.correctBuilding, data.solutionImage);
         $('#newgame').show();
       }

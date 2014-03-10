@@ -70,7 +70,7 @@
 </div>
 </div>
 <center>
-  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Lösung senden</button>
+  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Bestätigen</button>
   <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
 </center>
 <br>
