@@ -5,22 +5,12 @@
   <h3>Zusammensetzen-Spiele</h3>
   <div class="list-group">
     <a href="game?level=1" class="well list-group-item">
-    	Schwierigskeitstufe <strong>1</strong> (ohne falsche Bilder)<span class="badge">3 mal gespielt</span>
+    	<strong>Schwierigskeitstufe 01</strong><span class="badge">3 mal gespielt</span>
     </a>
     <a href="game?level=2" class="well list-group-item">
-    	Schwierigskeitstufe <strong>2</strong> (mit falschen Bildern) <span class="badge">3 mal gespielt</span>
+    	<strong>Schwierigskeitstufe 02</strong><span class="badge">3 mal gespielt</span>
     </a>
   </div>
   <p class="text-muted"></p>
-</div>
-
-<div class="col-md-4">
-  <h3>Alle Zusammensetzen-Spiele</h3>
-  <p class="text-muted">(Nurnoch zu Entwicklungszwecken da)</p>
-  <div class="list-group">
-    {#assemblegames}
-    <a href="game?id={_id}" class="list-group-item">{assemble_category} <span class="badge">3 mal gespielt</span></a>
-    {/assemblegames}
-  </div>
 </div>
 {/content}
