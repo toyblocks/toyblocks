@@ -22,3 +22,9 @@ $(function(){
     }
   });
 });
+
+
+// set last-updated
+$.get( "/index/lastupdate", function( data ) {
+  $('#last-update').text("zuletzt aktualisiert: " + data.lastupdate);
+}, "json");
