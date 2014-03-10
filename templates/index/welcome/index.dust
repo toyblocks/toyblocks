@@ -16,7 +16,7 @@
     <div class="thumbnail">
       <div class="caption">
         <h3><span class="glyphicon glyphicon-sort-by-attributes"></span> Zeitstrahl</h3>
-        <p>Ordnen Sie die Bauwerke in chronologischer Reihenfolge.</p>
+        <p>Ordnen Sie die Bauwerke in chronologischer Reihenfolge!</p>
         <a href="/games/sorting/" class="btn btn-primary" role="button">Spielen</a>
       </div>
     </div>
@@ -25,7 +25,7 @@
     <div class="thumbnail">
       <div class="caption">
         <h3><span class="glyphicon glyphicon-question-sign"></span> Fehlstellen</h3>
-        <p>Finden Sie das fehlende Element.</p>
+        <p>Finden Sie das fehlende Element!</p>
         <a href="/games/missing/" class="btn btn-primary" role="button">Spielen</a>
       </div>
     </div>
@@ -52,7 +52,7 @@
     <div class="thumbnail">
       <div class="caption">
         <h3><span class="glyphicon glyphicon-globe"></span> Daily Challenge</h3>
-        <p>Beantworten Sie Fragen zu allen Themen im Multiple-Choice-Verfahren!</p>
+        <p>Testen Sie einmal täglich ihr Wissen im Vergleich mit anderen Studierenden!</p>
         <a href="/games/daily/" class="btn btn-primary" role="button">Spielen</a>
       </div>
     </div>

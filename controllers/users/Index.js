@@ -17,7 +17,7 @@ module.exports.prototype = UsersController.prototype.extend({
     // TODO: TU-ID, Username, lastLoggin (?), timesPlayed
     // TODO: hasPlayedDaily, DailyHighscore
     // TODO: isAdmin, ...
-
+    var userId  = _this.request.session.user;
     _this.mongodb
       .collection(userModel.collection)
       .find({'tuid': _this.request.session.user.tuid})

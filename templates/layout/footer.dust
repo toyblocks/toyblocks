@@ -1,6 +1,6 @@
 <footer>
   <a href="/index/impressum/">Impressum</a>
-  <a href="/index/information/">Information</a>
+  <a href="/index/about/">Information</a>
   <div id="last-update" class="pull-right" style="width:300px;"></div>
 </footer>
 <script src="/js/vendor/jquery-ui.min.js"></script>

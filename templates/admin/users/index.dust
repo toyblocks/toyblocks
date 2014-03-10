@@ -30,6 +30,8 @@
               <option value="300"{@eq key=right_level value=300} selected{/eq}>Student</option>
             </select>
           </td>
+          {! TODO: Anzeigen das es gleich gespeichert wurde !}
+          {! TODO: Filter für Mitarbeiter, bzw Suche nach TU-ID !}
         </tr>
         {:else}
         <tr><td colspan="3">Bisher keine User vorhanden</td></tr>

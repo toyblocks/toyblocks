@@ -8,29 +8,22 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">Toy Blocks</a>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        {! TODO: überall das hinzufügen für active {@eq key=route value="/sortbuildings"}class="active"{/eq} !}
-        {! TODO: überall die route übergeben !}
-
-        {?_isAdmin}
-        <li class="dropdown {@eq key=_area value="admin"}active{/eq}">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
+        <li class="dropdown {@eq key=_area value="user"}active{/eq}">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profil<b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="/admin/objects/">Objekte</a></li>
-            <li><a href="/admin/attributes/">Attribute</a></li>
-            <li><a href="/admin/users/">Users</a></li>
+          {?_user}
+            <li><a href="/users/">Profil ändern</a></li>
+            <li><a href="/users/log/out/">Ausloggen</a></li>
+          {:else}
+            <li><a href="/index/welcome/">Einloggen</a></li>
+          {/_user}
+            <li class="divider"></li>
+            <li><a href="/404/">Hilfe</a></li>
           </ul>
         </li>
-        {/_isAdmin}
-
-        {?_isModerator}
-        <li {@eq key=_area value="moderation"}class="active"{/eq}>
-          <a href="/moderation">Moderation</a>
-        </li>
-        {/_isModerator}
 
         <li class="dropdown {@eq key=_area value="games"}active{/eq}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Spiele <b class="caret"></b></a>
@@ -47,15 +40,24 @@
             <li><a href="/games/daily/leaderboard">Rangliste</a></li>
           </ul>
         </li>
-
         <li {@eq key=_area value="encyclopedia"}class="active"{/eq}><a href="/encyclopedia">Enzyklopädie</a></li>
+        {?_isModerator}
+        <li {@eq key=_area value="moderation"}class="active"{/eq}>
+          <a href="/moderation">Moderation</a>
+        </li>
+        {/_isModerator}
+        {?_isAdmin}
+        <li class="dropdown {@eq key=_area value="admin"}active{/eq}">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/admin/objects/">Objekte</a></li>
+            <li><a href="/admin/attributes/">Attribute</a></li>
+            <li><a href="/admin/users/">Users</a></li>
+          </ul>
+        </li>
+        {/_isAdmin}
       </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li {@eq key=_controller value="index"}{@eq key=_action value="about"}class="active"{/eq}{/eq}><a href="/index/about">Kontakt</a></li>
-        {?_user}<li {@eq key=_area value="users"}class="active"{/eq}><a href="/users">Profil</a></li>
-        <li><a href="/users/log/out">Ausloggen</a></li>{/_user}
-      </ul>
+      <a class="navbar-brand pull-right" href="/" style="text-align: right">Toy Blocks</a>
     </div><!--/.nav-collapse -->
   </div>
 </div>

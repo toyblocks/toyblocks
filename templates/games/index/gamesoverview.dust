@@ -1,66 +1,49 @@
-<style type="text/css">
-.thumbnail{
-  border-color: rgba(82,168,236,.8);
-  outline: 0;
-  outline: thin dotted \9;
-  -moz-box-shadow: 0 0 8px rgba(82,168,236,.6);
-  box-shadow: 0 0 8px rgba(82,168,236,.6);
-}
-
-h2{
-  text-align: center;
-  margin-top: 5px;
-  height: 38px;
-  border-bottom: 1px solid #DDD;
-  font-size: 28px;
-}
-</style>
-<div class="col-md-8 col-md-offset-2">
-  <div class="row">
-    <div class="col-md-6 col-sx-8">
-      <div class="thumbnail">
-        <div class="caption">
-          <h2>Bauwerke sortieren!</h2>
-          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-          <a href="/games/sorting/" class="btn btn-primary btn-lg btn-block" role="button">Spielen</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-sx-8">
-      <div class="thumbnail">
-        <div class="caption">
-          <h2>Fehlstellen finden!</h2>
-          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-          <a href="/games/missing" class="btn btn-primary btn-lg btn-block" role="button">Spielen</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-sx-8">
-      <div class="thumbnail">
-        <div class="caption">
-          <h2>Multiplechoice!</h2>
-          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-          <a href="/games/multiplechoice" class="btn btn-primary btn-lg btn-block" role="button">Spielen</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-sx-8">
-      <div class="thumbnail">
-        <div class="caption">
-          <h2>Zusammensetzen!</h2>
-          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-          <a href="/games/assemble" class="btn btn-primary btn-lg btn-block" role="button">Spielen</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-sx-8 col-md-offset-3">
-      <div class="thumbnail">
-        <div class="caption">
-          <h2>Daily Challenge!</h2>
-          <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-          <a href="/games/daily" class="btn btn-primary btn-lg btn-block" role="button" disabled>Spielen</a>
-        </div>
-      </div>
-    </div>
+<div class="col-md-4 col-sm-12 col-md-offset-4">
+  <div class="list-group">
+    <div class="list-group-item">
+    <a href="/games/sorting/">
+      <span class="pull-left glyphicon glyphicon-sort-by-attributes" style="font-size: 50px; width: 64px; height: 64px;"></span>
+      <div class="media-body" style="color: black;">
+      <h3 class="list-group-item-heading">
+      Zeitstrahl</h3>
+      <p class="list-group-item-text" style="text-decoration: none;">Ordnen Sie die Bauwerke in chronologischer Reihenfolge.</p>
+      
+    </div></a></div>
+    <div class="list-group-item">
+    <a href="/games/missing/">
+      <span class="pull-left glyphicon glyphicon-question-sign" style="font-size: 50px; width: 64px; height: 64px;"></span>
+      <div class="media-body" style="color: black;">
+      <h3 class="list-group-item-heading">
+      Fehlstellen</h3>
+      <p class="list-group-item-text" style="text-decoration: none;">Finden Sie das fehlende Element.</p>
+      
+    </div></a></div>
+    <div class="list-group-item">
+    <a href="/games/assemble/">
+      <span class="pull-left glyphicon glyphicon-tower" style="font-size: 50px; width: 64px; height: 64px;"></span>
+      <div class="media-body" style="color: black;">
+      <h3 class="list-group-item-heading">
+      Baukasten</h3>
+      <p class="list-group-item-text" style="text-decoration: none;">Setzen Sie die Elemente in der richtigen Abfolge zusammen!</p>
+      
+    </div></a></div>
+    <div class="list-group-item">
+    <a href="/games/multiplechoice/">
+      <span class="pull-left glyphicon glyphicon-list-alt" style="font-size: 50px; width: 64px; height: 64px;"></span>
+      <div class="media-body" style="color: black;">
+      <h3 class="list-group-item-heading">
+      Multiple Choice</h3>
+      <p class="list-group-item-text" style="text-decoration: none;">Beantworten Sie Fragen zu allen Themen im Multiple-Choice-Verfahren!</p>
+      
+    </div></a></div>
+    <div class="list-group-item">
+    <a href="/games/daily/">
+      <span class="pull-left glyphicon glyphicon-globe" style="font-size: 50px; width: 64px; height: 64px;"></span>
+      <div class="media-body" style="color: black;">
+      <h3 class="list-group-item-heading">
+      Daily Challenge</h3>
+      <p class="list-group-item-text" style="text-decoration: none;">Testen Sie einmal täglich ihr Wissen im Vergleich mit anderen Studierenden!</p>
+      
+    </div></a></div>
   </div>
 </div>

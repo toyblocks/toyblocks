@@ -22,6 +22,8 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   updateAction: function() {
+    // this has a potential attack scenario
+    
     var _this = this;
     _this.mongodb
       .collection('users')

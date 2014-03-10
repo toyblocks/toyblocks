@@ -47,7 +47,7 @@
 
 /* Timeline Stuff */
 .timeline-tag{
-  width: 66px;
+  width: 80px; /*was 66px*/
   height: 66px;
   border: 5px #fff solid;
   border-radius: 66px;
@@ -100,8 +100,8 @@
     </p>
     <br>
     <div class="timeline"></div>
-    <div class="timeline-tag l">Älteste</div>
-    <div class="timeline-tag r">Neuste</div>
+    <div class="timeline-tag l">Antike</div>
+    <div class="timeline-tag r">Gegenwart</div>
   </div>
 </div>
 <br>
@@ -125,7 +125,7 @@
 <br>
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
   <p>
-  <button id="submit" type="button" class="btn btn-primary">Lösung senden</button>
+  <button id="submit" type="button" class="btn btn-primary">Bestätigen</button>
   <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
   </p>
   <span id="triesLeft" class="badge pull-right"></span>
