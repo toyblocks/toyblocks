@@ -54,7 +54,7 @@ module.exports.prototype = GamesController.prototype.extend({
         });
       });
     }else{
-      ids = ids.split('.');
+      ids = ids.split(',');
       for (var i = ids.length - 1; i >= 0; i--) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
       };
@@ -179,7 +179,7 @@ module.exports.prototype = GamesController.prototype.extend({
             }
 
             // Update Stats
-            Statistics.prototype.insertStats(_this, 'sorting', _this.request.param('sortings').join('.'), level, userId, attempt, solutionIsCorrect);
+            Statistics.prototype.insertStats(_this, 'sorting', _this.request.param('sortings').join(','), level, userId, attempt, solutionIsCorrect);
 
             // response with a json object
             _this.response.json({

@@ -12,8 +12,7 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this;
 
     _this.view.render({
-      title: 'Alle Spiele',
-      route: '/games'
+      title: 'Alle Spiele'
     });
   }
 });

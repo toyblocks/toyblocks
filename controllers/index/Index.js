@@ -41,6 +41,7 @@ module.exports.prototype = BaseController.prototype.extend({
     });
   },
 
+  // TODO: get actual date from db
   lastupdateAction: function() {
     var _this = this;
     function fill(n, length) {

@@ -23,7 +23,6 @@ module.exports.prototype = GamesController.prototype.extend({
       .toArray(function(err, assembleGames){
         _this.view.render({
           title: 'Zusammensetzen-Spiele',
-          route: '/games/assemble',
           assemblegames: assembleGames
         });
       });
@@ -49,7 +48,6 @@ module.exports.prototype = GamesController.prototype.extend({
           _this.renderGame(game, level, function(err, buildingParts){
             _this.view.render({
               title: 'Zusammensetzen-Spiele',
-              route: '/games/assemble',
               game: game,
               buildingparts: buildingParts
             });
@@ -67,7 +65,6 @@ module.exports.prototype = GamesController.prototype.extend({
           _this.renderGame(game, level, function(err, buildingParts){
             _this.view.render({
               title: 'Zusammensetzen-Spiele',
-              route: '/games/assemble',
               game: game,
               buildingparts: buildingParts
             });
