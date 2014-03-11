@@ -60,6 +60,14 @@ h1 {
 
 .glyphicon-cup:before{content:"\e075"}
 
+.settingssaved{
+  position: absolute;
+  margin-top: -25px;
+  margin-left: 89px;
+  width: 158px;
+  padding: 5px;
+}
+
 /* Moderation Navbar */
 
 @media (min-width: 1208px) { 

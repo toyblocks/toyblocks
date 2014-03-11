@@ -1,12 +1,10 @@
 {>"layout/layout.dust"/}
-
 {<content}
-
 <div class="col-md-12 col-sm-12">
-  <h3>User Übersicht</h3>
   <div class="row">
     <div class="col-sm-8 col-md-8">
-      <table class="table">
+      <h3>User Übersicht<p class="pull-right"><input type="text" class="form-control" id="search" placeholder="Suche"></p></h3>
+      <table id="searchTable" class="table">
         <tr>
           <th>TU-ID</th>
           <th>Vorname</th>
@@ -23,15 +21,14 @@
           <td>{?student}Ja{:else}Nein{/student}</td>
           <td>{?employee}Ja{:else}Nein{/employee}</td>
           <td>
-            <input type="hidden" class="tuid" name="tuid" value="{tuid}" />
+            <input type="hidden" class="tuid" name="tuid" value="{tuid}">
             <select class="right-level" name="right_level" id="right_level" class="form-control">
               <option value="100"{@eq key=right_level value=100} selected{/eq}>Admin</option>
               <option value="200"{@eq key=right_level value=200} selected{/eq}>Moderator</option>
               <option value="300"{@eq key=right_level value=300} selected{/eq}>Student</option>
             </select>
+            <p class="settingssaved alert alert-success" style="display: none;">Änderung gespeichert.</p>
           </td>
-          {! TODO: Anzeigen das es gleich gespeichert wurde !}
-          {! TODO: Filter für Mitarbeiter, bzw Suche nach TU-ID !}
         </tr>
         {:else}
         <tr><td colspan="3">Bisher keine User vorhanden</td></tr>
@@ -53,7 +50,38 @@ $('.right-level').change(function(){
   .fail(function( jqXHR, textStatus ) {
     alert( "Request failed: " + textStatus );
   });
-});
-</script>
 
+  var slide = $(this).parent().find('p.settingssaved');
+  slide.slideDown('fast');
+  setTimeout(function() {
+    slide.slideUp('fast');
+  }, 2000);
+});
+
+$('#search').keyup(function() {
+  searchForVal($(this).val());
+});
+
+function searchForVal(txt) {
+  $('#searchTable').find('tr').each(function(index, row) {
+    var cells = $(row).find('td'),
+        found;
+    if (cells.length > 0) {
+      found = false;
+      cells.each(function(index, td) {
+        if(index >= 3) //exclude the right-levels
+          return;
+        if (new RegExp(txt, 'i').test($(td).text())) {
+          found = true;
+          return;
+        }
+      });
+      if (found)
+        $(row).show();
+      else
+        $(row).hide();
+    }
+  });
+}
+</script>
 {/content}
