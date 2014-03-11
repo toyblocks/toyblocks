@@ -29,6 +29,7 @@ module.exports.prototype = GamesController.prototype.extend({
  */
   gameAction: function() {
     var _this = this,
+      ids = _this.request.param('id'),
       level = parseInt(_this.request.param('level'),10),
       limit = parseInt(_this.request.param('limit'),10);
 
@@ -41,17 +42,35 @@ module.exports.prototype = GamesController.prototype.extend({
     }
 
     _this.increaseStat('level'+level+'_count_played');
-
-    _this.renderGame(level, function(err, buildings){
-      var buildingLimit = limit || 7;
-      buildings = shuffle(buildings).slice(0,buildingLimit);
-      _this.view.render({
-        title: 'Sortierspiel',
-        route: '/games/sorting',
-        level: level,
-        buildings: buildings
+    if(typeof ids === 'undefined'){
+      _this.renderGame(level, function(err, buildings){
+        var buildingLimit = limit || 7;
+        buildings = shuffle(buildings).slice(0,buildingLimit);
+        _this.view.render({
+          title: 'Sortierspiel',
+          route: '/games/sorting',
+          level: level,
+          buildings: buildings
+        });
       });
-    });
+    }else{
+      ids = ids.split('.');
+      for (var i = ids.length - 1; i >= 0; i--) {
+        ids[i] = _this.mongo.ObjectID(ids[i]);
+      };
+      _this.mongodb
+        .collection('sorting_buildings')
+        .find({_id: {$in: ids}})
+        .toArray(function (err, buildings) {
+          buildings = shuffle(buildings);
+          _this.view.render({
+            title: 'Sortierspiel',
+            route: '/games/sorting',
+            level: level,
+            buildings: buildings
+          });
+        });
+    }
   },
 
 /** 
@@ -69,7 +88,6 @@ module.exports.prototype = GamesController.prototype.extend({
         .collection('sorting_buildings')
         .find({level: 2})
         .toArray(renderCallback);
-
     }else if (level === 2) {
 
       // Level 1 and level 2
@@ -77,8 +95,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .collection('sorting_buildings')
         .find()
         .toArray(renderCallback);
-    }
-    else {
+    } else {
 
       // only level 1
       this.mongodb
@@ -162,7 +179,7 @@ module.exports.prototype = GamesController.prototype.extend({
             }
 
             // Update Stats
-            Statistics.prototype.insertStats(_this, 'sorting', 0, level, userId, attempt, solutionIsCorrect);
+            Statistics.prototype.insertStats(_this, 'sorting', _this.request.param('sortings').join('.'), level, userId, attempt, solutionIsCorrect);
 
             // response with a json object
             _this.response.json({
