@@ -16,8 +16,7 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   indexAction: function() {
     this.view.render({
-      title: 'Fehlstellen-Spiel',
-      route: '/games/missing'
+      title: 'Fehlstellen-Spiel'
     });
   },
 
@@ -46,7 +45,6 @@ module.exports.prototype = GamesController.prototype.extend({
         _this.renderGame(game, level, function(err, images){
           _this.view.render({
             title: 'Fehlstellen-Spiel',
-            route: '/games/missing',
             game: game,
             level: level,
             mainimage: game.image,
@@ -72,7 +70,6 @@ module.exports.prototype = GamesController.prototype.extend({
         _this.renderGame(game, level, function(err, images){
           _this.view.render({
             title: 'Fehlstellen-Spiel',
-            route: '/games/missing',
             game: game,
             level: level,
             mainimage: game.image,
@@ -97,8 +94,8 @@ module.exports.prototype = GamesController.prototype.extend({
       limit;
 
     switch (level){
-      case 2:  limit = 6; break;
-      case 3:  limit =10; break;
+      case 2:  limit = 8; break;
+      case 3:  limit = 12; break;
       default: limit = 4; break;
     }
 
