@@ -67,28 +67,56 @@ module.exports.prototype = {
     this.mongo = req.mongo;
 
     this.view = new View(this);
-    this.view.setOnlyContent(req.param('_view') === 'only_content');
+    this.view.setOnlyContent(_this.request.param('_view') === 'only_content');
 
-    var isLive = req.headers.host.indexOf("tu-darmstadt.de") > 0;
+    if (_this.request.session.user &&
+        _this.request.session.user.right_level >= 300 &&
+        !_this.request.session.password_given)
+    {
+      _this.request.mongodb.collection('system_config')
+        .find({'key': 'login_password'})
+        .nextObject(function(err, doc) {
+          if (_this.request.param('password') !== doc.value) {
+            _this.response.render('login-password', {title: 'Passwort eingeben'});
+          }
+          else {
+            _this.request.session.password_given = true;
+            _this.checkLogin(next);
+          }
+        });
+    }
+
+    if (!_this.request.session.user ||
+        _this.request.session.user.right_level < 300 ||
+        _this.request.session.password_given)
+    {
+      _this.checkLogin(next);
+    }
+    
+  },
+
+  checkLogin: function(next) {
+    var _this = this,
+        isLive = _this.request.headers.host.indexOf('tu-darmstadt.de') > 0,
+        querystring = require('querystring'),
+        escapedUrl = querystring.escape(_this.request.originalUrl);
 
     if (this.rightLevel >= 0 && isLive) {
       var nextWithRightsCheck = function() {
-        if (req.session.user.right_level > _this.rightLevel) {
-          res.render('error-rights', {title: 'Keine erforderlichen Rechte'});
+        if (_this.request.session.user.right_level > _this.rightLevel) {
+          _this.response.render('error-rights', {title: 'Keine erforderlichen Rechte'});
         }
         else {
           next();
         }
       };
-      if (!req.session.user) {
-        var querystring = require('querystring'),
-          escaped = querystring.escape(req.originalUrl),
-          service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escaped,
-          ticket = req.param('ticket');
+      if (!_this.request.session.user) {
+          var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl,
+          ticket = _this.request.param('ticket');
         if (!ticket) {
-          //res.redirect('/users/log/in?returnto=' + escaped);
+          //_this.response.redirect('/users/log/in?returnto=' + escapedUrl);
           // let user login via hrz
-          res.redirect('https://sso.hrz.tu-darmstadt.de/login?service=' + service);
+          _this.response.redirect('https://sso.hrz.tu-darmstadt.de/login?service=' + service);
         }
         else {
           // -3 because there is ? or & before which is %3F or %26 escaped
@@ -125,7 +153,7 @@ module.exports.prototype = {
 
           var verifyRequest = https.request(options, function(verifyResponse) {
             if (verifyResponse.statusCode != 200) {
-              res.render('error-auth', {text:
+              _this.response.render('error-auth', {text:
                 'HRZ Server scheinen nicht zu funktionieren. Gelieferter Status: ' + verifyResponse.statusCode});
             }
             else {
@@ -158,19 +186,19 @@ module.exports.prototype = {
                         _this.mongodb
                           .collection('users')
                           .insert(user, {w: 1}, function(err, result) {
-                            req.session.user = user;
+                            _this.request.session.user = user;
                             nextWithRightsCheck();
                           });
                       }
                       else {
-                        req.session.user = doc;
+                        _this.request.session.user = doc;
                         nextWithRightsCheck();
                       }
                     });
                 }
                 else {
                   if (jsonResponse['cas:serviceResponse']['cas:authenticationFailure']) {
-                    res.render('error-auth', {text:
+                    _this.response.render('error-auth', {text:
                       jsonResponse['cas:serviceResponse']['cas:authenticationFailure'].$t +
                       ' (Code: ' +
                       jsonResponse['cas:serviceResponse']['cas:authenticationFailure'].code +
@@ -178,7 +206,7 @@ module.exports.prototype = {
                     });
                   }
                   else {
-                    res.render('error-auth', {text: 'Strange response: ' + chunk});
+                    _this.response.render('error-auth', {text: 'Strange response: ' + chunk});
                   }
                 }
               });
@@ -200,7 +228,7 @@ module.exports.prototype = {
     }
     else {
       if (!isLive) {
-        req.session.user = {
+        _this.request.session.user = {
           'employee' : false,
           'givenName' : 'Mansur',
           'name' : 'Mansur Iqbal',
