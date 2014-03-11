@@ -19,11 +19,14 @@
       <h3>{multiplechoice_question}</h3>
       <div class="input-group questions">
         <span class="input-group-btn">
+            {@if cond="{selectedAnswer}"}
           <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
             <span class="pull-left" style="margin-left: 10px;">{multiplechoice_answer_right}</span>
-            {@if cond="{selectedAnswer}"}
             <span class="glyphicon glyphicon-ok pull-right" style="margin-right: 10px;"></span>
             {:else}
+            Richtig wäre gewesen:
+          <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
+            <span class="pull-left" style="margin-left: 10px;">{multiplechoice_answer_right}</span>
             <span class="glyphicon glyphicon-remove pull-right" style="margin-right: 10px;"></span>
             {/if}
           </button>

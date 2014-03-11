@@ -15,7 +15,7 @@
           <span class="input-group-btn">
             <button class="btn btn-default btn-block select-answer" type="button">
               <span class="pull-left" style="margin-left: 10px;">{.}</span>
-              <span class="glyphicon glyphicon-ok pull-right" style="margin-right: 10px;"></span>
+              <span class="glyphicon glyphicon-unchecked pull-right" style="margin-right: 10px;"></span>
             </button>
           </span>
         </div>

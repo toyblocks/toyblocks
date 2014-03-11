@@ -46,7 +46,7 @@
   opacity: 1 !important;
 }
 .false{
-  background-color: #FF4135;
+  //background-color: #FF4135;
   opacity: 1 !important;
 }
 
@@ -71,15 +71,15 @@
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
   <button id="next_question" type="button" class="btn btn-primary btn-block">Weiter</button>
   <button id="game_result" type="button" class="btn btn-success btn-block">Weiter</button>
-  <button id="game_overview" type="button" class="btn btn-danger btn-block">Zurück zur Spielübersicht</button>
+  <button id="game_overview" type="button" class="btn btn-primary btn-block">Zurück zur Spielübersicht</button>
   <span id="gamesLeftBox" class="badge pull-right">Verbleibende Spiele: <span id="gamesLeft"></span></span>
 </div>
 
 <script>
-var questionIds = [{#game.multiplechoice_question_reference}"{.}"{@sep},{/sep}{/game.multiplechoice_question_reference}],
+var questionIds = [{#questions}"{_id}"{@sep},{/sep}{/questions}],
   actualIndex = 0,
   selectedAnswers = [],
-  gamesCount = {game.multiplechoice_question_reference.length}-1;
+  gamesCount = {questions.length}-1;
 
 String.prototype.hashCode = function(){
     var hash = 0, i, char;
@@ -117,6 +117,7 @@ $(window).ready(function(){
 
   $('#next_question').click(function(){
     actualIndex++;
+    console.log(questionIds[actualIndex]);
     loadQuestion(questionIds[actualIndex]);
     $('#gamesLeft').text(gamesCount--);
     $(this).prop('disabled', true);
@@ -132,8 +133,8 @@ $(window).ready(function(){
   $('#game_result').click(function(){
     selectedAnswers = selectedAnswers.join(",");
     console.log(selectedAnswers)
-    $.ajax({url: "/games/multiplechoice/result?id=" + 
-      "{game._id}" +
+    $.ajax({url: "/games/multiplechoice/result?ids=" + 
+      questionIds.join(',') +
       "&result=" +
       selectedAnswers})
       .done(function( data ) {
@@ -149,18 +150,14 @@ $(window).ready(function(){
       answer = $(this).parents('.input-group').find('.answer').val(),
       hash = '' + answer.hashCode();
     $('.input-group span button').each(function () {
-      $(this).removeClass('btn-info');    
+      $(this).removeClass('btn-info');
+      $('span.glyphicon').removeClass('glyphicon-check');
+      $('span.glyphicon').addClass('glyphicon-unchecked');
     })
     $(this).addClass('btn-info');
-    
-    // TODO: just add the hash to selectedAnswers
+    $(this).find('span.glyphicon').removeClass('glyphicon-unchecked');
+    $(this).find('span.glyphicon').addClass('glyphicon-check');
     selectedAnswers[actualIndex] = hash;
-    /*if ($.inArray(hash, rightAnswers) >= 0) {
-      selectedAnswers[actualIndex] = true;
-    }
-    else {
-      selectedAnswers[actualIndex] = false;
-    }*/
     doNext();
   });
 
