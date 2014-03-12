@@ -24,7 +24,7 @@
             <span class="pull-left" style="margin-left: 10px;">{multiplechoice_answer_right}</span>
             <span class="glyphicon glyphicon-ok pull-right" style="margin-right: 10px;"></span>
             {:else}
-            Richtig wäre gewesen:
+          <p style="font-size: 14px;">Richtig wäre gewesen:</p>
           <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
             <span class="pull-left" style="margin-left: 10px;">{multiplechoice_answer_right}</span>
             <span class="glyphicon glyphicon-remove pull-right" style="margin-right: 10px;"></span>
