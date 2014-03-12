@@ -26,7 +26,7 @@ module.exports.prototype = UsersController.prototype.extend({
 
   outAction: function() {
     if (this.request.session.user) {
-      delete this.request.session.user;
+      this.request.session = {};
     }
     this.view.render({});
   }
