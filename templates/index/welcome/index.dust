@@ -1,11 +1,13 @@
 {>"layout/layout.dust"/}
 {<content}
 <div class="row">
-  <div class="col-md-8">
-    <h1>Willkommen zu ToyBlocks!</h1>
+  <div class="col-md-10">
+    <h1>Willkommen bei ToyBlocks!</h1>
     <p>
-      ToyBlocks ist ein webbasiertes Lernspiel für Studierende des Fachbereichs Architektur, das im Rahmen des Basiskurses Architekturgeschichte 
+      ToyBlocks ist ein webbasiertes Lernspiel für Studierende des Fachbereichs Architektur, das im Rahmen des Basiskurses Architekturgeschichte
       (Modul 312) als interdisziplinäres Konzept zwischen den Fachbereichen Architektur und Informatik der TU Darmstadt entstanden ist.
+    </p>
+    <p>
       Ziel dieses Studienprojektes ist es, den Studierenden zusätzlich zu den Referaten im Basiskurs Grundlagen zur Architekturgeschichte zu
       vermitteln, um Gelerntes zu vertiefen und den eigenen Wissensstand zu testen.
     </p>
@@ -15,7 +17,7 @@
   <div class="col-sm-2 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <h3><span class="glyphicon glyphicon-sort-by-attributes"></span> Zeitstrahl</h3>
+        <h3><span class="glyphicon icon-sort"></span> Zeitstrahl</h3>
         <p>Ordnen Sie die Bauwerke in chronologischer Reihenfolge!</p>
         <a href="/games/sorting/" class="btn btn-primary" role="button">Spielen</a>
       </div>
@@ -24,7 +26,7 @@
   <div class="col-sm-2 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <h3><span class="glyphicon glyphicon-question-sign"></span> Fehlstellen</h3>
+        <h3><span class="glyphicon icon-missing"></span> Fehlstellen</h3>
         <p>Finden Sie das fehlende Element!</p>
         <a href="/games/missing/" class="btn btn-primary" role="button">Spielen</a>
       </div>
@@ -33,7 +35,7 @@
   <div class="col-sm-2 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <h3><span class="glyphicon glyphicon-tower"></span> Baukasten</h3>
+        <h3><span class="glyphicon icon-assemble"></span> Baukasten</h3>
         <p>Setzen Sie die Elemente in der richtigen Abfolge zusammen!</p>
         <a href="/games/assemble/" class="btn btn-primary" role="button">Spielen</a>
       </div>
@@ -42,7 +44,7 @@
   <div class="col-sm-2 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <h3><span class="glyphicon glyphicon-list-alt"></span> Multiple Choice</h3>
+        <h3><span class="glyphicon icon-multiple"></span> Multiple Choice</h3>
         <p>Beantworten Sie Fragen zu allen Themen im Multiple-Choice-Verfahren!</p>
         <a href="/games/multiplechoice/" class="btn btn-primary" role="button">Spielen</a>
       </div>
@@ -51,7 +53,7 @@
   <div class="col-sm-2 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <h3><span class="glyphicon glyphicon-globe"></span> Daily Challenge</h3>
+        <h3><span class="glyphicon icon-challenge"></span> Daily Challenge</h3>
         <p>Testen Sie einmal täglich ihr Wissen im Vergleich mit anderen Studierenden!</p>
         <a href="/games/daily/" class="btn btn-primary" role="button">Spielen</a>
       </div>

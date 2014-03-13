@@ -3,10 +3,10 @@
   <div style="color: #428bca; font-size:150px;text-align:center;line-height:normal;">
     <h1 id="toyblocks_title" style="font-variant: small-caps; font-size:150px;">ToyBlocks</h1>
     <div>
-      <span class="glyphicon glyphicon-question-sign"></span>
-      <span class="glyphicon glyphicon-list-alt"></span>
-      <span class="glyphicon glyphicon-sort-by-attributes"></span>
-      <span class="glyphicon glyphicon-tower"></span>
+      <span class="glyphicon icon-missing"></span>
+      <span class="glyphicon icon-multiple"></span>
+      <span class="glyphicon icon-sort"></span>
+      <span class="glyphicon icon-assemble"></span>
     </div>
     <a role="button" href="/index/welcome/" class="btn btn-primary btn-lg">Anmelden</a>
   </div>

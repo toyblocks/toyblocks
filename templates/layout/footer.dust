@@ -1,7 +1,9 @@
 <footer>
   <a href="/index/impressum/">Impressum</a>
   <a href="/index/about/">Information</a>
-  <div id="last-update" class="pull-right" style="width:300px;"></div>
+  <div id="last-update" class="pull-right" style="width:200px; font-size: 0.7em;">
+    zuletzt aktualisiert:<br>
+  </div>
 </footer>
 <script src="/js/vendor/jquery-ui.min.js"></script>
 <script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>

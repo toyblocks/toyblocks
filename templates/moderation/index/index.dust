@@ -37,7 +37,7 @@ h2{
       <br>
       <div class="media">
         <a class="pull-left" href="/moderation/games/missing">
-          <span class="media-object glyphicon glyphicon-question-sign" style="font-size: 60px;width: 64px; height: 64px;"></span>
+          <span class="media-object glyphicon icon-missing" style="font-size: 60px;width: 64px; height: 64px;"></span>
         </a>
         <div class="media-body">
           <h4 class="media-heading">Fehlstellenspiel</h4>
@@ -46,7 +46,7 @@ h2{
       </div>
       <div class="media">
         <a class="pull-left" href="#">
-          <span class="media-object glyphicon glyphicon-sort-by-attributes" style="font-size: 60px; width: 64px; height: 64px;"></span>
+          <span class="media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
         </a>
         <div class="media-body">
           <h4 class="media-heading">Zusammensetzspiel</h4>
@@ -55,7 +55,7 @@ h2{
       </div>
       <div class="media">
         <a class="pull-left" href="#">
-          <span class="media-object glyphicon glyphicon-tower" style="font-size: 60px; width: 64px; height: 64px;"></span>
+          <span class="media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
         </a>
         <div class="media-body">
           <h4 class="media-heading">Sortierspiel</h4>

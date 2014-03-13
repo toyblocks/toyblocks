@@ -1,8 +1,10 @@
 {>"layout/layout.dust"/}
+
 {<content}
-{>"moderation/index/navbar.dust"/}
-<div class="row col-md-10">
-<form>
+<form class="form-horizontal" id="createarticle" action="/admin/objects/create-type" role="form" method="post">
+  <input type="hidden" name="type" value="encyclopedia_articles">
+  <div class="row">
+
     {?image}
       <div class="panel panel-default">
         <div class="panel-heading">Die Auswahl eines neuen Bildes überschreibt das vorhandene.</div>
@@ -24,17 +26,18 @@
       <input name="values[title]" type="text" class="form-control" placeholder="Titel des Artikels" value="{headline}">
     </div>
 
-  <br>
+  </div>
   <div class="row">
     <div id='editor'>{article|s}</div>
     <input id="article_body" name="values[article_body]" type="hidden">
   </div>
-  <br>
+
+
   <button id="submit-article" type="submit" class="btn btn-default">
     Speichern
   </button>
 </form>
-</div>
+
 <script type="text/javascript">
   $(document).ready(function() {
     var $editor = $('#editor');
@@ -57,6 +60,7 @@
     });
     $('#submit-article').on('click', function() {
       var articleBody = $editor.code();
+
     });
   });
 </script>

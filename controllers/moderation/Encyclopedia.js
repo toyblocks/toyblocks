@@ -47,6 +47,6 @@ module.exports.prototype = BaseController.prototype.extend({
   },
 
   updateAction: function() {
-    // adminObjects.createObjectAction('/moderation/encyclopedia');
+    adminObjects.createObjectAction();
   }
 });
