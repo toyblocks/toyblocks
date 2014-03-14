@@ -1,6 +1,4 @@
-{>"layout/layout.dust"/}
-
-{<content}
+{>"layout/layout.dust"/}{<content}
 <style>
 
 #assembly, #elements {
@@ -124,8 +122,6 @@ $(window).ready(function() {
   };
   initBindings();
 
-
-  
   $('#tryagain').click(function(){
     removeCorrection();  
     $('#assembly').sortable('enable');
@@ -155,7 +151,6 @@ $(window).ready(function() {
         $('#assembly').sortable('disable');
         $('#elements li, #assembly li').off();
 
-        // tryhards
         tries++;
         // mark wrong/right elements
         $('#tryagain').show();
@@ -169,7 +164,7 @@ $(window).ready(function() {
           setModalText('Falsch!', 'Die Lösung wird aufgedeckt!');
           showSolutionImage(data.solution);
         }else{
-          setModalText('Falsch!', 'Ihre Lösung ist leider falsch. Du hast noch ' + (max_tries-tries) + ' Versuche!');
+          setModalText('Falsch!', 'Ihre Lösung ist leider falsch. Sie haben noch ' + (max_tries-tries) + ' Versuche!');
         } 
       }
       $('#checkModal').modal();

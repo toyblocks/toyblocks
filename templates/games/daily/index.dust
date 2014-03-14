@@ -34,27 +34,27 @@ height: 14px;
 <div class="jumbotron">
 
   <h1 class="label label-primary">Daily Challenge</h1>
-  <p class="lead">Spiele die tägliche Herausforderung und werde der Beste!</p>
+  <p class="lead">Testen Sie einmal täglich Ihr Wissen im Vergleich zu anderen Studierenden!</p>
   <div class="row explanation">
+  <p class="lead">Regeln</p>
     <div class="col-lg-6">
-      <p class="box">Jeden Tag gibt es ein neues zufällig generiertes Spiel.</p>
-      <br>
-      <p class="box">Du hast nur einen Versuch für das Daily!</p>
+      <p class="box">Einmal täglich gibt es ein neues zufällig generiertes Spiel.</p>
+      <br><br><br>
+      <p class="box">Sie haben nur einen Versuch für die Daily Challenge.</p>
     </div>
-
     <div class="col-lg-6">
-      <p class="box">Alle Spieler spielen dasselbe Spiel!</p>
-      <br>
-      <p class="box">Jedes Daily hat seine eigene <a href="leaderboard">Rangliste</a>.</p>
+      <p class="box">Alle Studierenden spielen dieselbe Daily Challenge.</p>
+      <br><br><br>
+      <p class="box">Jede Daily Challenge hat eine eigene <a href="leaderboard">Rangliste</a>.</p>
     </div>
   </div>
   <br><br>
   <div class="panel panel-default">
     <div class="panel-body">
-    <p class="lead">Heute haben schon {gamesPlayed}% gespielt!</p>
+    <p class="lead">Heute haben schon {gamesPlayed}% gespielt.</p>
     <div class="progress">
       <div class="progress-bar" role="progressbar" aria-valuenow="{gamesPlayed}" aria-valuemin="0" aria-valuemax="100" style="width: {gamesPlayed}%;">
-        <span class="sr-only">{gamesPlayed}% haben heute schon gespielt!</span>
+        <span class="sr-only">{gamesPlayed}% haben heute schon gespielt.</span>
       </div>
     </div>
     </div>
@@ -62,7 +62,7 @@ height: 14px;
   <form>
     <input type="hidden" id="playerid" name="playerid" value="{player.id}"/>
     <input type="hidden" id="date" name="date" value="{game.currentDate}"/>
-    <a id="play" type="button" class="btn btn-lg btn-success" style="clear:left; margin-right: 10px;" href="game" type="/">
+    <a id="play" type="button" class="btn btn-lg btn-success" style="clear:left; margin-right: 10px;" href="/404" type="/">
     Daily Spielen
     </a>
   </form>
@@ -74,7 +74,7 @@ $(window).ready(function() {
   $(function() {
     var $btn = $('#play');
     if(false && {hasPlayedTodaysDaily}){
-        $btn.text('Du hast das heutige Daily schon gespielt!');
+        $btn.text('Du hast das heutige Daily schon gespielt.');
         $btn.attr('disabled', true);
     }else{
         $btn.attr('disabled', false);

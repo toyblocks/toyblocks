@@ -1,6 +1,4 @@
-{>"layout/layout.dust"/}
-
-{<content}
+{>"layout/layout.dust"/}{<content}
 <style>
 .image{
   max-width: 100%;
@@ -56,14 +54,7 @@
 <input type="hidden" name="gameid" value="{game._id}" />
 <div class="well">
   <div id="questions_container">
-    <!--Here be HTML-->
-    <div class="progress progress-striped active">
-      <div class="progress-bar"  role="progressbar"
-      aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-        <span class="sr-only">Lädt...</span>
-      </div>
-    </div>
-    <!--Here be HTML-->
+    <!--Here be HTML--> Lädt...
   </div>
 </div>
 

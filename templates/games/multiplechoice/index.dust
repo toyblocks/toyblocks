@@ -2,7 +2,8 @@
 
 {<content}
 <div class="col-md-10 col-sm-10">
-  <h3>Multiplechoice Spiele</h3>
+  <span class="pull-left glyphicon icon-multiple" style="font-size: 52px; width: 64px; height: 64px; color: #428bca;"></span>
+  <h3>Multiple Choice Spiele</h3>
   <div class="list-group">
     <a href="game?level=1" class="well list-group-item">
     	<strong>3 Fragen</strong><span class="badge">3 mal gespielt</span>
