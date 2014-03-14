@@ -16,16 +16,9 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return assembleGames - an array of Games
   */
   indexAction: function() {
-    var _this = this;
-    _this.mongodb
-      .collection('assemble_games')
-      .find()
-      .toArray(function(err, assembleGames){
-        _this.view.render({
-          title: 'Zusammensetzen-Spiele',
-          assemblegames: assembleGames
-        });
-      });
+    this.view.render({
+      title: 'Baukasten'
+    });
   },
 
   /**
@@ -47,7 +40,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .nextObject(function(err, game) {
           _this.renderGame(game, level, function(err, buildingParts){
             _this.view.render({
-              title: 'Zusammensetzen-Spiele',
+              title: 'Baukasten',
               game: game,
               buildingparts: buildingParts
             });
@@ -64,7 +57,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
           _this.renderGame(game, level, function(err, buildingParts){
             _this.view.render({
-              title: 'Zusammensetzen-Spiele',
+              title: 'Baukasten',
               game: game,
               buildingparts: buildingParts
             });

@@ -16,7 +16,7 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   indexAction: function() {
     this.view.render({
-      title: 'Fehlstellen-Spiel'
+      title: 'Fehlstellen'
     });
   },
 
@@ -44,7 +44,7 @@ module.exports.prototype = GamesController.prototype.extend({
         function(err, game) {
         _this.renderGame(game, level, function(err, images){
           _this.view.render({
-            title: 'Fehlstellen-Spiel',
+            title: 'Fehlstellen',
             game: game,
             level: level,
             mainimage: game.image,
@@ -69,7 +69,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
         _this.renderGame(game, level, function(err, images){
           _this.view.render({
-            title: 'Fehlstellen-Spiel',
+            title: 'Fehlstellen',
             game: game,
             level: level,
             mainimage: game.image,

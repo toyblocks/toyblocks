@@ -15,7 +15,7 @@ module.exports.prototype = GamesController.prototype.extend({
    */
   indexAction: function() {
     this.view.render({
-      title: 'Multiplechoice Spiele'
+      title: 'Multiple Choice'
     });
   },
 
@@ -42,7 +42,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .find({_id: {$in: ids}})
         .nextObject(function(err, questions) {
           _this.view.render({
-            title: 'Multiplechoice',
+            title: 'Multiple Choice',
             level: level,
             questions: questions
           });
@@ -62,7 +62,7 @@ module.exports.prototype = GamesController.prototype.extend({
         questions = questions.sort(function() { return 0.5 - Math.random() }).slice(0,count);
         console.log(questions);
         _this.view.render({
-          title: 'Multiplechoice',
+          title: 'Multiple Choice',
           level: level,
           questions: questions
         });
@@ -107,7 +107,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .nextObject(function(err, question) {
 
       var answers = question.multiplechoice_answer_right
-      .concat(shuffle(question.multiplechoice_answer_wrong).slice(0,4)),
+      .concat(shuffle(question.multiplechoice_answer_wrong).slice(0,3)),
        correctAnswers = question.multiplechoice_answer_right;
       answers = shuffle(answers);
 

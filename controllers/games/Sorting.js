@@ -18,8 +18,19 @@ module.exports.prototype = GamesController.prototype.extend({
  */
   indexAction: function() {
     this.view.render({
-      title: 'Sortierspiel',
-      route: '/games/sorting'
+      title: 'Zeitstrahl'
+    });
+  },
+
+/**
+ * GET - This Method is used for the index page
+ *
+ * @return title - the title of the game
+ * @return route - url route
+ */
+  helpAction: function() {
+    this.view.render({
+      title: 'Zeitstrahl'
     });
   },
 
@@ -47,8 +58,7 @@ module.exports.prototype = GamesController.prototype.extend({
         var buildingLimit = limit || 7;
         buildings = shuffle(buildings).slice(0,buildingLimit);
         _this.view.render({
-          title: 'Sortierspiel',
-          route: '/games/sorting',
+          title: 'Zeitstrahl',
           level: level,
           buildings: buildings
         });
@@ -64,8 +74,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .toArray(function (err, buildings) {
           buildings = shuffle(buildings);
           _this.view.render({
-            title: 'Sortierspiel',
-            route: '/games/sorting',
+            title: 'Zeitstrahl',
             level: level,
             buildings: buildings
           });
