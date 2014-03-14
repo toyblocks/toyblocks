@@ -1,5 +1,6 @@
 {>"layout/layout.dust"/}
 {<content}
+<img src="/img/TUD-Logo-200.png" class="pull-right" style="margin-top: -45px"><br>
   <div style="color: #428bca; font-size:150px;text-align:center;line-height:normal;">
     <h1 id="toyblocks_title" style="font-variant: small-caps; font-size:150px;">ToyBlocks</h1>
     <div>

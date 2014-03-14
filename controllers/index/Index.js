@@ -16,8 +16,7 @@ module.exports.prototype = BaseController.prototype.extend({
     else {
       this.view.setNoNavBar(true);
       this.view.render({
-        title: 'Startseite',
-        route: '/'
+        title: 'Startseite'
       });
     }
   },
@@ -29,15 +28,20 @@ module.exports.prototype = BaseController.prototype.extend({
 
   aboutAction: function () {
     this.view.render({
-      title: 'Über uns',
-      route: '/index/about'
+      title: 'Information'
+    });
+  },
+
+
+  impressumAction: function () {
+    this.view.render({
+      title: 'Impressum'
     });
   },
 
   error404Action: function () {
     this.view.render({
-      title: '404 Seite nicht gefunden',
-      route: '/'
+      title: '404 Seite nicht gefunden'
     });
   },
 

@@ -1,7 +1,8 @@
 {>"layout/layout.dust"/}
 {<content}
-<div class="col-md-9 col-sm-9">
+<div class="col-md-10 col-sm-12">
   <div class="page-header">
+    <img src="/img/TUD-Logo-200.png" class="pull-right">
     <div id="media">
     ToyBlocks ist ein webbasiertes Lernspiel der Fachgruppe A - Historische Grundlagen am FB15 - Architektur der TU Darmstadt im Rahmen des Einführungskurses "Grundlagen und Methoden der Architekturgeschichte" (Modul 312).
     Verantwortlich für den Inhalt sind die wissenschaftlichen Mitarbeiter_innen der drei Fachgebiete Klassische Archäologie, Kunstgeschichte und Geschichte und Theorie der Architektur.
@@ -12,10 +13,12 @@
         <small>
           Entwickelt im Zuge des Bachelorpraktikums im Studiengang Bachelor of Science Informatik von den Studierenden:
         </small>
-        <h4 class="media-heading">Andrej Tretjakow</h4>
-        <h4 class="media-heading">Mansur Iqbal</h4>
-        <h4 class="media-heading">Simon Bugert</h4>
-        <h4 class="media-heading">Steven Reynolds</h4>
+        <ul>
+        <li><h5 class="media-heading">Andrej Tretjakow</h5></li>
+        <li><h5 class="media-heading">Mansur Iqbal</h5></li>
+        <li><h5 class="media-heading">Simon Bugert</h5></li>
+        <li><h5 class="media-heading">Steven Reynolds</h5></li>
+        </ul>
       </div>
     </div>
 </div>
