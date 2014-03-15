@@ -1,6 +1,6 @@
 'use strict';
 
-var BaseController = require('../Moderation');
+var BaseController = require('../Admin');
 
 module.exports = function () {
 
