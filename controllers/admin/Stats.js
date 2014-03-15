@@ -37,18 +37,14 @@ module.exports.prototype = AdminController.prototype.extend({
         var gamesOnDay = [0,0,0,0,0,0,0];
         var c = 0;
         var day = 1000 * 60 * 60 * 24;
-        for (var i = elements.length - 1; i >= 0; i--) {  
-          if(elements[i].date.valueOf()-(end.valueOf()+day*(c+1)) < 0){
-            gamesOnDay[c]++;
-          } else{
-            gamesOnDay[c++]++;
-          }
-        };
+        for (var i = elements.length - 1; i >= 0; i--) {
+          gamesOnDay[(parseInt(parseInt(end.valueOf()-elements[i].date.valueOf())/day))]++;
+        }
 
         // TODO, check if it is in the right order
         for (var i = gamesOnDay.length - 1; i >= 0; i--) {
           gamesOnDay[i] = { "count":gamesOnDay[i],"day": i}; //end.valueOf()+day*(i+1)};
-        };
+        }
       _this.view.render({
         title: 'Statistiken',
         elements: elements,
