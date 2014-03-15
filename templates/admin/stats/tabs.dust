@@ -1,0 +1,5 @@
+<ul class="nav nav-pills nav-tabs nav-justified">
+  <li {@eq key=_action value="index"}class="active"{/eq}><a href="/admin/stats/">Wöchentlich</a></li>
+  <li {@eq key=_action value="daily"}class="active"{/eq}><a href="/admin/stats/daily">Daily</a></li>
+  <li {@eq key=_action value="table"}class="active"{/eq}><a href="/admin/stats/table">Tabelle</a></li>
+</ul>

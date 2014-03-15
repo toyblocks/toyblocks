@@ -1,0 +1,11 @@
+{>"layout/layout.dust"/}
+
+{<content}
+{>"admin/stats/tabs.dust"/}
+
+<ul class="pager">
+<h1>WIP</h1>
+  <li><a href="#">Previous</a></li>
+  <li><a href="#">Next</a></li>
+</ul>
+{/content}
