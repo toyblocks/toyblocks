@@ -33,7 +33,7 @@
 }
 </style>
 <!-- powered by http://www.flotcharts.org/flot/ -->
-<script language="javascript" type="text/javascript" src="http://flotcharts.org/flot/jquery.flot.js"></script>
+<script language="javascript" type="text/javascript" src="/js/vendor/jquery.flot.min.js"></script>
 <script type="text/javascript">
   
 $(window).ready(function(){
