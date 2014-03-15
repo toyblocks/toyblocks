@@ -53,6 +53,7 @@
             <li><a href="/admin/objects/">Objekte</a></li>
             <li><a href="/admin/attributes/">Attribute</a></li>
             <li><a href="/admin/users/">Users</a></li>
+            <li><a href="/admin/stats/">Statistiken</a></li>
           </ul>
         </li>
         {/_isAdmin}

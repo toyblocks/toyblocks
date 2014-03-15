@@ -2,17 +2,14 @@
   <div class="sidebar-nav-fixed navbar navbar-inverse">
     <nav role="navigation">
       <ul class="nav nav-pills nav-stacked">
-          <li class="nav-text">Moderation</li>
-          <li><a href="/moderation">Übersicht</a></li>
-          <li><a>Spiele</a></li>
+          <li><a href="/moderation">Moderation</a></li>
           <ul class="nav nav-pills nav-stacked nav-nested">
-          <li><a href="/moderation/games/sorting">Sortierspiel</a></li>
-          <li><a href="/moderation/games/missing">Fehlstellen</a></li>
-          <!--<li><a href="/moderation/games/assemble">Zusammensetzspiel</a></li>
-          <li><a href="/moderation/games/multiplechoice">MultipleChoice</a></li>-->
+          <li><a onclick="return false;" href="/moderation/games/sorting">Sortierspiel</a></li>
+          <li><a onclick="return false;" href="/moderation/games/missing">Fehlstellen</a></li>
+          <li><a onclick="return false;" href="/moderation/games/assemble">Zusammensetzspiel</a></li>
+          <li><a onclick="return false;" href="/moderation/games/multiplechoice">MultipleChoice</a></li>
           </ul>
           <li><a href="/moderation/encyclopedia">Enzyklopädie</a></li>
-          <li><a href="/moderation/stats">Statistiken</a></li>
       </ul>
     </nav>
   </div>

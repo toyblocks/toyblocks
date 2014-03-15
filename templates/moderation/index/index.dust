@@ -25,15 +25,6 @@ h2{
           Artikel haben einen Titel, einen Text und ein optionales Bild.
         </div>
       </div>
-      <div class="media">
-        <a class="pull-left" href="/moderation/stats">
-          <span class="media-object glyphicon glyphicon-stats" style="font-size: 60px;width: 64px; height: 64px;"></span>
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading">Statistiken</h4>
-          Statistiken aller Spiele.
-        </div>
-      </div>
       <br>
       <div class="media">
         <a class="pull-left" href="/moderation/games/missing">
