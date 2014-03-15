@@ -1,13 +1,9 @@
-{>"layout/layout.dust"/}
-
-{<content}
+{>"layout/layout.dust"/}{<content}
 {>"admin/stats/tabs.dust"/}
-
-  <style type="text/css">
-
+<style type="text/css">
 .stats-container {
   box-sizing: border-box;
-  width: 850px;
+  width: 100%;
   height: 450px;
   padding: 20px 15px 15px 15px;
   margin: 15px auto 30px auto;
@@ -32,35 +28,36 @@
   line-height: 1.2em;
 }
 </style>
+<!-- TODO: swap to http://www.chartjs.org/docs/ -->
+
+
 <!-- powered by http://www.flotcharts.org/flot/ -->
 <script language="javascript" type="text/javascript" src="/js/vendor/jquery.flot.min.js"></script>
 <script type="text/javascript">
   
 $(window).ready(function(){
 
-    var d1 = [{#gamesCount}[{day},{count}]{@sep},{/sep}{/gamesCount}];
-
+    var gamesCount = [{#gamesCount}[{day},{count}]{@sep},{/sep}{/gamesCount}];
     $.plot("#graph", [{
-      data: d1,
+      data: gamesCount,
       bars: { show: true, fill: true }
-    }],{xaxis: {
-        ticks: [
-          [0.5,"M"], [ 1.5, "D" ], [ 2.5, "M" ],
-          [ 3.5, "D" ], [ 4.5, "F" ], [ 5.5, "S" ], [ 6.5, "S" ]
-        ]
-      }, yaxis: {
-        ticks: 1,
-        min: 0
-      },});
+    }],{
+      xaxis: { ticks: [[0.5,"M"], [ 1.5, "D" ], [ 2.5, "M" ], [ 3.5, "D" ], [ 4.5, "F" ], [ 5.5, "S" ], [ 6.5, "S" ]]},
+      yaxis: { 
+        ticks: 10,
+        min: 0,
+        tickDecimals: 0 }
+    });
 });
 </script>
-
+<div class="pull-right">{#from}{day}.{month}.{year}{/from} bis {#to}{day}.{month}.{year}{/to}</div>
+<br>
 <div class="stats-container">
   <div id="graph" class="stats-graph"></div>
 </div>
 
 <ul class="pager">
-  <li><a href="?end={startdate}">Previous</a></li>
-  <li><a href="?start={enddate}">Next</a></li>
+  <li><a href="?end={startdate}">Vorherige Woche</a></li>
+  <li><a href="?start={enddate}">Nächste Woche</a></li>
 </ul>
 {/content}
