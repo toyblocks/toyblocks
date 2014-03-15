@@ -1,8 +1,25 @@
-<div class="form-group">
+{?props.multiple}
+  {#object[name]}
+  <div class="form-group multiple" data-type="{object_type.name}" data-image-preview=".preview-thumbnail">
+    <label class="col-sm-3 control-label" for="attr_{name}">{title}</label>
+    <input class="value-replace" name="values[{name}][]" type="hidden" value="_id:{.}">
+    <div class="col-sm-3">
+      <div class="preview-thumbnail"><img src="/ressources/image?id={.}&size=middle"></div>
+    </div>
+    <div class="col-sm-1">
+      <label><a href="" onclick="$(this).parents('.form-group').remove();return false;"><span class="red glyphicon glyphicon-minus-sign"></span></a></label>
+    </div>
+  </div>
+  {/object[name]}
+{/props.multiple}
+<div class="form-group{?props.multiple} multiple{/props.multiple}" data-type="{object_type.name}" data-image-preview=".preview-thumbnail">
   <label class="col-sm-3 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;"><span class="green glyphicon glyphicon-plus-sign"></span></a>{/props.multiple}</label>
-  <div class="col-sm-6">
+  <div class="col-sm-3">
     <input name="values[{name}_name]{?props.multiple}[]{/props.multiple}" type="file" class="form-attr-{name}" id="attr_{name}"{?props.mandatory} required{/props.mandatory}>
-    <input name="values[{name}]{?props.multiple}[]{/props.multiple}" type="hidden">
+    <input name="values[{name}]{?props.multiple}[]{/props.multiple}" type="hidden"{^props.multiple}{?object[name]} value="_id:{object[name]}"{/object[name]}{/props.multiple}>
+  </div>
+  <div class="col-sm-3">
+    <div class="preview-thumbnail">{^props.multiple}{?object[name]}<img src="/ressources/image?id={object[name]}">{/object[name]}{/props.multiple}</div>
   </div>
   {?props.multiple}
   <div class="col-sm-1">

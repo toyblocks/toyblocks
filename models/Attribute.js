@@ -35,6 +35,8 @@ module.exports = base.extend({
   },
 
   _validateAndTransformOne: function (attribute, typeProps, value, mongo) {
+    if (typeof value === 'undefined')
+      value = '';
     value = value.trim();
     if (typeProps.mandatory && !value)
       throw new Error('please fill out ' + attribute.name);
@@ -56,11 +58,11 @@ module.exports = base.extend({
     case 'image':
       if (!value)
         return null;
-      if (value.substr(0, 6) === 'saved:')
-        return value.substr(6);
+      if (value.substr(0, 4) === '_id:')
+        return mongo.ObjectID(value.substr(4));
       var basePos = value.search(/base64,/);
       if (!basePos)
-        throw new Error('image is not valid');
+        return undefined;
 
       var matches = value.slice(0,basePos).match(/^data:.+\/(.+);$/),
         ext = matches[1],
