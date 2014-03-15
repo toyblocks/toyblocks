@@ -13,18 +13,21 @@
       <th>Spieler</th>
       <th>Versuch</th>
       <th>Ergebniss</th>
+      <th>Datum</th>
     </tr>
   </thead>
   <tbody>
   {!that, gametype, gameid, level, player, attempt, result !}
   {#elements}
     <tr>
-      <td><a href="/games/{gametype}/game?id={gameid}&level={level}">{gameid}</a></td>
+      <td  style="text-overflow: ellipsis; width: 30px; white-space: nowrap; overflow:hidden;">
+      <a href="/games/{gametype}/game?id={gameid}&level={level}">Link zum Spiel</a></td>
       <td>{gametype}</td>
       <td>{level}</td>
       <td>{player}</td>
       <td>{attempt}</td>
       <td>{result}</td>
+      <td>{date}</td>
     </tr>
   {/elements}
   </tbody>

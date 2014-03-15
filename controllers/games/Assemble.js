@@ -1,7 +1,7 @@
 'use strict';
 
 var GamesController = require('../Games'),
-  Statistics = require('../moderation/Stats');
+  Statistics = require('../admin/Stats');
 
 module.exports = function () {
 };
