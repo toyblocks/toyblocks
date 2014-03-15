@@ -1,5 +1,4 @@
 {>"layout/layout.dust"/}
-
 {<content}
 <style type="text/css">
 h2{
@@ -55,6 +54,4 @@ h2{
       </div>
     </div>
 </div>
-
-
 {/content}

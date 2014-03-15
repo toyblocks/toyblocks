@@ -1,4 +1,5 @@
 User-agent: *
-Disallow: /moderation/
+Allow: /
 Disallow: /admin/
+Disallow: /moderation/
 Disallow: /users/

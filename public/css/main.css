@@ -49,7 +49,7 @@ h1 {
 @media (min-width: 768px) {
   #welcome_games_list .caption {
     position:relative;
-    min-height: 280px;
+    min-height: 240px;
   }
   #welcome_games_list .caption a {
     position: absolute;
