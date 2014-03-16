@@ -32,9 +32,9 @@
 
 
 <!-- powered by http://www.flotcharts.org/flot/ -->
-<script language="javascript" type="text/javascript" src="/js/vendor/jquery.flot.min.js"></script>
+<script language="javascript" type="text/javascript" src="/js/vendor/jquery.flot.js"></script>
 <script type="text/javascript">
-  
+
 $(window).ready(function(){
 
     var gamesCount = [{#gamesCount}[{day},{count}]{@sep},{/sep}{/gamesCount}];
@@ -44,7 +44,7 @@ $(window).ready(function(){
       bars: { show: true, fill: true }
     }],{
       xaxis: { ticks: [[0.5,"M"], [ 1.5, "D" ], [ 2.5, "M" ], [ 3.5, "D" ], [ 4.5, "F" ], [ 5.5, "S" ], [ 6.5, "S" ]]},
-      yaxis: { 
+      yaxis: {
         ticks: 10,
         min: 0,
         tickDecimals: 0 }
