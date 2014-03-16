@@ -33,7 +33,7 @@ module.exports.prototype = GamesController.prototype.extend({
       level = parseInt(_this.request.param('level'),10);
 
     _this.increaseStat('level'+level+'_count_played');
-    if(typeof id !== "undefined"){
+    if(typeof id !== 'undefined'){
       _this.mongodb
         .collection('assemble_games')
         .find({_id: _this.mongo.ObjectID(id)})
@@ -139,7 +139,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .collection('assemble_games')
       .find({_id: this.mongo.ObjectID(gameid)})
       .nextObject(function(err, game) {
-    
+
         _this.mongodb
           .collection('assemble_images')
           .find({assemble_category: game.assemble_category})
@@ -170,7 +170,8 @@ module.exports.prototype = GamesController.prototype.extend({
 
 
             // Update Stats
-            Statistics.prototype.insertStats(_this, 'assemble', gameid, level, userId, attempt, isSolutionCorrect);
+            Statistics.prototype.insertStats(_this, 'assemble', gameid, level,
+              userId, attempt, isSolutionCorrect);
 
             _this.response.json({
               correct: isSolutionCorrect,
