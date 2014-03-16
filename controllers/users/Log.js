@@ -26,7 +26,8 @@ module.exports.prototype = UsersController.prototype.extend({
 
   outAction: function() {
     if (this.request.session.user) {
-      this.request.session = {};
+      delete this.request.session.user;
+      delete this.request.session.password_given;
     }
     this.view.setNoNavBar(true);
     this.view.render({});
