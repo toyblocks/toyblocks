@@ -10,55 +10,51 @@ module.exports.prototype = AdminController.prototype.extend({
 
   indexAction: function() {
     var _this = this,
-      start = _this.request.param('start'),
-      end = _this.request.param('end'),
-      current = new Date(),
-      oneweek = 604800000,
-      day = 86400000;
+      week = _this.request.param('week'),
+      today = new Date(),
+      day = 86400000,
+      current,
+      weekstart,
+      weekend;
     
-    
-    var weekstart = current.getDate() - current.getDay() + 1;
-    var weekend = weekstart + 6;
-    // TODO: normalize given date with modulo
-    if((typeof start === 'undefined' || start === '') && (typeof end === 'undefined' || end === '') ){
-      start = new Date(current.setDate(weekstart));
-      end = new Date(current.setDate(weekend));
-    }else if(typeof start === 'undefined'|| start === ''){
-      start = new Date(end.valueOf()-oneweek);
-      end = new Date(parseInt(end.valueOf()));
-    }else if(typeof end === 'undefined'|| end === ''){
-      end = new Date(parseInt(start.valueOf()));
-      start = new Date(start.valueOf()-oneweek);
+    // Calculate the start of the week (monday)
+    // and generate two dates, week and weekend
+    // which span the whole week, from monday
+    // 00:00 to next week monday 00:00
+    if(typeof week === 'undefined' || week === ''){
+      current = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    }else{
+      current = new Date(parseInt(week,10));
     }
-    console.log(start);
-    console.log(end);
+    weekstart = current.getDate() - ((current.getDay() + 6) %7);
+    week = new Date(current.setDate(weekstart));
+    weekend = new Date(current.setDate(weekstart + 7));
+
+
     _this.mongodb
     .collection('statistics')
-    .find({date: {$gte: start, $lt: end}})
+    .find({date: {$gte: week, $lt: weekend}})
     .sort({date:1})
     .toArray(
       function (err, elements) {
         var gamesOnDay = [0,0,0,0,0,0,0];
         for (var i = elements.length - 1; i >= 0; i--) {
-          gamesOnDay[(parseInt(parseInt(end.valueOf()-elements[i].date.valueOf())/day))]++;
+          gamesOnDay[Math.floor(parseInt(
+            weekend.valueOf() - elements[i].date.valueOf()) / day)]++;
         }
         gamesOnDay = gamesOnDay.reverse();
         for (var i = gamesOnDay.length - 1; i >= 0; i--) {
           gamesOnDay[i] = { "count":gamesOnDay[i],"day": i};
         }
         var toDateObject = [{
-          "year":end.getFullYear(),
-          "month":end.getMonth(),
-          "day":end.getDate()   ,
-          "hours": end.getHours(),
-          "minutes": end.getMinutes()
+          "year":weekend.getFullYear(),
+          "month":weekend.getMonth()+1,
+          "day":weekend.getDate()-1
         }];
         var fromDateObject = [{
-          "year":start.getFullYear(),
-          "month":start.getMonth(),
-          "day":start.getDate()   ,
-          "hours": start.getHours(),
-          "minutes": start.getMinutes()
+          "year":week.getFullYear(),
+          "month":week.getMonth()+1,
+          "day":week.getDate()
         }];
       _this.view.render({
         title: 'Statistiken',
@@ -66,11 +62,68 @@ module.exports.prototype = AdminController.prototype.extend({
         gamesCount: gamesOnDay,
         from: fromDateObject,
         to: toDateObject,
-        startdate: start.valueOf(),
-        enddate: end.valueOf()
+        previousWeek: (week.setDate(week.getDate()-6)).valueOf(),
+        nextWeek: weekend.valueOf()
       });
     })
   },
+
+  monthAction: function() {
+    var _this = this,
+      month = _this.request.param('month'),
+      today = new Date(),
+      day = 86400000,
+      current,
+      monthstart,
+      monthend;
+    
+    // same as indexAction but with months
+    if(typeof month === 'undefined' || month === ''){
+      current = new Date(today.getFullYear(), today.getMonth(), 1);
+    }else{
+      current = new Date(parseInt(month,10));
+    }
+    month = new Date(current);
+    monthend = new Date(current.setMonth(current.getMonth() + 1));
+
+    // TODO: refactor
+    _this.mongodb
+    .collection('statistics')
+    .find({date: {$gte: month, $lt: monthend}})
+    .sort({date:1})
+    .toArray(
+      function (err, elements) {
+        var gamesOnDay = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        for (var i = elements.length - 1; i >= 0; i--) {
+          gamesOnDay[Math.floor(parseInt(
+            monthend.valueOf() - elements[i].date.valueOf()) / day)]++;
+        }
+        gamesOnDay = gamesOnDay.reverse();
+        for (var i = gamesOnDay.length - 1; i >= 0; i--) {
+          gamesOnDay[i] = { "count":gamesOnDay[i],"day": i};
+        }
+        var toDateObject = [{
+          "year":monthend.getFullYear(),
+          "month":monthend.getMonth()+1,
+          "day":monthend.getDate()
+        }];
+        var fromDateObject = [{
+          "year":month.getFullYear(),
+          "month":month.getMonth()+1,
+          "day":month.getDate()
+        }];
+      _this.view.render({
+        title: 'Statistiken',
+        elements: elements,
+        gamesCount: gamesOnDay,
+        from: fromDateObject,
+        to: toDateObject,
+        previousmonth: (month.setMonth(month.getMonth()-1)).valueOf(),
+        nextmonth: monthend.valueOf()
+      });
+    })
+  },
+
   tableAction: function() {
     var _this = this;
     
