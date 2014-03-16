@@ -15,7 +15,7 @@
   <label class="col-sm-3 control-label" for="attr_{name}">{title}{?props.multiple} <a href="javascript:void(0)" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;"><span class="green glyphicon glyphicon-plus-sign"></span></a>{/props.multiple}</label>
   <div class="col-sm-6">
     <button type="button" class="btn btn-primary select-objecttype" data-attribute="{name}" data-type="{object_type}"
-      data-remote="/admin/objects/objects?type={object_type}"
+      data-remote="/admin/objects/objects?type={object_type}&_view=selection"
       data-target="#objectTypesModal" data-toggle="modal">Bitte Auswählen...</button>
     <input type="hidden" name="values[{name}]{?props.multiple}[]{/props.multiple}" value="" />
   </div>

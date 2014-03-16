@@ -34,6 +34,24 @@ module.exports.prototype = {
     return this.request.session.user;
   },
 
+  getPage: function() {
+    return parseInt(this.request.param('page')) || 1;
+  },
+
+  setPagination: function(totalCount, countPerPage) {
+    this.paginationTotalCount = totalCount;
+    this.paginationCountPerPage = countPerPage;
+    this.view.setParam('_paginationPages', Math.ceil(totalCount / countPerPage));
+  },
+
+  getPaginationSkip: function() {
+    return (this.getPage() - 1 ) * this.paginationCountPerPage;
+  },
+
+  getPaginationLimit: function() {
+    return this.paginationCountPerPage;
+  },
+
   increaseStat: function(key) {
     var _this = this,
       user = this.getUser();
@@ -67,7 +85,12 @@ module.exports.prototype = {
     this.mongo = req.mongo;
 
     this.view = new View(this);
-    this.view.setOnlyContent(_this.request.param('_view') === 'only_content');
+    if (_this.request.xhr) {
+      this.view.setOnlyContent(true);
+    }
+    else {
+      this.view.setOnlyContent(_this.request.param('_view') === 'only_content');
+    }
 
     if (_this.request.session.user &&
         _this.request.session.user.right_level >= 300 &&

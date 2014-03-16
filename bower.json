@@ -18,6 +18,7 @@
     "jqueryui": "~1.10.4",
     "jquery": "~2.1.0",
     "jquery-ui-touch-punch": "https://github.com/furf/jquery-ui-touch-punch.git",
-    "summernote": "~0.5.0"
+    "summernote": "~0.5.0",
+    "jquery-bootpag": "~1.0.5"
   }
 }

@@ -7,6 +7,7 @@ module.exports = function(controller) {
 module.exports.prototype = {
   onlyContent: false,
   noNavBar: false,
+  params: {},
 
   extend: function(properties) {
     var Child = module.exports;
@@ -25,6 +26,9 @@ module.exports.prototype = {
     data._user = this.controller.request.session.user;
     data._isAdmin = (data._user && data._user.right_level <= 100) ? true : false;
     data._isModerator = (data._user && data._user.right_level <= 200) ? true : false;
+    for (var param in this.params) {
+      data[param] = this.params[param];
+    }
     if(this.response && this.template && !this.disabled) {
       this.response.render(this.template, data);
     }
@@ -43,5 +47,8 @@ module.exports.prototype = {
   },
   setNoNavBar: function(noNavBar) {
     this.noNavBar = noNavBar;
+  },
+  setParam: function(param, value) {
+    this.params[param] = value;
   }
 };

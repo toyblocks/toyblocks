@@ -46,6 +46,10 @@ h1 {
   /*background:url(/img/TUD-Logo-200.png) no-repeat 95% top;*/
 }
 
+#page_selection {
+  text-align: center;
+}
+
 @media (min-width: 768px) {
   #welcome_games_list .caption {
     position:relative;

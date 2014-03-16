@@ -98,7 +98,9 @@ module.exports.prototype = AdminController.prototype.extend({
 
   // show all objects for a specific type
   objectsAction: function () {
-    var _this = this;
+    var _this = this,
+      countPerPage = 10,
+      page = _this.getPage();
 
     // getting main type
     this.getTypeWithAttributes(
@@ -110,24 +112,31 @@ module.exports.prototype = AdminController.prototype.extend({
           attributes[i].props = type.attributes[attributes[i].name];
           attributesByName[attributes[i].name] = attributes[i];
         }
-        // getting all objects for type
+
         _this.mongodb
           .collection(type.name)
-          .find({})
-          // TODO: implement skip and limit
-          .toArray(function(err, objects) {
-            if (_this.request.xhr) {
-              _this.view.setTemplate(_this.view.getTemplate() + '-remote');
-            }
-            _this.view.render({
-              title: type.title + ' Verwaltung',
-              type: type,
-              attributes: attributes,
-              attributesByName: attributesByName,
-              objects: objects
+          .count(function(err, totalCount) {
+            // getting all objects for type
+            _this.setPagination(totalCount, countPerPage);
+            _this.mongodb
+              .collection(type.name)
+              .find({})
+              .skip(_this.getPaginationSkip())
+              .limit(_this.getPaginationLimit())
+              // TODO: implement skip and limit
+              .toArray(function(err, objects) {
+                if (_this.request.param('_view') === 'selection') {
+                  _this.view.setTemplate(_this.view.getTemplate() + '-remote');
+                }
+                _this.view.render({
+                  title: type.title + ' Verwaltung',
+                  type: type,
+                  attributes: attributes,
+                  attributesByName: attributesByName,
+                  objects: objects
+                });
+              });
             });
-          });
-          // TODO: generate object form
       });
   },
 

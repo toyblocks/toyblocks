@@ -8,6 +8,7 @@
 <script src="/js/vendor/jquery-ui.min.js"></script>
 <script src="/js/vendor/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/vendor/bootstrap.min.js"></script>
+<script src="/js/vendor/jquery.bootpag.min.js"></script>
 {! admin only !}
 <script src="/js/vendor/summernote.min.js"></script>
 {!  end admin only !}

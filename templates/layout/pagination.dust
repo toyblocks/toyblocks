@@ -1,0 +1,6 @@
+{?_paginationPages}
+<div id="page_selection"></div>
+<script>
+window._paginationPages = {_paginationPages};
+</script>
+{/_paginationPages}
