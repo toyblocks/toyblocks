@@ -43,7 +43,27 @@ $(window).ready(function(){
       color: "rgb(66,139,202)",
       bars: { show: true, fill: true }
     }],{
-      xaxis: { ticks: [[0.5,"M"], [ 1.5, "D" ], [ 2.5, "M" ], [ 3.5, "D" ], [ 4.5, "F" ], [ 5.5, "S" ], [ 6.5, "S" ]]},
+           series: {
+             lines: { show: true,
+                lineWidth: 2,
+                fill: true, fillColor: { colors: [ { opacity: 0.5 }, { opacity: 0.2 } ] }
+               },
+             points: { show: true, 
+                 lineWidth: 2 
+               },
+             shadowSize: 0
+           },
+           grid: { hoverable: true, 
+               clickable: true, 
+               tickColor: "#f9f9f9",
+               borderWidth: 0
+             },
+           colors: ["#1BB2E9"],
+          xaxis: {ticks: [[0.5,"M"], [ 1.5, "D" ], [ 2.5, "M" ], [ 3.5, "D" ], [ 4.5, "F" ], [ 5.5, "S" ], [ 6.5, "S" ]],
+          tickDecimals: 0},
+          yaxis: {ticks:3, tickDecimals: 0},
+         }{
+      xaxis: { },
       yaxis: {
         ticks: 10,
         min: 0,
