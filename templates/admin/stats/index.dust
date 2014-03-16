@@ -40,6 +40,7 @@ $(window).ready(function(){
     var gamesCount = [{#gamesCount}[{day},{count}]{@sep},{/sep}{/gamesCount}];
     $.plot("#graph", [{
       data: gamesCount,
+      color: "rgb(66,139,202)",
       bars: { show: true, fill: true }
     }],{
       xaxis: { ticks: [[0.5,"M"], [ 1.5, "D" ], [ 2.5, "M" ], [ 3.5, "D" ], [ 4.5, "F" ], [ 5.5, "S" ], [ 6.5, "S" ]]},

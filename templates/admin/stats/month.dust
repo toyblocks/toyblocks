@@ -40,6 +40,7 @@ $(window).ready(function(){
     var gamesCount = [{#gamesCount}[{day},{count}]{@sep},{/sep}{/gamesCount}];
     $.plot("#graph", [{
       data: gamesCount,
+      color: "rgb(66,139,202)",
       bars: { show: true, fill: true }
     }],{
       yaxis: { 
@@ -56,7 +57,7 @@ $(window).ready(function(){
 </div>
 
 <ul class="pager">
-  <li><a href="?month={previousmonth}">Vorherige Woche</a></li>
-  <li><a href="?month={nextmonth}">Nächste Woche</a></li>
+  <li><a href="?month={previousmonth}">Vorherigen Monat</a></li>
+  <li><a href="?month={nextmonth}">Nächsten Monat</a></li>
 </ul>
 {/content}
