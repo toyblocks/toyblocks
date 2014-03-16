@@ -34,41 +34,42 @@
 <!-- powered by http://www.flotcharts.org/flot/ -->
 <script language="javascript" type="text/javascript" src="/js/vendor/jquery.flot.js"></script>
 <script type="text/javascript">
-
 $(window).ready(function(){
-
-    var gamesCount = [{#gamesCount}[{day},{count}]{@sep},{/sep}{/gamesCount}];
-    $.plot("#graph", [{
-      data: gamesCount,
-      color: "rgb(66,139,202)",
-      bars: { show: true, fill: true }
-    }],{
-           series: {
-             lines: { show: true,
-                lineWidth: 2,
-                fill: true, fillColor: { colors: [ { opacity: 0.5 }, { opacity: 0.2 } ] }
-               },
-             points: { show: true, 
-                 lineWidth: 2 
-               },
-             shadowSize: 0
-           },
-           grid: { hoverable: true, 
-               clickable: true, 
-               tickColor: "#f9f9f9",
-               borderWidth: 0
-             },
-           colors: ["#1BB2E9"],
-          xaxis: {ticks: [[0.5,"M"], [ 1.5, "D" ], [ 2.5, "M" ], [ 3.5, "D" ], [ 4.5, "F" ], [ 5.5, "S" ], [ 6.5, "S" ]],
-          tickDecimals: 0},
-          yaxis: {ticks:3, tickDecimals: 0},
-         }{
-      xaxis: { },
-      yaxis: {
-        ticks: 10,
-        min: 0,
-        tickDecimals: 0 }
-    });
+  var gamesCount = [{#gamesCount}[{day},{count}]{@sep},{/sep}{/gamesCount}];
+  $.plot("#graph", [{
+    data: gamesCount
+  }],{
+    series: {
+      lines: {
+        show: true,
+        lineWidth: 2,
+        fill: true,
+        fillColor: { colors: [ { opacity: 0.5 }, { opacity: 0.2 } ] }
+      },
+      points: {
+        show: true,
+        lineWidth: 2 
+      },
+      shadowSize: 1
+    },
+    grid: {
+      hoverable: true,
+      clickable: true,
+      tickColor: "#f9f9f9",
+      borderWidth: 0
+    },
+    colors: ["#1BB2E9"],
+    xaxis: {
+      ticks: [[0,"Montag"], [ 1, "Dienstag" ], [ 2, "Mittwoch" ], [ 3, "Donnerstag" ], [ 4, "Freitag" ], [ 5, "Samstag" ], [ 6, "Sonntag" ]],
+      tickDecimals: 0
+    },
+    yaxis: {
+      ticks: 10,
+      tickDecimals: 0,
+      min: 0,
+      tickFormatter: function(val, axis) { return val < axis.max ? val : "Anzahl<br>Spiele";}
+    },
+  });
 });
 </script>
 <div class="pull-right">{#from}{day}.{month}.{year}{/from} bis {#to}{day}.{month}.{year}{/to}</div>
@@ -79,6 +80,7 @@ $(window).ready(function(){
 
 <ul class="pager">
   <li><a href="?week={previousWeek}">Vorherige Woche</a></li>
+  <li><a href="?">Heute</a></li>
   <li><a href="?week={nextWeek}">Nächste Woche</a></li>
 </ul>
 {/content}
