@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'toyblocks';
-	src:url('fonts/toyblocks.eot?-s61s17');
-	src:url('fonts/toyblocks.eot?#iefix-s61s17') format('embedded-opentype'),
-		url('fonts/toyblocks.woff?-s61s17') format('woff'),
-		url('fonts/toyblocks.ttf?-s61s17') format('truetype'),
-		url('fonts/toyblocks.svg?-s61s17#toyblocks') format('svg');
+	src:url('toyblocks.eot?-s61s17');
+	src:url('toyblocks.eot?#iefix-s61s17') format('embedded-opentype'),
+		url('toyblocks.woff?-s61s17') format('woff'),
+		url('toyblocks.ttf?-s61s17') format('truetype'),
+		url('toyblocks.svg?-s61s17#toyblocks') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
