@@ -1,0 +1,17 @@
+<form class="form-horizontal" id="upsert_object" action="upsert-object" role="form" method="post">
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title" id="myModalLabel">{title}</h4>
+</div>
+<div class="modal-body">
+    <input type="hidden" name="type" value="{type.name}" />
+    {?object._id}<input type="hidden" name="id" value="{object._id}" />{/object._id}
+    {#attributes object_type=type object=object}
+    {>"forms/elements/{type}.dust"/}
+    {/attributes}
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+  <button id="saveEnums" type="submit" class="btn btn-primary">Speichern</button>
+</div>
+</form>

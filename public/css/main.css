@@ -92,3 +92,11 @@ h1 {
   margin-top: 12px;
   margin-left: 5px;
 }
+
+.form-group .preview-thumbnail {
+  text-align: right;
+}
+.form-group .preview-thumbnail img {
+  max-width: 100%;
+  max-height: 140px;
+}

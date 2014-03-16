@@ -101,44 +101,33 @@ module.exports.prototype = AdminController.prototype.extend({
     var _this = this;
 
     // getting main type
-    this.getType(
+    this.getTypeWithAttributes(
       this.request.param('type'),
-      function(err, type) {
-        if (err)
-          throw new Error(err);
-        else {
-          type.attributeNames = Object.keys(type.attributes);
-          // getting attributes
-          _this.mongodb
-          .collection(attributeModel.collection)
-          .find({name: {$in: type.attributeNames}})
-          .toArray(function(err, attributes) {
-            // prepare attributes index
-            var attributesByName = {};
-            for (var i = 0; i < attributes.length; i++) {
-              attributes[i].props = type.attributes[attributes[i].name];
-              attributesByName[attributes[i].name] = attributes[i];
-            }
-            // getting all objects for type
-            _this.mongodb
-              .collection(type.name)
-              .find({})
-              // TODO: implement skip and limit
-              .toArray(function(err, objects) {
-                if (_this.request.xhr) {
-                  _this.view.setTemplate(_this.view.getTemplate() + '-remote');
-                }
-                _this.view.render({
-                  title: type.title + ' Verwaltung',
-                  type: type,
-                  attributes: attributes,
-                  attributesByName: attributesByName,
-                  objects: objects
-                });
-              });
-              // TODO: generate object form
-          });
+      function(type, attributes) {
+        // prepare attributes index
+        var attributesByName = {};
+        for (var i = 0; i < attributes.length; i++) {
+          attributes[i].props = type.attributes[attributes[i].name];
+          attributesByName[attributes[i].name] = attributes[i];
         }
+        // getting all objects for type
+        _this.mongodb
+          .collection(type.name)
+          .find({})
+          // TODO: implement skip and limit
+          .toArray(function(err, objects) {
+            if (_this.request.xhr) {
+              _this.view.setTemplate(_this.view.getTemplate() + '-remote');
+            }
+            _this.view.render({
+              title: type.title + ' Verwaltung',
+              type: type,
+              attributes: attributes,
+              attributesByName: attributesByName,
+              objects: objects
+            });
+          });
+          // TODO: generate object form
       });
   },
 
@@ -147,164 +136,260 @@ module.exports.prototype = AdminController.prototype.extend({
       objectId = this.mongo.ObjectID(this.request.param('id'));
 
     // getting main type
-    this.getType(
+    this.getTypeWithAttributes(
       this.request.param('type'),
-      function(err, type) {
-        if (err)
-          throw new Error(err);
-        else {
-          type.attributeNames = Object.keys(type.attributes);
-          // getting attributes
-          _this.mongodb
-          .collection(attributeModel.collection)
-          .find({name: {$in: type.attributeNames}})
-          .toArray(function(err, attributes) {
+      function(type, attributes) {
 
-            //here we collect all attributes, which are of the image type
-            var imageAttributes = [];
-            for (var i = 0; i < attributes.length; i++) {
-              if (attributes[i].type == 'image')
-                imageAttributes.push(attributes[i].name);
-            }
-
-            // check if we have images to delete
-            if (imageAttributes.length > 0) {
-              _this.mongodb
-                .collection(type.name)
-                .find({_id: objectId})
-                .nextObject(function(err, object){
-                  // receive & delete images
-                  var imageIds = [];
-                  for (var i = 0; i < imageAttributes.length; i++) {
-                    if (object[imageAttributes[i]])
-                      imageIds = imageIds.concat(object[imageAttributes[i]]);
-                  }
-
-                  _this.mongodb.collection('images').remove({_id: {$in: imageIds}}, {}, function () {
-                    _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
-                      _this.response.redirect('../objects?type='+type.name);
-                    });
-                  });
-                });
-            }
-            else {
-              _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
-                _this.response.redirect('../objects?type='+type.name);
-              });
-            }
-          });
+        //here we collect all attributes, which are of the image type
+        var imageAttributes = [];
+        for (var i = 0; i < attributes.length; i++) {
+          if (attributes[i].type === 'image')
+            imageAttributes.push(attributes[i].name);
         }
-      }
-    );
 
-
-  },
-
-  createObjectAction: function () {
-    var _this = this;
-
-    // getting main type
-    _this.getType(
-      _this.request.param('type'),
-      function(err, type) {
-        if (err)
-          throw new Error(err);
-        else {
-          type.attributeNames = Object.keys(type.attributes);
-          // getting attributes
+        // check if we have images to delete
+        if (imageAttributes.length > 0) {
           _this.mongodb
-          .collection(attributeModel.collection)
-          .find({name: {$in: type.attributeNames}})
-          .toArray(function(err, attributes) {
-            // prepare attributes index
-            var object = {},
-              images = [],
-              reqValue,
-              typeProps,
-              attributeName,
-              imageValues = [];
-            for (var i = 0; i < attributes.length; i++) {
-              reqValue = _this.request.param('values')[attributes[i].name];
-              typeProps = type.attributes[attributes[i].name];
-              attributeName = attributes[i].name;
-
-              if (type.randomized) {
-                object._random = [Math.random(), 0];
+            .collection(type.name)
+            .find({_id: objectId})
+            .nextObject(function(err, object){
+              // receive & delete images
+              var imageIds = [];
+              for (var i = 0; i < imageAttributes.length; i++) {
+                if (object[imageAttributes[i]])
+                  imageIds = imageIds.concat(object[imageAttributes[i]]);
               }
 
-              object[attributeName] = attributeModel.validateAndTransform(
-                attributes[i],
-                typeProps,
-                reqValue,
-                _this.mongo);
-
-              if (object[attributeName] === null)
-                continue;
-
-              // prepare images for saving
-              if (attributes[i].type === 'image') {
-                if (typeProps.multiple) {
-                  imageValues.push(object[attributeName]);
-                  for (var j in object[attributeName]) {
-                    if (typeof object[attributeName][j] === 'object') {
-                      object[attributeName][j].index = images.length;
-                      images.push({
-                        type: object[attributeName][j].ext,
-                        data: _this.request.mongo.Binary(object[attributeName][j].buffer)
-                      });
-                    }
-                  }
-                }
-                else {
-                  if (typeof object[attributeName] === 'object') {
-                    imageValues.push({attr: attributeName, index: images.length});
-                    images.push({
-                      type: object[attributeName].ext,
-                      data: _this.request.mongo.Binary(object[attributeName].buffer)
-                    });
-                  }
-                }
-              }
-            }
-
-            // save all images in bulk
-            _this.mongodb
-              .collection('images')
-              .insert(images, {keepGoing:true}, function (err, result) {
-                // set image ids in object
-                for (var i in imageValues) {
-                  if (Array.isArray(imageValues[i])) {
-                    for (var j in imageValues[i]) {
-                      if (typeof imageValues[i][j] === 'object')
-                        imageValues[i][j] = result[imageValues[i][j].index]._id;
-                    }
-                  }
-                  else {
-                    if (typeof imageValues[i] === 'object') {
-                      object[imageValues[i].attr] = result[imageValues[i].index]._id;
-                    }
-                  }
-                }
-
-                // insert object into database
-                _this.mongodb
-                  .collection(type.name)
-                  .insert(object, {}, function(err, result) {
-                    if (err) throw new Error(err);
-                    _this.response.redirect('../objects?type='+type.name);
-                  });
+              _this.mongodb.collection('images').remove({_id: {$in: imageIds}}, {}, function () {
+                _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
+                  _this.response.redirect('../objects?type='+type.name);
+                });
               });
+            });
+        }
+        else {
+          _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
+            _this.response.redirect('../objects?type='+type.name);
           });
         }
       });
 
+
   },
 
-  getType: function (typeName, cb) {
-    this.mongodb
+  upsertObjectAction: function () {
+    var _this = this;
+
+    // getting main type
+    _this.getTypeWithAttributes(
+      _this.request.param('type'),
+      function(type, attributes) {
+
+        // prepare attributes index
+        var object = {},
+          images = [],
+          usedImages = {},
+          reqValue,
+          typeProps,
+          attributeName,
+          imageValues = [];
+
+        // for randomized object types we define a random number
+        if (type.randomized) {
+          object._random = [Math.random(), 0];
+        }
+
+        if (_this.request.param('id')) {
+          object._id = _this.mongo.ObjectID(_this.request.param('id'));
+        }
+
+        // iterate through all attributes and prepare them for saving
+        for (var i = 0; i < attributes.length; i++) {
+          reqValue = _this.request.param('values')[attributes[i].name];
+          typeProps = type.attributes[attributes[i].name];
+          attributeName = attributes[i].name;
+
+          // validate and transform to values for the db
+          object[attributeName] = attributeModel.validateAndTransform(
+            attributes[i],
+            typeProps,
+            reqValue,
+            _this.mongo,
+            _this.request);
+
+          if (object[attributeName] === null)
+            continue;
+
+          // if attribute type is image, prepare images for saving
+          if (attributes[i].type === 'image') {
+            if (typeProps.multiple) {
+              imageValues.push(object[attributeName]);
+              for (var j in object[attributeName]) {
+                if (typeof object[attributeName][j] === 'object') {
+                  if (!(object[attributeName][j] instanceof _this.mongo.ObjectID)) {
+                    object[attributeName][j].index = images.length;
+                    images.push({
+                      type: object[attributeName][j].ext,
+                      data: _this.request
+                        .mongo.Binary(object[attributeName][j].buffer)
+                    });
+                  }
+                  else {
+                    usedImages['' + object[attributeName][j]] = true;
+                  }
+                }
+              }
+            }
+            else {
+              if (typeof object[attributeName] === 'object') {
+                if (!(object[attributeName] instanceof _this.mongo.ObjectID)) {
+                  imageValues.push({attr: attributeName, index: images.length});
+                  images.push({
+                    type: object[attributeName].ext,
+                    data: _this.request.mongo.Binary(object[attributeName].buffer)
+                  });
+                }
+                else {
+                  usedImages['' + object[attributeName]] = true;
+                }
+              }
+            }
+          }
+        }
+
+        // save all images in bulk
+        _this.mongodb
+          .collection('images')
+          .insert(images, {keepGoing:true}, function (err, result) {
+            // set image ids in object
+            for (var i in imageValues) {
+              if (Array.isArray(imageValues[i])) {
+                for (var j in imageValues[i]) {
+                  if (typeof imageValues[i][j] === 'object' &&
+                    !(imageValues[i][j] instanceof _this.mongo.ObjectID)) {
+                    imageValues[i][j] = result[imageValues[i][j].index]._id;
+                  }
+                }
+              }
+              else {
+                if (typeof imageValues[i] === 'object' &&
+                  !(imageValues[i] instanceof _this.mongo.ObjectID)) {
+                  object[imageValues[i].attr] = result[imageValues[i].index]._id;
+                }
+              }
+            }
+
+            // if updating an object, we should delete unused pictures
+            if (object._id) {
+              _this.mongodb
+                .collection(type.name)
+                .find({_id: object._id})
+                .nextObject(function(err, oldObject) {
+                  var deleteImages = [];
+                  for (var i = 0; i < attributes.length; i++) {
+                    if (attributes[i].type === 'image') {
+                      var value = oldObject[[attributes[i].name]];
+                      if (type.attributes[attributes[i].name].multiple) {
+                        for (var valIndex in value) {
+                          if (!usedImages[''+value[valIndex]]) {
+                            deleteImages.push(value[valIndex]);
+                          }
+                        }
+                      }
+                      else {
+                        if (!usedImages[''+value]) {
+                          deleteImages.push(value);
+                        }
+                      }
+                    }
+                  }
+                  _this.mongodb
+                    .collection('images')
+                    .remove({_id: {$in: deleteImages}}, {}, function() {
+                      // finally update object in db
+                      _this.mongodb
+                        .collection(type.name)
+                        .update({_id: object._id}, object, {}, function(err, result) {
+                          if (err) throw new Error(err);
+                          _this.response.redirect('../objects?type='+type.name);
+                        });
+                    });
+                });
+            }
+            else {
+              // inserting object into db
+              _this.mongodb
+                .collection(type.name)
+                .insert(object, {}, function(err, result) {
+                  if (err) throw new Error(err);
+                  _this.response.redirect('../objects?type='+type.name);
+                });
+            }
+
+          });
+
+      });
+
+  },
+
+  formAction: function () {
+    var _this = this;
+    if (!_this.request.param('type')) {
+      throw new Error('Param "type" is needed.');
+    }
+
+    _this.getTypeWithAttributes(_this.request.param('type'),
+      function (type, attributes) {
+        if (_this.request.param('id')) {
+          _this.mongodb
+            .collection(type.name)
+            .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
+            .nextObject(function(err, object) {
+              _this.view.render({
+                title: type.title + ' bearbeiten',
+                type: type,
+                attributes: attributes,
+                object: object
+              });
+            });
+        }
+        else {
+          _this.view.render({
+            title: type.title + ' erstellen',
+            type: type,
+            attributes: attributes
+          });
+        }
+      });
+  },
+
+  getTypeWithAttributes: function (typeName, cb) {
+    var _this = this;
+    _this.mongodb
       .collection('object_types')
       .find({name: typeName})
-      .nextObject(cb);
+      .nextObject(
+        function(err, type) {
+          if (err)
+            throw new Error(err);
+          else {
+            type.attributeNames = Object.keys(type.attributes);
+            // getting attributes
+            _this.mongodb
+              .collection(attributeModel.collection)
+              .find({name: {$in: type.attributeNames}})
+              .toArray(function(err, attributes) {
+                if (err)
+                  throw new Error(err);
+                else {
+                  for (var i = 0; i < attributes.length; i++) {
+                    attributes[i].props = type.attributes[attributes[i].name];
+                  }
+                  cb(type, attributes);
+                }
+              });
+          }
+        });
   }
 
 

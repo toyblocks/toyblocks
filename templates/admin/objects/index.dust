@@ -90,15 +90,15 @@ label .glyphicon {
     <div class="col-sm-9 col-md-9">
       <table class="table">
         <tr>
-          <th>Name</th>
           <th>Titel</th>
+          <th>Tech. Name</th>
           <th>Attribute</th>
           <th>Aktion</th>
         </tr>
         {#types}
         <tr>
-          <td><a href="/admin/objects/objects?type={name}">{name}</a></td>
-          <td>{title}</td>
+          <td><a href="/admin/objects/objects?type={name}">{title}</a></td>
+          <td>{name}</td>
           <td>{#attributeNames}{.}{@sep}, {/sep}{/attributeNames}</td>
           <td>Bearbeiten</td>
         </tr>

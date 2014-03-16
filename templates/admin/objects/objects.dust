@@ -2,6 +2,17 @@
 
 {<content}
 
+<style>
+/*
+@media (min-width: 768px) {
+  #objectFormModal .modal-dialog {
+    width: 70%;
+    max-width: 800px;
+  }
+}
+*/
+</style>
+
 <div class="col-md-12 col-sm-12">
 
 <ol class="breadcrumb">
@@ -13,6 +24,9 @@
 
 <div class="col-md-12 col-sm-12">
   <h3>{type.title} Übersicht</h3>
+  <button type="button" class="btn btn-primary objecttype-form"
+      href="/admin/objects/form?type={type.name}"
+      data-target="#objectFormModal" data-toggle="modal">Neue {type.title} erstellen</button>
   <a href="javascript:void(0)" onclick="$('#create_object').toggle();">Neues Objekt in {type.title} erstellen</a>
   <div class="row">
     <div class="col-sm-12 col-md-12">
@@ -36,6 +50,7 @@
           {#attributes object_type=type}
           <th>{title}</th>
           {/attributes}
+          <th>Aktion</th>
         </tr>
         {#objects attributes=attributes object_type=type}
         <tr>
@@ -47,7 +62,8 @@
               <td>{#object[name]}{.} {/object[name]}</td>
             {/if}
           {/attributes}
-          <td><a href="/admin/objects/delete-object?type={object_type.name}&id={_id}">Löschen</a></td>
+          <td><a href="/admin/objects/form?type={type.name}&id={_id}" data-target="#objectFormModal" data-toggle="modal">Editieren</a>
+            <a href="/admin/objects/delete-object?type={object_type.name}&id={_id}">Löschen</a></td>
         </tr>
         {:else}
         <tr><td colspan="4">Bisher keine {type.title} vorhanden</td></tr>
@@ -56,10 +72,11 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="objectTypesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+<div class="modal fade" id="objectFormModal" tabindex="-1" role="dialog" aria-labelledby="objectFormModal" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"></div></div></div>
+<div class="modal fade" id="objectTypesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"></div></div></div>
 <script>
 var $objecttypeTrigger;
-$('#create_object').on('click', '.select-objecttype', function() {
+$('#objectFormModal').on('click', '.select-objecttype', function() {
   $objecttypeTrigger = $(this);
 });
 $('body').on('shown.bs.modal', '#objectTypesModal', function () {
@@ -69,9 +86,12 @@ $('body').on('shown.bs.modal', '#objectTypesModal', function () {
     $objecttypeTrigger
       .removeClass('btn-default')
       .addClass('btn-success')
-      .html($(this).parents('tr').children().first().html());
+      .html($(this).parents('tr').children().first().html() + ' ausgewählt');
     $modal.modal('hide');
   });
+});
+$('#objectFormModal, #objectTypesModal').on('hidden.bs.modal', function() {
+    $(this).removeData('bs.modal');
 });
 </script>
 {/content}
