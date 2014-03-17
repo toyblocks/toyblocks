@@ -125,19 +125,29 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   tableAction: function() {
-    var _this = this;
+    var _this = this,
+      countPerPage = 20,
+      page = _this.getPage();
     
     _this.mongodb
     .collection('statistics')
-    .find()
-    .toArray(
-      function (err, elements) {
-      _this.view.render({
-        title: 'Statistiken',
-        elements: elements
+    .count(function (err1, totalCount) {
+      _this.setPagination(totalCount, countPerPage);
+      _this.mongodb
+      .collection('statistics')
+      .find()
+      .skip(_this.getPaginationSkip())
+      .limit(_this.getPaginationLimit())
+      .toArray(
+        function (err, elements) {
+        _this.view.render({
+          title: 'Statistiken',
+          elements: elements
+        });
       });
-    })
+    });
   },
+  
   dailyAction: function() {
     var _this = this;
     

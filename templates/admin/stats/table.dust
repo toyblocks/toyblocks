@@ -1,6 +1,11 @@
+
 {>"layout/layout.dust"/}
-{<content}
+
+{<contentHead}
 {>"admin/stats/tabs.dust"/}
+{/contentHead}
+
+{<content}
 <div class="row">
   <div class="col-md-10">
     <table class="table table-hover">
@@ -29,8 +34,13 @@
           <td>{date}</td>
         </tr>
       {/elements}
+
       </tbody>
     </table>
   </div>
 </div>
 {/content}
+
+{<contentFoot}
+{>"layout/pagination"/}
+{/contentFoot}
