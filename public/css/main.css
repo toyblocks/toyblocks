@@ -1,35 +1,7 @@
-html, body,
-#page_container,
-#page_container > .row,
-#sidebar_navigation,
-#content_column {
-  //min-height:100%;
-  //height:100%;
-}
 html, body {
   position:relative;
   height:100%;
-}
-footer {
-  bottom: 0;
-  height: 50px;
-  padding-left: 5%;
-  width:100%;
-}
-footer a {
-  color:#3d3d3d;
-  margin-right: 5%;
-}
-
-.alert {
-  margin: 0 30px 0 200px;
-}
-
-.green{color:#0BE224;}
-.red{color:#FF4135;}
-
-#navbar-brand{
-  text-shadow: 2px 3px 0px #476871;
+  max-width: 100%
 }
 body{
   padding-top: 70px;
@@ -41,11 +13,47 @@ h1 {
   font-variant: small-caps;
 }
 
-#page_container {
-  min-height: 100%;
-  /*background:url(/img/TUD-Logo-200.png) no-repeat 95% top;*/
+footer {
+  bottom: 0;
+  height: 50px;
+  padding-left: 5%;
+  width:100%;
+}
+footer a {
+  color:#3d3d3d;
+  margin-right: 5%;
+}
+.green{color:#0BE224;}
+.red{color:#FF4135;}
+
+/*Welcome Page*/
+#tud-brand{
+  margin-top: -62px;
+  position: absolute;
+  right: 50px;
+}
+#welcome-container{
+  color: #428bca;
+  font-size:150px;
+  text-align:center;
+  line-height:normal;
+}
+#toyblocks-title{
+  font-variant: small-caps;
+  font-size:150px;
+
 }
 
+{!TODO: Cleanup unused styles!}
+
+#navbar-brand{
+  text-shadow: 2px 3px 0px #476871;
+}
+
+
+#page_container {
+  min-height: 100%;
+}
 #page_selection {
   text-align: center;
 }
@@ -89,13 +97,14 @@ h1 {
   margin-left: 10px;
   font-size: 15px;
 }
+/*
 .nav-nested li:before{
   content:'*';
   color: white;
   position: fixed;
   margin-top: 12px;
   margin-left: 5px;
-}
+}*/
 
 .form-group .preview-thumbnail {
   text-align: right;

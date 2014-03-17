@@ -1,14 +1,23 @@
 {>"layout/layout.dust"/}
 {<content}
-<img src="/img/TUD-Logo-200.png" class="pull-right" style="margin-top: -45px"><br>
-  <div style="color: #428bca; font-size:150px;text-align:center;line-height:normal;">
-    <h1 id="toyblocks_title" style="font-variant: small-caps; font-size:150px;">ToyBlocks</h1>
-    <div>
-      <span class="glyphicon icon-missing"></span>
-      <span class="glyphicon icon-multiple"></span>
-      <span class="glyphicon icon-sort"></span>
-      <span class="glyphicon icon-assemble"></span>
-    </div>
-    <a role="button" href="/index/welcome/" class="btn btn-primary btn-lg">Anmelden</a>
+<img id="tud-brand" src="/img/TUD-Logo-200.png"><br>
+<div id="welcome-container">
+  <h1 id="toyblocks-title">ToyBlocks</h1>
+  <div>
+    <span class="glyphicon icon-missing"></span>
+    <span class="glyphicon icon-multiple"></span>
+    <span class="glyphicon icon-sort"></span>
+    <span class="glyphicon icon-assemble"></span>
   </div>
+  <a role="button" href="/index/welcome/" class="btn btn-primary btn-lg">Anmelden</a>
+</div>
+
+<script type="text/javascript">
+/*Automaticly login when enter is pressed*/
+$(document).keypress(function(e) {
+    if(e.which == 13) {
+        document.getElementById('create_object').submit();
+    }
+});
+</script>
 {/content}

@@ -53,14 +53,19 @@ $(window).ready(function(){
       shadowSize: 1
     },
     grid: {
-      hoverable: true,
-      clickable: true,
       tickColor: "#f9f9f9",
       borderWidth: 0
     },
     colors: ["#1BB2E9"],
     xaxis: {
-      ticks: [[0,"Montag"], [ 1, "Dienstag" ], [ 2, "Mittwoch" ], [ 3, "Donnerstag" ], [ 4, "Freitag" ], [ 5, "Samstag" ], [ 6, "Sonntag" ]],
+      ticks: [
+        [ 0, "Montag"],
+        [ 1, "Dienstag" ],
+        [ 2, "Mittwoch" ],
+        [ 3, "Donnerstag" ],
+        [ 4, "Freitag" ],
+        [ 5, "Samstag" ],
+        [ 6, "Sonntag" ]],
       tickDecimals: 0
     },
     yaxis: {
