@@ -113,3 +113,18 @@ footer a {
   max-width: 100%;
   max-height: 140px;
 }
+
+/*Help Pages for Games*/
+.helpbox{
+  //background-color: #d9edf7;
+  border: 40px #fff solid;
+  padding: 15px;
+  border-bottom: 2px #eee solid;
+  position: relative;
+}
+.infocon{
+  font-size: 31px;
+  position: absolute;
+  margin-top: 8px;
+  margin-left: -42px;
+}
