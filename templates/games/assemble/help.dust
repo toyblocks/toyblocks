@@ -1,0 +1,8 @@
+<p class="helpbox alert-dismissible">
+  <span class="infocon glyphicon glyphicon-question-sign invert"></span>
+  <button type="button" title="Klicken zum Entfernen." class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  Bauen Sie mit den rechts abgebildeten Einzelteilen in chronologisch korrekter Abfolge das zugehörige Bauwerk!
+  <img src="/img/explanation-assemble.png" style="height:300px; ">
+  <!--Ordne die Gebäude nach dem Alter ihrer Epochen. NICHT nach ihrem Baujahr!-->
+</p>
+<br>

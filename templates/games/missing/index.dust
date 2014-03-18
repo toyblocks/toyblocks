@@ -4,6 +4,7 @@
 <div class="col-md-10 col-sm-10">
   <span class="pull-left glyphicon icon-missing" style="font-size: 52px; width: 64px; height: 64px; color: #428bca;"></span>
   <h3>Fehlstellen</h3>
+  {>"games/missing/help.dust"/}
   <div class="list-group">
     <a href="game?level=1&gamesLeft=3" class="well list-group-item">
     	<strong>Schwierigskeitstufe 01</strong><span class="badge">3 mal gespielt</span>

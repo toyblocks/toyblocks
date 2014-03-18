@@ -84,39 +84,12 @@
   margin-top: -72px;
   margin-right: -29px;
 }
-/*
-Unused stuff....
-.bg-info{
-  background-color: #d9edf7;
-  padding: 15px;
-  border-left: 40px #d9edf7 solid;
-}
-.infocon{
-  font-size: 31px;
-  position: absolute;
-  margin-top: 7px;
-  margin-left: -47px;
-}
-*/
 </style>
-
-
 <div class="row">
   <div class="col-md-12">
-  <!--
-    <p class="bg-info alert-dismissible">
-      <span class="infocon glyphicon glyphicon-question-sign invert"></span>
-      <button type="button" title="Klicken zum Entfernen." class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      Ordne die Gebäude nach dem Alter ihrer Epochen. NICHT nach ihrem Baujahr!
-    </p>
-    <br>
-    -->
-    
     <div class="timeline"><div class="timeline-arrow"></div></div>
-    
     <div class="timeline-tag l">Antike</div>
     <div class="timeline-tag r">Gegenwart</div>
-    
   </div>
 </div>
 <br>

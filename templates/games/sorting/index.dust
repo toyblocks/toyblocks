@@ -1,9 +1,9 @@
 {>"layout/layout.dust"/}
-
 {<content}
 <div class="col-md-10 col-sm-10">
   <span class="pull-left glyphicon icon-sort" style="font-size: 52px; width: 64px; height: 64px; color: #428bca;"></span>
   <h3>Zeitstrahl</h3>
+{>"games/sorting/help.dust"/}
   <div class="list-group">
     <a href="game?level=1" class="well list-group-item">
     	<strong>Schwierigskeitstufe 01</strong>
