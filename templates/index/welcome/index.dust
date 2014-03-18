@@ -81,8 +81,7 @@
       <div class="caption">
         <span class="startglyphs glyphicon icon-challenge"></span><h3 class="h3text"> Daily Challenge</h3>
         <p>Testen Sie einmal täglich ihr Wissen im Vergleich mit anderen Studierenden!</p>
-        {!TODO: change onlick if daily is working!}
-        <a onclick="return false;" href="/games/daily/" class="btn btn-primary" role="button">Spielen</a>
+        <a href="/games/daily/" class="btn btn-primary" role="button">Spielen</a>
       </div>
     </div>
   </div>

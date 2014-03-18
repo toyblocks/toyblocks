@@ -13,24 +13,27 @@ module.exports.prototype = GamesController.prototype.extend({
   //
   // @return percentGamesPlayed
   getPercentGamesPlayed: function(){
-    // TODO currentGamesPlayed = this.mongodb.collection('players')
-    //      .find( hasPlayedDaily: true).count()
-    // TODO maxGamesPlayed = this.mongodb.collection('players').count()
-
-    var currentGamesPlayed = 120,
-        maxGamesPlayed = 200,
-        percentGamesPlayed = (currentGamesPlayed * 100 / maxGamesPlayed);
-
-    return percentGamesPlayed;
+    var _this = this;
+    _this.mongodb.collection('users').find({right_level: 300}).count(function (err, maxGamesPlayed) {
+      _this.mongodb.collection('users').find({hasPlayedDaily: true}).count(function (err, currentGamesPlayed) {
+      return ((currentGamesPlayed * 100) / maxGamesPlayed);;
+      });
+    });
   },
 
   // GET index Page for DailyChallenge
   indexAction: function() {
-    var _this = this;
-    _this.view.render( {
-      title: 'Daily Challenge',
-      gamesPlayed: _this.getPercentGamesPlayed(),
-      hasPlayedTodaysDaily: true
+    var _this = this,
+      userId  = _this.request.session.user.tuid;
+    console.log(userId);
+    _this.mongodb.collection('users').find({tuid: userId}).nextObject(function (err, user) {
+      console.log(user);
+      var hasPlayed = false; //user.hasPlayedDaily || false;
+      _this.view.render( {
+        title: 'Daily Challenge',
+        gamesPlayed: _this.getPercentGamesPlayed(),
+        hasPlayedTodaysDaily: hasPlayed
+      });
     });
   },
 
@@ -39,8 +42,15 @@ module.exports.prototype = GamesController.prototype.extend({
   leaderboardAction: function () {
     var _this = this;
 
-    //TODO: get proper player data from mongodb
-    //var players2 = [];
+/*
+    _this.mongodb.collection('users')
+    .find() // {playedDaily: true }
+    .toArray(function (err, users) {
+      for (var i = 0; i < users.length; i++) {
+        users[i]
+      };
+    });
+*/
     var players = [{
       playerid: 1,
       pos: 1,
@@ -137,41 +147,8 @@ module.exports.prototype = GamesController.prototype.extend({
     // this counts the available games
     // takes a random of each and sends it back to the client
     //_this.generateDailyGame();
-    var games;
-    _this.mongodb.collection('missingparts_games')
-    .find().count(function (e, count1) {
-      var random = Math.random() * count1;
-      _this.mongodb.collection('missingparts_games')
-      .find().limit(-1).skip(random).next(function (err, ele1) {
-        _this.mongodb.collection('sorting_games')
-        .find().count(function (e, count2) {
-          random = Math.random() * count2;
-          _this.mongodb.collection('sorting_games')
-          .find().limit(-1).skip(random).next(function (err, ele2) {
-            games = [{
-              id: ele1._id,
-              type: 'missing',
-              title: ele1.title
-            },{
-              id: ele2._id,
-              type: 'sorting',
-              title: ele2.title
-            }];
-
-            // log debug info
-            console.log(ele1);
-            console.log('games');
-            console.log(games);
-
-            // send data back to client
-            _this.view.render({
-              title: 'DailyChallenge',
-              games: games
-            });
-          });
-        });
-      });
+    _this.view.render({
+      title: 'DailyChallenge'
     });
   }
-
 });

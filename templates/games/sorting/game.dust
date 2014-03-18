@@ -38,7 +38,7 @@
 
 /* Timeline Stuff */
 .timeline-tag{
-  width: 80px; /*was 66px*/
+  width: 86px; /*was 66px*/
   height: 66px;
   border: 5px #fff solid;
   border-radius: 66px;
@@ -140,8 +140,8 @@ Unused stuff....
 <br>
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
   <p>
-  <button id="submit" type="button" class="btn btn-primary">Bestätigen</button>
-  <button id="tryagain" type="button" class="btn btn-primary pull-right">Nochmal spielen</button>
+  <button id="submit" type="button" style="width:49%" class="btn btn-primary">Bestätigen</button>
+  <button id="tryagain" type="button" style="width:49%" class="btn btn-primary pull-right">Nochmal spielen</button>
   </p>
   <span id="triesLeft" class="badge pull-right"></span>
   <button id="newgame" type="button" class="btn btn-danger btn-block">Neues Spiel</button>
@@ -167,21 +167,15 @@ Unused stuff....
 
 <script>
 $(window).ready(function(){
-
-{! TODO: Add Session User Tries!}
-  var max_tries = 3,
+  var maxTries = 3,
    tries = 0,
    isGlyphed = false;
 
-
   $('#sortable').sortable();
   $('#sortable').disableSelection();
-
-
   $('#tryagain').click(function(){
     tryAgain();
   });
-
   $('#newgame').click(function () {
     location.reload();
   });
@@ -194,7 +188,7 @@ $(window).ready(function(){
     var serialized = $('#sortingform').serialize();
     $.post('check-sorting', serialized, function(data) {
       tries++;
-      $('#triesLeft').text('Versuche: '+(max_tries-tries));
+      $('#triesLeft').text('Versuche: ' + (maxTries - tries));
 
       $('#tryagain').show();
       $('#tryagain').prop('disabled', false);
@@ -207,18 +201,19 @@ $(window).ready(function(){
         $('#tryagain').prop('disabled', true);
         isGlyphed = false;
       }else{
+
         // Make the elements draggable even if glyphicon are added,
         // but make sure not to activate the buttons everytime
         // an element is dragged.
         isGlyphed = true;
-        $( "#sortable" ).on( "sortstart",
+        $( '#sortable' ).on( 'sortstart',
           function () {
             if(isGlyphed){
               tryAgain();
             }
           });
 
-        switch((max_tries-tries)){
+        switch((maxTries - tries)){
           case 0:
             isGlyphed = false;
             $('#tryagain').prop('disabled', true);
@@ -231,7 +226,7 @@ $(window).ready(function(){
             setModalText('Falsch!','Ihre Lösung ist falsch. Sie haben noch einen Versuch!');
             break;
           default:
-            setModalText('Falsch!','Ihre Lösung ist leider falsch. Sie haben noch ' + (max_tries-tries) + ' Versuche!');
+            setModalText('Falsch!','Ihre Lösung ist leider falsch. Sie haben noch ' + (maxTries - tries) + ' Versuche!');
           };
 
       }
@@ -270,7 +265,6 @@ $(window).ready(function(){
       $(this).remove();
     });
   };
-
 });
 </script>
 {/content}

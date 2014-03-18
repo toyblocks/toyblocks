@@ -44,34 +44,38 @@
 
 </style>
 <div class="row">
-<div class="col-sm-5">
-  <h2 class="text-center">Zusammensetzung</h2>
-  <form id="assemblyform">
-    <input type="hidden" name="gameid" value="{game._id}">
-    <ol class="well list-group" id="assembly">
-    </ol>
-  </form>
+  <div class="col-sm-5">
+    <h2 class="text-center">Zusammensetzung</h2>
+    <form id="assemblyform">
+      <input type="hidden" name="gameid" value="{game._id}">
+      <ol class="well list-group" id="assembly">
+      </ol>
+    </form>
+  </div>
+
+  <div class="col-sm-5 col-sm-offset-2">
+    <h2 class="text-center elements">Bauteile</h2>
+    <ul class="well list-group" id="elements">
+    {#buildingparts}
+      <li data-id="{_id}" class="list-group-item">
+        <input type="hidden" name="sortings[]" value="{_id}">
+        <img src="/ressources/image?id={image}&amp;size=large" title="{title}">
+        <span class="pull-right remove glyphicon glyphicon-remove"></span>
+        <span class="pull-right add glyphicon glyphicon-plus"></span>
+    </li>
+    {/buildingparts}
+    </ul>
+  </div>
 </div>
 
-<div class="col-sm-5 col-sm-offset-2">
-  <h2 class="text-center elements">Bauteile</h2>
-  <ul class="well list-group" id="elements">
-  {#buildingparts}
-    <li data-id="{_id}" class="list-group-item">
-      <input type="hidden" name="sortings[]" value="{_id}">
-      <img src="/ressources/image?id={image}&amp;size=large" title="{title}">
-      <span class="pull-right remove glyphicon glyphicon-remove"></span>
-      <span class="pull-right add glyphicon glyphicon-plus"></span>
-  </li>
-  {/buildingparts}
-  </ul>
+<div class="well" style="max-width:300px; margin: 0 auto 10px;">
+  <p>
+  <button id="submit"   type="button" style="width:49%" class="btn btn-primary">Bestätigen</button>
+  <button id="tryagain" type="button" style="width:49%" class="btn btn-primary">Nochmal spielen</button>
+  </p>
+  <span id="triesLeft" class="badge pull-right"></span>
+  <button id="newgame" type="button" style="display:none" class="btn btn-danger btn-block">Neues Spiel</button>
 </div>
-</div>
-<center>
-  <button id="submit" type="button" class="btn btn-primary" style="clear:left;margin-right: 10px;">Bestätigen</button>
-  <button id="tryagain" type="button" class="btn btn-primary">Nochmal spielen</button>
-</center>
-<br>
 
 <!-- Modal -->
 <div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -160,9 +164,15 @@ $(window).ready(function() {
         if(data.correct){
           setModalText('Richtig!', 'Ihre Lösung ist korrekt!');
           showSolutionImage(data.solution);
+          $('#tryagain').prop('disabled', true);
+          $('#newgame').show();
+          $('#newgame').prop('disabled', false);
         }else if(max_tries === tries){
           setModalText('Falsch!', 'Die Lösung wird aufgedeckt!');
           showSolutionImage(data.solution);
+          $('#tryagain').prop('disabled', true);
+          $('#newgame').show();
+          $('#newgame').prop('disabled', false);
         }else{
           setModalText('Falsch!', 'Ihre Lösung ist leider falsch. Sie haben noch ' + (max_tries-tries) + ' Versuche!');
         } 

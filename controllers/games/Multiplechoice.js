@@ -28,12 +28,30 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this,
       ids  = _this.request.param('id'),
-      level   = _this.request.param('level') || 1;
+      level   = parseInt(_this.request.param('level'),10) || 1;
 
     _this.increaseStat('count_played');
     
-    if(typeof ids !== 'undefined'){
-
+    if(typeof ids === 'undefined'){
+      var count;
+      //give specific game according to ids
+      switch(level){
+        case 2: count = 6; break;
+        case 3: count = 10; break;
+        default: count = 3; break;
+      }
+      _this.mongodb
+      .collection('multiplechoice_questions')
+      .find()
+      .toArray(function(err, questions) {
+        questions = _this.shuffleArray(questions).slice(0, count);
+        _this.view.render({
+          title: 'Multiple Choice',
+          level: level,
+          questions: questions
+        });
+      });
+    }else{
       //give random game
       ids = ids.split(',');
       _this.mongodb
@@ -45,27 +63,6 @@ module.exports.prototype = GamesController.prototype.extend({
             level: level,
             questions: questions
           });
-      });
-    }else{
-      var count;
-      //give specific game according to ids
-      switch(level){
-        case 2: count = 6; break;
-        case 3: count = 9; break;
-        default: count = 3; break;
-      }
-      _this.mongodb
-      .collection('multiplechoice_questions')
-      .find()
-      .toArray(function(err, questions) {
-
-        questions = _this.shuffleArray(questions).slice(0, count);
-
-        _this.view.render({
-          title: 'Multiple Choice',
-          level: level,
-          questions: questions
-        });
       });
     }
   },
