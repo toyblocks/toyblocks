@@ -32,10 +32,10 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this,
       id = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'),10) || 1,
-      gamesLeft = parseInt(_this.request.param('gamesLeft'),10) || 3;
+      level = parseInt(_this.request.param('level'), 10) || 1,
+      gamesLeft = parseInt(_this.request.param('gamesLeft'), 10) || 3;
 
-    _this.increaseStat('level'+level+'_count_played');
+    _this.increaseStat('level' + level + '_count_played');
     if(typeof id !== "undefined"){
       _this.mongodb
       .collection('missingparts_games')
@@ -58,13 +58,6 @@ module.exports.prototype = GamesController.prototype.extend({
       .find() 
       .toArray(
         function(err, game) {
-        //+ Jonas Raoni Soares Silva
-        //@ http://jsfromhell.com/array/shuffle [v1.0]
-        function shuffle(o){ //v1.0
-          for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
-           x = o[--i], o[i] = o[j], o[j] = x);
-          return o;
-        }
         game = game[Math.floor(game.length*Math.random())];
 
         _this.renderGame(game, level, function(err, images){
@@ -99,14 +92,6 @@ module.exports.prototype = GamesController.prototype.extend({
       default: limit = 4; break;
     }
 
-    //+ Jonas Raoni Soares Silva
-    //@ http://jsfromhell.com/array/shuffle [v1.0]
-    function shuffle(o){ //v1.0
-      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
-       x = o[--i], o[i] = o[j], o[j] = x);
-      return o;
-    }
-
     //get one solution
     var solution = game.missingparts_correctimage[
         Math.floor(game.missingparts_correctimage.length * Math.random())];
@@ -125,7 +110,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .nextObject(
           function (err2, images2) {
           images.push(images2);
-          images = shuffle(images);
+          images = _this.shuffleArray(images);
           renderCallback(err, images);
         });
       });
@@ -147,7 +132,7 @@ module.exports.prototype = GamesController.prototype.extend({
       result  = _this.request.param('sortings');
 
     // TODO: implement clientside error detection
-    if(result === undefined || gameid === undefined){
+    if(typeof result === 'undefined' || typeof gameid === 'undefined'){
       _this.response.json({error:'Error'});
       return;
     }

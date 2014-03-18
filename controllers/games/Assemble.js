@@ -30,9 +30,9 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this,
       id = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'),10);
+      level = parseInt(_this.request.param('level'), 10);
 
-    _this.increaseStat('level'+level+'_count_played');
+    _this.increaseStat('level'+ level + '_count_played');
     if(typeof id !== 'undefined'){
       _this.mongodb
         .collection('assemble_games')
@@ -80,14 +80,6 @@ module.exports.prototype = GamesController.prototype.extend({
      level = difficulty || 1,
      countOfFakeImages = 3;
 
-    //+ Jonas Raoni Soares Silva
-    //@ http://jsfromhell.com/array/shuffle [v1.0]
-    function shuffle(o){ //v1.0
-      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
-        x = o[--i], o[i] = o[j], o[j] = x);
-      return o;
-    }
-
     _this.mongodb
     .collection('assemble_images')
     .find({assemble_category: game.assemble_category})
@@ -96,7 +88,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .toArray( function(err, images){
 
       if(level === 1){
-        images = shuffle(images);
+        images = _this.shuffleArray(images);
         renderCallback(err, images);
 
       }else if(level === 2){
@@ -112,7 +104,7 @@ module.exports.prototype = GamesController.prototype.extend({
           for (var i = 0; i < fakes.length; i++) {
             images.push(fakes[i]);
           }
-          images = shuffle(images);
+          images = _this.shuffleArray(images);
           renderCallback(err, images);
         });
       }
@@ -134,6 +126,10 @@ module.exports.prototype = GamesController.prototype.extend({
       level   = _this.request.param('level'),
       userId  = _this.request.session.user.tuid;
 
+    if(typeof sortIDs === 'undefined') {
+      _this.response.json({ error: 'Keine Elemente ausgewählt.'});
+      return;
+    }
     // first we got the game params
     this.mongodb
       .collection('assemble_games')

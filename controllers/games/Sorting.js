@@ -14,7 +14,6 @@ module.exports.prototype = GamesController.prototype.extend({
  * GET - This Method is used for the index page
  *
  * @return title - the title of the game
- * @return route - url route
  */
   indexAction: function() {
     this.view.render({
@@ -23,10 +22,9 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
 /**
- * GET - This Method is used for the index page
+ * GET - This Method is used for the help page
  *
  * @return title - the title of the game
- * @return route - url route
  */
   helpAction: function() {
     this.view.render({
@@ -128,7 +126,7 @@ module.exports.prototype = GamesController.prototype.extend({
       userId  = _this.request.session.user.tuid;
 
     //TODO: catch error on clientside
-    if(sortIds === undefined){
+    if(typeof sortIds === 'undefined'){
       _this.response.json({
         error: 'Du hast keine Elemente sortiert, oder so?'
       });
