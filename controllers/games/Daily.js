@@ -14,7 +14,7 @@ module.exports.prototype = GamesController.prototype.extend({
   // @return percentGamesPlayed
   getPercentGamesPlayed: function(){
     var _this = this;
-    _this.mongodb.collection('users').find({right_level: 300}).count(function (err, maxGamesPlayed) {
+    _this.mongodb.collection('users').find().count(function (err, maxGamesPlayed) {
       _this.mongodb.collection('users').find({hasPlayedDaily: true}).count(function (err, currentGamesPlayed) {
       return ((currentGamesPlayed * 100) / maxGamesPlayed);;
       });

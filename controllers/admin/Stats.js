@@ -136,6 +136,7 @@ module.exports.prototype = AdminController.prototype.extend({
       _this.mongodb
       .collection('statistics')
       .find()
+      .sort( { $natural: -1 } )
       .skip(_this.getPaginationSkip())
       .limit(_this.getPaginationLimit())
       .toArray(
@@ -147,7 +148,7 @@ module.exports.prototype = AdminController.prototype.extend({
       });
     });
   },
-  
+
   dailyAction: function() {
     var _this = this;
     
@@ -165,18 +166,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
   insertStats: function (that, gametype, gameid, level, player, attempt, result) {
     var _this = that;
-
     var date = new Date();
-    //date = new Date(date.setDate(date.getDate() -3));
-/*
-    var dateObject = [{
-      "year":date.getFullYear(),
-      "month":date.getMonth(),
-      "day":date.getDate()   ,
-      "hours": date.getHours(),
-      "minutes": date.getMinutes()
-    }];
-*/
     console.log("Adding: ", gametype, gameid, level, player, attempt, result, date);
 
     _this.mongodb
