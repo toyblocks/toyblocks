@@ -42,6 +42,7 @@
   $(document).ready(function() {
     var $editor = $('#editor');
     $editor.summernote({
+      disableDragAndDrop: true,
       toolbar: [
         ['style', ['style']],
         ['style', ['bold', 'italic', 'underline', 'clear']],
