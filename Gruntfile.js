@@ -30,7 +30,7 @@ module.exports = function(grunt) {
           cwd: 'bower_components',
           src: ['bootstrap/dist/css/bootstrap.min.css',
             'bootstrap/dist/css/bootstrap-theme.min.css',
-            'font-awesome/css/font-awesome.min.css',
+            'fontawesome/css/font-awesome.min.css',
             'summernote/summernote-dist/summernote.css'
           ],
           dest: 'public/css/vendor/',
@@ -43,7 +43,7 @@ module.exports = function(grunt) {
           flatten: true,
           cwd: 'bower_components',
           src: ['bootstrap/dist/fonts/*',
-            'font-awesome/fonts/*'],
+            'fontawesome/fonts/*'],
           dest: 'public/css/fonts/',
           filter: 'isFile'
         }]

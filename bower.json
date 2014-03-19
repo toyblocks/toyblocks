@@ -20,6 +20,7 @@
     "jquery-ui-touch-punch": "https://github.com/furf/jquery-ui-touch-punch.git",
     "summernote": "~0.5.0",
     "jquery-bootpag": "~1.0.5",
-    "jquery-flot": "~0.8.2"
+    "jquery-flot": "~0.8.2",
+    "fontawesome": "~4.0.3"
   }
 }
