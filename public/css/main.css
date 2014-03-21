@@ -1,3 +1,7 @@
+
+
+{!TODO: Cleanup unused styles!}
+
 html, body {
   position:relative;
   height:100%;
@@ -27,6 +31,17 @@ footer a {
 .red{color:#FF4135;}
 
 /*Welcome Page*/
+
+#navbar-brand{
+  text-shadow: 2px 3px 0px #476871;
+}
+#page_container {
+  min-height: 100%;
+}
+#page_selection {
+  text-align: center;
+}
+
 #tud-brand{
   margin-top: -62px;
   position: absolute;
@@ -43,27 +58,12 @@ footer a {
   font-size:150px;
 
 }
-
-{!TODO: Cleanup unused styles!}
-
-#navbar-brand{
-  text-shadow: 2px 3px 0px #476871;
-}
-
-
-#page_container {
-  min-height: 100%;
-}
-#page_selection {
-  text-align: center;
-}
-
 @media (min-width: 768px) {
-  #welcome_games_list .caption {
+  #welcome-gameslist .caption {
     position:relative;
-    min-height: 240px;
+    height: 260px;
   }
-  #welcome_games_list .caption a {
+  #welcome-gameslist .caption a {
     position: absolute;
     bottom:6px;
     left:6px;
@@ -71,7 +71,18 @@ footer a {
   }
 }
 
+.welcome-startglyphs{
+  position: absolute;
+  margin-top: 13px;
+  margin-left: -10px;
+  font-size: 70px;
+  color: #428bca;
+}
+
 .glyphicon-cup:before{content:"\e075"}
+
+
+/* Admin */
 
 .settingssaved{
   position: absolute;
@@ -97,14 +108,6 @@ footer a {
   margin-left: 10px;
   font-size: 15px;
 }
-/*
-.nav-nested li:before{
-  content:'*';
-  color: white;
-  position: fixed;
-  margin-top: 12px;
-  margin-left: 5px;
-}*/
 
 .form-group .preview-thumbnail {
   text-align: right;
@@ -116,7 +119,7 @@ footer a {
 
 /*Help Pages for Games*/
 .helpbox{
-  //background-color: #d9edf7;
+  /*background-color: #d9edf7;/* */
   border: 40px #fff solid;
   padding: 15px;
   border-bottom: 2px #eee solid;

@@ -1,14 +1,6 @@
 {>"layout/layout.dust"/}
 {<content}
 <style type="text/css">
-.startglyphs{
-  position: absolute;
-  margin-top: 13px;
-  margin-left: -10px;
-  font-size: 70px;
-  color: #428bca;
-}
-
 .h3text{
   margin-left: 63px;
   margin-top: 38px;
@@ -39,11 +31,11 @@
     </p>
   </div>
 </div>
-<div class="row" id="welcome_games_list">
+<div class="row" id="welcome-gameslist">
   <div class="col-sm-4 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <span class="startglyphs glyphicon icon-sort"></span><h3 class="h3text"> Zeitstrahl</h3>
+        <span class="welcome-startglyphs glyphicon icon-sort"></span><h3 class="h3text"> Zeitstrahl</h3>
         <p>Ordnen Sie die Bauwerke in chronologischer Reihenfolge!</p>
         <a href="/games/sorting/" class="btn btn-primary" role="button">Spielen</a>
       </div>
@@ -52,7 +44,7 @@
   <div class="col-sm-4 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <span class="startglyphs glyphicon icon-missing"></span><h3 class="h3text"> Fehlstellen</h3>
+        <span class="welcome-startglyphs glyphicon icon-missing"></span><h3 class="h3text"> Fehlstellen</h3>
         <p>Finden Sie das fehlende Element!</p>
         <a href="/games/missing/" class="btn btn-primary" role="button">Spielen</a>
       </div>
@@ -61,7 +53,7 @@
   <div class="col-sm-4 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <span class="startglyphs glyphicon icon-assemble"></span><h3 class="h3text"> Baukasten</h3>
+        <span class="welcome-startglyphs glyphicon icon-assemble"></span><h3 class="h3text"> Baukasten</h3>
         <p>Setzen Sie die Elemente in der richtigen Abfolge zusammen!</p>
         <a href="/games/assemble/" class="btn btn-primary" role="button">Spielen</a>
       </div>
@@ -70,7 +62,7 @@
   <div class="col-sm-4 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <span class="startglyphs glyphicon icon-multiple"></span><h3 class="h3text"> Multiple Choice</h3>
+        <span class="welcome-startglyphs glyphicon icon-multiple"></span><h3 class="h3text"> Multiple Choice</h3>
         <p>Beantworten Sie Fragen zu allen Themen im Multiple-Choice-Verfahren!</p>
         <a href="/games/multiplechoice/" class="btn btn-primary" role="button">Spielen</a>
       </div>
@@ -79,7 +71,7 @@
   <div class="col-sm-4 col-md-2">
     <div class="thumbnail">
       <div class="caption">
-        <span class="startglyphs glyphicon icon-challenge"></span><h3 class="h3text"> Daily Challenge</h3>
+        <span class="welcome-startglyphs glyphicon icon-challenge"></span><h3 class="h3text"> Daily Challenge</h3>
         <p>Testen Sie einmal täglich ihr Wissen im Vergleich mit anderen Studierenden!</p>
         <a href="/games/daily/" class="btn btn-primary" role="button">Spielen</a>
       </div>
