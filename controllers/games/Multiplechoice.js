@@ -33,8 +33,9 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.increaseStat('count_played');
     
     if(typeof ids === 'undefined'){
-      var count;
+
       //give specific game according to ids
+      var count;
       switch(level){
         case 2: count = 6; break;
         case 3: count = 10; break;
@@ -52,8 +53,13 @@ module.exports.prototype = GamesController.prototype.extend({
         });
       });
     }else{
+
       //give random game
       ids = ids.split(',');
+      for (var i = 0; i < ids.length; i++) {
+        ids[i] = _this.mongo.ObjectID(ids[i]);
+      }
+
       _this.mongodb
         .collection('multiplechoice_questions')
         .find({_id: {$in: ids}})
@@ -72,9 +78,7 @@ module.exports.prototype = GamesController.prototype.extend({
       id = _this.request.param('id');
 
     if(typeof id === 'undefined'){
-      _this.view.render({
-        error: 'No ID specified'
-      });
+      _this.view.render({ error: 'No ID specified' });
       return;
     }
 
@@ -83,10 +87,9 @@ module.exports.prototype = GamesController.prototype.extend({
     .find({_id: _this.mongo.ObjectID(id)})
     .nextObject(function(err, question) {
 
-      var answers = _this.shuffleArray(question
-          .multiplechoice_answer_right
-          .concat( _this.shuffleArray(question.multiplechoice_answer_wrong)
-                  .slice(0,3)));
+      var answersRight = _this.shuffleArray(question.multiplechoice_answer_right)[0];
+      var answersWrong = _this.shuffleArray(question.multiplechoice_answer_wrong).slice(0,3);
+      var answers = _this.shuffleArray(answersWrong.concat(answersRight));
 
       _this.view.render({
         question: question,
@@ -96,38 +99,46 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   resultAction: function(){
+    console.log("enter");
     var _this = this,
       result  = _this.request.param('result'),
-      ids      = _this.request.param('ids'),
       level   = _this.request.param('level'),
       solution = [],
       countCorrect = 0,
-      countWrong = 0;
+      countWrong = 0,
+      objectIds = [],
+      selected = [];
 
-    if(typeof ids === 'undefined' || typeof result === 'undefined' ){
+    if(typeof result === 'undefined' ){
       _this.view.render({error: 'Error!'});
       return;
     }
 
-    var objectIds = ids.split(','),
-        result = result.split(',');
+    // result contains the question ids and the hashed string
+    result = result.split(',');
 
-    for (var i = objectIds.length - 1; i >= 0; i--) {
-      objectIds[i] = _this.mongo.ObjectID(objectIds[i]);
+    for (var i = 0; i < (result.length/2); i++) {
+      selected[i] = [result[i*2], result[(i*2)+1]];
+      objectIds[i] = _this.mongo.ObjectID(result[i*2]);
     }
 
-    console.log(objectIds);
     _this.mongodb
     .collection('multiplechoice_questions')
     .find({_id: {$in: objectIds}})
     .toArray(function(err, questions) {
 
+      // check for every question if the solution is corrrect
       for (var i = 0; i < questions.length; i++) {
         var answers = questions[i].multiplechoice_answer_right,
           isCorrect = false;
-        for (var j = 0; j < answers.length; j++) {
-          if(String(result[i]) === String(_this.hashString(answers[j]))){
-             isCorrect = true;
+        for (var j = 0; j < selected.length; j++) {
+          if(String(questions[i]._id) === String(selected[j][0])){
+            for (var k = 0; k < answers.length; k++) {
+              if(String(selected[j][1]) === String(_this.hashString(answers[k]))){
+                isCorrect = true;
+              }
+            }
+            break;
           }
         }
         solution.push(isCorrect);
@@ -138,6 +149,7 @@ module.exports.prototype = GamesController.prototype.extend({
             countWrong++;
         }
       }
+
       var percentage = {
         'wrong': (countWrong   * 100) / result.length,
         'right': (countCorrect * 100) / result.length
@@ -145,7 +157,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
       // Update Stats
       var userId  = _this.request.session.user.tuid;
-      Statistics.prototype.insertStats(_this, 'multiplechoice', ids, level, userId, 0, solution);
+      Statistics.prototype.insertStats(_this, 'multiplechoice', objectIds.join(','), level, userId, 0, solution);
 
       _this.view.render({
         result: solution,

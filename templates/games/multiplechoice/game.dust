@@ -7,10 +7,7 @@
 .imgbox{
   margin: 0 auto 10px;
 }
-.tries-wrapper {display: none;}
-#tryagain {display: none;}
-
-#gamesLeftBox{
+#games-left-box{
   margin-top: -63px;
   margin-right: -29px;
 }
@@ -30,7 +27,7 @@
   text-shadow: 0 0px 0 rgba(0,0,0,0) !important;
 }
 
-#game_overview, #game_result{
+#game-overview, #game-result{
   display: none;
 }
 
@@ -53,17 +50,17 @@
 <h3>{game.title}</h3>
 <input type="hidden" name="gameid" value="{game._id}" />
 <div class="well">
-  <div id="questions_container">
+  <div id="questions-container">
     <!--Here be HTML--> Lädt...
   </div>
 </div>
 
 <br>
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
-  <button id="next_question" type="button" class="btn btn-primary btn-block">Weiter</button>
-  <button id="game_result" type="button" class="btn btn-success btn-block">Weiter</button>
-  <button id="game_overview" type="button" class="btn btn-primary btn-block">Zurück zur Spielübersicht</button>
-  <span id="gamesLeftBox" class="badge pull-right">Verbleibende Spiele: <span id="gamesLeft"></span></span>
+  <button id="next-question" type="button" class="btn btn-primary btn-block">Weiter</button>
+  <button id="game-result" type="button" class="btn btn-success btn-block">Weiter</button>
+  <button id="game-overview" type="button" class="btn btn-primary btn-block">Zurück zur Spielübersicht</button>
+  <span id="games-left-box" class="badge pull-right">Verbleibende Spiele: <span id="games-left"></span></span>
 </div>
 
 <script>
@@ -72,7 +69,7 @@ var questionIds = [{#questions}"{_id}"{@sep},{/sep}{/questions}],
   selectedAnswers = [],
   gamesCount = {questions.length}-1;
 
-String.prototype.hashCode = function(){
+String.prototype.hashString = function(){
     var hash = 0, i, char;
     if (this.length == 0) return hash;
     for (i = 0, l = this.length; i < l; i++) {
@@ -80,7 +77,7 @@ String.prototype.hashCode = function(){
         hash  = ((hash<<5)-hash)+char;
         hash |= 0; // Convert to 32bit integer
     }
-    return hash;
+    return String(hash);
 };
 
 $(window).ready(function(){
@@ -88,58 +85,49 @@ $(window).ready(function(){
   function loadQuestion(questionId) {
     $.ajax({url: "/games/multiplechoice/question?id="+questionId})
       .done(function( data ) {
-        $('#questions_container').html(data);
+        $('#questions-container').html(data);
       });
   }
 
   function doNext() {
-    $('#next_question').prop('disabled', false);
+    $('#next-question').prop('disabled', false);
     if (questionIds.length > (actualIndex+1) ) {
-      $('#next_question').show();
+      $('#next-question').show();
     }
     else {
-      $('#next_question').hide();
-      $('#game_overview').hide();
-      $('#game_result').show();
+      $('#next-question').hide();
+      $('#game-overview').hide();
+      $('#game-result').show();
     }
   }
 
-
-
-  $('#next_question').click(function(){
+  $('#next-question').click(function(){
     actualIndex++;
-    console.log(questionIds[actualIndex]);
     loadQuestion(questionIds[actualIndex]);
-    $('#gamesLeft').text(gamesCount--);
+    $('#games-left').text(gamesCount--);
     $(this).prop('disabled', true);
   });
 
-
-
-  $('#game_overview').click(function(){
+  $('#game-overview').click(function(){
     location.href = '/games/multiplechoice/';
   });
 
-
-  $('#game_result').click(function(){
+  $('#game-result').click(function(){
     selectedAnswers = selectedAnswers.join(",");
-    console.log(selectedAnswers)
-    $.ajax({url: "/games/multiplechoice/result?ids=" + 
-      questionIds.join(',') +
-      "&result=" +
+    $.ajax({url: "/games/multiplechoice/result?result=" +
       selectedAnswers})
       .done(function( data ) {
-        $('#questions_container').html(data);
+        $('#questions-container').html(data);
       });
-    $('#game_result').hide();
-    $('#game_overview').show();
+    $('#game-result').hide();
+    $('#game-overview').show();
   });
 
 
-  $('#questions_container').on('click', '.select-answer', function(){
-    var rightAnswers = $('#questions_container').find('.right-answers').text().split(','),
+  $('#questions-container').on('click', '.select-answer', function(){
+    var rightAnswers = $('#questions-container').find('.right-answers').text().split(','),
       answer = $(this).parents('.input-group').find('.answer').val(),
-      hash = '' + answer.hashCode();
+      hash = answer.hashString();
     $('.input-group span button').each(function () {
       $(this).removeClass('btn-info');
       $('span.glyphicon').removeClass('glyphicon-check');
@@ -148,14 +136,14 @@ $(window).ready(function(){
     $(this).addClass('btn-info');
     $(this).find('span.glyphicon').removeClass('glyphicon-unchecked');
     $(this).find('span.glyphicon').addClass('glyphicon-check');
-    selectedAnswers[actualIndex] = hash;
+    selectedAnswers[actualIndex] = [questionIds[actualIndex],hash];
     doNext();
   });
 
   loadQuestion(questionIds[actualIndex]);
 
-  $('#gamesLeft').text(gamesCount--);
-  $('#next_question').prop('disabled', true);
+  $('#games-left').text(gamesCount--);
+  $('#next-question').prop('disabled', true);
 });
 </script>
 {/content}
