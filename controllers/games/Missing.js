@@ -154,7 +154,6 @@ module.exports.prototype = GamesController.prototype.extend({
         }
       }
 
-
       // Update Stats
       var userId  = _this.request.session.user.tuid;
       Statistics.prototype.insertStats(_this, 'missing', gameid, level, userId, attempt, correctImageSelected);
@@ -163,7 +162,8 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.response.json( {
         correct: correctImageSelected,
         correctBuilding: correctImageId,
-        solutionImage: game.missingparts_solutionimage
+        solutionImage: game.missingparts_solutionimage,
+        solutionText: game.missingparts_solutiontext
       });
     });
   }
