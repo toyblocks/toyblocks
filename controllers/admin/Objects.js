@@ -186,13 +186,24 @@ module.exports.prototype = AdminController.prototype.extend({
 
   },
 
-  upsertObjectAction: function () {
+  upsertObjectAction: function (moderationCtx, redirection) {
     var _this = this;
+
+    // set context for function if called from moderation controller
+    if(moderationCtx) {
+      _this.request = moderationCtx.request;
+      _this.response = moderationCtx.response;
+      _this.mongo = moderationCtx.mongo;
+      _this.mongodb = moderationCtx.mongodb;
+    }
 
     // getting main type
     _this.getTypeWithAttributes(
       _this.request.param('type'),
       function(type, attributes) {
+
+        // set redirect path to optional parameter or default value
+        var redirectPath = redirection || '../objects?type=' + type.name;
 
         // prepare attributes index
         var object = {},
@@ -320,7 +331,7 @@ module.exports.prototype = AdminController.prototype.extend({
                         .collection(type.name)
                         .update({_id: object._id}, object, {}, function(err, result) {
                           if (err) throw new Error(err);
-                          _this.response.redirect('../objects?type='+type.name);
+                          _this.response.redirect(redirectPath);
                         });
                     });
                 });
@@ -331,7 +342,7 @@ module.exports.prototype = AdminController.prototype.extend({
                 .collection(type.name)
                 .insert(object, {}, function(err, result) {
                   if (err) throw new Error(err);
-                  _this.response.redirect('../objects?type='+type.name);
+                  _this.response.redirect(redirectPath);
                 });
             }
 

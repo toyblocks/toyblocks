@@ -1,11 +1,13 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<form class="form-horizontal" id="createarticle" action="/admin/objects/create-type" role="form" method="post">
+<form class="form-horizontal" id="createarticle" action="/moderation/encyclopedia/update" role="form" method="post">
   <input type="hidden" name="type" value="encyclopedia_articles">
+  <input type="hidden" name="id" value="{id}">
   <div class="row">
 
     {?image}
+      <input class="value-replace" name="values[image][]" type="hidden" value="_id:{image}">
       <div class="panel panel-default">
         <div class="panel-heading">Die Auswahl eines neuen Bildes überschreibt das vorhandene.</div>
         <div class="panel-body">

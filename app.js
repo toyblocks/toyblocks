@@ -80,7 +80,7 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
           action = req.params.action || 'index',
           controllerClass;
 
-        try{
+        // try{
           try {
             controllerClass = require(getControllerPath(area, controller));
           }
@@ -94,11 +94,11 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
           controllerInstance.init(req, res, function(){
             controllerInstance.run(action.toLowerCase());
           });
-        }catch(e){
-          res.render('error404', {title: 'Fehler', error: e});
-        }
+        // }catch(e){
+        //   res.render('error404', {title: 'Fehler', error: e});
+        // }
       });
-  
+
       http.createServer(app).listen(app.get('port'), function(err){
         if (err) return err;
         console.log('Express server listening on port ' + app.get('port') + ", with UID " + process.getuid());

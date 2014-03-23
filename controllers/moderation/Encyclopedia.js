@@ -1,12 +1,12 @@
 'use strict';
 
-var BaseController = require('../Moderation'),
-  adminObjects = require('../Admin');
+var ModerationController = require('../Moderation'),
+  adminObjects = require('../admin/Objects');
 
 module.exports = function () {
 
 };
-module.exports.prototype = BaseController.prototype.extend({
+module.exports.prototype = ModerationController.prototype.extend({
   name: 'encyclopedia',
 
   indexAction: function() {
@@ -30,9 +30,11 @@ module.exports.prototype = BaseController.prototype.extend({
       .collection('encyclopedia_articles')
       .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
       .nextObject(function(err, article) {
+        console.log(article);
         _this.view.render({
           title: 'Enzyklopädie - ' + article.title,
           route: '/moderation/encyclopedia',
+          id: article._id,
           image: article.image,
           article: article.article_body,
           headline: article.title,
@@ -47,6 +49,6 @@ module.exports.prototype = BaseController.prototype.extend({
   },
 
   updateAction: function() {
-    adminObjects.createObjectAction();
+    adminObjects.prototype.upsertObjectAction(this, '/moderation/encyclopedia');
   }
 });
