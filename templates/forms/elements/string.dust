@@ -20,7 +20,7 @@
       {#values}<option value="{.}"{^props.multiple}{@eq key=object[name] value=.} selected{/eq}{/props.multiple}>{.}</option>{/values}
     </select>
     {:else}
-    <input name="values[{name}]{?props.multiple}[]{/props.multiple}" type="text" id="attr_{name}" class="form-control"{?props.mandatory} required{/props.mandatory}{?is_enum} list="list_{name}"{/is_enum}{^props.multiple}{?object[name]} value="{object[name]}"{/object[name]}{/props.multiple}>
+    <input name="values[{name}]{?props.multiple}[]{/props.multiple}" type="text" id="attr_{name}" class="form-control"{?props.mandatory}{?props.multiple}{^object[name]} required{/object[name]}{:else} required{/props.multiple}{/props.mandatory}{?is_enum} list="list_{name}"{/is_enum}{^props.multiple}{?object[name]} value="{object[name]}"{/object[name]}{/props.multiple}>
     {/is_enum}
   </div>
   {?props.multiple}
