@@ -156,8 +156,7 @@ module.exports.prototype = GamesController.prototype.extend({
       };
 
       // Update Stats
-      var userId  = _this.request.session.user.tuid;
-      Statistics.prototype.insertStats(_this, 'multiplechoice', objectIds.join(','), level, userId, 0, solution);
+      Statistics.prototype.insertStats(_this, 'multiplechoice');
 
       _this.view.render({
         result: solution,

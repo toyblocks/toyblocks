@@ -122,8 +122,7 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this,
       sortIds = _this.request.param('sortings'),
       level   = _this.request.param('level'),
-      attempt = _this.request.param('attempt'),
-      userId  = _this.request.session.user.tuid;
+      attempt = _this.request.param('attempt');
 
     //TODO: catch error on clientside
     if(typeof sortIds === 'undefined'){
@@ -186,7 +185,7 @@ module.exports.prototype = GamesController.prototype.extend({
             }
 
             // Update Stats
-            Statistics.prototype.insertStats(_this, 'sorting', _this.request.param('sortings').join(','), level, userId, attempt, solutionIsCorrect);
+            Statistics.prototype.insertStats(_this, 'sorting');
 
             // response with a json object
             _this.response.json({

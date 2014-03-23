@@ -123,8 +123,7 @@ module.exports.prototype = GamesController.prototype.extend({
       gameid  = _this.request.param('gameid'),
       sortIDs = _this.request.param('sortings'),
       attempt = _this.request.param('attempt'),
-      level   = _this.request.param('level'),
-      userId  = _this.request.session.user.tuid;
+      level   = _this.request.param('level');
 
     if(typeof sortIDs === 'undefined') {
       _this.response.json({ error: 'Keine Elemente ausgewählt.'});
@@ -166,8 +165,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
 
             // Update Stats
-            Statistics.prototype.insertStats(_this, 'assemble', gameid, level,
-              userId, attempt, isSolutionCorrect);
+            Statistics.prototype.insertStats(_this, 'assemble');
 
             _this.response.json({
               correct: isSolutionCorrect,

@@ -28,16 +28,12 @@
   line-height: 1.2em;
 }
 </style>
-<!-- TODO: swap to http://www.chartjs.org/docs/ -->
-
-
 <!-- powered by http://www.flotcharts.org/flot/ -->
 <script language="javascript" type="text/javascript" src="/js/vendor/jquery.flot.js"></script>
 <script type="text/javascript">
 
 $(window).ready(function(){
-
-  var gamesCount = [{#gamesCount}[{day},{count}]{@sep},{/sep}{/gamesCount}];
+  var gamesCount = [{#gamesCount}[{.}]{@sep},{/sep}{/gamesCount}];
   $.plot("#graph", [{
     data: gamesCount,
     color: "rgb(66,139,202)"

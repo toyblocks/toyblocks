@@ -2,6 +2,12 @@
 
 var AdminController = require('../Admin');
 
+function num (arg) {
+  if(arg === undefined)
+    return 0;
+  return Number(arg);
+}
+
 module.exports = function () {
 
 };
@@ -30,32 +36,46 @@ module.exports.prototype = AdminController.prototype.extend({
     week = new Date(current.setDate(weekstart));
     weekend = new Date(current.setDate(weekstart + 7));
 
-
     _this.mongodb
     .collection('statistics')
     .find({date: {$gte: week, $lt: weekend}})
     .sort({date:1})
     .toArray(
       function (err, elements) {
-        var gamesOnDay = [0,0,0,0,0,0,0];
-        for (var i = elements.length - 1; i >= 0; i--) {
-          gamesOnDay[Math.floor(parseInt(
-            weekend.valueOf() - elements[i].date.valueOf()) / day)]++;
+
+        // iterate over the week, see if there are is an entry in our
+        // collection with played games for that day, add those entrys
+        // and save them in gamesOnDay
+        var gamesOnDay = [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0]];
+        for (var i = week.valueOf(), index = 0; i < weekend.valueOf(); i = i + day, index++) {
+          var count = 0;
+          for (var j = 0; j < elements.length; j++) {
+            if(elements[j].date.valueOf() === i){
+              count = num(elements[j].sorting) +
+                       num(elements[j].missing) +
+                       num(elements[j].assemble) +
+                       num(elements[j].multiplechoice);
+              break;
+            }
+          }
+          gamesOnDay[index] = [index,count];
         }
-        gamesOnDay = gamesOnDay.reverse();
-        for (var i = gamesOnDay.length - 1; i >= 0; i--) {
-          gamesOnDay[i] = { "count":gamesOnDay[i],"day": i};
-        }
+
+        //TODO: collect the gamesPlayed count for each game individual
+        //TODO: and render them on the frontend with flot.stack.js
+        //TODO: see http://www.flotcharts.org/flot/examples/stacking/index.html
+
         var toDateObject = [{
-          "year":weekend.getFullYear(),
-          "month":weekend.getMonth()+1,
-          "day":weekend.getDate()-1
+          "year"  : weekend.getFullYear(),
+          "month" : weekend.getMonth()+1,
+          "day"   : weekend.getDate()-1
         }];
         var fromDateObject = [{
-          "year":week.getFullYear(),
-          "month":week.getMonth()+1,
-          "day":week.getDate()
+          "year"  : week.getFullYear(),
+          "month" : week.getMonth()+1,
+          "day"   : week.getDate()
         }];
+
       _this.view.render({
         title: 'Statistiken',
         elements: elements,
@@ -86,21 +106,27 @@ module.exports.prototype = AdminController.prototype.extend({
     month = new Date(current);
     monthend = new Date(current.setMonth(current.getMonth() + 1));
 
-    // TODO: refactor
     _this.mongodb
     .collection('statistics')
     .find({date: {$gte: month, $lt: monthend}})
     .sort({date:1})
     .toArray(
       function (err, elements) {
+
         var gamesOnDay = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-        for (var i = elements.length - 1; i >= 0; i--) {
-          gamesOnDay[Math.floor(parseInt(
-            monthend.valueOf() - elements[i].date.valueOf()) / day)]++;
-        }
-        gamesOnDay = gamesOnDay.reverse();
-        for (var i = gamesOnDay.length - 1; i >= 0; i--) {
-          gamesOnDay[i] = { "count":gamesOnDay[i],"day": i};
+
+        for (var i = month.valueOf(), index = 0; i < monthend.valueOf(); i = i + day, index++) {
+          var count = 0;
+          for (var j = 0; j < elements.length; j++) {
+            if(elements[j].date.valueOf() === i){
+              count = num(elements[j].sorting) +
+                       num(elements[j].missing) +
+                       num(elements[j].assemble) +
+                       num(elements[j].multiplechoice);
+              break;
+            }
+          }
+          gamesOnDay[index] = [index,count];
         }
         var toDateObject = [{
           "year":monthend.getFullYear(),
@@ -164,25 +190,51 @@ module.exports.prototype = AdminController.prototype.extend({
     })
   },
 
-  insertStats: function (that, gametype, gameid, level, player, attempt, result) {
-    var _this = that;
-    var date = new Date();
-    console.log("Adding: ", gametype, gameid, level, player, attempt, result, date);
 
-    _this.mongodb
-    .collection('statistics')
-    .insert({
-      date: date,
-      gametype: gametype,
-      gameid: gameid,
-      level: level,
-      player: player,
-      attempt: attempt,
-      result: result
-    }, function (err) {
-      if(err){
-        console.log(err);
-      }
-    });
+  insertStats: function (that, gametype) {
+    var today = new Date(),
+      current = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    console.log("Adding: ", current, gametype, "+1");
+
+    // create a new entry if no entry contains today
+    // also increase by one
+    // TODO: dirty switch, replace maybe? 
+    // TODO: { $inc : { gametype: +1 } } doesnt work
+    switch(gametype){
+      case "sorting": 
+        that.mongodb
+          .collection('statistics')
+          .update({date: current},
+                  { $inc : { "sorting": +1 } },
+                  {upsert : true}, function (err) {
+                    if(err) console.log(err);
+                  }); break;
+      case "assemble":
+        that.mongodb
+          .collection('statistics')
+          .update({date: current},
+                  { $inc : { "assemble": +1 } },
+                  {upsert : true}, function (err) {
+                    if(err) console.log(err);
+                  }); break;
+      case "multiplechoice":
+        that.mongodb
+          .collection('statistics')
+          .update({date: current},
+                  { $inc : { "multiplechoice": +1 } },
+                  {upsert : true}, function (err) {
+                    if(err) console.log(err);
+                  }); break;
+      case "missing":
+        that.mongodb
+          .collection('statistics')
+          .update({date: current},
+                  { $inc : { "missing": +1 } },
+                  {upsert : true}, function (err) {
+                    if(err) console.log(err);
+                  }); break;
+    }
   }
+
 });

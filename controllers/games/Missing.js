@@ -155,8 +155,7 @@ module.exports.prototype = GamesController.prototype.extend({
       }
 
       // Update Stats
-      var userId  = _this.request.session.user.tuid;
-      Statistics.prototype.insertStats(_this, 'missing', gameid, level, userId, attempt, correctImageSelected);
+      Statistics.prototype.insertStats(_this, 'missing');
 
       // send the solution back to client
       _this.response.json( {
