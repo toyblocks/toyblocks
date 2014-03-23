@@ -3,10 +3,63 @@
 {>"moderation/index/navbar.dust"/}
 <div class="col-md-10">
 
-<p><a href="/admin/objects/objects?type=sorting_buildings" class="btn btn-primary btn-lg" role="button">Sortierspiel erstellen</a></p>
+  <form class="form-horizontal" id="sortingform" action="/moderation/games/addsorting" role="form" method="post">
+    <input type="hidden" name="type" value="sorting_buildings">
 
-<p><a href="/admin/attributes/show-enums?attribute=era" class="btn btn-primary btn-lg" role="button">Epochen ordnen/erstellen</a></p>
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_title">Titel</label>
+      <div class="col-sm-6">
+        <input name="values[title]" type="text" id="attr_title" class="form-control" required="">
+      </div>
+    </div>
 
-Insgesamt gespielte Sortierspiele: {count}
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_era">Epoche</label>
+      <div class="col-sm-6">
+        <select name="values[era]" id="attr_era" class="form-control">
+          {#eras}
+            <option value="{.}">{.}</option>
+          {/eras}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" data-type="sorting_buildings" data-image-preview=".preview-thumbnail">
+      <label class="col-sm-3 control-label" for="attr_image">Bild</label>
+      <div class="col-sm-3">
+        <input name="values[image_name][]" type="file" class="form-attr-image" id="attr_image">
+        <input name="values[image][]" type="hidden">
+      </div>
+      <div class="col-sm-3">
+        <div class="preview-thumbnail"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_level">Schwierigkeitsstufe</label>
+      <div class="col-sm-6">
+        <select name="values[level]" id="attr_level" class="form-control">
+          <option value="1">In der Vorlesung besprochen</option><option value="2">Nicht in der Vorlesung besprochen</option>
+        </select>
+      </div>
+    </div>
+
+    <button id="" type="submit" class="btn btn-primary">Speichern</button>
+
+  </form>
 </div>
+<script>
+  function loadPageVar(sVar) {
+    return decodeURI(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURI(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+  }
+  var alert = '<div class="alert alert-success alert-dismissable">'
+    + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'
+    + 'Gebäude wurde erfolgreich hinzugefügt!'
+    + '</div>';
+  $(window).ready(function() {
+    if (loadPageVar('successful') === 'true') {
+      $('#sortingform').prepend(alert);
+    }
+  });
+</script>
 {/content}

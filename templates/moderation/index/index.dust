@@ -44,7 +44,7 @@ h2{
         </div>
       </div>
       <div class="media">
-        <a class="pull-left" href="#">
+        <a class="pull-left" href="/moderation/games/sorting">
           <span class="media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
         </a>
         <div class="media-body">

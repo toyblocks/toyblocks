@@ -73,13 +73,14 @@ height: 14px;
 $(window).ready(function() {
   $(function() {
     var $btn = $('#play');
-    if(false && {hasPlayedTodaysDaily}){
+    if(false && '{hasPlayedTodaysDaily}'){
         $btn.text('Du hast das heutige Daily schon gespielt.');
         $btn.attr('disabled', true);
-    }else{
-        $btn.attr('disabled', false);
     }
-});
+    else {
+      $btn.attr('disabled', false);
+    }
+  });
 });
 </script>
 {/content}

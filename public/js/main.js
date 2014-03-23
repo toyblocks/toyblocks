@@ -29,7 +29,7 @@ $(function(){
     $('#page_selection').bootpag({
       total: window._paginationPages || 1,
       page: 1,
-      maxVisible: 10 
+      maxVisible: 10
     }).on('page', function(event, num){
       $.get(location.href, {page: num}, function(data) {
         $('#content').html(data);

@@ -15,11 +15,14 @@
       </div>
     {/image}
 
-    <div class="form-group">
+    <div class="form-group" data-image-preview=".preview-thumbnail">
       <label for="pictureupload">Artikelbild</label>
       <input name="values[image_name]" type="file" class="form-attr-image" id="attr_image">
       <input name="values[image]" type="hidden"{?image} value="_id:{image}"{/image}>
       <p class="help-block">Bitte nur JPEG Dateien</p>
+      <div class="col-sm-3">
+        <div class="preview-thumbnail"></div>
+      </div>
     </div>
 
     <div class="input-group">

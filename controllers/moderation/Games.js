@@ -1,12 +1,14 @@
 'use strict';
 
-var BaseController = require('../Moderation');
+var AdminObjectsController = require('../admin/Objects');
 
 module.exports = function () {
 
 };
-module.exports.prototype = BaseController.prototype.extend({
+module.exports.prototype = AdminObjectsController.prototype.extend({
+  area: 'moderation',
   name: 'games',
+  rightLevel: 100,
 
   missingAction: function() {
     var _this = this;
@@ -19,14 +21,18 @@ module.exports.prototype = BaseController.prototype.extend({
     var _this = this;
 
     _this.mongodb
-    .collection('statistics')
-    .find({gametype: 'sorting' })
-    .toArray(function (err, ele) {
-      var count = ele.length;
+    .collection('attributes')
+    .find({name: 'era' })
+    .toArray(function (err, data) {
+      console.log(data[0].values)
       _this.view.render({
         title: 'Fehlstellenspiel hinzufügen',
-        count: count
+        eras: data[0].values
       });
     })
+  },
+
+  addsortingAction: function() {
+    this.upsertObjectAction('/moderation/games/sorting?successful=true');
   }
 });
