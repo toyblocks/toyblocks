@@ -50,6 +50,9 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
   },
 
   updateAction: function() {
-    this.upsertObjectAction(null, '/moderation/encyclopedia');
+    this.upsertObjectAction('/moderation/encyclopedia');
+  },
+  deleteAction: function() {
+    this.deleteObjectAction('/moderation/encyclopedia');
   }
 });

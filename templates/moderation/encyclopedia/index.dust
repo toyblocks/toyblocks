@@ -36,7 +36,7 @@
           </a>
         </td>
         <td>
-          <a href="/admin/objects/delete-object?type=encyclopedia_articles&id={_id}">
+          <a href="/moderation/encyclopedia/delete?type=encyclopedia_articles&id={_id}">
             <span class="glyphicon glyphicon-trash"></span>
           </a>
         </td>

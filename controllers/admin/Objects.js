@@ -140,7 +140,7 @@ module.exports.prototype = AdminController.prototype.extend({
       });
   },
 
-  deleteObjectAction: function () {
+  deleteObjectAction: function (redirection) {
     var _this = this,
       objectId = this.mongo.ObjectID(this.request.param('id'));
 
@@ -148,6 +148,9 @@ module.exports.prototype = AdminController.prototype.extend({
     this.getTypeWithAttributes(
       this.request.param('type'),
       function(type, attributes) {
+
+        // set redirect path to optional parameter or default value
+        var redirectPath = redirection || '../objects?type=' + type.name;
 
         //here we collect all attributes, which are of the image type
         var imageAttributes = [];
@@ -171,14 +174,14 @@ module.exports.prototype = AdminController.prototype.extend({
 
               _this.mongodb.collection('images').remove({_id: {$in: imageIds}}, {}, function () {
                 _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
-                  _this.response.redirect('../objects?type='+type.name);
+                  _this.response.redirect(redirectPath);
                 });
               });
             });
         }
         else {
           _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
-            _this.response.redirect('../objects?type='+type.name);
+            _this.response.redirect(redirectPath);
           });
         }
       });
@@ -186,16 +189,8 @@ module.exports.prototype = AdminController.prototype.extend({
 
   },
 
-  upsertObjectAction: function (moderationCtx, redirection) {
+  upsertObjectAction: function (redirection) {
     var _this = this;
-
-    // set context for function if called from moderation controller
-    if(moderationCtx) {
-      _this.request = moderationCtx.request;
-      _this.response = moderationCtx.response;
-      _this.mongo = moderationCtx.mongo;
-      _this.mongodb = moderationCtx.mongodb;
-    }
 
     // getting main type
     _this.getTypeWithAttributes(
