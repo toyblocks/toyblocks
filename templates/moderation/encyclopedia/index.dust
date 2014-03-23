@@ -1,52 +1,56 @@
 {>"layout/layout.dust"/}
 
-{<content}
+{<contentHead}
 {>"moderation/index/navbar.dust"/}
+{/contentHead}
+
+{<content}
 <div class="col-md-10">
-<div class="row">
- <div class="col-sm-2">
-    <a href="/moderation/encyclopedia/article" role="button" class="btn btn-default btn-sm btn-block">
-      <span class="glyphicon glyphicon-plus"></span>
-      Neuer Artikel
-    </a>
+  <div class="row">
+   <div class="col-sm-2">
+      <a href="/moderation/encyclopedia/article" role="button" class="btn btn-default btn-sm btn-block">
+        <span class="glyphicon glyphicon-plus"></span>
+        Neuer Artikel
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Titel</th>
+          <th>Anzeigen</th>
+          <th>Bearbeiten</th>
+          <th>Löschen</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#articles}
+        <tr>
+          <td>{title}</td>
+          <td>
+            <a href="/encyclopedia/index/article?id={_id}">
+              <span class="glyphicon glyphicon-zoom-in"></span>
+            </a>
+          </td>
+          <td>
+            <a href="/moderation/encyclopedia/article?id={_id}">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+          </td>
+          <td>
+            <a href="/moderation/encyclopedia/delete?type=encyclopedia_articles&id={_id}">
+              <span class="glyphicon glyphicon-trash"></span>
+            </a>
+          </td>
+        </tr>
+        {/articles}
+      </tbody>
+    </table>
   </div>
 </div>
-<div class="row">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Titel</th>
-        <th>Anzeigen</th>
-        <th>Bearbeiten</th>
-        <th>Löschen</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#articles}
-      <tr>
-        <td>{title}</td>
-        <td>
-          <a href="/encyclopedia/index/article?id={_id}">
-            <span class="glyphicon glyphicon-zoom-in"></span>
-          </a>
-        </td>
-        <td>
-          <a href="/moderation/encyclopedia/article?id={_id}">
-            <span class="glyphicon glyphicon-pencil"></span>
-          </a>
-        </td>
-        <td>
-          <a href="/moderation/encyclopedia/delete?type=encyclopedia_articles&id={_id}">
-            <span class="glyphicon glyphicon-trash"></span>
-          </a>
-        </td>
-      </tr>
-      {/articles}
-    </tbody>
-  </table>
-</div>
-
-<script type="text/javascript">
-
-</script>
 {/content}
+
+{<contentFoot}
+{>"layout/pagination"/}
+{/contentFoot}

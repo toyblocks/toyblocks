@@ -11,16 +11,26 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
   rightLevel: 100,
 
   indexAction: function() {
-    var _this = this;
+    var _this = this,
+      countPerPage = 20,
+      page = _this.getPage();
+
     _this.mongodb
     .collection('encyclopedia_articles')
-    .find({}, {title: 1, _id: 1})
-    .toArray(function(err, data){
-      _this.view.render({
-        title: 'Enzyklopädie',
-        route: '/moderation/encyclopedia',
-        articles: data
-      });
+    .count(function (err1, totalCount) {
+      _this.setPagination(totalCount, countPerPage);
+      _this.mongodb
+        .collection('encyclopedia_articles')
+        .find({}, {title: 1, _id: 1})
+        .skip(_this.getPaginationSkip())
+        .limit(_this.getPaginationLimit())
+        .toArray(function(err, data){
+          _this.view.render({
+            title: 'Enzyklopädie',
+            route: '/moderation/encyclopedia',
+            articles: data
+          });
+        });
     });
   },
 
