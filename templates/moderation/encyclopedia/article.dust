@@ -7,7 +7,6 @@
   <div class="row">
 
     {?image}
-      <input class="value-replace" name="values[image][]" type="hidden" value="_id:{image}">
       <div class="panel panel-default">
         <div class="panel-heading">Die Auswahl eines neuen Bildes überschreibt das vorhandene.</div>
         <div class="panel-body">
@@ -19,7 +18,7 @@
     <div class="form-group">
       <label for="pictureupload">Artikelbild</label>
       <input name="values[image_name]" type="file" class="form-attr-image" id="attr_image">
-      <input name="values[image]" type="hidden">
+      <input name="values[image]" type="hidden"{?image} value="_id:{image}"{/image}>
       <p class="help-block">Bitte nur JPEG Dateien</p>
     </div>
 

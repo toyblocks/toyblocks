@@ -1,13 +1,14 @@
 'use strict';
 
-var ModerationController = require('../Moderation'),
-  adminObjects = require('../admin/Objects');
+var AdminObjectsController = require('../admin/Objects');
 
 module.exports = function () {
 
 };
-module.exports.prototype = ModerationController.prototype.extend({
+module.exports.prototype = AdminObjectsController.prototype.extend({
+  area: 'moderation',
   name: 'encyclopedia',
+  rightLevel: 100,
 
   indexAction: function() {
     var _this = this;
@@ -49,6 +50,6 @@ module.exports.prototype = ModerationController.prototype.extend({
   },
 
   updateAction: function() {
-    adminObjects.prototype.upsertObjectAction(this, '/moderation/encyclopedia');
+    this.upsertObjectAction(null, '/moderation/encyclopedia');
   }
 });
