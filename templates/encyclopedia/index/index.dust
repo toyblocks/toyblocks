@@ -9,7 +9,7 @@
   <div class="col-md-6 col-sm-6">
     {#data}
       {@math key="{$len}" method="divide" operand="2"}
-        {@gte value="{$idx}"}
+        {@gt value="{$idx}"}
           <div class="panel panel-default">
             <div class="panel-heading">{headline}</div>
             <ul class="list-group">
@@ -20,14 +20,14 @@
               {/articles}
               </ul>
           </div>
-        {/gte}
+        {/gt}
       {/math}
     {/data}
   </div>
   <div class="col-md-6 col-sm-6">
     {#data}
       {@math key="{$len}" method="divide" operand="2"}
-        {@lt value="{$idx}"}
+        {@lte value="{$idx}"}
           <div class="panel panel-default">
             <div class="panel-heading">{headline}</div>
             <ul class="list-group">
@@ -38,7 +38,7 @@
               {/articles}
               </ul>
           </div>
-        {/lt}
+        {/lte}
       {/math}
     {/data}
   </div>
