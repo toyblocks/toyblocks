@@ -19,17 +19,24 @@
       <h3>{multiplechoice_question}</h3>
       <div class="input-group questions">
         <span class="input-group-btn">
-            {@if cond="{selectedAnswer}"}
-          <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
-            <span class="pull-left" style="margin-left: 10px;">{multiplechoice_answer_right}</span>
-            <span class="glyphicon glyphicon-ok pull-right" style="margin-right: 10px;"></span>
-            {:else}
-          <p style="font-size: 14px;">Richtig wäre gewesen:</p>
-          <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
-            <span class="pull-left" style="margin-left: 10px;">{multiplechoice_answer_right}</span>
-            <span class="glyphicon glyphicon-remove pull-right" style="margin-right: 10px;"></span>
-            {/if}
-          </button>
+          {@if cond="{selectedAnswer}"}
+            {#multiplechoice_answer_right}
+              <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
+                <span class="pull-left" style="margin-left: 10px;">{.}</span>
+                <span class="glyphicon glyphicon-ok pull-right" style="margin-right: 10px;"></span>
+              </button>
+              {@sep}<p style="font-size: 14px;margin-bottom: 0px;">oder</p>{/sep}
+            {/multiplechoice_answer_right}
+          {:else}
+            <p style="font-size: 14px;">Richtig wäre gewesen:</p>
+            {#multiplechoice_answer_right}
+              <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
+                <span class="pull-left" style="margin-left: 10px;">{.}</span>
+                <span class="glyphicon glyphicon-remove pull-right" style="margin-right: 10px;"></span>
+              </button>
+              {@sep}<p style="font-size: 14px;margin-bottom: 0px;">oder</p>{/sep}
+            {/multiplechoice_answer_right}
+          {/if}
         </span>
       </div>
     </div>

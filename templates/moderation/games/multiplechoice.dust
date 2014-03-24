@@ -69,11 +69,24 @@
 <script>
   var rightAnswerInput = '<div class="form-group multiple"><label class="col-sm-3 control-label" for="attr_multiplechoice_answer_right">Richtige Antwort</label><div class="col-sm-6"><input name="values[multiplechoice_answer_right][]" type="text" id="attr_multiplechoice_answer_right" class="form-control" required=""></div><div class="col-sm-1"><label><a href="" onclick="$(this).parents(\'.form-group\').remove(); return false;"><span class="red glyphicon glyphicon-minus-sign"></span></a></label></div></div>';
   var wrongAnswerInput = '<div class="form-group multiple"><label class="col-sm-3 control-label" for="attr_multiplechoice_answer_wrong">Falsche Antwort</label><div class="col-sm-6"><input name="values[multiplechoice_answer_wrong][]" type="text" id="attr_multiplechoice_answer_wrong" class="form-control" required=""></div><div class="col-sm-1"><label><a href="" onclick="$(this).parents(\'.form-group\').remove(); return false;"><span class="red glyphicon glyphicon-minus-sign"></span></a></label></div></div>';
-  $('#addRightAnswer').click(function() {
-    $(rightAnswerInput).insertBefore($(this).parent());
-  });
-  $('#addWrongAnswer').click(function() {
-    $(wrongAnswerInput).insertBefore($(this).parent());
+
+  function loadPageVar(sVar) {
+    return decodeURI(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURI(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+  }
+  var alert = '<div class="alert alert-success alert-dismissable">'
+    + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'
+    + 'Die Frage wurde erfolgreich hinzugefügt!'
+    + '</div>';
+  $(window).ready(function() {
+    if (loadPageVar('successful') === 'true') {
+      $('#multiplechoiceform').prepend(alert);
+    }
+    $('#addRightAnswer').click(function() {
+      $(rightAnswerInput).insertBefore($(this).parent());
+    });
+    $('#addWrongAnswer').click(function() {
+      $(wrongAnswerInput).insertBefore($(this).parent());
+    });
   });
 </script>
 {/content}

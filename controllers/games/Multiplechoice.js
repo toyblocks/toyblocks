@@ -31,7 +31,7 @@ module.exports.prototype = GamesController.prototype.extend({
       level   = parseInt(_this.request.param('level'),10) || 1;
 
     _this.increaseStat('count_played');
-    
+
     if(typeof ids === 'undefined'){
 
       //give specific game according to ids
@@ -151,8 +151,8 @@ module.exports.prototype = GamesController.prototype.extend({
       }
 
       var percentage = {
-        'wrong': (countWrong   * 100) / result.length,
-        'right': (countCorrect * 100) / result.length
+        'wrong': (countWrong   * 100) / (countWrong + countCorrect),
+        'right': (countCorrect * 100) / (countWrong + countCorrect)
       };
 
       // Update Stats

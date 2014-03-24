@@ -52,6 +52,15 @@ h2{
           Für das Sortierspiel können nur mehr Gebäude angelegt werden. Diese werden dann automatisch hinzufügt und zufällig verteilt.
         </div>
       </div>
+      <div class="media">
+        <a class="pull-left" href="/moderation/games/multiplechoice">
+          <span class="media-object glyphicon icon-multiple" style="font-size: 60px; width: 64px; height: 64px;"></span>
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Multiple Choice</h4>
+          Es können neue Fragen hinzugefügt werden. Eine Frage besteht aus einem Bild, einem Fragentext, mindestens einer richtigen Antwort und mindestens 3 falschen Antworten.
+        </div>
+      </div>
     </div>
 </div>
 {/content}
