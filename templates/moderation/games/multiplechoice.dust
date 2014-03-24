@@ -1,0 +1,79 @@
+{>"layout/layout.dust"/}
+{<content}
+{>"moderation/index/navbar.dust"/}
+<div class="col-md-10">
+  <form class="form-horizontal" id="multiplechoiceform" action="/moderation/games/addmultiplechoice" role="form" method="post">
+
+    <input type="hidden" name="type" value="multiplechoice_questions">
+
+    <div class="form-group" data-type="multiplechoice_questions" data-image-preview=".preview-thumbnail">
+      <label class="col-sm-3 control-label" for="attr_image">Bild</label>
+      <div class="col-sm-3">
+        <input name="values[image_name]" type="file" class="form-attr-image" id="attr_image">
+        <input name="values[image]" type="hidden">
+      </div>
+      <div class="col-sm-3">
+        <div class="preview-thumbnail"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_multiplechoice_question">Frage</label>
+      <div class="col-sm-6">
+        <input name="values[multiplechoice_question]" type="text" id="attr_multiplechoice_question" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group multiple">
+      <label class="col-sm-3 control-label" for="attr_multiplechoice_answer_right">
+        Richtige Antwort
+      </label>
+      <div class="col-sm-6">
+        <input name="values[multiplechoice_answer_right][]" type="text" id="attr_multiplechoice_answer_right" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group multiple">
+      <button id="addRightAnswer" type="button" class="col-sm-offset-3 btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Richtige Antwort</button>
+    </div>
+
+    <div class="form-group multiple">
+      <label class="col-sm-3 control-label" for="attr_multiplechoice_answer_wrong">Falsche Antwort</label>
+      <div class="col-sm-6">
+        <input name="values[multiplechoice_answer_wrong][]" type="text" id="attr_multiplechoice_answer_wrong" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group multiple">
+      <label class="col-sm-3 control-label" for="attr_multiplechoice_answer_wrong">Falsche Antwort</label>
+      <div class="col-sm-6">
+        <input name="values[multiplechoice_answer_wrong][]" type="text" id="attr_multiplechoice_answer_wrong" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group multiple">
+      <label class="col-sm-3 control-label" for="attr_multiplechoice_answer_wrong">Falsche Antwort</label>
+      <div class="col-sm-6">
+        <input name="values[multiplechoice_answer_wrong][]" type="text" id="attr_multiplechoice_answer_wrong" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group multiple">
+      <button id="addWrongAnswer" type="button" class="col-sm-offset-3 btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Falsche Antwort</button>
+    </div>
+
+    <button id="" type="submit" class="col-sm-offset-3 btn btn-primary">Speichern</button>
+
+</form>
+</div>
+<script>
+  var rightAnswerInput = '<div class="form-group multiple"><label class="col-sm-3 control-label" for="attr_multiplechoice_answer_right">Richtige Antwort</label><div class="col-sm-6"><input name="values[multiplechoice_answer_right][]" type="text" id="attr_multiplechoice_answer_right" class="form-control" required=""></div><div class="col-sm-1"><label><a href="" onclick="$(this).parents(\'.form-group\').remove(); return false;"><span class="red glyphicon glyphicon-minus-sign"></span></a></label></div></div>';
+  var wrongAnswerInput = '<div class="form-group multiple"><label class="col-sm-3 control-label" for="attr_multiplechoice_answer_wrong">Falsche Antwort</label><div class="col-sm-6"><input name="values[multiplechoice_answer_wrong][]" type="text" id="attr_multiplechoice_answer_wrong" class="form-control" required=""></div><div class="col-sm-1"><label><a href="" onclick="$(this).parents(\'.form-group\').remove(); return false;"><span class="red glyphicon glyphicon-minus-sign"></span></a></label></div></div>';
+  $('#addRightAnswer').click(function() {
+    $(rightAnswerInput).insertBefore($(this).parent());
+  });
+  $('#addWrongAnswer').click(function() {
+    $(wrongAnswerInput).insertBefore($(this).parent());
+  });
+</script>
+{/content}

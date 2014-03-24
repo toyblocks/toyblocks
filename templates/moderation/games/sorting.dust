@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <button id="" type="submit" class="btn btn-primary">Speichern</button>
+    <button id="" type="submit" class="col-sm-offset-3 btn btn-primary">Speichern</button>
 
   </form>
 </div>

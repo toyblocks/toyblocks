@@ -17,6 +17,17 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
     });
   },
 
+  multiplechoiceAction: function() {
+    var _this = this;
+    _this.view.render({
+      title: 'Multiplechoice-Frage hinzufügen'
+    });
+  },
+
+  addmultiplechoiceAction: function() {
+    this.upsertObjectAction('/moderation/games/multiplechoice?successful=true');
+  },
+
   sortingAction: function() {
     var _this = this;
 
