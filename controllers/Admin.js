@@ -11,5 +11,14 @@ module.exports.prototype = BaseController.prototype.extend({
 
   checkAuth: function() {
     return true;
+  },
+
+  updateLastModifiedTimestamp: function() {
+    var _this = this;
+    _this.mongodb
+      .collection('system_config')
+      .update({key: 'last_modified'}, {key: 'last_modified', value: new Date()}, {upsert: true}, function(err, result) {
+        
+      });
   }
 });

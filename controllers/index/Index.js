@@ -55,12 +55,19 @@ module.exports.prototype = BaseController.prototype.extend({
       }
       return str;
     }
-    var date = new Date();
-    var string = date.getFullYear()         + "-" + 
-                fill((date.getMonth()+1),2) + "-" +
-                fill( date.getDate()    ,2) + " " +
-                fill( date.getHours()   ,2) + ":" +
-                fill( date.getMinutes() ,2) + "\n";
-    _this.response.json({lastupdate:string});
+    _this.mongodb
+      .collection('system_config')
+      .find({key: 'last_modified'})
+      .nextObject(function(err, doc){
+        if (doc) {
+          var date = doc.value;
+          var string = date.getFullYear()         + '-' + 
+                      fill((date.getMonth()+1),2) + '-' +
+                      fill( date.getDate()    ,2) + ' ' +
+                      fill( date.getHours()   ,2) + ':' +
+                      fill( date.getMinutes() ,2) + "\n";
+          _this.response.json({lastupdate:string});
+        }
+      });
   }
 });
