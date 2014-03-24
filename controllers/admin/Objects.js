@@ -184,6 +184,9 @@ module.exports.prototype = AdminController.prototype.extend({
             _this.response.redirect(redirectPath);
           });
         }
+        
+        _this.updateLastModifiedTimestamp();
+
       });
 
 
@@ -340,6 +343,8 @@ module.exports.prototype = AdminController.prototype.extend({
                   _this.response.redirect(redirectPath);
                 });
             }
+
+            _this.updateLastModifiedTimestamp();
 
           });
 
