@@ -1,6 +1,6 @@
 <div class="col-md-4 col-sm-12 col-md-offset-1">
   <div class="list-group">
-    <div class="list-group-item" style="height: 90px">
+    <div class="list-group-item" style="min-height: 90px">
     <a href="/games/sorting/">
       <span class="pull-left glyphicon icon-sort" style="font-size: 50px; width: 64px; height: 64px;"></span>
       <div class="media-body" style="color: black;">
@@ -8,7 +8,7 @@
       Zeitstrahl</h3>
       <p class="list-group-item-text" style="text-decoration: none;">Ordnen Sie die Bauwerke in chronologischer Reihenfolge.</p>
     </div></a></div>
-    <div class="list-group-item" style="height: 90px">
+    <div class="list-group-item" style="min-height: 90px">
     <a href="/games/missing/">
       <span class="pull-left glyphicon icon-missing" style="font-size: 50px; width: 64px; height: 64px;"></span>
       <div class="media-body" style="color: black;">
@@ -16,7 +16,7 @@
       Fehlstellen</h3>
       <p class="list-group-item-text" style="text-decoration: none;">Finden Sie das fehlende Element.</p>
     </div></a></div>
-    <div class="list-group-item" style="height: 90px">
+    <div class="list-group-item" style="min-height: 90px">
     <a href="/games/assemble/">
       <span class="pull-left glyphicon icon-assemble" style="font-size: 50px; width: 64px; height: 64px;"></span>
       <div class="media-body" style="color: black;">
@@ -24,7 +24,7 @@
       Baukasten</h3>
       <p class="list-group-item-text" style="text-decoration: none;">Setzen Sie die Elemente in der richtigen Abfolge zusammen!</p>
     </div></a></div>
-    <div class="list-group-item" style="height: 90px">
+    <div class="list-group-item" style="min-height: 90px">
     <a href="/games/multiplechoice/">
       <span class="pull-left glyphicon icon-multiple" style="font-size: 50px; width: 64px; height: 64px;"></span>
       <div class="media-body" style="color: black;">
@@ -32,7 +32,7 @@
       Multiple Choice</h3>
       <p class="list-group-item-text" style="text-decoration: none;">Beantworten Sie Fragen zu allen Themen im Multiple-Choice-Verfahren!</p>
     </div></a></div>
-    <div class="list-group-item" style="height: 90px">
+    <div class="list-group-item" style="min-height: 90px">
     <a href="/games/daily/">
       <span class="pull-left glyphicon icon-challenge" style="font-size: 50px; width: 64px; height: 64px;"></span>
       <div class="media-body" style="color: black;">
