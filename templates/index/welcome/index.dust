@@ -20,15 +20,8 @@
 </style>
 <div class="row">
   <div class="col-md-10">
-    <h1>Willkommen bei ToyBlocks!<img src="/img/TUD-Logo-200.png" class="pull-right"></h1>
-    <p>
-      ToyBlocks ist ein webbasiertes Lernspiel für Studierende des Fachbereichs Architektur, das im Rahmen des Basiskurses Architekturgeschichte
-      (Modul 312) als interdisziplinäres Konzept zwischen den Fachbereichen Architektur und Informatik der TU Darmstadt entstanden ist.
-    </p>
-    <p>
-      Ziel dieses Studienprojektes ist es, den Studierenden zusätzlich zu den Referaten im Basiskurs Grundlagen zur Architekturgeschichte zu
-      vermitteln, um Gelerntes zu vertiefen und den eigenen Wissensstand zu testen.
-    </p>
+    <h1>{headline}<img src="/img/TUD-Logo-200.png" class="pull-right"></h1>
+    {body|s}
   </div>
 </div>
 <div class="row" id="welcome-gameslist">
@@ -36,7 +29,7 @@
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-sort"></span><h3 class="h3text"> Zeitstrahl</h3>
-        <p>Ordnen Sie die Bauwerke in chronologischer Reihenfolge!</p>
+        <p>{sorting}</p>
         <a href="/games/sorting/" class="btn btn-primary" role="button">Spielen</a>
       </div>
     </div>
@@ -45,7 +38,7 @@
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-missing"></span><h3 class="h3text"> Fehlstellen</h3>
-        <p>Finden Sie das fehlende Element!</p>
+        <p>{missing}</p>
         <a href="/games/missing/" class="btn btn-primary" role="button">Spielen</a>
       </div>
     </div>
@@ -54,7 +47,7 @@
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-assemble"></span><h3 class="h3text"> Baukasten</h3>
-        <p>Setzen Sie die Elemente in der richtigen Abfolge zusammen!</p>
+        <p>{assemble}</p>
         <a href="/games/assemble/" class="btn btn-primary" role="button">Spielen</a>
       </div>
     </div>
@@ -63,7 +56,7 @@
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-multiple"></span><h3 class="h3text"> Multiple Choice</h3>
-        <p>Beantworten Sie Fragen zu allen Themen im Multiple-Choice-Verfahren!</p>
+        <p>{multiplechoice}</p>
         <a href="/games/multiplechoice/" class="btn btn-primary" role="button">Spielen</a>
       </div>
     </div>
@@ -72,7 +65,7 @@
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-challenge"></span><h3 class="h3text"> Daily Challenge</h3>
-        <p>Testen Sie einmal täglich ihr Wissen im Vergleich mit anderen Studierenden!</p>
+        <p>{challenge}</p>
         <a href="/games/daily/" class="btn btn-primary" role="button">Spielen</a>
       </div>
     </div>
