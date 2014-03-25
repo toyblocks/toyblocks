@@ -26,6 +26,7 @@ module.exports.prototype = {
     data._user = this.controller.request.session.user;
     data._isAdmin = (data._user && data._user.right_level <= 100) ? true : false;
     data._isModerator = (data._user && data._user.right_level <= 200) ? true : false;
+    data._messages = this.controller.getMessages();
     for (var param in this.params) {
       data[param] = this.params[param];
     }

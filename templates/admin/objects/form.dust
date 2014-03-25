@@ -12,6 +12,6 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-  <button id="saveEnums" type="submit" class="btn btn-primary">Speichern</button>
+  <button id="save_object" type="submit" class="btn btn-primary">Speichern</button>
 </div>
 </form>

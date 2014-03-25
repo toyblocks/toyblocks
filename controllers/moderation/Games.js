@@ -12,9 +12,16 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
   missingAction: function() {
     var _this = this;
+    if (this.request.param('successful')) {
+      this.addMessage('success', 'Erfolgreich hinzugefügt');
+    }
     _this.view.render({
       title: 'Fehlstellenspiel hinzufügen'
     });
+  },
+
+  addMissingAction: function() {
+    this.upsertObjectAction('/moderation/games/missing?successful=true');
   },
 
   multiplechoiceAction: function() {
@@ -26,6 +33,20 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
   addmultiplechoiceAction: function() {
     this.upsertObjectAction('/moderation/games/multiplechoice?successful=true');
+  },
+
+  assembleAction: function() {
+    var _this = this;
+    if (this.request.param('successful')) {
+      this.addMessage('success', 'Erfolgreich hinzugefügt');
+    }
+    _this.view.render({
+      title: 'Zusammensetzspiel hinzufügen'
+    });
+  },
+
+  addAssembleAction: function() {
+    this.upsertObjectAction('/moderation/games/assemble?successful=true');
   },
 
   sortingAction: function() {

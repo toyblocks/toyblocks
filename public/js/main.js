@@ -61,6 +61,32 @@ $(function(){
   });
 
 
+  $(document).ready(function(){
+    // object references selection for objects
+    var $objecttypeTrigger;
+    $('#objectFormModal').on('click', '.select-objecttype', function() {
+      $objecttypeTrigger = $(this);
+    });
+    $('body').on('shown.bs.modal', '#objectTypesModal', function () {
+      var $modal = $(this);
+      $modal.find('.select-object').click(function(){
+        $objecttypeTrigger.siblings('input').val($(this).data('object-id'));
+        $objecttypeTrigger
+          .removeClass('btn-default')
+          .addClass('btn-success')
+          .html($(this).parents('tr').children().first().html() +
+            ' ausgewählt');
+        $modal.modal('hide');
+      });
+    });
+
+    // disable modal caching
+    $('#objectFormModal, #objectTypesModal').on('hidden.bs.modal', function() {
+      $(this).removeData('bs.modal');
+    });
+  });
+
+
   var referencesResolve = function() {
     $('[data-object-references]').not('.loaded').each(function(){
       var $this = $(this);
@@ -84,6 +110,7 @@ $(function(){
   $(document).ajaxSuccess(function() {
     referencesResolve();
   });
+
   referencesResolve();
 });
 

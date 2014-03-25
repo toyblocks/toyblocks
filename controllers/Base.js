@@ -30,6 +30,27 @@ module.exports.prototype = {
     // can not render view here, because most of the time the db requests are async
   },
 
+  addMessage: function(msgType, msgHead, msgText) {
+    if (!this.request.session.messages)
+      this.request.session.messages = [];
+    this.request.session.messages.push({
+      type: msgType,
+      head: msgHead,
+      text: msgText
+    });
+  },
+
+  getMessages: function() {
+    if (this.request.session.messages) {
+      var msgs = this.request.session.messages;
+      delete this.request.session.messages;
+      return msgs;
+    }
+    else {
+      return [];
+    }
+  },
+
   getUser: function() {
     return this.request.session.user;
   },
