@@ -3,7 +3,8 @@
   <div class="form-group multiple">
     <label class="col-sm-3 control-label" for="attr_{name}">{title}</label>
     <div class="col-sm-6">
-      <input name="values[{name}][]" type="text" id="attr_{name}" class="form-control" readonly value="{.}">
+      <input name="values[{name}][]" type="hidden" id="attr_{name}" class="form-control" value="{.}">
+      <div data-object-references="{.}" data-object-type="{object_type}"></div>
     </div>
     <div class="col-sm-1">
       <label><a href="" onclick="$(this).parents('.form-group').remove();return false;"><span class="red glyphicon glyphicon-minus-sign"></span></a></label>

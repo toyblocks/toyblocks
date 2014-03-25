@@ -4,10 +4,10 @@
       <ul class="nav nav-pills nav-stacked">
           <li><a href="/moderation">Moderation</a></li>
           <ul class="nav nav-pills nav-stacked nav-nested">
-          <li><a onclick="return false;" href="/moderation/games/sorting">Sortierspiel</a></li>
-          <li><a onclick="return false;" href="/moderation/games/missing">Fehlstellen</a></li>
-          <li><a onclick="return false;" href="/moderation/games/assemble">Zusammensetzspiel</a></li>
-          <li><a onclick="return false;" href="/moderation/games/multiplechoice">MultipleChoice</a></li>
+          <li><a href="/moderation/games/sorting">Sortierspiel</a></li>
+          <li><a href="/admin/objects/objects?type=missingparts_games">Fehlstellen</a></li>
+          <li><a href="/admin/objects/objects?type=assemble_games">Zusammensetzspiel</a></li>
+          <li><a href="/moderation/games/multiplechoice">MultipleChoice</a></li>
           </ul>
           <li><a href="/moderation/encyclopedia">Enzyklopädie</a></li>
       </ul>

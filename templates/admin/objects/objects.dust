@@ -29,12 +29,17 @@
         {#objects attributes=attributes object_type=type}
         <tr>
           {#attributes object=.}
-            {@if cond="'{type}' == 'image'"}
-              <td>{#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" />{/object[name]}</td>
-            {:else}
-            {! TODO: Add if condition for 'object_type' to show images from references !}
-              <td>{#object[name]}{.} {/object[name]}</td>
-            {/if}
+            {@select key="{type}"}
+              {@eq value="image"}
+                <td>{#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" data-content="<img src='/ressources/image?id={.}&size=middle' />"/>{/object[name]}</td>
+              {/eq}
+              {@eq value="objecttype"}
+                <td><div data-object-references="{object[name]}" data-object-type="{object_type}"></div></td>
+              {/eq}
+              {@default}
+                <td>{#object[name]}{.} {/object[name]}</td>
+              {/default}
+            {/select}
           {/attributes}
           <td><a href="/admin/objects/form?type={type.name}&id={_id}" data-target="#objectFormModal" data-toggle="modal">Editieren</a>
             <a href="/admin/objects/delete-object?type={object_type.name}&id={_id}">Löschen</a></td>

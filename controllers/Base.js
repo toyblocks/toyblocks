@@ -118,15 +118,19 @@ module.exports.prototype = {
     
   },
 
+  getRightLevel: function() {
+    return this.rightLevel;
+  },
+
   checkLogin: function(next) {
     var _this = this,
         isLive = _this.request.headers.host.indexOf('tu-darmstadt.de') > 0,
         querystring = require('querystring'),
         escapedUrl = querystring.escape(_this.request.originalUrl);
 
-    if (this.rightLevel >= 0 && isLive) {
+    if (_this.getRightLevel() >= 0 && isLive) {
       var nextWithRightsCheck = function() {
-        if (_this.request.session.user.right_level > _this.rightLevel) {
+        if (_this.request.session.user.right_level > _this.getRightLevel()) {
           _this.response.render('error-rights', {title: 'Keine erforderlichen Rechte'});
         }
         else {

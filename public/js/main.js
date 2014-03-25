@@ -59,6 +59,32 @@ $(function(){
 
     }
   });
+
+
+  var referencesResolve = function() {
+    $('[data-object-references]').not('.loaded').each(function(){
+      var $this = $(this);
+      $this.addClass('loaded');
+      $.get(
+        '/admin/objects/references',
+        {type: $this.data('object-type'), ids: $this.data('object-references')},
+        function( data ) {
+          $this.html(data);
+        }
+      );
+    });
+  };
+
+  $(document).popover({
+    html: true,
+    selector: 'img[data-content]',
+    trigger: 'hover',
+  });
+
+  $(document).ajaxSuccess(function() {
+    referencesResolve();
+  });
+  referencesResolve();
 });
 
 
@@ -66,3 +92,4 @@ $(function(){
 $.get( '/index/lastupdate', function( data ) {
   $('#last-update').append(data.lastupdate);
 }, 'json');
+

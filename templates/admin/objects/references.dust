@@ -1,0 +1,3 @@
+{#objects}
+{title} <img src="/ressources/image?id={image}&amp;size=middle" style="max-width:50px;" data-content="<img src='/ressources/image?id={image}&size=middle' />" />
+{/objects}

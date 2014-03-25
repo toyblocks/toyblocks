@@ -383,6 +383,30 @@ module.exports.prototype = AdminController.prototype.extend({
       });
   },
 
+  referencesAction: function () {
+    var _this = this,
+      typeName = _this.request.param('type'),
+      ids = _this.request.param('ids').split(','),
+      i;
+
+    for (i in ids) {
+      if (ids[i]) {
+        ids[i] = _this.mongo.ObjectID(ids[i]);
+      }
+    }
+    _this.mongodb
+      .collection(typeName)
+      .find({_id: {$in: ids}}, {title: true, image: true})
+      .toArray(function(err, objects) {
+        if (!err) {
+          _this.view.render({
+            objects: objects
+          });
+        }
+      });
+
+  },
+
   getTypeWithAttributes: function (typeName, cb) {
     var _this = this;
     _this.mongodb
@@ -410,6 +434,21 @@ module.exports.prototype = AdminController.prototype.extend({
               });
           }
         });
+  },
+
+  getRightLevel: function () {
+    var type = this.request.param('type'),
+      modTypes = ['missingparts_games', 'assemble_images', 'assemble_games',
+        'missingparts_images', 'multiplechoice_questions',
+        'multiplechoice_games', 'encyclopedia_articles',
+        'sorting_buildings', 'sorting_games'];
+
+    if (type && modTypes.indexOf(type) >= 0) {
+      return 200;
+    }
+    else {
+      return 100;
+    }
   }
 
 
