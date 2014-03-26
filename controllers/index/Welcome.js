@@ -19,6 +19,7 @@ module.exports.prototype = BaseController.prototype.extend({
       'game_multiplechoice_text'],
       function(texts) {
         _this.view.render({
+          title: 'ToyBlocks',
           headline: texts.welcome_title,
           body: texts.welcome_body,
           sorting: texts.game_sorting_text,
