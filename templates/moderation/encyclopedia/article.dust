@@ -27,13 +27,12 @@
 
     <div class="input-group">
       <span class="input-group-addon">Titel</span>
-      <input name="values[title]" type="text" class="form-control" placeholder="Titel des Artikels" value="{headline}">
+      <input name="values[title]" type="text" class="form-control" placeholder="Titel des Artikels" required value="{headline}">
     </div>
 
   </div>
   <div class="row">
-    <div id='editor' class="summernote">{article|s}</div>
-    <input id="article_body" name="values[article_body]" type="hidden">
+    <textarea name="values[article_body]" id="attr_article_body" class="form-control summernote" style="display: none;">{?article}{article|s}{/article}</textarea>
   </div>
 
 
@@ -44,15 +43,15 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    var $editor = $('#editor');
-    $('#createarticle').submit(function() {
-        $('#article_body').val($editor.code());
-        return true; // return to default form submit action
-    });
-    $('#submit-article').on('click', function() {
-      var articleBody = $editor.code();
+    // var $editor = $('#editor');
+    // $('#createarticle').submit(function() {
+    //     $('#article_body').val($editor.code());
+    //     return true; // return to default form submit action
+    // });
+    // $('#submit-article').on('click', function() {
+    //   var articleBody = $editor.code();
 
-    });
+    // });
   });
 </script>
 {/content}
