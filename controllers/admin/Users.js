@@ -20,6 +20,7 @@ module.exports.prototype = AdminController.prototype.extend({
         _this.mongodb
           .collection('users')
           .find({})
+          .sort( {surname: { $natural: 1 }} )
           .skip(_this.getPaginationSkip())
           .limit(_this.getPaginationLimit())
           .toArray(function(err, users){
