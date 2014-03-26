@@ -89,6 +89,23 @@ module.exports.prototype = {
     return this.paginationCountPerPage;
   },
 
+  getFindParams: function() {
+    var findParams = {};
+    if (this.request.param('search')) {
+      var searchParams = this.request.param('search'),
+        findParamsOr = [];
+      for (var key in searchParams) {
+        // escape regex params
+        var value = searchParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1"),
+          findParam = {};
+        findParam[key] = new RegExp('^'+value, 'ig');
+        findParamsOr.push(findParam);
+      }
+      findParams = {$or: findParamsOr};
+    }
+    return findParams;
+  },
+
   increaseStat: function(key) {
     var _this = this,
       user = this.getUser();

@@ -100,7 +100,7 @@ module.exports.prototype = AdminController.prototype.extend({
   objectsAction: function () {
     var _this = this,
       countPerPage = 10,
-      page = _this.getPage();
+      findParams = _this.getFindParams();
 
     // getting main type
     this.getTypeWithAttributes(
@@ -112,17 +112,6 @@ module.exports.prototype = AdminController.prototype.extend({
           attributes[i].props = type.attributes[attributes[i].name];
           attributesByName[attributes[i].name] = attributes[i];
         }
-
-        var findParams = {};
-        if (_this.request.param('search')) {
-          var searchParams = _this.request.param('search');
-          for (var key in searchParams) {
-            // escape regex params
-            var value = searchParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-            findParams[key] = new RegExp('^'+value, 'ig');
-          }
-        }
-        console.log(findParams);
 
         _this.mongodb
           .collection(type.name)

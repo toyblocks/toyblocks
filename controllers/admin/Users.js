@@ -11,7 +11,7 @@ module.exports.prototype = AdminController.prototype.extend({
   indexAction: function() {
     var _this = this,
       countPerPage = 20,
-      page = _this.getPage();
+      findParams = _this.getFindParams();
 
     _this.mongodb
       .collection('users')
@@ -19,7 +19,7 @@ module.exports.prototype = AdminController.prototype.extend({
         _this.setPagination(totalCount, countPerPage);
         _this.mongodb
           .collection('users')
-          .find({})
+          .find(findParams)
           .skip(_this.getPaginationSkip())
           .limit(_this.getPaginationLimit())
           .toArray(function(err, users){

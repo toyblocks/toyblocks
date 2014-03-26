@@ -44,7 +44,15 @@ $(function(){
       searchEvent = setTimeout(function(){
         var searchParams = {};
         if ($searchInput.val()) {
-          searchParams.search = {title: $searchInput.val()};
+          if (window._searchFields && window._searchFields.length > 0) {
+            searchParams.search = {};
+            for (var i = 0; i < window._searchFields.length; i++) {
+              searchParams.search[window._searchFields[i]] = $searchInput.val();
+            }
+          }
+          else {
+            searchParams.search = {title: $searchInput.val()};
+          }
         }
         $.get(location.href, searchParams, function(data) {
           $('#content').html(data);
@@ -78,7 +86,7 @@ $(function(){
   });
 
   var initSummernote = function() {
-    $('.summernote').summernote({
+    $('.summernote').not('.loaded').summernote({
       disableDragAndDrop: true,
       height: 200,
       toolbar: [
@@ -94,7 +102,7 @@ $(function(){
         ['view', ['fullscreen', 'codeview']],
         ['help', ['help']]
       ]
-    });
+    }).addClass('loaded');
   };
 
   $(document).ready(function(){
