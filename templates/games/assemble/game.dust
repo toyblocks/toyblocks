@@ -108,26 +108,26 @@ $(window).ready(function() {
 
   // sortable initialization
   $('#sortablebot, #sortabletop').disableSelection();
-  $('#assembly').sortable();
+  $('#assembly, #elements').sortable({
+    connectWith: ".list-group",
+    scroll: true,
+    start: function(e, ui) {
+      ui.item.data('moved', true);
+    }
+  }).disableSelection();
 
-  // bindings for remove and add buttons
-  var initBindings = function() {
-    $('#elements li').off().on('click', elementsBinding);
-    $('#assembly li').off().on('click', assemblyBinding);
-  };
-  var elementsBinding = function(e) {
-    e.preventDefault();
-    $(this).prependTo('#assembly');
-    $("#assembly").closest('li').sortable('refresh');
-    initBindings();
-  };
-  var assemblyBinding = function(e) {
-    e.preventDefault();
-    $(this).closest('li').prependTo('#elements');
-    $('#assembly').sortable('refresh');
-    initBindings();
-  };
-  initBindings();
+  $('#assembly, #elements').on('click', 'li', function(e){
+    var $this = $(this);
+    if (!$this.data('moved')) {
+      var to = $this.parent().is('#assembly') ? '#elements' : '#assembly';
+      $this.prependTo(to);
+      $("#assembly, #elements").sortable('refresh');
+    }
+    else {
+      $(this).data('moved', false);
+    }
+    return false;
+  });
 
   $('#tryagain').click(function(){
     removeCorrection();  

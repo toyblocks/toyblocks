@@ -41,17 +41,4 @@
   </button>
 </form>
 
-<script type="text/javascript">
-  $(document).ready(function() {
-    // var $editor = $('#editor');
-    // $('#createarticle').submit(function() {
-    //     $('#article_body').val($editor.code());
-    //     return true; // return to default form submit action
-    // });
-    // $('#submit-article').on('click', function() {
-    //   var articleBody = $editor.code();
-
-    // });
-  });
-</script>
 {/content}

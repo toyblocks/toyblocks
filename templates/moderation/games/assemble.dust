@@ -5,7 +5,7 @@
 <div class="col-sm-10">
   <button style="margin-bottom:10px" type="button" class="btn btn-primary objecttype-form"
     href="/admin/objects/form?type=assemble_games"
-    data-target="#objectFormModal" data-toggle="modal">Neues Zusammensetz-Spiel erstellen</button>
+    data-target="#objectFormModal" data-toggle="modal">Neues Baukasten-Spiel erstellen</button>
 
   <button style="margin-bottom:10px" type="button" class="btn btn-primary objecttype-form"
     href="/admin/objects/form?type=assemble_images"

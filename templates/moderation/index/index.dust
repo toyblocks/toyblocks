@@ -36,7 +36,7 @@ h2{
       </a>
       <div class="media-body">
         <h4 class="media-heading">Baukasten</h4>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+        Beim Baukasten erstellt man neue Spiele und wählt dort die passenden Einzelteile aus einer List aus. Einzelne Teile kann man ebenfalls neu hinzufügen.
       </div>
     </div>
     <div class="media">

@@ -89,6 +89,23 @@ module.exports.prototype = {
     return this.paginationCountPerPage;
   },
 
+  getFindParams: function() {
+    var findParams = {};
+    if (this.request.param('search')) {
+      var searchParams = this.request.param('search'),
+        findParamsOr = [];
+      for (var key in searchParams) {
+        // escape regex params
+        var value = searchParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1"),
+          findParam = {};
+        findParam[key] = new RegExp('^'+value, 'ig');
+        findParamsOr.push(findParam);
+      }
+      findParams = {$or: findParamsOr};
+    }
+    return findParams;
+  },
+
   increaseStat: function(key) {
     var _this = this,
       user = this.getUser();
@@ -97,13 +114,6 @@ module.exports.prototype = {
 
     var incKey = {};
     incKey['stats.' + this.name + '.' + key] = 1;
-
-    _this.mongodb.collection('users')
-      .update(
-        {tuid: user.tuid},
-        {$inc: incKey},
-        {w:0}
-      );
     
     if (!user.stats)
       user.stats = {};
@@ -111,7 +121,17 @@ module.exports.prototype = {
     if (!user.stats[this.name])
       user.stats[this.name] = {};
 
+    if (!user.stats[this.name][key])
+      user.stats[this.name][key] = 0;
+
     user.stats[this.name][key] ++;
+
+    _this.mongodb.collection('users')
+      .update(
+        {tuid: user.tuid},
+        {$inc: incKey},
+        {w:0}
+      );
   },
 
   init: function(req, res, next) {
@@ -292,23 +312,25 @@ module.exports.prototype = {
     }
     else {
       if (!isLive) {
-        _this.request.session.user = {
-          'employee' : false,
-          'givenName' : 'Mansur',
-          'name' : 'Mansur Iqbal',
-          'right_level' : 100,
-          'student' : true,
-          'surname' : 'Iqbal',
-          'tuid' : 'm_iqbal',
-          'stats': {
-            'sorting': {
-              'level1_count_played': 32
-            },
-            'missing': {
-              'level1_count_played': 42
+        if (!_this.request.session.user) {
+          _this.request.session.user = {
+            'employee' : false,
+            'givenName' : 'Mansur',
+            'name' : 'Mansur Iqbal',
+            'right_level' : 100,
+            'student' : true,
+            'surname' : 'Iqbal',
+            'tuid' : 'm_iqbal',
+            'stats': {
+              'sorting': {
+                'level1_count_played': 32
+              },
+              'missing': {
+                'level1_count_played': 42
+              }
             }
-          }
-        };
+          };
+        }
       }
       next();
     }

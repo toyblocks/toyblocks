@@ -106,7 +106,7 @@
 <br>
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
   <button id="next-question" type="button" class="btn btn-primary btn-block">Weiter</button>
-  <button id="game-result" type="button" class="btn btn-success btn-block">Ergebniss</button>
+  <button id="game-result" type="button" class="btn btn-success btn-block">Ergebnis</button>
   <button id="game-overview" type="button" class="btn btn-primary btn-block">Zurück zur Spielübersicht</button>
   <span id="games-left-box" class="badge pull-right">Verbleibende Spiele: <span id="games-left"></span></span>
 </div>

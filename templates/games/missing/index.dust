@@ -7,12 +7,13 @@
   {>"games/missing/help.dust"/}
   <div class="list-group">
     <a href="game?level=1&gamesLeft=3" class="well list-group-item">
-    	<strong>Schwierigkeitsstufe 01</strong><span class="badge">3 mal gespielt</span>
+    	<strong>Schwierigkeitsstufe 01</strong>
+      <span class="badge">{#_user.stats.missing.level1_count_played}{.}{:else}0{/_user.stats.missing.level1_count_played} mal gespielt</span>
     </a>
     <a href="game?level=2&gamesLeft=3" class="well list-group-item">
-    	<strong>Schwierigkeitsstufe 02</strong><span class="badge">3 mal gespielt</span>
+    	<strong>Schwierigkeitsstufe 02</strong>
+      <span class="badge">{#_user.stats.missing.level2_count_played}{.}{:else}0{/_user.stats.missing.level2_count_played} mal gespielt</span>
     </a>
   </div>
-  <p class="text-muted">Es kann sein das es noch nicht genug Einzelteile gibt um genug anzuzeigen.</p>
 </div>
 {/content}

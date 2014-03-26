@@ -19,8 +19,12 @@ module.exports.prototype = AdminController.prototype.extend({
         _this.setPagination(totalCount, countPerPage);
         _this.mongodb
           .collection('users')
-          .find(findParams)
+<<<<<<< HEAD
+          .find({})
           .sort( {surname: { $natural: 1 }} )
+=======
+          .find(findParams)
+>>>>>>> a29134bef4b49313207faeb49e0616b2c63f1f7a
           .skip(_this.getPaginationSkip())
           .limit(_this.getPaginationLimit())
           .toArray(function(err, users){

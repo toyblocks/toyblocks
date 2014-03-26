@@ -10,6 +10,14 @@
       <div class="container">
         {+contentHead}{/contentHead}
         <div id="content">
+          <noscript>
+            <div class="alert alert-danger">
+              <p>Um den vollen Funktionsumfang dieser Webseite zu erfahren, benötigen Sie JavaScript.
+                Eine Anleitung wie Sie JavaScript in Ihrem Browser einschalten, befindet sich
+                <a href="http://enable-javascript.com/de/" target="_blank" class="alert-link">hier</a>.
+              </p>
+            </div>
+          </noscript>
           {#_messages}<div class="alert alert-block alert-{type} fade in">
             <button type="button" class="close" data-dismiss="alert">×</button>
             <h4 class="alert-heading">{head}</h4>
