@@ -83,7 +83,7 @@ String.prototype.hashString = function(){
 $(window).ready(function(){
 
   function loadQuestion(questionId) {
-    $.ajax({url: "/games/multiplechoice/question?id="+questionId})
+    $.ajax({url: "/games/multiplechoice/container?id="+questionId})
       .done(function( data ) {
         $('#questions-container').html(data);
       });

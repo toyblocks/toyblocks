@@ -34,17 +34,18 @@ module.exports.prototype = GamesController.prototype.extend({
 
     if(typeof ids === 'undefined'){
 
-      //give specific game according to ids
+      //give random game
       var count;
       switch(level){
         case 2: count = 6; break;
         case 3: count = 10; break;
         default: count = 3; break;
       }
+
       _this.mongodb
       .collection('multiplechoice_questions')
       .find()
-      .toArray(function(err, questions) {
+      .toArray( function(err, questions) {
         questions = _this.shuffleArray(questions).slice(0, count);
         _this.view.render({
           title: 'Multiple Choice',
@@ -54,7 +55,7 @@ module.exports.prototype = GamesController.prototype.extend({
       });
     }else{
 
-      //give random game
+      //give specific game according to ids
       ids = ids.split(',');
       for (var i = 0; i < ids.length; i++) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
@@ -63,7 +64,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.mongodb
         .collection('multiplechoice_questions')
         .find({_id: {$in: ids}})
-        .nextObject(function(err, questions) {
+        .toArray(function(err, questions) {
           _this.view.render({
             title: 'Multiple Choice',
             level: level,
@@ -73,7 +74,7 @@ module.exports.prototype = GamesController.prototype.extend({
     }
   },
 
-  questionAction: function() {
+  containerAction: function() {
     var _this = this,
       id = _this.request.param('id');
 
@@ -85,7 +86,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
     .collection('multiplechoice_questions')
     .find({_id: _this.mongo.ObjectID(id)})
-    .nextObject(function(err, question) {
+    .nextObject(function (err, question) {
 
       var answersRight = _this.shuffleArray(question.multiplechoice_answer_right)[0];
       var answersWrong = _this.shuffleArray(question.multiplechoice_answer_wrong).slice(0,3);
@@ -102,7 +103,6 @@ module.exports.prototype = GamesController.prototype.extend({
     console.log("enter");
     var _this = this,
       result  = _this.request.param('result'),
-      level   = _this.request.param('level'),
       solution = [],
       countCorrect = 0,
       countWrong = 0,

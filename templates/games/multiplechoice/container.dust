@@ -23,5 +23,4 @@
     </div>
     </center>
   </div>
-  <div class="right-answers" style="display:none">{#right_answers}{.}{@sep},{/sep}{/right_answers}</div>
 </div>
