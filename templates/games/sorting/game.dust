@@ -47,7 +47,7 @@
   text-align: center;
   position: absolute;
   bottom: -11px;
-  background: #0074D9;
+  background: #428bca;
 }
 .timeline-tag.r{
   right: 15px;
@@ -68,11 +68,11 @@
   height: 30px;
   margin-bottom: 7px;
   margin-left: 10px;
-  background-color: #0074D9;
+  background-color: #428bca;
   /*background-image: linear-gradient(to right,#001F3F 0,#0074D9 100%);*/
 }
 .timeline-arrow{
-  border-color: transparent transparent transparent #0074D9;
+  border-color: transparent transparent transparent #428bca;
   border-style: solid;
   border-width: 30px 20px 30px 100px;
   right: 76px;
