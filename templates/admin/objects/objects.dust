@@ -52,7 +52,7 @@
             <a href="/admin/objects/delete-object?type={object_type.name}&id={_id}">Löschen</a></td>
         </tr>
         {:else}
-        <tr><td colspan="4">Bisher keine {type.title} vorhanden</td></tr>
+        <tr><td colspan="4">Keine {type.title} gefunden</td></tr>
         {/objects}
       </table>
 {/content}

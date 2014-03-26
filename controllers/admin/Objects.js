@@ -113,6 +113,17 @@ module.exports.prototype = AdminController.prototype.extend({
           attributesByName[attributes[i].name] = attributes[i];
         }
 
+        var findParams = {};
+        if (_this.request.param('search')) {
+          var searchParams = _this.request.param('search');
+          for (var key in searchParams) {
+            // escape regex params
+            var value = searchParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+            findParams[key] = new RegExp('^'+value, 'ig');
+          }
+        }
+        console.log(findParams);
+
         _this.mongodb
           .collection(type.name)
           .count(function(err, totalCount) {
@@ -120,12 +131,19 @@ module.exports.prototype = AdminController.prototype.extend({
             _this.setPagination(totalCount, countPerPage);
             _this.mongodb
               .collection(type.name)
-              .find({})
+              .find(findParams)
               .skip(_this.getPaginationSkip())
               .limit(_this.getPaginationLimit())
-              // TODO: implement skip and limit
               .toArray(function(err, objects) {
+                // for remote calls we change the template
                 if (_this.request.param('_view') === 'selection') {
+                  if (_this.request.param('only_content') &&
+                    _this.request.param('only_content') === '1') {
+                    _this.view.setParam('onlyContent', true);
+                  }
+                  else {
+                    _this.view.setParam('onlyContent', false);
+                  }
                   _this.view.setTemplate(_this.view.getTemplate() + '-remote');
                 }
                 _this.view.render({

@@ -1,3 +1,4 @@
+{^onlyContent}
 <style type="text/css">
 button:hover{
   background-color: #2ECC40;
@@ -6,7 +7,8 @@ button:hover{
 <div class="modal-header">
 <h3>{type.title} Übersicht</h3>
 </div>
-<div class="modal-body">
+<div id="remote_content" class="modal-body">
+{/onlyContent}
   <table class="table">
     <tr>
       {#attributes object_type=type}
@@ -29,4 +31,40 @@ button:hover{
     <tr><td colspan="4">Bisher keine {type.title} vorhanden</td></tr>
     {/objects}
   </table>
+{^onlyContent}
 </div>
+<div class="modal-footer" style="text-align:center">
+  <div id="remote_page_selection"></div>
+  <script>
+    $('#remote_page_selection').bootpag({
+      total: {_paginationPages},
+      page: 1,
+      maxVisible: 10
+    }).on('page', function(event, num){
+      $.get('/admin/objects/objects',
+        {page: num, type: '{type.name}', _view: 'selection', only_content: '1'},
+        function(data) {
+          $('#remote_content').html(data);
+          $('#search_input input').val('');
+        });
+    });
+    var $searchInput = $('<input type="text" name="search" placeholder="Suchen nach..." class="form-control">'),
+      $searchInputWrapper = $('<div id="search_input"></div>'),
+      searchEvent;
+    $searchInput.on('keyup', function(event) {
+      clearTimeout(searchEvent);
+      searchEvent = setTimeout(function(){
+        var searchParams = {type: '{type.name}', _view: 'selection', only_content: '1'};
+        if ($searchInput.val()) {
+          searchParams.search = {title: $searchInput.val()};
+        }
+        $.get('/admin/objects/objects', searchParams, function(data) {
+          $('#remote_content').html(data);
+        });
+      }, 500);
+    });
+    $searchInputWrapper.append($searchInput);
+    $('#remote_page_selection').append($searchInputWrapper);
+  </script>
+</div>
+{/onlyContent}
