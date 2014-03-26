@@ -41,6 +41,14 @@ footer a {
 #page_selection {
   text-align: center;
 }
+.pagination {
+  vertical-align: middle;
+  margin:20px;
+}
+#search_input {
+  display: inline-block;
+  vertical-align: middle;
+}
 
 #tud-brand{
   margin-top: -62px;

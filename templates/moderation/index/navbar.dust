@@ -4,9 +4,9 @@
       <ul class="nav nav-pills nav-stacked">
           <li><a href="/moderation">Moderation</a></li>
           <ul class="nav nav-pills nav-stacked nav-nested">
-          <li><a href="/moderation/games/sorting">Sortierspiel</a></li>
+          <li><a href="/moderation/games/sorting">Zeitstrahl</a></li>
           <li><a href="/moderation/games/missing">Fehlstellen</a></li>
-          <li><a href="/moderation/games/assemble">Zusammensetzspiel</a></li>
+          <li><a href="/moderation/games/assemble">Baukasten</a></li>
           <li><a href="/moderation/games/multiplechoice">MultipleChoice</a></li>
           </ul>
           <li><a href="/moderation/encyclopedia">Enzyklopädie</a></li>

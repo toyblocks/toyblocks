@@ -33,9 +33,26 @@ $(function(){
     }).on('page', function(event, num){
       $.get(location.href, {page: num}, function(data) {
         $('#content').html(data);
+        $('#search_input input').val('');
       });
-        //$(".content2").html("Page " + num); // or some ajax content loading...
     });
+    var $searchInput = $('<input type="text" name="search" placeholder="Suchen nach..." class="form-control"></div>'),
+      $searchInputWrapper = $('<div id="search_input"></div>'),
+      searchEvent;
+    $searchInput.on('keyup', function(event) {
+      clearTimeout(searchEvent);
+      searchEvent = setTimeout(function(){
+        var searchParams = {};
+        if ($searchInput.val()) {
+          searchParams.search = {title: $searchInput.val()};
+        }
+        $.get(location.href, searchParams, function(data) {
+          $('#content').html(data);
+        });
+      }, 500);
+    });
+    $searchInputWrapper.append($searchInput);
+    $('#page_selection').append($searchInputWrapper);
   }
 
 

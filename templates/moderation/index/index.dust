@@ -38,7 +38,7 @@ h2{
           <span class="media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
         </a>
         <div class="media-body">
-          <h4 class="media-heading">Zusammensetzspiel</h4>
+          <h4 class="media-heading">Baukasten</h4>
           Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
         </div>
       </div>
@@ -47,8 +47,8 @@ h2{
           <span class="media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
         </a>
         <div class="media-body">
-          <h4 class="media-heading">Sortierspiel</h4>
-          Für das Sortierspiel können nur mehr Gebäude angelegt werden. Diese werden dann automatisch hinzufügt und zufällig verteilt.
+          <h4 class="media-heading">Zeitstrahl</h4>
+          Für den Zeitstrahl können nur mehr Gebäude angelegt werden. Diese werden dann automatisch hinzufügt und zufällig verteilt.
         </div>
       </div>
       <div class="media">
