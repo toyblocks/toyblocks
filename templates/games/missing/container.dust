@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-12">
+    <h4>{game.title}</h4>
+  </div>
+</div>
+<div class="col-md-6" id="primarybox">
+  <center>
+  <img id="primaryimage" src="/ressources/image?id={game.image}&amp;size=large" title="{game.title}">
+  </center>
+</div>
+<div class="row col-md-6">
+  <form id="gameform">
+    <input type="hidden" name="gameid" value="{game._id}">
+    <div id="selectable">
+      {#images}
+      <label class="box select-answer" for="{_id}">
+        <input type="radio" name="sortings" id="{_id}" value="{_id}" class="hidden">
+        <div class="inner">
+          <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
+        </div>
+      </label>
+      {/images}
+    </div>
+  </form>
+</div>

@@ -2,12 +2,13 @@
 
 {<content}
 <style type="text/css">
+
 #selectable img{
   width: auto;
   height: 130px;
   margin: 6px;
   padding: 0px;
-  max-width: 400px;
+  max-width: 400px; /* TODO: max-width is 200px but this looks bad either way currently*/
   display: block;
   position: relative;
   left: -50%;
@@ -58,135 +59,115 @@
   float: left;
 }
 
+/* Buttonbox */
+#games-left-box{
+  margin-top: -63px;
+  margin-right: -29px;
+}
+
+#game-overview, #game-result{
+  display: none;
+}
+
+#game-container{
+  margin-bottom: 50px;
+}
+
+/* Result Container */
+.list-group-item{
+  margin: 0 auto;
+  float: none;
+}
+
+.true{
+  background-color: #0BE224;
+  opacity: 1 !important;
+}
+.false{
+  //background-color: #FF4135;
+  opacity: 1 !important;
+}
+
+.solutions{
+  width: auto;
+  height: 130px;
+  margin: 6px;
+  padding: 0px;
+  max-width: 400px;
+  display: block;
+  position: relative;
+}
 </style>
 
-<div class="row">
-  <div class="col-md-12">
-    <br>
-    <h4>{game.title}</h4>
-  </div>
-</div>
-<div class="col-md-12 well">
-  <div class="col-md-6" id="primarybox">
-    <center>
-    <img id="primaryimage" src="/ressources/image?id={game.image}&amp;size=large" title="{game.title}">
-    </center>
-  </div>
-  <div class="row col-md-6">
-    <form id="gameform">
-      <input type="hidden" name="gameid" value="{game._id}">
-      <div id="selectable">
-        {#images}
-        <label class="box" for="{_id}">
-          <input type="radio" name="sortings" id="{_id}" value="{_id}" class="hidden">
-          <div class="inner">
-            <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
-          </div>
-        </label>
-        {/images}
-      </div>
-    </form>
-  </div>
+<div id="game-container" class="col-md-12 well">
+    Lädt...
 </div>
 
+<br>
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
-  <button id="submit" type="button" class="btn btn-primary btn-block">Bestätigen</button>
-  <a href="" id="newgame" type="button" class="btn btn-danger btn-block" style="display: none;">Weiter</a>
+  <button id="next-question" type="button" class="btn btn-primary btn-block">Weiter</button>
+  <button id="game-result" type="button" class="btn btn-success btn-block">Ergebniss</button>
+  <button id="game-overview" type="button" class="btn btn-primary btn-block">Zurück zur Spielübersicht</button>
+  <span id="games-left-box" class="badge pull-right">Verbleibende Spiele: <span id="games-left"></span></span>
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="modalLabel"></h4>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 
 <script>
 $(window).ready(function(){
-  var maxTries = 3;
-  var tries = 0;
-  /* radio button stuff */
-  $('#selectable .box').click(function() {
-      $(this).addClass('selected').siblings().removeClass('selected');
-  });
+  var gameIds = [{#games}"{_id}"{@sep},{/sep}{/games}];
+  var gameIndex = 0;
+  var selectedAnswers = [];
 
-  /* POST request */
-  $('#submit').click(function(){
+  function loadGame(gameId) {
+    $.ajax({url: "/games/missing/container?id="+gameId})
+      .done(function( data ) {
+        $('#game-container').html(data);
+      });
+  }
+
+  function getReadyForNext (val) {
+    selectedAnswers[gameIndex] = [gameIds[gameIndex],val];
+    $('#next-question').prop('disabled', false);
+    if ((gameIndex+1) < gameIds.length) {
+      $('#next-question').show();
+    }
+    else {
+      $('#next-question').hide();
+      $('#game-overview').hide();
+      $('#game-result').show();
+    }
+  }
+
+  $('#next-question').click(function(){
+    gameIndex++;
+    loadGame(gameIds[gameIndex]);
+    $('#games-left').text(gameIndex);
     $(this).prop('disabled', true);
-    tries++;
-    var wasLastTry = ((maxTries - tries) === 0);
-    // get all form elements
-    var serialize = $('#gameform').serialize();
-    $.post('check-selected', serialize, function(data) {
-      if (data.correct) {
-        setModalText('Ihre Lösung ist korrekt!', '');
-        showSolution(data.correctBuilding, data.solutionImage, data.solutionText);
-        $('#newgame').show();
-      }
-      else {
-         switch((maxTries-tries)){
-          case 0:
-            setModalText('Ihre Lösung ist leider falsch!', 'Sie haben keine Versuche mehr! Die Lösung wird aufgedeckt!');
-            showSolution(data.correctBuilding, data.solutionImage, data.solutionText);
-            $('#newgame').show();
-            break;
-          case 1:
-            setModalText('Ihre Lösung ist leider falsch!','Sie haben noch einen Versuch!');
-            $('#submit').prop('disabled', false);
-            break;
-          default:
-            setModalText('Ihre Lösung ist leider falsch!','Sie haben noch ' + (maxTries-tries) + ' Versuche!');
-            $('#submit').prop('disabled', false);
-          };
-      }
-      $('#checkModal').modal();
-    });
   });
 
-  function setModalText (title, body) {
-    $('#checkModal .modal-title').text(title);
-    $('#checkModal .modal-body').text(body);
-  }
+  $('#game-overview').click(function(){
+    location.href = '/games/missing/';
+  });
 
-  /* shows the correct img selection */
-  function showSolution(labelsId, imgId, solutionText) {
-    $('#selectable label').each(function(){
-      if($.inArray($(this).context.htmlFor, labelsId) >= 0) {
-        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
-      }
-      else {
-        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
-      }
-    });
-    $('.modal-body').append('<br><img class="center-block" src="/ressources/image?id=' +
-        imgId + '&amp;size=large" style="max-width:100%; max-height:80%"><br><p>' +
-        solutionText + '</p>');
-  };
+  $('#game-result').click(function(){
+    selectedAnswers = selectedAnswers.join(",");
+    $.ajax({url: "/games/missing/result?result=" +
+      selectedAnswers})
+      .done(function( data ) {
+        $('#game-container').html(data);
+      });
+    $('#game-result').hide();
+    $('#game-overview').show();
+  });
 
-  /* removes that damn glypicons again */
-  function removeCorrection() {
-    $('#selectable label').each(function(){
-      $(this).removeClass('selected');
-      $('.glyphicon').remove();
-    });
-  };
-  /* let the user play 3 games, then send him to the overview */
-  $('#newgame').attr("href","/games/missing/game?level=" + Number({level}) + "&gamesLeft=" + (Number({gamesLeft})-1));
-  if((Number({gamesLeft})-1) === 0){
-    $('#newgame').attr("href","/games/missing/");
-    $('#newgame').text("Zur Übersicht");
-  }
+
+  $('#game-container').on('click', '.select-answer', function(){
+    $(this).addClass('selected').siblings().removeClass('selected');
+    getReadyForNext($(this).context.htmlFor);
+  });
+
+  $('#games-left').text(gameIds.length - gameIndex);
+  $('#next-question').prop('disabled', true);
+  loadGame(gameIds[gameIndex]);
 });
 </script>
 {/content}

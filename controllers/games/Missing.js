@@ -31,45 +31,49 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   gameAction: function() {
     var _this = this,
-      id = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'), 10) || 1,
-      gamesLeft = parseInt(_this.request.param('gamesLeft'), 10) || 3;
+      ids = _this.request.param('id'),
+      level = parseInt(_this.request.param('level'), 10) || 1;
 
     _this.increaseStat('level' + level + '_count_played');
-    if(typeof id !== "undefined"){
+
+    if(typeof ids === "undefined"){
+
+      //give random game
+      var count;
+      switch(level){
+        case 2: count = 6; break;
+        case 3: count = 10; break;
+        default: count = 3; break;
+      }
+
       _this.mongodb
       .collection('missingparts_games')
-      .find({_id: _this.mongo.ObjectID(id)})
-      .nextObject(
-        function(err, game) {
-        _this.renderGame(game, level, function(err, images){
-          _this.view.render({
-            title: 'Fehlstellen',
-            game: game,
-            level: level,
-            mainimage: game.image,
-            images: images,
-            gamesLeft: gamesLeft
-          });
+      .find()
+      .toArray( function(err, games) {
+        games = _this.shuffleArray(games).slice(0, count);
+        _this.view.render({
+          title: 'Fehlstellen',
+          games: games,
+          level: level
         });
       });
     }else{
-      _this.mongodb.collection('missingparts_games')
-      .find() 
-      .toArray(
-        function(err, game) {
-        game = game[Math.floor(game.length*Math.random())];
 
-        _this.renderGame(game, level, function(err, images){
+      //give specific game according to ids
+      ids = ids.split(',');
+      for (var i = 0; i < ids.length; i++) {
+        ids[i] = _this.mongo.ObjectID(ids[i]);
+      }
+
+      _this.mongodb
+        .collection('missingparts_games')
+        .find({_id: {$in: ids}}) 
+        .toArray(function(err, game) {
           _this.view.render({
             title: 'Fehlstellen',
-            game: game,
-            level: level,
-            mainimage: game.image,
-            images: images,
-            gamesLeft: gamesLeft
+            games: game,
+            level: level
           });
-        });
       });
     }
   },
@@ -81,39 +85,51 @@ module.exports.prototype = GamesController.prototype.extend({
   * @param <Callback> renderCallback
   * @return <Array> images in Callback
   */
-  renderGame: function(game, level, renderCallback) {
+  containerAction: function() {
     var _this = this,
-      type = game.missingparts_category,
-      limit;
+      id = _this.request.param('id');
 
+    if(typeof id === 'undefined'){
+      _this.view.render({ error: 'No ID specified' });
+      return;
+    }
+/* Should there be a limit?
     switch (level){
       case 2:  limit = 8; break;
       case 3:  limit = 12; break;
       default: limit = 4; break;
     }
-
-    //get one solution
-    var solution = game.missingparts_correctimage[
-        Math.floor(game.missingparts_correctimage.length * Math.random())];
-
+    */
+    console.log(id);
     _this.mongodb
-      .collection('missingparts_images')
-      .find({
-        missingparts_category: type,
-        _id: {$nin: game.missingparts_correctimage}}) // no 2 solutions
-      .limit(limit-1)
-      .toArray(
-        function (err, images) {
-        _this.mongodb
+    .collection('missingparts_games')
+    .find({_id: _this.mongo.ObjectID(id)})
+    .nextObject(function (err, game) {
+      //get one random solution
+      var solution = game.missingparts_correctimage[
+          Math.floor(game.missingparts_correctimage.length * Math.random())];
+
+      _this.mongodb
         .collection('missingparts_images')
-        .find({_id: _this.mongo.ObjectID(solution.toString()) })
-        .nextObject(
-          function (err2, images2) {
-          images.push(images2);
-          images = _this.shuffleArray(images);
-          renderCallback(err, images);
+        .find({ missingparts_category: game.missingparts_category,
+                _id: {$nin: game.missingparts_correctimage}}) // no 2 solutions
+        .toArray(function (err, images) {
+          console.log(solution);
+          _this.mongodb
+          .collection('missingparts_images')
+          .find({_id: _this.mongo.ObjectID(solution.toString())})
+          .nextObject(function (err2, images2) {
+            images = _this.shuffleArray(images.slice(0,3))
+            images.push(images2);
+            images = _this.shuffleArray(images);
+
+            _this.view.render({
+              game: game,
+              images: images
+            });
+          });
         });
-      });
+    });
   },
 
   /**
@@ -124,46 +140,88 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Boolean> correct
   * @return <Number> correctBuilding
   */
-  checkSelectedAction: function() {
+  resultAction: function() {
     var _this = this,
-      gameid  = _this.request.param('gameid'),
-      attempt = _this.request.param('attempt'),
-      level   = _this.request.param('level'),
-      result  = _this.request.param('sortings');
+      result  = _this.request.param('result'),
+      solution = [],
+      selected = [],
+      countCorrect = 0,
+      countWrong = 0,
+      objectIds = [];
 
-    // TODO: implement clientside error detection
-    if(typeof result === 'undefined' || typeof gameid === 'undefined'){
-      _this.response.json({error:'Error'});
+    if(typeof result === 'undefined'){
+      _this.view.render({error:'Error'});
       return;
     }
+
+    result = result.split(',');
+    for (var i = 0; i < (result.length/2); i++) {
+      selected[i] = [result[i*2], result[(i*2)+1]];
+      objectIds[i] = _this.mongo.ObjectID(result[i*2]);
+    }
+
     // get the game paramenters first
     _this.mongodb
     .collection('missingparts_games')
-    .find( {_id: _this.mongo.ObjectID(gameid)} )
-    .nextObject(
-      function(err, game) {
+    .find( {_id: {$in: objectIds}} )
+    .toArray(function(err, game) {
 
       // lets see if the correct image is clicked
-      var correctImageSelected = false,
-          correctImageId = game.missingparts_correctimage;
+      // because the order is random we need to iterate all the things
+      for (var i = 0; i < game.length; i++) {
+        var answers = game[i].missingparts_correctimage,
+          isCorrect = false;
+        for (var j = 0; j < selected.length; j++) {
+          if(String(selected[j][0]) === String(game[i]._id)){
+            for (var k = 0; k < answers.length; k++) {
+              
+              if(String(selected[j][1]) === String(answers[k])){
+                isCorrect = true;
+                break;
+              }
+            }
+            break;
+          }
+        }
+        solution.push(isCorrect);
 
-      for (var i = 0; i < correctImageId.length; i++) {
-        if(parseInt(result,16) ===
-          parseInt(correctImageId[i],16)){
-          correctImageSelected = true;
+        game[i].selectedAnswer = isCorrect;
+        if(isCorrect){
+          countCorrect++;
+        }else{
+          countWrong++;
         }
       }
+
+      var percentage = {
+        'wrong': (countWrong   * 100) / (countWrong + countCorrect),
+        'right': (countCorrect * 100) / (countWrong + countCorrect)
+      };
 
       // Update Stats
       Statistics.prototype.insertStats(_this, 'missing');
 
       // send the solution back to client
-      _this.response.json( {
-        correct: correctImageSelected,
-        correctBuilding: correctImageId,
-        solutionImage: game.missingparts_solutionimage,
-        solutionText: game.missingparts_solutiontext
+      _this.view.render( {
+        solution: solution,
+        game: game,
+        percent: percentage
       });
+    });
+  },
+
+  /**
+  * I don't know how to load every picture from the db asynchronos
+  * So the client sends some requests about the id for the picture
+  * This feels wrong but works fine right now
+  */
+  getsolutionpictureAction : function () {
+    var _this = this;
+    _this.mongodb
+    .collection('missingparts_images')
+    .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
+    .nextObject(function (err, ele) {
+      _this.response.json({imgid: ele.image});
     });
   }
 });
