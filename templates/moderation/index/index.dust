@@ -12,54 +12,51 @@ h2{
 {>"moderation/index/navbar.dust"/}
 <div class="height: 100px;"></div>
 <div class="col-md-10">
-    <div class="jumbotron">Neues Spiel hinzufügen</div>
-    <div class="bs-example">
-      <div class="media">
-        <a class="pull-left" href="/moderation/encyclopedia">
-          <span class="media-object glyphicon glyphicon-book" style="font-size: 60px;width: 64px; height: 64px;"></span>
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading">Enzyklopädie</h4>
-          Die Enzyklopäde besteht aus Artikeln.<br>
-          Artikel haben einen Titel, einen Text und ein optionales Bild.
-        </div>
+    <div class="media">
+      <a class="pull-left" href="/moderation/games/sorting">
+        <span class="media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">Zeitstrahl</h4>
+        Für den Zeitstrahl können nur mehr Gebäude angelegt werden. Diese werden dann automatisch hinzugefügt und zufällig verteilt.
       </div>
-      <br>
-      <div class="media">
-        <a class="pull-left" href="/moderation/games/missing">
-          <span class="media-object glyphicon icon-missing" style="font-size: 60px;width: 64px; height: 64px;"></span>
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading">Fehlstellenspiel</h4>
-          Das Fehlstellenspiel benötigt ein Hauptbild mit Fehlstellen, ein Lösungsbild, eine Kategorie der Einzelteile und gegebenenfalls eine neue Kategorie für die Einzelteile (sollte diese nicht vorhanden sein).
-        </div>
+    </div>
+    <div class="media">
+      <a class="pull-left" href="/moderation/games/missing">
+        <span class="media-object glyphicon icon-missing" style="font-size: 60px;width: 64px; height: 64px;"></span>
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">Fehlstellenspiel</h4>
+        Das Fehlstellenspiel benötigt ein Hauptbild mit Fehlstellen, ein Lösungsbild, eine Kategorie der Einzelteile und gegebenenfalls eine neue Kategorie für die Einzelteile (sollte diese nicht vorhanden sein).
       </div>
-      <div class="media">
-        <a class="pull-left" href="#">
-          <span class="media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading">Zusammensetzspiel</h4>
-          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-        </div>
+    </div>
+    <div class="media">
+      <a class="pull-left" href="/moderation/games/assemble">
+        <span class="media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">Baukasten</h4>
+        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
       </div>
-      <div class="media">
-        <a class="pull-left" href="/moderation/games/sorting">
-          <span class="media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading">Sortierspiel</h4>
-          Für das Sortierspiel können nur mehr Gebäude angelegt werden. Diese werden dann automatisch hinzufügt und zufällig verteilt.
-        </div>
+    </div>
+    <div class="media">
+      <a class="pull-left" href="/moderation/games/multiplechoice">
+        <span class="media-object glyphicon icon-multiple" style="font-size: 60px; width: 64px; height: 64px;"></span>
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">Multiple Choice</h4>
+        Es können neue Fragen hinzugefügt werden. Eine Frage besteht aus einem Bild, einem Fragentext, mindestens einer richtigen Antwort und mindestens 3 falschen Antworten.
       </div>
-      <div class="media">
-        <a class="pull-left" href="/moderation/games/multiplechoice">
-          <span class="media-object glyphicon icon-multiple" style="font-size: 60px; width: 64px; height: 64px;"></span>
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading">Multiple Choice</h4>
-          Es können neue Fragen hinzugefügt werden. Eine Frage besteht aus einem Bild, einem Fragentext, mindestens einer richtigen Antwort und mindestens 3 falschen Antworten.
-        </div>
+    </div>
+    <hr>
+    <div class="media">
+      <a class="pull-left" href="/moderation/encyclopedia">
+        <span class="media-object glyphicon glyphicon-book" style="font-size: 60px;width: 64px; height: 64px;"></span>
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">Enzyklopädie</h4>
+        Die Enzyklopäde besteht aus Artikeln.<br>
+        Artikel haben einen Titel, einen Text und ein optionales Bild.
       </div>
     </div>
 </div>

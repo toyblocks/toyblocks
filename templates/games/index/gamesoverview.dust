@@ -6,7 +6,7 @@
       <div class="media-body" style="color: black;">
       <h3 class="list-group-item-heading">
       Zeitstrahl</h3>
-      <p class="list-group-item-text" style="text-decoration: none;">Ordnen Sie die Bauwerke in chronologischer Reihenfolge.</p>
+      <p class="list-group-item-text" style="text-decoration: none;">{game_sorting_text}</p>
     </div></a></div>
     <div class="list-group-item" style="min-height: 90px">
     <a href="/games/missing/">
@@ -14,7 +14,7 @@
       <div class="media-body" style="color: black;">
       <h3 class="list-group-item-heading">
       Fehlstellen</h3>
-      <p class="list-group-item-text" style="text-decoration: none;">Finden Sie das fehlende Element.</p>
+      <p class="list-group-item-text" style="text-decoration: none;">{game_missing_text}</p>
     </div></a></div>
     <div class="list-group-item" style="min-height: 90px">
     <a href="/games/assemble/">
@@ -22,7 +22,7 @@
       <div class="media-body" style="color: black;">
       <h3 class="list-group-item-heading">
       Baukasten</h3>
-      <p class="list-group-item-text" style="text-decoration: none;">Setzen Sie die Elemente in der richtigen Abfolge zusammen!</p>
+      <p class="list-group-item-text" style="text-decoration: none;">{game_assemble_text}</p>
     </div></a></div>
     <div class="list-group-item" style="min-height: 90px">
     <a href="/games/multiplechoice/">
@@ -30,7 +30,7 @@
       <div class="media-body" style="color: black;">
       <h3 class="list-group-item-heading">
       Multiple Choice</h3>
-      <p class="list-group-item-text" style="text-decoration: none;">Beantworten Sie Fragen zu allen Themen im Multiple-Choice-Verfahren!</p>
+      <p class="list-group-item-text" style="text-decoration: none;">{game_multiplechoice_text}</p>
     </div></a></div>
     <div class="list-group-item" style="min-height: 90px">
     <a href="/games/daily/">
@@ -38,46 +38,7 @@
       <div class="media-body" style="color: black;">
       <h3 class="list-group-item-heading">
       Daily Challenge</h3>
-      <p class="list-group-item-text" style="text-decoration: none;">Testen Sie einmal täglich ihr Wissen im Vergleich mit anderen Studierenden!</p>
+      <p class="list-group-item-text" style="text-decoration: none;">{game_challenge_text}</p>
     </div></a></div>
   </div>
 </div>
-<!--
-Sofort Spielen:
-<div class="col-md-5">
-  <div class="list-group">
-    <div class="list-group-item" style="height: 90px">
-      <div class="btn-group btn-group-lg">
-        <button type="button" href="/games/sorting/game?level=1" class="btn btn-default">Level 1</button>
-        <button type="button" href="/games/sorting/game?level=2" class="btn btn-default">Level 2</button>
-        <button type="button" href="/games/sorting/game?level=3" class="btn btn-default">Level 3</button>
-      </div>
-    </div>
-    <div class="list-group-item" style="height: 90px">
-      <div class="btn-group btn-group-lg">
-        <button type="button" href="/games/missing/game?level=1" class="btn btn-default">Level 1</button>
-        <button type="button" href="/games/missing/game?level=2" class="btn btn-default">Level 2</button>
-      </div>
-    </div>
-    <div class="list-group-item" style="height: 90px">
-      <div class="btn-group btn-group-lg">
-        <button type="button" href="/games/assemble/game?level=1" class="btn btn-default">Level 1</button>
-        <button type="button" href="/games/assemble/game?level=2" class="btn btn-default">Level 2</button>
-      </div>
-    </div>
-    <div class="list-group-item" style="height: 90px">
-      <div class="btn-group btn-group-lg">
-        <button type="button" href="/games/multiplechoice/game?level=1" class="btn btn-default">3 Fragen</button>
-        <button type="button" href="/games/multiplechoice/game?level=2" class="btn btn-default">6 Fragen</button>
-        <button type="button" href="/games/multiplechoice/game?level=3" class="btn btn-default">10 Fragen</button>
-      </div>
-    </div>
-    <div class="list-group-item" style="height: 90px">
-      <div class="btn-group btn-group-lg">
-        <button type="button" href="/games/daily/game" class="btn btn-default">Spielen</button>
-      </div>
-    </div>
-  </div>
-</div>
-
--->

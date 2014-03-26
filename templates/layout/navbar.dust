@@ -15,13 +15,11 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profil<b class="caret"></b></a>
           <ul class="dropdown-menu">
           {?_user}
-            <li><a href="/users/">Profil ändern</a></li>
+            <li><a href="/users/">Profil anzeigen</a></li>
             <li><a href="/users/log/out/">Ausloggen</a></li>
           {:else}
             <li><a href="/index/welcome/">Einloggen</a></li>
           {/_user}
-            <li class="divider"></li>
-            <li><a href="/404/">Hilfe</a></li>
           </ul>
         </li>
 
@@ -30,10 +28,10 @@
           <ul class="dropdown-menu">
             <li><a href="/games">Übersicht</a></li>
             <li class="divider"></li>
-            <li><a href="/games/assemble/">Baukasten</a></li>
-            <li><a href="/games/missing/">Fehlstellen</a></li>
-            <li><a href="/games/multiplechoice/">Multiple Choice</a></li>
             <li><a href="/games/sorting/">Zeitstrahl</a></li>
+            <li><a href="/games/missing/">Fehlstellen</a></li>
+            <li><a href="/games/assemble/">Baukasten</a></li>
+            <li><a href="/games/multiplechoice/">Multiple Choice</a></li>
             <!-- Daily is not usuable yet...
             <li class="divider"></li>
             <li class="dropdown-header">Daily Challenge</li>

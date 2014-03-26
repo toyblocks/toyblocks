@@ -6,15 +6,15 @@
 {>"games/sorting/help.dust"/}
   <div class="list-group">
     <a href="game?level=1" class="well list-group-item">
-    	<strong>Schwierigskeitstufe 01</strong>
+    	<strong>Schwierigkeitsstufe 01</strong>
       <span class="badge">{#_user.stats.sorting.level1_count_played}{.}{:else}0{/_user.stats.sorting.level1_count_played} mal gespielt</span>
     </a>
     <a href="game?level=2" class="well list-group-item">
-    	<strong>Schwierigskeitstufe 02</strong>
+    	<strong>Schwierigkeitsstufe 02</strong>
       <span class="badge">{#_user.stats.sorting.level2_count_played}{.}{:else}0{/_user.stats.sorting.level2_count_played} mal gespielt</span>
     </a>
     <a href="game?level=3" class="well list-group-item">
-    	<strong>Schwierigskeitstufe 03</strong>
+    	<strong>Schwierigkeitsstufe 03</strong>
       <span class="badge">{#_user.stats.sorting.level3_count_played}{.}{:else}0{/_user.stats.sorting.level3_count_played} mal gespielt</span>
     </a>
   </div>

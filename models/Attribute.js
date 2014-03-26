@@ -13,6 +13,7 @@ module.exports = base.extend({
       {name: 'date', explain: 'Einfaches Datum'},
       {name: 'datetime', explain: 'Datum mit Zeit'},
       {name: 'int', explain: 'Strikte Zahl'},
+      {name: 'bool', explain: 'Simples Ja/Nein'},
       {name: 'float', explain: 'Strikte Kommazahl'},
       {name: 'image', explain: 'Bild'},
       {name: 'attributes', explain: 'Liste von Attributen'},
@@ -25,7 +26,8 @@ module.exports = base.extend({
   validateAndTransform: function (attribute, typeProps, value, mongo) {
     if (typeProps.multiple) {
       for (var valIndex in value) {
-        value[valIndex] = this._validateAndTransformOne(attribute, typeProps, value[valIndex], mongo);
+        value[valIndex] = this._validateAndTransformOne(attribute,
+          typeProps, value[valIndex], mongo);
       }
     }
     else {
@@ -47,13 +49,16 @@ module.exports = base.extend({
     case 'objecttype':
       return mongo.ObjectID(value);
 
+    case 'bool':
+      if (value === '') {
+        return null;
+      }
+      return ( value === '1' ? true : false);
+
     case 'int':
       if (!value.match(/^-?[\d]*$/))
         throw new Error('value is not a valid number');
-      if (!value)
-        return null;
-      else
-        return parseInt(value, 10);
+      return !value ? null : parseInt(value, 10);
 
     case 'image':
       if (!value)

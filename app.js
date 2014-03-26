@@ -15,6 +15,12 @@ var config = require('./configs')(),
     mongodb = require('mongodb');
 
 dust.helpers = require('dustjs-helpers');
+// helpers do not work... why?
+dust.helpers.Truncate = function(chunk, context, bodies, params) {
+  var data   = dust.helpers.tap(params.data, chunk, context),
+      length = dust.helpers.tap(params.length, chunk, context);
+  return chunk.write(data.substr(0, length));
+};
 
 var app = express();
 

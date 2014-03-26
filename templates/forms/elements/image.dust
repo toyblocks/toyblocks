@@ -15,7 +15,7 @@
 <div class="form-group{?props.multiple} multiple{/props.multiple}" data-type="{object_type.name}" data-image-preview=".preview-thumbnail">
   <label class="col-sm-3 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;"><span class="green glyphicon glyphicon-plus-sign"></span></a>{/props.multiple}</label>
   <div class="col-sm-3">
-    <input name="values[{name}_name]{?props.multiple}[]{/props.multiple}" type="file" class="form-attr-{name}" id="attr_{name}"{?props.mandatory}{?props.multiple}{^object[name]} required{/object[name]}{:else} required{/props.multiple}{/props.mandatory}>
+    <input name="values[{name}_name]{?props.multiple}[]{/props.multiple}" type="file" class="form-attr-{name}" id="attr_{name}"{?props.mandatory}{?props.multiple}{^object[name]} required{/object[name]}{:else}{^object[name]} required{/object[name]}{/props.multiple}{/props.mandatory}>
     <input name="values[{name}]{?props.multiple}[]{/props.multiple}" type="hidden"{^props.multiple}{?object[name]} value="_id:{object[name]}"{/object[name]}{/props.multiple}>
   </div>
   <div class="col-sm-3">

@@ -10,9 +10,13 @@ module.exports.prototype = GamesController.prototype.extend({
 
   indexAction: function() {
     var _this = this;
-
-    _this.view.render({
-      title: 'Alle Spiele'
-    });
+    _this.getDbTexts(
+      ['game_sorting_text', 'game_challenge_text',
+      'game_assemble_text', 'game_missing_text',
+      'game_multiplechoice_text'],
+      function(texts) {
+        texts.title = 'Alle Spiele';
+        _this.view.render(texts);
+      });
   }
 });

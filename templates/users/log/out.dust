@@ -2,9 +2,7 @@
 {<content}
 <div class="jumbotron">
   <div class="page-header">
-    <h1>Sie haben sich abgemeldet!</h1>
-    <p>Bitte beachten Sie, dass Sie sich lediglich aus der Lernplattform „ToyBlocks“ abgemeldet haben, im zentralen Authentifizierungsdienst (SSO) der TU Darmstadt allerdings noch angemeldet sind. Wenn Sie einen öffentlichen Computer benutzen, sollten Sie sich zum Schutz Ihrer Daten auch dort ausloggen.</p>
-    <p>Sie können sich <a href="https://sso.hrz.tu-darmstadt.de/logout">aus dem SSO-Verbund abmelden</a> oder <a href="/">zur Startseite zurückkehren</a>.</p>
+  	{logout_text|s}
   </div>
 </div>
 {/content}

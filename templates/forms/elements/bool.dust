@@ -1,0 +1,11 @@
+<div class="form-group">
+  <label class="col-sm-3 control-label" for="attr_{name}">{title}</label>
+  <div class="col-sm-6">
+    <select name="values[{name}]" id="attr_{name}" class="form-control">
+      {^props.mandatory}<option value=""{@eq key=object[name] value=null} selected{/eq}>Bitte auswählen...</option>{/props.mandatory}
+      <option value="1"{?object[name]} selected{/object[name]}>Ja</option>
+      <option value="0"{^object[name]} selected{/object[name]}>Nein</option>
+    </select>
+  </div>
+</div>
+{!@eq key=object[name] value=true!}

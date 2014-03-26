@@ -33,9 +33,26 @@ $(function(){
     }).on('page', function(event, num){
       $.get(location.href, {page: num}, function(data) {
         $('#content').html(data);
+        $('#search_input input').val('');
       });
-        //$(".content2").html("Page " + num); // or some ajax content loading...
     });
+    var $searchInput = $('<input type="text" name="search" placeholder="Suchen nach..." class="form-control"></div>'),
+      $searchInputWrapper = $('<div id="search_input"></div>'),
+      searchEvent;
+    $searchInput.on('keyup', function(event) {
+      clearTimeout(searchEvent);
+      searchEvent = setTimeout(function(){
+        var searchParams = {};
+        if ($searchInput.val()) {
+          searchParams.search = {title: $searchInput.val()};
+        }
+        $.get(location.href, searchParams, function(data) {
+          $('#content').html(data);
+        });
+      }, 500);
+    });
+    $searchInputWrapper.append($searchInput);
+    $('#page_selection').append($searchInputWrapper);
   }
 
 
@@ -60,8 +77,29 @@ $(function(){
     }
   });
 
+  var initSummernote = function() {
+    $('.summernote').summernote({
+      disableDragAndDrop: true,
+      height: 200,
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'clear']],
+        // ['fontname', ['fontname']],
+        // ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        // ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'video']],
+        ['view', ['fullscreen', 'codeview']],
+        ['help', ['help']]
+      ]
+    });
+  };
 
   $(document).ready(function(){
+    initSummernote();
+
     // object references selection for objects
     var $objecttypeTrigger;
     $('#objectFormModal').on('click', '.select-objecttype', function() {
@@ -109,6 +147,7 @@ $(function(){
 
   $(document).ajaxSuccess(function() {
     referencesResolve();
+    initSummernote();
   });
 
   referencesResolve();
