@@ -30,8 +30,6 @@ module.exports.prototype = GamesController.prototype.extend({
       ids  = _this.request.param('id'),
       level   = parseInt(_this.request.param('level'),10) || 1;
 
-    _this.increaseStat('count_played');
-
     if(typeof ids === 'undefined'){
 
       //give random game
@@ -41,6 +39,7 @@ module.exports.prototype = GamesController.prototype.extend({
         case 3: count = 10; break;
         default: count = 3; break;
       }
+      _this.increaseStat('q'+count+'_count_played');
 
       _this.mongodb
       .collection('multiplechoice_questions')
