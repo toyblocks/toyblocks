@@ -15,6 +15,5 @@
       <span class="badge">{#_user.stats.missing.level2_count_played}{.}{:else}0{/_user.stats.missing.level2_count_played} mal gespielt</span>
     </a>
   </div>
-  <p class="text-muted">Es kann sein das es noch nicht genug Einzelteile gibt um genug anzuzeigen.</p>
 </div>
 {/content}
