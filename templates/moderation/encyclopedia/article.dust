@@ -32,7 +32,7 @@
 
   </div>
   <div class="row">
-    <div id='editor'>{article|s}</div>
+    <div id='editor' class="summernote">{article|s}</div>
     <input id="article_body" name="values[article_body]" type="hidden">
   </div>
 
@@ -45,20 +45,6 @@
 <script type="text/javascript">
   $(document).ready(function() {
     var $editor = $('#editor');
-    $editor.summernote({
-      disableDragAndDrop: true,
-      toolbar: [
-        ['style', ['style']],
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['fontsize', ['fontsize']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        // ['height', ['height']],
-        ['insert', ['link', 'video']],
-        ['table', ['table']],
-        ['help', ['help']]
-      ]
-    });
     $('#createarticle').submit(function() {
         $('#article_body').val($editor.code());
         return true; // return to default form submit action

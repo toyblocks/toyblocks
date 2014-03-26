@@ -30,6 +30,22 @@ module.exports.prototype = {
     // can not render view here, because most of the time the db requests are async
   },
 
+  getDbTexts: function(textKeys, callback) {
+    if (!Array.isArray(textKeys)) {
+      textKeys = [textKeys];
+    }
+    this.mongodb
+      .collection('page_texts')
+      .find({key: {$in: textKeys}})
+      .toArray(function(err, texts) {
+        var textsByKey = {};
+        for (var i in texts) {
+          textsByKey[texts[i].key] = texts[i].text;
+        }
+        callback(textsByKey);
+      });
+  },
+
   addMessage: function(msgType, msgHead, msgText) {
     if (!this.request.session.messages)
       this.request.session.messages = [];

@@ -1,0 +1,25 @@
+{?props.multiple}
+  {#object[name]}
+  <div class="form-group multiple">
+    <label class="col-sm-3 control-label" for="attr_{name}">{title}</label>
+    <div class="col-sm-6">
+      <textarea name="values[{name}][]" id="attr_{name}" class="form-control" readonly>{.}</textarea>
+    </div>
+    <div class="col-sm-1">
+      <label><a href="" onclick="$(this).parents('.form-group').remove();return false;"><span class="red glyphicon glyphicon-minus-sign"></span></a></label>
+    </div>
+  </div>
+  {/object[name]}
+{/props.multiple}
+<div class="form-group{?props.multiple} multiple{/props.multiple}">
+  <label class="col-sm-3 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;"><span class="green glyphicon glyphicon-plus-sign"></span></a>{/props.multiple}</label>
+  <div class="col-sm-6">
+    <textarea name="values[{name}]{?props.multiple}[]{/props.multiple}" id="attr_{name}" class="form-control summernote">{^props.multiple}{?object[name]}{object[name]}{/object[name]}{/props.multiple}</textarea>
+  </div>
+  {?props.multiple}
+  <div class="col-sm-1">
+    <label><a href="" onclick="if ($('.form-attr-{name}').length > 1) $(this).parents('.form-group').remove(); return false;"><span class="red glyphicon glyphicon-minus-sign"></span></a></label>
+  </div>
+  {/props.multiple}
+</div>
+{!?props.mandatory}{?props.multiple}{^object[name]} required{/object[name]}{:else} required{/props.multiple}{/props.mandatory!}

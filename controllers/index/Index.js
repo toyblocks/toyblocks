@@ -27,16 +27,28 @@ module.exports.prototype = BaseController.prototype.extend({
 
 
   aboutAction: function () {
-    this.view.render({
-      title: 'Information'
-    });
+    var _this = this;
+    _this.getDbTexts(
+      ['information'],
+      function(texts) {
+        _this.view.render({
+          title: 'Information',
+          text: texts.information
+        });
+      });
   },
 
 
   impressumAction: function () {
-    this.view.render({
-      title: 'Impressum'
-    });
+    var _this = this;
+    _this.getDbTexts(
+      ['imprint'],
+      function(texts) {
+        _this.view.render({
+          title: 'Impressum',
+          text: texts.imprint
+        });
+      });
   },
 
   error404Action: function () {

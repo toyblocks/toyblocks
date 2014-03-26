@@ -29,17 +29,24 @@
         {#objects attributes=attributes object_type=type}
         <tr>
           {#attributes object=.}
+            <td>
             {@select key="{type}"}
               {@eq value="image"}
-                <td>{#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" data-content="<img src='/ressources/image?id={.}&size=middle' />"/>{/object[name]}</td>
+                {#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" data-content="<img src='/ressources/image?id={.}&size=middle' />"/>{/object[name]}
+              {/eq}
+              {@eq value="text"}
+                {! TODO: If possible in dust.js make a helper or a filter for truncating instead css-solution !}
+                <div class="text-truncate">{#object[name]}{.} {/object[name]}</div>
+              {/eq}
+              {@eq value="bool"}
+                {?object[name]}Ja{:else}Nein{/object[name]}
               {/eq}
               {@eq value="objecttype"}
-                <td><div data-object-references="{object[name]}" data-object-type="{object_type}"></div></td>
+                <div data-object-references="{object[name]}" data-object-type="{object_type}"></div>
               {/eq}
-              {@default}
-                <td>{#object[name]}{.} {/object[name]}</td>
-              {/default}
+              {@default}{#object[name]}{.} {/object[name]}{/default}
             {/select}
+            </td>
           {/attributes}
           <td><a href="/admin/objects/form?type={type.name}&id={_id}" data-target="#objectFormModal" data-toggle="modal">Editieren</a>
             <a href="/admin/objects/delete-object?type={object_type.name}&id={_id}">Löschen</a></td>

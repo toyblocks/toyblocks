@@ -12,20 +12,23 @@ module.exports.prototype = BaseController.prototype.extend({
   indexAction: function() {
     var _this = this;
 
-    this.mongodb
-    .collection('website_texts')
-    .find({})
-    .nextObject(function(err, texts) {
-      _this.view.render({
-        headline: texts.welcome_title,
-        body: texts.welcome_body,
-        sorting: texts.welcome_sorting,
-        challenge: texts.welcome_challenge,
-        assemble: texts.welcome_assemble,
-        missing: texts.welcome_missing,
-        multiplechoice: texts.welcome_multiplechoice
-      });
-    });
+    _this.getDbTexts(
+      ['welcome_title', 'welcome_body',
+      'game_sorting_text', 'game_challenge_text',
+      'game_assemble_text', 'game_missing_text',
+      'game_multiplechoice_text'],
+      function(texts) {
+        _this.view.render({
+          headline: texts.welcome_title,
+          body: texts.welcome_body,
+          sorting: texts.game_sorting_text,
+          challenge: texts.game_challenge_text,
+          assemble: texts.game_assemble_text,
+          missing: texts.game_missing_text,
+          multiplechoice: texts.game_multiplechoice_text
+        });
+      }
+    );
   },
 
 });

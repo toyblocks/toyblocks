@@ -51,5 +51,10 @@ module.exports.prototype = {
   },
   setParam: function(param, value) {
     this.params[param] = value;
+  },
+  addParams: function(keyValueParams) {
+    for (var param in keyValueParams) {
+      this.params[param] = keyValueParams[param];
+    }
   }
 };
