@@ -18,7 +18,10 @@
   left: 5px;
   position: absolute;
 }
-
+.glyphicon{
+  position: absolute;
+  background-color: white;
+}
 .glyphicon-remove {
   color: #d44950;
 }
