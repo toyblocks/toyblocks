@@ -1,7 +1,7 @@
 <p class="helpbox alert-dismissible">
   <span class="infocon glyphicon glyphicon-question-sign invert"></span>
   <button type="button" title="Klicken zum Entfernen." class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  Wählen Sie die richtige Antwort aus.
+  Wählen Sie durch Anklicken die richtige Antwort aus.
   <img src="/img/explanation-mc.png" style="height:300px; ">
   <!--Ordne die Gebäude nach dem Alter ihrer Epochen. NICHT nach ihrem Baujahr!-->
 </p>
