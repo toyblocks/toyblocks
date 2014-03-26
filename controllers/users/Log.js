@@ -25,12 +25,18 @@ module.exports.prototype = UsersController.prototype.extend({
   },
 
   outAction: function() {
+    var _this = this;
     if (this.request.session.user) {
       delete this.request.session.user;
       delete this.request.session.password_given;
     }
     this.view.setNoNavBar(true);
-    this.view.render({});
+    _this.getDbTexts(
+      ['logout_text'],
+      function(texts) {
+        texts.title = 'Abgemeldet';
+        _this.view.render(texts);
+      });
   }
 
 });

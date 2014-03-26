@@ -11,7 +11,6 @@
     href="/admin/objects/form?type=assemble_images"
     data-target="#objectFormModal" data-toggle="modal">Neues Einzelteil erstellen</button>
 
-  <br><br><a href="/admin/objects/objects?type=assemble_games">Direkt zur Übersicht</a>
 </div>
 
 <div class="modal fade" id="objectFormModal" tabindex="-1" role="dialog" aria-labelledby="objectFormModal" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"></div></div></div>
