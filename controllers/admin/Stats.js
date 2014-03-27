@@ -76,12 +76,17 @@ module.exports.prototype = AdminController.prototype.extend({
           "day"   : week.getDate()
         }];
 
+        var renderNextWeek = false;
+        if(weekend.valueOf() < today.valueOf())
+          renderNextWeek = true;
+
       _this.view.render({
         title: 'Statistiken',
         elements: elements,
         gamesCount: gamesOnDay,
         from: fromDateObject,
         to: toDateObject,
+        renderNextWeek: renderNextWeek,
         previousWeek: (week.setDate(week.getDate()-6)).valueOf(),
         nextWeek: weekend.valueOf()
       });
@@ -138,12 +143,18 @@ module.exports.prototype = AdminController.prototype.extend({
           "month":month.getMonth()+1,
           "day":month.getDate()
         }];
+
+        var renderNextWeek = false;
+        if(monthend.valueOf() < today.valueOf())
+          renderNextWeek = true;
+
       _this.view.render({
         title: 'Statistiken',
         elements: elements,
         gamesCount: gamesOnDay,
         from: fromDateObject,
         to: toDateObject,
+        renderNextWeek: renderNextWeek,
         previousmonth: (month.setMonth(month.getMonth()-1)).valueOf(),
         nextmonth: monthend.valueOf()
       });
