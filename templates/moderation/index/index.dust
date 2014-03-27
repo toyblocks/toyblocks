@@ -14,7 +14,7 @@ h2{
 <div class="col-md-10">
     <div class="media">
       <a class="pull-left" href="/moderation/games/sorting">
-        <span class="media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
+        <span class="media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
       </a>
       <div class="media-body">
         <h4 class="media-heading">Zeitstrahl</h4>
@@ -32,7 +32,7 @@ h2{
     </div>
     <div class="media">
       <a class="pull-left" href="/moderation/games/assemble">
-        <span class="media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
+        <span class="media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
       </a>
       <div class="media-body">
         <h4 class="media-heading">Baukasten</h4>
