@@ -48,15 +48,6 @@
 </style>
 <div class="row">
   <div class="col-sm-5">
-    <h2 class="text-center">Zusammensetzung</h2>
-    <form id="assemblyform">
-      <input type="hidden" name="gameid" value="{game._id}">
-      <ol class="well list-group" id="assembly">
-      </ol>
-    </form>
-  </div>
-
-  <div class="col-sm-5 col-sm-offset-2">
     <h2 class="text-center elements">Bauteile</h2>
     <ul class="well list-group" id="elements">
     {#buildingparts}
@@ -68,6 +59,14 @@
     </li>
     {/buildingparts}
     </ul>
+  </div>
+  <div class="col-sm-5 col-sm-offset-2">
+    <h2 class="text-center">Zusammensetzung</h2>
+    <form id="assemblyform">
+      <input type="hidden" name="gameid" value="{game._id}">
+      <ol class="well list-group" id="assembly">
+      </ol>
+    </form>
   </div>
 </div>
 
@@ -89,7 +88,7 @@
         <h4 class="modal-title" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -130,7 +129,7 @@ $(window).ready(function() {
   });
 
   $('#tryagain').click(function(){
-    removeCorrection();  
+    removeCorrection();
     $('#assembly').sortable('enable');
     $('#assembly li').each( function(){
       $(this).prependTo('#elements');
@@ -178,7 +177,7 @@ $(window).ready(function() {
           $('#newgame').prop('disabled', false);
         }else{
           setModalText('Falsch!', 'Ihre Lösung ist leider falsch. Sie haben noch ' + (max_tries-tries) + ' Versuche!');
-        } 
+        }
       }
       $('#checkModal').modal();
     });
