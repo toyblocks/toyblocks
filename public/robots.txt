@@ -3,3 +3,5 @@ Allow: /
 Disallow: /admin/
 Disallow: /moderation/
 Disallow: /users/
+Disallow: /encyclopedia/
+Disallow: /games/
