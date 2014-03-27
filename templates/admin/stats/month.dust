@@ -80,6 +80,8 @@ $(window).ready(function(){
 <ul class="pager">
   <li><a href="?month={previousmonth}">Vorherigen Monat</a></li>
   <li><a href="?">Heute</a></li>
+{@if cond="{renderNextWeek}"}
   <li><a href="?month={nextmonth}">Nächsten Monat</a></li>
+{/if}
 </ul>
 {/content}

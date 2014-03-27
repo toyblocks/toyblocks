@@ -84,6 +84,8 @@ $(window).ready(function(){
 <ul class="pager">
   <li><a href="?week={previousWeek}">Vorherige Woche</a></li>
   <li><a href="?">Heute</a></li>
+{@if cond="{renderNextWeek}"}
   <li><a href="?week={nextWeek}">Nächste Woche</a></li>
+{/if}
 </ul>
 {/content}
