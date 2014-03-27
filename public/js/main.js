@@ -98,7 +98,7 @@ $(function(){
         ['para', ['ul', 'ol', 'paragraph']],
         // ['height', ['height']],
         ['table', ['table']],
-        ['insert', ['link', 'video']],
+        ['insert', ['link', 'picture', 'video']],
         ['view', ['fullscreen', 'codeview']],
         ['help', ['help']]
       ]
@@ -115,7 +115,7 @@ $(function(){
     });
     $('body').on('shown.bs.modal', '#objectTypesModal', function () {
       var $modal = $(this);
-      $modal.find('.select-object').click(function(){
+      $modal.on('click', '.select-object', function(){
         $objecttypeTrigger.siblings('input').val($(this).data('object-id'));
         $objecttypeTrigger
           .removeClass('btn-default')

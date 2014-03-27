@@ -15,9 +15,13 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Array> data
   */
   indexAction: function() {
-    this.view.render({
-      title: 'Fehlstellen'
-    });
+    var _this = this;
+    _this.getDbTexts(
+      ['game_missing_explain'],
+      function(texts) {
+        texts.title = 'Fehlstellen';
+        _this.view.render(texts);
+      });
   },
 
   /**

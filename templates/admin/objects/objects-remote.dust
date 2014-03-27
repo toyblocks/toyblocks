@@ -56,7 +56,11 @@ button:hover{
       searchEvent = setTimeout(function(){
         var searchParams = {type: '{type.name}', _view: 'selection', only_content: '1'};
         if ($searchInput.val()) {
-          searchParams.search = {title: $searchInput.val()};
+          searchParams.search = {
+            title: $searchInput.val(),
+            missingparts_category: $searchInput.val(),
+            assemble_category: $searchInput.val()
+          };
         }
         $.get('/admin/objects/objects', searchParams, function(data) {
           $('#remote_content').html(data);

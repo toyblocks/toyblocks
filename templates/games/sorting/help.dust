@@ -1,8 +1,0 @@
-<p class="helpbox alert-dismissible">
-  <span class="infocon glyphicon glyphicon-question-sign invert"></span>
-  <button type="button" title="Klicken zum Entfernen." class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  Ordnen Sie die unten abgebildeten Bauwerke in chronologisch korrekter Abfolge per Drag and Drop unter den Zeitstrahl!
-  <img src="/img/explanation-sorting.png" style="height:300px; ">
-  <!--Ordne die Gebäude nach dem Alter ihrer Epochen. NICHT nach ihrem Baujahr!-->
-</p>
-<br>

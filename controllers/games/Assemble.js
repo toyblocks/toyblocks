@@ -16,9 +16,13 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return assembleGames - an array of Games
   */
   indexAction: function() {
-    this.view.render({
-      title: 'Baukasten'
-    });
+    var _this = this;
+    _this.getDbTexts(
+      ['game_assemble_explain'],
+      function(texts) {
+        texts.title = 'Baukasten';
+        _this.view.render(texts);
+      });
   },
 
   /**

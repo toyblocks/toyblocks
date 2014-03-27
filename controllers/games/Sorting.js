@@ -16,9 +16,13 @@ module.exports.prototype = GamesController.prototype.extend({
  * @return title - the title of the game
  */
   indexAction: function() {
-    this.view.render({
-      title: 'Zeitstrahl'
-    });
+    var _this = this;
+    _this.getDbTexts(
+      ['game_sorting_explain'],
+      function(texts) {
+        texts.title = 'Zeitstrahl';
+        _this.view.render(texts);
+      });
   },
 
 /**
