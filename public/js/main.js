@@ -126,10 +126,33 @@ $(function(){
       });
     });
 
-    // disable modal caching
-    $('#objectFormModal, #objectTypesModal').on('hidden.bs.modal', function() {
-      $(this).removeData('bs.modal');
+    $('body').on('shown.bs.modal', '#enumsModal', function () {
+      var $modal = $(this);
+      $(this).find('#enumsList').sortable();
+      $(this).find('#enumsList').disableSelection();
+      $('#enumsList').on('click', '.delete-enum', function(){
+        $(this).parents('li').remove();
+      });
+      $(this).find('#addNewEnum').click(function(){
+        var $input = $('#newEnumValue'),
+          newValue = $input.val();
+        $('#enumsList').append('<li class="list-group-item">' + newValue + '<input type="hidden" name="enums[]" value="' + newValue + '" /><span class="badge delete-enum"><span class="red glyphicon glyphicon-remove"></span></span></li>');
+        $input.val('');
+      });
+      $(this).find('#saveEnums').click(function(){
+        var serialized = $('#enumsForm').serialize();
+        $.post('save-enums', serialized, function(data) {
+          $modal.modal('hide');
+        });
+      });
     });
+
+    // disable modal caching
+    $('body').on('hidden.bs.modal',
+      '#objectFormModal, #objectTypesModal, #enumsModal',
+      function() {
+        $(this).removeData('bs.modal');
+      });
   });
 
 
