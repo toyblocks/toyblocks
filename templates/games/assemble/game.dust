@@ -207,7 +207,7 @@ $(window).ready(function() {
     // change heading
     $('h2.elements').text('Lösungsbild');
     // show solution image in #elements
-    $('<img>').attr('src', '/ressources/image?id=' + img).appendTo($('#elements'));
+    $('<img>').attr('src', '/ressources/image?id=' + img + '&size=large').appendTo($('#elements'));
     // deactivate tryagain button, just in case
     $('#tryagain').prop('disabled', false);
   }
