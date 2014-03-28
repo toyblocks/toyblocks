@@ -1,6 +1,7 @@
 'use strict';
 
-var AdminObjectsController = require('../admin/Objects');
+var AdminObjectsController = require('../admin/Objects'),
+  AttributesController = require('../admin/Attributes');
 
 module.exports = function () {
 
@@ -49,6 +50,10 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
     this.upsertObjectAction('/moderation/games/assemble?successful=true');
   },
 
+  saveEnumsAction: function() {
+    AttributesController.prototype.saveEnumsAction(this);
+  },
+
   sortingAction: function() {
     var _this = this;
 
@@ -61,7 +66,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
         title: 'Fehlstellenspiel hinzufügen',
         eras: data[0].values
       });
-    })
+    });
   },
 
   addsortingAction: function() {

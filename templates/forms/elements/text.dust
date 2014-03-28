@@ -13,7 +13,7 @@
 {/props.multiple}
 <div class="form-group{?props.multiple} multiple{/props.multiple}">
   <label class="col-sm-3 control-label" for="attr_{name}">{title}{?props.multiple} <a href="" onclick="$(this).parents('.form-group').duplicateAfter(true);return false;"><span class="green glyphicon glyphicon-plus-sign"></span></a>{/props.multiple}</label>
-  <div class="col-sm-6">
+  <div class="col-sm-9">
     <textarea name="values[{name}]{?props.multiple}[]{/props.multiple}" id="attr_{name}" class="form-control summernote">{^props.multiple}{?object[name]}{object[name]}{/object[name]}{/props.multiple}</textarea>
   </div>
   {?props.multiple}

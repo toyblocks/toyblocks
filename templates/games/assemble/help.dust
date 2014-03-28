@@ -1,8 +1,0 @@
-<p class="helpbox alert-dismissible">
-  <span class="infocon glyphicon glyphicon-question-sign invert"></span>
-  <button type="button" title="Klicken zum Entfernen." class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  Setzen Sie die vorgegebenen Elemente durch Anwählen in der richtigen Reihenfolge (von unten nach oben) zusammen.
-  <img src="/img/explanation-assemble.png" style="height:300px; ">
-  <!--Ordne die Gebäude nach dem Alter ihrer Epochen. NICHT nach ihrem Baujahr!-->
-</p>
-<br>

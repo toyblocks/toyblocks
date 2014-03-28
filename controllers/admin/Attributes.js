@@ -9,6 +9,13 @@ module.exports = function () {
 module.exports.prototype = AdminController.prototype.extend({
   name: 'attributes',
 
+  getRightLevel: function() {
+    if (this.action == 'show-enums' || this.action == 'save-enums') {
+      return 100;
+    }
+    return this.rightLevel;
+  },
+
   indexAction: function() {
     var attributes = [],
       _this = this;
@@ -65,8 +72,8 @@ module.exports.prototype = AdminController.prototype.extend({
       });
   },
 
-  saveEnumsAction: function() {
-    var _this = this;
+  saveEnumsAction: function(context) {
+    var _this = context || this;
     _this.mongodb
       .collection(attributeModel.collection)
       .update(
@@ -74,7 +81,8 @@ module.exports.prototype = AdminController.prototype.extend({
         {$set: {values: _this.request.param('enums')}},
         {},
         function(err) {
-          _this.response.json({result:'success'});
+          var msg = err ? 'error' : 'success';
+          _this.response.json({result: msg});
         });
   },
 

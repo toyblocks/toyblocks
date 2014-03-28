@@ -46,18 +46,10 @@
 }
 
 </style>
+<h3>{game.assemble_category}</h3>
 <div class="row">
   <div class="col-sm-5">
-    <h2 class="text-center">Zusammensetzung</h2>
-    <form id="assemblyform">
-      <input type="hidden" name="gameid" value="{game._id}">
-      <ol class="well list-group" id="assembly">
-      </ol>
-    </form>
-  </div>
-
-  <div class="col-sm-5 col-sm-offset-2">
-    <h2 class="text-center elements">Bauteile</h2>
+    <h4 class="text-center elements">Bauteile</h2>
     <ul class="well list-group" id="elements">
     {#buildingparts}
       <li data-id="{_id}" class="list-group-item">
@@ -68,6 +60,14 @@
     </li>
     {/buildingparts}
     </ul>
+  </div>
+  <div class="col-sm-5 col-sm-offset-2">
+    <h4 class="text-center">Zusammensetzung</h2>
+    <form id="assemblyform">
+      <input type="hidden" name="gameid" value="{game._id}">
+      <ol class="well list-group" id="assembly">
+      </ol>
+    </form>
   </div>
 </div>
 
@@ -89,7 +89,7 @@
         <h4 class="modal-title" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -129,7 +129,7 @@ $(window).ready(function() {
   });
 
   $('#tryagain').click(function(){
-    removeCorrection();  
+    removeCorrection();
     $('#assembly').sortable('enable');
     $('#assembly li').each( function(){
       $(this).prependTo('#elements');
@@ -209,7 +209,7 @@ $(window).ready(function() {
     // change heading
     $('h2.elements').text('Lösungsbild');
     // show solution image in #elements
-    $('<img>').attr('src', '/ressources/image?id=' + img).appendTo($('#elements'));
+    $('<img>').attr('src', '/ressources/image?id=' + img + '&size=large').appendTo($('#elements'));
     // deactivate tryagain button, just in case
     $('#tryagain').prop('disabled', false);
   }

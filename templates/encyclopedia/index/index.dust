@@ -1,11 +1,13 @@
 {>"layout/layout.dust"/}
 
-{<content}
+{<contentHead}
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
   <li class="active">Enzyklopädie</li>
 </ol>
 <div class="row">
+{/contentHead}
+{<content}
   <div class="col-md-6 col-sm-6">
     {#data}
       {@math key="{$len}" method="divide" operand="2"}
@@ -42,5 +44,16 @@
       {/math}
     {/data}
   </div>
-</div>
 {/content}
+{<contentFoot}
+</div>
+
+<script>
+window._searchFields = ['title',
+  'missingparts_category',
+  'assemble_category'];
+</script>
+
+{>"layout/pagination"/}
+
+{/contentFoot}

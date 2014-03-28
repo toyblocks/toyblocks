@@ -4,7 +4,7 @@
 <div class="col-md-10 col-sm-10">
   <span class="pull-left glyphicon icon-multiple" style="font-size: 52px; width: 64px; height: 64px; color: #428bca;"></span>
   <h3>Multiple Choice</h3>
-  {>"games/multiplechoice/help.dust"/}
+  {game_multiplechoice_explain|s}
   <div class="list-group">
     <a href="/games/multiplechoice/game?level=1" class="well list-group-item">
     	<strong>3 Fragen</strong>

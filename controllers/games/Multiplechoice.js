@@ -14,9 +14,13 @@ module.exports.prototype = GamesController.prototype.extend({
    * @return sortGames - an array of Games
    */
   indexAction: function() {
-    this.view.render({
-      title: 'Multiple Choice'
-    });
+    var _this = this;
+    _this.getDbTexts(
+      ['game_multiplechoice_explain'],
+      function(texts) {
+        texts.title = 'Multiple Choice';
+        _this.view.render(texts);
+      });
   },
 
   /**

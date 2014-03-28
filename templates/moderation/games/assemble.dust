@@ -3,6 +3,11 @@
 {>"moderation/index/navbar.dust"/}
 
 <div class="col-sm-10">
+
+  <button style="margin-bottom:10px" type="button" class="btn btn-primary objecttype-form"
+    href="/admin/attributes/show-enums?attribute=assemble_category"
+    data-target="#enumsModal" data-toggle="modal">Kategorien bearbeiten</button>
+
   <button style="margin-bottom:10px" type="button" class="btn btn-primary objecttype-form"
     href="/admin/objects/form?type=assemble_games"
     data-target="#objectFormModal" data-toggle="modal">Neues Baukasten-Spiel erstellen</button>
@@ -15,6 +20,7 @@
 
 <div class="modal fade" id="objectFormModal" tabindex="-1" role="dialog" aria-labelledby="objectFormModal" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"></div></div></div>
 <div class="modal fade" id="objectTypesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"></div></div></div>
+<div class="modal fade" id="enumsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"></div></div></div>
 
 <script type="text/javascript">
 $('#objectFormModal').on('shown.bs.modal', function () {
