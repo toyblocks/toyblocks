@@ -23,9 +23,11 @@
   </div>
 </div>
 
+<!--
 <div>
   <button id="nextGame" type="button" class="btn btn-primary" style="">Nächstes Spiel</button>
 </div>
+-->
 <script>
 var games = [['assemble','{games.assemble}'],
              ['sorting','{games.sorting}'],
