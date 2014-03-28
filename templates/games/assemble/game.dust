@@ -46,9 +46,10 @@
 }
 
 </style>
+<h3>{game.assemble_category}</h3>
 <div class="row">
   <div class="col-sm-5">
-    <h2 class="text-center elements">Bauteile</h2>
+    <h4 class="text-center elements">Bauteile</h2>
     <ul class="well list-group" id="elements">
     {#buildingparts}
       <li data-id="{_id}" class="list-group-item">
@@ -61,7 +62,7 @@
     </ul>
   </div>
   <div class="col-sm-5 col-sm-offset-2">
-    <h2 class="text-center">Zusammensetzung</h2>
+    <h4 class="text-center">Zusammensetzung</h2>
     <form id="assemblyform">
       <input type="hidden" name="gameid" value="{game._id}">
       <ol class="well list-group" id="assembly">
