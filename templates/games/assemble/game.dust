@@ -151,10 +151,10 @@ $(window).ready(function() {
       if(data.error) {
         // show modal 'not enough elements'
         setModalText('Fehler', data.error);
-      } else {
-        if(isDaily){
-          pushSolution(data.correct);
-        }
+      }else if(isDaily){
+        pushSolution(data.correct);
+        return;
+      }else {
         // disable button, sortable and hover buttons
         $button.prop('disabled', true);
         $('#assembly').sortable('disable');
@@ -180,7 +180,7 @@ $(window).ready(function() {
           $('#newgame').prop('disabled', false);
         }else{
           setModalText('Falsch!', 'Ihre Lösung ist leider falsch. Sie haben noch ' + (max_tries-tries) + ' Versuche!');
-        } 
+        }
       }
       $('#checkModal').modal();
     });

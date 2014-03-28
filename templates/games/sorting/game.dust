@@ -168,11 +168,11 @@ $(window).ready(function(){
       $('#tryagain').show();
       $('#tryagain').prop('disabled', false);
 
+
       if(isDaily){
         pushSolution(data.correct);
-      }
-
-      if(data.correct){
+        return;
+      }else if(data.correct){
         setModalText('Richtig!','Ihre Lösung ist korrekt!');
         $('#sortable').sortable('disable');
         $('#newgame').show();

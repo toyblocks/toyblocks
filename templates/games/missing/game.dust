@@ -156,8 +156,9 @@ $(window).ready(function(){
       .done(function( data ) {
         if(isDaily){
           pushSolution(data.solution);
+        }else{
+          $('#game-container').html(data);
         }
-        $('#game-container').html(data);
       });
     $('#game-result').hide();
     $('#game-overview').show();
