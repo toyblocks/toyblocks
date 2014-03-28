@@ -147,8 +147,19 @@ module.exports.prototype = GamesController.prototype.extend({
     // this counts the available games
     // takes a random of each and sends it back to the client
     //_this.generateDailyGame();
+    var games = {
+      missing:  ['52fbe735ca0f3162348d7eca','5330e23d26e0a1ca6a000003'],
+      sorting:  ['52d27d5bf5e06f0000000012,52d27cfbf5e06f000000000e,52d27cb2f5e06f000000000c,52d27c5df5e06f0000000008,52d27c8cf5e06f000000000a,52dbda81fcad941722e984a8,52d27d36f5e06f0000000010'],
+      assemble: ['52f171d934e48b00006e0070'],
+      multiplechoice: ['52f2aecb029240e1a4000008,5322314a855748ea73661eab,52f2af7b029240e1a400000a']
+    };
     _this.view.render({
-      title: 'DailyChallenge'
+      title: 'Daily Challenge',
+      games: games,
+      missing: games.missing,
+      sorting: games.sorting,
+      assemble: games.assemble,
+      multiplechoice: games.multiplechoice
     });
   }
 });

@@ -3,86 +3,51 @@
 <style type="text/css">
   .points{
     position: absolute;
-    top: 20px;
-    right: 30px;
+    top: 50px;
+    right: 40px;
+  }
+  #nextGame{
+    position: absolute;
+    left: 200px;
   }
 </style>
 <div class="points well">
   Sie haben bisher <div class="actualpoints"></div> Punkte.
 </div>
 
-<div class="col-md-4 col-sm-9">
-
-  <div id="game-container">
+<div class="col-md-12">
+  <div id="daily-container">
   <!--Here be HTML-->
-  Leider ist dieses Spiel noch unter Entwicklung.
+  Lädt...
   </div>
+</div>
 
+<div>
+  <button id="nextGame" type="button" class="btn btn-primary" style="">Nächstes Spiel</button>
 </div>
 
 <script>
-var games ={#games}{.}{/games};
 $(window).ready(function(){
-  $(function() {
-    $('button').prop('disabled', true);
-    $( "#selectable" ).selectable();
-    $( "#selectable" ).disableSelection();
-  });
-
-  $('#tryagain').click(function(){
-    location.reload();
-  });
-
-  $('#submit').click(function(){
-    $(this).prop('disabled', true);
-    $('#selectable').selectable('disable');
-    var serialized = $('#selectform').serialize();
-
-    $.post('check-selected', serialized, function(data) {
-      if (data.correct) {
-        $('#checkModalCorrect').modal();
-      }
-      else {
-        $('#checkModalWrong').modal();
-      }
-      console.log(data);
-      showCorrection(data.correctBuilding);
-      $('#tryagain').show();
+  var games = [];
+  var index = 0;
+  function loadGame (gamename, id) {
+    $.ajax({url: '/games/' + gamename + '/game?isDaily=1&id=' + id})
+    .done(function( data ) {
+      $('#daily-container').html(data);
     });
+  };
+
+  loadGame('multiplechoice','{games.multiplechoice}');
+
+  $('#nextGame').click(function(){
+    index++;
+    if(index === 1)
+      loadGame('assemble','{games.assemble}');
+    if(index === 2)
+      loadGame('sorting','{games.sorting}');
+    if(index === 3)
+      loadGame('missing','{games.missing}');
   });
-  $(".alert").alert();
-
-  function showCorrection(correctId) {
-    console.log("enter showCorrection");
-    $('#selectable li').each(function(index){
-      console.log("appending - " + index + " - " + correctId);
-      if (index ==  correctId) {
-        $(this).append('<span class="glyphicon glyphicon-ok"></span>');
-      }
-      else {
-        $(this).append('<span class="glyphicon glyphicon-remove"></span>');
-      }
-    });
-  }
-
-  function removeCorrection() {
-    $('#selectable').remove('.glyphicon');
-  }
-
-});
-$(function () {
-  $('#selectable').selectable({
-    selected: function (event, ui) {
-      $('button').prop('disabled', false);
-      $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
-      var index = $( "#selectable li" ).index(ui.selected);
-      if(-1 == index){ 
-        return;
-      }
-      document.getElementById("resultjs").value = index;
-    }
-  });
-  
 });
 
 </script>
