@@ -30,23 +30,14 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this,
       id = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'), 10);
+      level = parseInt(_this.request.param('level'), 10),
+      isDaily = parseInt(_this.request.param('isDaily'),10) || 0;
 
     _this.increaseStat('level'+ level + '_count_played');
-    if(typeof id !== 'undefined'){
-      _this.mongodb
-        .collection('assemble_games')
-        .find({_id: _this.mongo.ObjectID(id)})
-        .nextObject(function(err, game) {
-          _this.renderGame(game, level, function(err, buildingParts){
-            _this.view.render({
-              title: 'Baukasten',
-              game: game,
-              buildingparts: buildingParts
-            });
-          });
-        });
-    }else{
+
+    if(typeof id === 'undefined'){
+
+      //give random game
       _this.mongodb
         .collection('assemble_games')
         .find()
@@ -59,6 +50,26 @@ module.exports.prototype = GamesController.prototype.extend({
             _this.view.render({
               title: 'Baukasten',
               game: game,
+              buildingparts: buildingParts
+            });
+          });
+        });
+    }else{
+
+      //give game according to id
+      if(isDaily){
+        _this.view.setOnlyContent(true);
+      }
+
+      _this.mongodb
+        .collection('assemble_games')
+        .find({_id: _this.mongo.ObjectID(id)})
+        .nextObject(function(err, game) {
+          _this.renderGame(game, level, function(err, buildingParts){
+            _this.view.render({
+              title: 'Baukasten',
+              game: game,
+              isDaily: isDaily,
               buildingparts: buildingParts
             });
           });

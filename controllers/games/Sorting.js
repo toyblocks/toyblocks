@@ -40,7 +40,8 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this,
       ids = _this.request.param('id'),
       level = parseInt(_this.request.param('level'),10),
-      limit = parseInt(_this.request.param('limit'),10);
+      limit = parseInt(_this.request.param('limit'),10),
+      isDaily = parseInt(_this.request.param('isDaily'),10) || 0;
 
     //+ Jonas Raoni Soares Silva
     //@ http://jsfromhell.com/array/shuffle [v1.0]
@@ -65,7 +66,11 @@ module.exports.prototype = GamesController.prototype.extend({
       ids = ids.split(',');
       for (var i = ids.length - 1; i >= 0; i--) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
-      };
+      }
+      
+      if(isDaily){
+        _this.view.setOnlyContent(true);
+      }
       _this.mongodb
         .collection('sorting_buildings')
         .find({_id: {$in: ids}})
@@ -74,6 +79,7 @@ module.exports.prototype = GamesController.prototype.extend({
           _this.view.render({
             title: 'Zeitstrahl',
             level: level,
+            isDaily: isDaily,
             buildings: buildings
           });
         });

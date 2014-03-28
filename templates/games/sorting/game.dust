@@ -143,7 +143,8 @@
 $(window).ready(function(){
   var maxTries = 3,
    tries = 0,
-   isGlyphed = false;
+   isGlyphed = false,
+   isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
 
   $('#sortable').sortable();
   $('#sortable').disableSelection();
@@ -160,12 +161,16 @@ $(window).ready(function(){
     $('#attempt').val(tries);
 
     var serialized = $('#sortingform').serialize();
-    $.post('check-sorting', serialized, function(data) {
+    $.post('/games/sorting/check-sorting', serialized, function(data) {
       tries++;
       $('#triesLeft').text('Versuche: ' + (maxTries - tries));
 
       $('#tryagain').show();
       $('#tryagain').prop('disabled', false);
+
+      if(isDaily){
+        pushSolution(data.correct);
+      }
 
       if(data.correct){
         setModalText('Richtig!','Ihre Lösung ist korrekt!');

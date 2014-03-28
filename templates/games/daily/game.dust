@@ -12,8 +12,9 @@
   }
 </style>
 <div class="points well">
-  Sie haben bisher <div class="actualpoints"></div> Punkte.
+  Sie haben bisher <div id="actualpoints"></div> Punkte.
 </div>
+
 
 <div class="col-md-12">
   <div id="daily-container">
@@ -25,20 +26,47 @@
 <div>
   <button id="nextGame" type="button" class="btn btn-primary" style="">Nächstes Spiel</button>
 </div>
-
 <script>
-$(window).ready(function(){
-  var games = [];
-  var index = 0;
+var games = [['assemble','{games.assemble}'],
+             ['sorting','{games.sorting}'],
+             ['missing','{games.missing}'],
+             ['multiplechoice','{games.multiplechoice}']];
+var index = 0;
+var points = [];
+  /* let games call this function to load next game */
+  function loadNextGame () {
+    if(index < games.length){
+      console.log("Load next game ", index, games[index][0], games[index][1]);
+      loadGame(games[index][0],games[index][1]);
+      index++;
+    }else{
+      loadResult();    
+    }
+  };
+  
+  /* Load the next game according to index and games array */
   function loadGame (gamename, id) {
     $.ajax({url: '/games/' + gamename + '/game?isDaily=1&id=' + id})
     .done(function( data ) {
       $('#daily-container').html(data);
     });
   };
+  /* Load the result with leaderboard */
+  function loadResult () {
+    $.ajax({url: '/games/daily/result?result=' + points.join(',')})
+    .done(function( data ) {
+      $('#daily-container').html(data);
+    });
+  };
+  /* Let each game push the result into our array */
+function pushSolution (bool) {
+    //points.push(bool);
+    console.log(bool);
+    loadNextGame();
+  };
+$(window).ready(function(){
 
-  loadGame('multiplechoice','{games.multiplechoice}');
-
+  /* temp dev shit */
   $('#nextGame').click(function(){
     index++;
     if(index === 1)
@@ -48,6 +76,9 @@ $(window).ready(function(){
     if(index === 3)
       loadGame('missing','{games.missing}');
   });
+
+  /* Load first game */
+  loadNextGame();
 });
 
 </script>

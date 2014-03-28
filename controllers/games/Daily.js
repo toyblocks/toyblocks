@@ -161,5 +161,67 @@ module.exports.prototype = GamesController.prototype.extend({
       assemble: games.assemble,
       multiplechoice: games.multiplechoice
     });
+  },
+
+    // GET daily game
+  //
+  // @return games - list of games
+  resultAction: function() {
+    var _this = this;
+
+    var result =  _this.request.param('result');
+
+    // TODO: Push result to db
+    var players = [{
+      playerid: 1,
+      pos: 1,
+      name: 'FayeValentine',
+      score: 1337,
+      logo: 'none'
+    },
+       {
+      playerid: 2,
+      pos: 2,
+      name: 'Edward',
+      score: 1200,
+      logo: 'none'
+    },
+      {
+      playerid: 5,
+      pos: 3,
+      name: 'SpikeSpiegel',
+      score: 1111,
+      logo: 'none'
+    },
+       {
+      playerid: 4,
+      pos: 4,
+      name: 'Ein',
+      score: 734,
+      logo: 'none'
+    },
+       {
+      playerid: 3,
+      pos: 5,
+      name: 'Jet_Black',
+      score: 234,
+      logo: 'none'
+    }];
+
+    var d = new Date();
+    var game = {
+      year: d.getFullYear(),
+      month: d.getMonth()+1,
+      day: d.getDate(),
+      gamesPlayed: _this.getPercentGamesPlayed()
+    };
+
+    _this.view.render({
+      title: 'Daily Challenge',
+      result: result,
+      game: game,
+      players: players,
+      userid: _this.request.session.user.tuid
+    });
   }
 });

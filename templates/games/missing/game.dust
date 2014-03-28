@@ -113,9 +113,10 @@
 
 <script>
 $(window).ready(function(){
-  var gameIds = [{#games}"{_id}"{@sep},{/sep}{/games}];
-  var gameIndex = 0;
-  var selectedAnswers = [];
+  var gameIds = [{#games}"{_id}"{@sep},{/sep}{/games}],
+    gameIndex = 0,
+    selectedAnswers = [],
+    isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
 
   function loadGame(gameId) {
     $.ajax({url: "/games/missing/container?id="+gameId})
@@ -153,6 +154,9 @@ $(window).ready(function(){
     $.ajax({url: "/games/missing/result?result=" +
       selectedAnswers})
       .done(function( data ) {
+        if(isDaily){
+          pushSolution(data.solution);
+        }
         $('#game-container').html(data);
       });
     $('#game-result').hide();

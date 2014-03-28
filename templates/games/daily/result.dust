@@ -1,0 +1,41 @@
+<style type="text/css" scoped="true">
+.yeahyoumadeitintothetop5{
+  background-color: #3D9970;
+  color:#eeeeee;
+}
+.yeahyoumadeitintothetop5 span:before{
+  content: "Du!";
+}
+</style>
+<h3>Rangliste</h3>
+<span class="help-block">Das ist die heutige Rangliste der Daily Challenge</span>
+<div class="panel panel-default">
+  <div class="panel-heading">Die besten Spieler am {game.day}.{game.month}.{game.year}!</div>
+{?players}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Logo</th>
+        <th>Benutzername</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+{#players}
+      <tr{@eq key=playerid value=userid} class="yeahyoumadeitintothetop5"{/eq}>
+        <td>{pos}</td>
+        <td><span class="glyphicon glyphicon-user"></span></td>
+        <td>{name}</td>
+        <td>{score}</td>
+      </tr>
+{/players}
+    </tbody>
+  </table>
+{:else}
+<br>
+<div class="alert alert-danger" style="margin: 0px;"> Heute hat noch niemand gespielt! 
+  <a href="/games/daily/game" class="alert-link">Seien Sie Erster!</a>
+</div>
+{/players}
+</div>

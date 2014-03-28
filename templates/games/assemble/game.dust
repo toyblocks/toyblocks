@@ -101,10 +101,9 @@
 <script>
 
 $(window).ready(function() {
-
-{! TODO: Add Session User Tries!}
-  var max_tries = 3;
-  var tries = 0;
+  var max_tries = 3,
+   tries = 0,
+   isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
 
   // sortable initialization
   $('#sortablebot, #sortabletop').disableSelection();
@@ -147,12 +146,15 @@ $(window).ready(function() {
     var $button = $(this);
 
     var serialized = $('#assemblyform').serialize().split("&").reverse().join("&");
-    $.post('check-sorting', serialized, function(data) {
+    $.post('/games/assemble/check-sorting', serialized, function(data) {
       // if error from server (i.e. wrong count of submitted elements)
       if(data.error) {
         // show modal 'not enough elements'
         setModalText('Fehler', data.error);
       } else {
+        if(isDaily){
+          pushSolution(data.correct);
+        }
         // disable button, sortable and hover buttons
         $button.prop('disabled', true);
         $('#assembly').sortable('disable');

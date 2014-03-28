@@ -32,7 +32,10 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this,
       ids = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'), 10) || 1;
+      level = parseInt(_this.request.param('level'), 10) || 1,
+      isDaily = parseInt(_this.request.param('isDaily'),10) || 0;
+
+
 
     _this.increaseStat('level' + level + '_count_played');
 
@@ -64,6 +67,9 @@ module.exports.prototype = GamesController.prototype.extend({
       for (var i = 0; i < ids.length; i++) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
       }
+      if(isDaily){
+        _this.view.setOnlyContent(true);
+      }
 
       _this.mongodb
         .collection('missingparts_games')
@@ -72,6 +78,7 @@ module.exports.prototype = GamesController.prototype.extend({
           _this.view.render({
             title: 'Fehlstellen',
             games: game,
+            isDaily: isDaily,
             level: level
           });
       });

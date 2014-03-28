@@ -67,7 +67,8 @@
 var questionIds = [{#questions}"{_id}"{@sep},{/sep}{/questions}],
   actualIndex = 0,
   selectedAnswers = [],
-  gamesCount = {questions.length}-1;
+  gamesCount = {questions.length}-1,
+  isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
 
 String.prototype.hashString = function(){
     var hash = 0, i, char;
@@ -114,9 +115,11 @@ $(window).ready(function(){
 
   $('#game-result').click(function(){
     selectedAnswers = selectedAnswers.join(",");
-    $.ajax({url: "/games/multiplechoice/result?result=" +
-      selectedAnswers})
+    $.ajax({url: "/games/multiplechoice/result?result=" + selectedAnswers})
       .done(function( data ) {
+        if(isDaily){
+          pushSolution(data.solution);
+        }
         $('#questions-container').html(data);
       });
     $('#game-result').hide();
