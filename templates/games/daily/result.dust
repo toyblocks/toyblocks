@@ -24,7 +24,7 @@
     <tbody>
 {#players}
       <tr{@eq key=playerid value=userid} class="yeahyoumadeitintothetop5"{/eq}>
-        <td>{pos}</td>
+        <td>{@idx}{.}{/idx}</td>
         <td><span class="glyphicon glyphicon-user"></span></td>
         <td>{name}</td>
         <td>{score}</td>

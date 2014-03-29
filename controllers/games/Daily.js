@@ -168,60 +168,105 @@ module.exports.prototype = GamesController.prototype.extend({
   // @return games - list of games
   resultAction: function() {
     var _this = this;
-
     var result =  _this.request.param('result');
-    console.log(result);
+    var tuid = _this.request.session.user.tuid;
+    var points = 0;
+    var count = 0.0;
+    for (var i = 0; i < result.length; i++) {
+      if(result[i]){
+        points+=20;
+        count+=1;
+        if(points >= 500)
+          points+=10;
+        if(points >= 400)
+          points+=5;
+        if(points >= 200)
+          points+=1;
+      }
+      if(points % 2)
+        points+=1;
+    }
+    count = result.length/ count;
+    console.log(result, points, count);
+
+    _this.mongodb
+    .collection('daily_leaderboard')
+    .find({tuid: tuid})
+    .nextObject(function (err, ele) {
+      if(typeof ele !== 'undefined'){
+        _this.view.render({
+          error: 'Error: Sie haben das Daily heute schon gespielt oder der Server macht Mist.'
+        })
+      }
+      _this.mongodb
+      .collection('daily_leaderboard')
+      .update({tuid: tuid},
+            { tuid: tuid,
+              name: _this.request.session.user.nickname,
+              score: points
+             },{}, function (err) {
+              if(err) console.log(err);
+            });
+      _this.mongodb
+      .collection('daily_leaderboard')
+      .find()
+      .sort({score: 1})
+      .limit(15)
+      .toArray(function (err, ele) {
+        var d = new Date();
+        var game = {
+          year: d.getFullYear(),
+          month: d.getMonth()+1,
+          day: d.getDate(),
+          gamesPlayed: _this.getPercentGamesPlayed()
+        };
+
+        _this.view.render({
+          title: 'Daily Challenge',
+          result: result,
+          game: game,
+          players: players,
+          userid: _this.request.session.user.tuid
+        });
+      });
+    });
+    /*
     // TODO: Push result to db
     var players = [{
-      playerid: 1,
-      pos: 1,
+      tuid: 1,
       name: 'FayeValentine',
       score: 1337,
       logo: 'none'
     },
        {
-      playerid: 2,
-      pos: 2,
+      tuid: 2,
       name: 'Edward',
       score: 1200,
       logo: 'none'
     },
       {
-      playerid: 5,
-      pos: 3,
+      tuid: 5,
       name: 'SpikeSpiegel',
       score: 1111,
       logo: 'none'
     },
        {
-      playerid: 4,
-      pos: 4,
+      tuid: 4,
       name: 'Ein',
       score: 734,
       logo: 'none'
     },
        {
-      playerid: 3,
-      pos: 5,
+      tuid: 3,
       name: 'Jet_Black',
       score: 234,
       logo: 'none'
+    },{
+      tuid: _this.request.session.user.tuid,
+      name: _this.request.session.user.surname,
+      score: points,
+      logo: 'none'
     }];
-
-    var d = new Date();
-    var game = {
-      year: d.getFullYear(),
-      month: d.getMonth()+1,
-      day: d.getDate(),
-      gamesPlayed: _this.getPercentGamesPlayed()
-    };
-
-    _this.view.render({
-      title: 'Daily Challenge',
-      result: result,
-      game: game,
-      players: players,
-      userid: _this.request.session.user.tuid
-    });
+*/
   }
 });

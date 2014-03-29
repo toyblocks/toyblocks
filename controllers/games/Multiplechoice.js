@@ -111,7 +111,7 @@ module.exports.prototype = GamesController.prototype.extend({
     console.log("enter");
     var _this = this,
       result  = _this.request.param('result'),
-      isDaily  = _this.request.param('daily'),
+      isDaily  = _this.request.param('daily') || false,
       solution = [],
       countCorrect = 0,
       countWrong = 0,

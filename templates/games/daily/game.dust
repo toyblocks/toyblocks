@@ -22,6 +22,16 @@
   Lädt...
   </div>
 </div>
+{!
+TODO
+  timer against abuse
+  set db shit
+  generate games
+  show table at result
+  fix btns in games
+
+
+!}
 <script>
 var games = [['assemble','{games.assemble}'],
              ['missing','{games.missing}'],
