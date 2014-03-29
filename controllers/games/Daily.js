@@ -65,7 +65,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
     .collection('daily_leaderboard')
     .find()
-    .sort({score: 1})
+    .sort({score: -1})
     .limit(15)
     .toArray(function (err, users) {
       /*if(typeof users === 'undefined'){
@@ -247,7 +247,7 @@ module.exports.prototype = GamesController.prototype.extend({
           _this.mongodb
           .collection('daily_leaderboard')
           .find()
-          .sort({score: 1})
+          .sort({score: -1})
           .limit(15)
           .toArray(function (err, players) {
             var d = new Date();
