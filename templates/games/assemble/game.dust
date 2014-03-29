@@ -152,7 +152,7 @@ $(window).ready(function() {
         // show modal 'not enough elements'
         setModalText('Fehler', data.error);
       }else if(isDaily){
-        pushSolution(data.correct);
+        pushSolution(calcCorrection(data.order).join(','));
         return;
       }else {
         // disable button, sortable and hover buttons
@@ -189,6 +189,18 @@ $(window).ready(function() {
   function setModalText (title, body) {
     $('#checkModal .modal-title').text(title);
     $('#checkModal .modal-body').text(body);
+  }
+
+  function calcCorrection(order) {
+    var result = [];
+    $('#assembly li').each(function(index, element){
+      if (order[index]) {
+        result.push(true);
+      }else{
+        result.push(false);
+      }
+    });
+    return result;
   }
 
   function showCorrection(order) {

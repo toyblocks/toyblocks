@@ -111,6 +111,7 @@ module.exports.prototype = GamesController.prototype.extend({
     console.log("enter");
     var _this = this,
       result  = _this.request.param('result'),
+      isDaily  = _this.request.param('daily'),
       solution = [],
       countCorrect = 0,
       countWrong = 0,
@@ -166,11 +167,17 @@ module.exports.prototype = GamesController.prototype.extend({
       // Update Stats
       Statistics.prototype.insertStats(_this, 'multiplechoice');
 
-      _this.view.render({
-        result: solution,
-        question: questions,
-        percent: percentage
-      });
+      if(isDaily){
+        _this.response.json({
+          result: solution
+        });
+      }else{
+        _this.view.render({
+          result: solution,
+          question: questions,
+          percent: percentage
+        });
+      }
     });
   }
 });

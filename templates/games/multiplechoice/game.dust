@@ -115,16 +115,24 @@ $(window).ready(function(){
 
   $('#game-result').click(function(){
     selectedAnswers = selectedAnswers.join(",");
-    $.ajax({url: "/games/multiplechoice/result?result=" + selectedAnswers})
-      .done(function( data ) {
-        if(isDaily){
-          pushSolution(data.solution);
-        }else{
-          $('#questions-container').html(data);
-        }
-      });
-    $('#game-result').hide();
-    $('#game-overview').show();
+    if(isDaily){
+      $.ajax({url: "/games/multiplechoice/result?daily=1&result=" + selectedAnswers})
+        .done(function( data ) {
+          console.log(data.result);
+          pushSolution(data.result.join(','));
+        });
+    }else{
+      $.ajax({url: "/games/multiplechoice/result?result=" + selectedAnswers})
+        .done(function( data ) {
+          if(isDaily){
+            pushSolution(data.selectedAnswer.join(','));
+          }else{
+            $('#questions-container').html(data);
+          }
+        });
+      $('#game-result').hide();
+      $('#game-overview').show();
+    }
   });
 
 

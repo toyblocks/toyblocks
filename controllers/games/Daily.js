@@ -170,7 +170,7 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this;
 
     var result =  _this.request.param('result');
-
+    console.log(result);
     // TODO: Push result to db
     var players = [{
       playerid: 1,

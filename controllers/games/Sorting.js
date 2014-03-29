@@ -200,8 +200,7 @@ module.exports.prototype = GamesController.prototype.extend({
             // response with a json object
             _this.response.json({
               correct: solutionIsCorrect,
-              order: order,
-              orderNumbers: orderNumbers
+              order: order
             });
           });
       });

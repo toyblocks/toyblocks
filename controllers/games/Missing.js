@@ -111,7 +111,7 @@ module.exports.prototype = GamesController.prototype.extend({
       default: limit = 4; break;
     }
     */
-    console.log(id);
+    
     _this.mongodb
     .collection('missingparts_games')
     .find({_id: _this.mongo.ObjectID(id)})
@@ -125,7 +125,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .find({ missingparts_category: game.missingparts_category,
                 _id: {$nin: game.missingparts_correctimage}}) // no 2 solutions
         .toArray(function (err, images) {
-          console.log(solution);
+          
           _this.mongodb
           .collection('missingparts_images')
           .find({_id: _this.mongo.ObjectID(solution.toString())})
@@ -154,12 +154,13 @@ module.exports.prototype = GamesController.prototype.extend({
   resultAction: function() {
     var _this = this,
       result  = _this.request.param('result'),
+      isDaily  = _this.request.param('daily') || false,
       solution = [],
       selected = [],
       countCorrect = 0,
       countWrong = 0,
       objectIds = [];
-
+    console.log("enter");
     if(typeof result === 'undefined'){
       _this.view.render({error:'Error'});
       return;
@@ -212,14 +213,22 @@ module.exports.prototype = GamesController.prototype.extend({
       // Update Stats
       Statistics.prototype.insertStats(_this, 'missing');
 
-      // send the solution back to client
-      _this.view.render( {
-        solution: solution,
-        game: game,
-        percent: percentage
-      });
+      console.log("missing: ", isDaily, solution);
+      if(isDaily){
+        _this.response.json({
+          result: solution
+        });
+      }else{
+        // send the solution back to client
+        _this.view.render( {
+          solution: solution,
+          game: game,
+          percent: percentage
+        });
+      }
     });
   },
+
 
   /**
   * I don't know how to load every picture from the db asynchronos

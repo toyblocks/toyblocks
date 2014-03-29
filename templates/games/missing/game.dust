@@ -141,7 +141,7 @@ $(window).ready(function(){
   $('#next-question').click(function(){
     gameIndex++;
     loadGame(gameIds[gameIndex]);
-    $('#games-left').text(gameIndex);
+    $('#games-left').text(gameIds.length - gameIndex + 1);
     $(this).prop('disabled', true);
   });
 
@@ -151,17 +151,22 @@ $(window).ready(function(){
 
   $('#game-result').click(function(){
     selectedAnswers = selectedAnswers.join(",");
-    $.ajax({url: "/games/missing/result?result=" +
-      selectedAnswers})
-      .done(function( data ) {
-        if(isDaily){
-          pushSolution(data.solution);
-        }else{
+    if(isDaily){
+      $.ajax({url: "/games/missing/result?daily=1&result=" +
+        selectedAnswers})
+        .done(function( data ) {
+          console.log(data.result);
+          pushSolution(data.result.join(','));
+        });
+    }else{
+      $.ajax({url: "/games/missing/result?result=" +
+        selectedAnswers})
+        .done(function( data ) {
           $('#game-container').html(data);
-        }
-      });
-    $('#game-result').hide();
-    $('#game-overview').show();
+        });
+      $('#game-result').hide();
+      $('#game-overview').show();
+    }
   });
 
 
@@ -170,9 +175,12 @@ $(window).ready(function(){
     getReadyForNext($(this).context.htmlFor);
   });
 
-  $('#games-left').text(gameIds.length - gameIndex);
+  $('#games-left').text(gameIds.length - gameIndex + 1);
   $('#next-question').prop('disabled', true);
   loadGame(gameIds[gameIndex]);
+  if(isDaily){
+    $('#game-result').text('Weiter');
+  }
 });
 </script>
 {/content}

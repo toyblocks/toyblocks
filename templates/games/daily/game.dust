@@ -22,16 +22,10 @@
   Lädt...
   </div>
 </div>
-
-<!--
-<div>
-  <button id="nextGame" type="button" class="btn btn-primary" style="">Nächstes Spiel</button>
-</div>
--->
 <script>
 var games = [['assemble','{games.assemble}'],
-             ['sorting','{games.sorting}'],
              ['missing','{games.missing}'],
+             ['sorting','{games.sorting}'],
              ['multiplechoice','{games.multiplechoice}']];
 var index = 0;
 var points = [];
@@ -62,23 +56,11 @@ var points = [];
   };
   /* Let each game push the result into our array */
 function pushSolution (bool) {
-    //points.push(bool);
+    points.push(bool);
     console.log(bool);
     loadNextGame();
   };
 $(window).ready(function(){
-
-  /* temp dev shit */
-  $('#nextGame').click(function(){
-    index++;
-    if(index === 1)
-      loadGame('assemble','{games.assemble}');
-    if(index === 2)
-      loadGame('sorting','{games.sorting}');
-    if(index === 3)
-      loadGame('missing','{games.missing}');
-  });
-
   /* Load first game */
   loadNextGame();
 });
