@@ -11,9 +11,10 @@
     left: 200px;
   }
 </style>
+<!--
 <div class="points well">
   Sie haben bisher <div id="actualpoints"></div> Punkte.
-</div>
+</div>-->
 
 
 <div class="col-md-12">
@@ -30,9 +31,9 @@
 {!
 TODO
   timer against abuse
-  set db shit
+  CHECK - set db shit
   generate games
-  show table at result
+  CHECK - show table at result
   fix btns in games
 
 

@@ -4,7 +4,7 @@
   color:#eeeeee;
 }
 
-.yeahyoumadeitintothetop5 span:before{
+.yeahyoumadeitintothetop5 tr:before{
   content: "Du!";
 }
 </style>

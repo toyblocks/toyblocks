@@ -18,7 +18,6 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Logo</th>
         <th>Benutzername</th>
         <th>Score</th>
       </tr>
@@ -27,7 +26,6 @@
       {#players}
       <tr{@eq key=playerid value=userid} class="yeahyoumadeitintothetop5"{/eq}>
         <td>{@idx}{@math key="{.}" method="add" operand="1"/}{/idx}</td>
-        <td><span class="glyphicon glyphicon-user"></span></td>
         <td>{nickname}</td>
         <td>{score}</td>
       </tr>

@@ -236,6 +236,8 @@ module.exports.prototype = GamesController.prototype.extend({
         });
       }
       */
+
+      // TODO: get the best players first, then add the player to them and sort
       _this.mongodb
       .collection('daily_leaderboard')
       .insert({ tuid: tuid,
@@ -255,6 +257,10 @@ module.exports.prototype = GamesController.prototype.extend({
               day: d.getDate(),
               gamesPlayed: _this.getPercentGamesPlayed()
             };
+
+            /*
+            * TODO: dont let other games increase the stats if they are in fact a daily game
+            */
 
             Statistics.prototype.insertStats(_this, 'daily');
 
