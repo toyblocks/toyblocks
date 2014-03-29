@@ -13,10 +13,10 @@
 </div>
 
 <script type="text/javascript">
-/*Automaticly login when enter is pressed*/
+/* Automatically login when enter is pressed*/
 $(document).keypress(function(e) {
     if(e.which == 13) {
-        document.getElementById('create_object').submit();
+        window.location = "/index/welcome/";
     }
 });
 </script>

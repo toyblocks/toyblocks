@@ -32,12 +32,9 @@
             <li><a href="/games/missing/">Fehlstellen</a></li>
             <li><a href="/games/assemble/">Baukasten</a></li>
             <li><a href="/games/multiplechoice/">Multiple Choice</a></li>
-            <!-- Daily is not usuable yet...
             <li class="divider"></li>
-            <li class="dropdown-header">Daily Challenge</li>
-            <li><a href="/games/daily/">Daily Spielen</a></li>
+            <li><a href="/games/daily/">Daily Challenge</a></li>
             <li><a href="/games/daily/leaderboard">Rangliste</a></li>
-            -->
           </ul>
         </li>
         <li {@eq key=_area value="encyclopedia"}class="active"{/eq}><a href="/encyclopedia">Enzyklopädie</a></li>

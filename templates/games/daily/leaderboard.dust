@@ -1,5 +1,4 @@
 {>"layout/layout.dust"/}
-
 {<content}
 <style type="text/css" scoped="true">
 .yeahyoumadeitintothetop5{
@@ -27,9 +26,9 @@
     <tbody>
       {#players}
       <tr{@eq key=playerid value=userid} class="yeahyoumadeitintothetop5"{/eq}>
-        <td>{pos}</td>
+        <td>{@idx}{@math key="{.}" method="add" operand="1"/}{/idx}</td>
         <td><span class="glyphicon glyphicon-user"></span></td>
-        <td>{name}</td>
+        <td>{nickname}</td>
         <td>{score}</td>
       </tr>
   {/players}
