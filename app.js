@@ -12,7 +12,8 @@ var config = require('./configs')(),
     path = require('path'),
     cons = require('consolidate'),
     dust = cons.dust,
-    mongodb = require('mongodb');
+    mongodb = require('mongodb'),
+    jobs = require('./jobs');
 
 dust.helpers = require('dustjs-helpers');
 // helpers do not work... why?
