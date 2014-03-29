@@ -1,6 +1,7 @@
 'use strict';
 
-var GamesController = require('../Games');
+var GamesController = require('../Games'),
+  Statistics = require('../admin/Stats');
 
 module.exports = function () {
 
@@ -195,9 +196,9 @@ module.exports.prototype = GamesController.prototype.extend({
     });
   },
 
-    // GET daily game
-  //
-  // @return games - list of games
+  /* GET daily game
+  *  @return games - list of games
+  */ 
   resultAction: function() {
     var _this = this;
     var result =  _this.request.param('result');
@@ -225,7 +226,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .collection('daily_leaderboard')
     .find({tuid: tuid})
     .nextObject(function (err, ele) {
-      /*
+      /* TODO: insert check
       if(!!ele){
 
 
@@ -254,6 +255,8 @@ module.exports.prototype = GamesController.prototype.extend({
               day: d.getDate(),
               gamesPlayed: _this.getPercentGamesPlayed()
             };
+
+            Statistics.prototype.insertStats(_this, 'daily');
 
             _this.view.render({
               title: 'Daily Challenge',
