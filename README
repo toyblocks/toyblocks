@@ -54,5 +54,16 @@ You can also push changes to redmine via
 Documentation
 ====================
 
+Beim Aufruf einer Webseite wird die URL in der Hauptapplikationsdatei "app.js" dispatcht. Urls sind immer in der Form /area/controller/action. Wenn eine der drei URL-Teile fehlt, wird sie durch "index" ersetzt. Anschließend wir der richtige Controller instanzieert. Es gibt einen Grundcontroller in /controllers/Base.js, von dem alle Controller extenden. Dort sind Funktionen, die in jedem Controller benötigt werden. Danach hat jede Area einen Controller mit Grundfunktionen für jede Area. Dadurch, dass jeder Controller den BaseController erweitern, kann man Funktionalitäten überschreiben wie zum Beispiel Aufruf-Rechte eines Controllers.
 
-TODO
+Der Basecontroller bekommt beim insanzieren von der app.js den Mongo Datenbank Handler, MongoDB-Objekt, das Request-Objekt von Express.js und das Response-Objekt übergeben. So kann man in jedem Controller dadrauf zugreifen. Wenn ein Controller insaziert ist, wird die Funktion run() da dran aufgerufen, die die passende Action im Controller aufruft. In der Action ist dann der eigentliche Code für diesen Seitenaufruf. Nach allen Operationen wird this.view.render() aufgerufen, die das passende Template lädt.
+
+Die Templates befinden sich in /templates und sind ähnlich den Controllern angeordnet, d.h. für jede Area und Controller ein Ordner. Pro Action gibt es ein Template, was so heißt wie die Action selbst mit .dust als Endung. Dust.js ist die Template-Engine. Mehr dazu unter http://akdubya.github.io/dustjs/
+
+Für die Rechte ist die Funktion getRightLevel() verantwortlich. Ein Besucher der Webseite hat ein Recht von 400, ein Student 300, ein Moderator 200 und ein Admin 100. Damit ist sichergestellt, dass zum Beispiel ein Moderator alles machen kann, was auch ein Student machen kann, aber nicht das, was für Admins erlaubt ist. Die Zahlen sind im Hunderter Bereich, damit es durch eventuell kommende zusätzliche Rechte einfach erweitert werden kann.
+
+
+
+
+
+
