@@ -29,6 +29,7 @@ module.exports.prototype = UsersController.prototype.extend({
     var _this = this;
     var newname = _this.request.param('nickname');
     var tuid = _this.request.session.user.tuid;
+    _this.request.session.user.nickname = newname;
     _this.mongodb
       .collection('users')
       .update(

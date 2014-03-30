@@ -25,17 +25,6 @@ module.exports.prototype = GamesController.prototype.extend({
       });
   },
 
-/**
- * GET - This Method is used for the help page
- *
- * @return title - the title of the game
- */
-  helpAction: function() {
-    this.view.render({
-      title: 'Zeitstrahl'
-    });
-  },
-
 /** GET - This renders the main game
  *
  * @return buildings - an array of buildings to display for the template
@@ -43,8 +32,8 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this,
       ids = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'),10),
-      limit = parseInt(_this.request.param('limit'),10),
+      level = parseInt(_this.request.param('level'),10) || 1,
+      limit = parseInt(_this.request.param('limit'),10) || 7,
       isDaily = parseInt(_this.request.param('isDaily'),10) || 0;
 
     //+ Jonas Raoni Soares Silva
@@ -58,8 +47,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.increaseStat('level'+level+'_count_played');
     if(typeof ids === 'undefined'){
       _this.renderGame(level, function(err, buildings){
-        var buildingLimit = limit || 7;
-        buildings = shuffle(buildings).slice(0,buildingLimit);
+        buildings = shuffle(buildings).slice(0,limit);
         _this.view.render({
           title: 'Zeitstrahl',
           level: level,

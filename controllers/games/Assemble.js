@@ -34,7 +34,7 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this,
       id = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'), 10),
+      level = parseInt(_this.request.param('level'), 10) || 1,
       isDaily = parseInt(_this.request.param('isDaily'),10) || 0;
 
     _this.increaseStat('level'+ level + '_count_played');
@@ -89,10 +89,9 @@ module.exports.prototype = GamesController.prototype.extend({
    * @param difficulty     - normal images or with foul images?
    * @param renderCallback - the callback to call after we got the buildings
    */
-  renderGame: function(game, difficulty, renderCallback) {
+  renderGame: function(game, level, renderCallback) {
     var _this = this,
      partsLimit = game.limit || 15,
-     level = difficulty || 1,
      countOfFakeImages = 3;
 
     _this.mongodb

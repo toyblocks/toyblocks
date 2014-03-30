@@ -12,6 +12,7 @@
           <th>TU-ID</th>
           <th>Vorname</th>
           <th>Nachname</th>
+          <th>Nickname</th>
           <th>Student</th>
           <th>Mitarbeiter</th>
           <th>Rechte</th>
@@ -21,6 +22,7 @@
           <td>{tuid}</td>
           <td>{givenName}</td>
           <td>{surname}</td>
+          <td>{nickname}</td>
           <td>{?student}Ja{:else}Nein{/student}</td>
           <td>{?employee}Ja{:else}Nein{/employee}</td>
           <td>
@@ -48,7 +50,7 @@
 </div>
 
 <script>
-var _searchFields = ['tuid', 'givenName', 'surname'];
+var _searchFields = ['tuid', 'givenName', 'surname', 'nickname', 'right_level'];
 
 $('body').on('change', '.right-level', function(){
   var $this = $(this);

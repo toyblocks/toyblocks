@@ -1,14 +1,11 @@
 {>"layout/layout.dust"/}
-
 {<content}
 <style type="text/css">
-
 @media(min-width:768px) {
   .container{
     max-width: 900px;
   }
 }
-
 .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
@@ -17,22 +14,17 @@
   font-size: 21px;
   padding: 14px 24px;
 }
-
 .box{
 height: 14px;
 }
-
 .lead{
   margin-top: 24px;
 }
-
 .label{
   text-shadow: 1px 1px 1px #000, 1px 1px 3px rgba(194, 177, 159, 0.61);
 }
-
 </style>
 <div class="jumbotron">
-
   <h1 class="label label-primary">Daily Challenge</h1>
   <p class="lead">Testen Sie einmal täglich Ihr Wissen im Vergleich zu anderen Studierenden!</p>
   <div class="row explanation">
@@ -62,25 +54,14 @@ height: 14px;
   <form>
     <input type="hidden" id="playerid" name="playerid" value="{player.id}"/>
     <input type="hidden" id="date" name="date" value="{game.currentDate}"/>
-    <a id="play" type="button" class="btn btn-lg btn-success" style="clear:left; margin-right: 10px;" href="game" type="/">
+    <a id="play" type="button" class="btn btn-lg btn-success{?hasPlayedTodaysDaily} disabled{/hasPlayedTodaysDaily}" 
+    style="clear:left; margin-right: 10px;" href="game" type="/">
+    {?hasPlayedTodaysDaily}
+    Du hast das heutige Daily schon gespielt
+  {:else}
     Daily Spielen
+    {/hasPlayedTodaysDaily}
     </a>
   </form>
 </div>
-
-<script>
-
-$(window).ready(function() {
-  $(function() {
-    var $btn = $('#play');
-    if(false && '{hasPlayedTodaysDaily}'){
-        $btn.text('Du hast das heutige Daily schon gespielt.');
-        $btn.attr('disabled', true);
-    }
-    else {
-      $btn.attr('disabled', false);
-    }
-  });
-});
-</script>
 {/content}

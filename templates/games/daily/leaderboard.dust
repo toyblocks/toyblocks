@@ -19,7 +19,7 @@
       <tr>
         <th>#</th>
         <th>Benutzername</th>
-        <th>Score</th>
+        <th>Punktzahl</th>
       </tr>
     </thead>
     <tbody>

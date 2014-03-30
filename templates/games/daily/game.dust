@@ -1,42 +1,26 @@
-{>"layout/layout.dust"/}{<content}
-
-<style type="text/css">
-  .points{
-    position: absolute;
-    top: 50px;
-    right: 40px;
-  }
-  #nextGame{
-    position: absolute;
-    left: 200px;
-  }
-</style>
-<!--
-<div class="points well">
-  Sie haben bisher <div id="actualpoints"></div> Punkte.
-</div>-->
-
-
+{>"layout/layout.dust"/}
+{<content}
 <div class="col-md-12">
   <div id="daily-container">
-  {?error}
-  <div class="alert alert-danger" style="margin: 0px;"> {error} <a href="/games/daily/" class="alert-link">Zurück!</a>
-</div>
-  {:else}
+{?error}
+  <div class="alert alert-danger" style="margin: 0px;">
+{error} <a href="/games/daily/" class="alert-link">Zurück!</a>
+  </div>
+{:else}
   <!--Here be HTML-->
   Lädt...
-  {/error}
+{/error}
   </div>
 </div>
 {!
 TODO
-  timer against abuse
+---------timer against abuse
   CHECK - set db shit
   generate games
   CHECK - show table at result
-  fix btns in games
-
-
+  CHECK - benutzername
+  CHECK - fix btns in games
+  CHECK levels in games
 !}
 <script>
 var games = [['assemble','{games.assemble}'],

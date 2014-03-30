@@ -15,7 +15,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profil<b class="caret"></b></a>
           <ul class="dropdown-menu">
           {?_user}
-            <li><a href="/users/">Profil anzeigen</a></li>
+            <li><a href="/users/">Profil bearbeiten</a></li>
             <li><a href="/users/log/out/">Ausloggen</a></li>
           {:else}
             <li><a href="/index/welcome/">Einloggen</a></li>

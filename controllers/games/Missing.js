@@ -77,7 +77,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
       _this.mongodb
         .collection('missingparts_games')
-        .find({_id: {$in: ids}}) 
+        .find({_id: {$in: ids}})
         .toArray(function(err, game) {
           _this.view.render({
             title: 'Fehlstellen',
@@ -104,13 +104,6 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.view.render({ error: 'No ID specified' });
       return;
     }
-/* Should there be a limit?
-    switch (level){
-      case 2:  limit = 8; break;
-      case 3:  limit = 12; break;
-      default: limit = 4; break;
-    }
-    */
     
     _this.mongodb
     .collection('missingparts_games')
