@@ -1,9 +1,13 @@
 {>"layout/layout.dust"/}
-
 {<content}
+<style type="text/css">
+.settingssaved{
+  margin-top: -32px;
+}
+</style>
 <div class="col-md-6 col-sm-6">
   <h3>Profil</h3>
-  <form class="form-horizontal" role="form">
+<div class="form-horizontal">
   <div class="form-group">
     <label class="col-sm-4 control-label">TU-ID</label>
     <div class="col-sm-8">
@@ -16,6 +20,44 @@
       <p class="form-control-static">{user.givenName} {user.surname}</p>
     </div>
   </div>
-</form>
+  <div class="form-group">
+    <label for="name" class="col-sm-4 control-label">Nickname</label>
+    <div class="col-sm-8">
+       <input type="nickname" class="form-control" id="inputNickname" value="{user.nickname}">
+       <!--<span class="help-block">Dein Nickname dient zum Schutz deiner Identität bei der Daily Challenge.</span>-->
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-10">
+      <button class="btn btn-primary">Speichern</button>
+      <p class="saved settingssaved alert alert-success" style="display: none;">Änderung gespeichert.</p>
+      <p class="failed settingssaved alert alert-danger" style="display: none;">Ein Fehler ist aufgetretten.</p>
+    </div>
+  </div>
 </div>
+</div>
+<script type="text/javascript">  
+$('button').click(function () {
+  $.ajax({
+    type: "POST",
+    url: '/users/index/updatenickname', 
+    data: { nickname: $('#inputNickname').val()}
+  })
+  .fail(function( jqXHR, textStatus ) {
+    var slide = $('p.failed');
+    slide.text("Request failed: " + textStatus);
+    slide.slideDown('fast');
+    setTimeout(function() {
+      slide.slideUp('fast');
+    }, 2800);
+  })
+  .done(function () {
+    var slide = $('p.saved');
+    slide.slideDown('fast');
+    setTimeout(function() {
+      slide.slideUp('fast');
+    }, 2800);
+  });
+});
+</script>
 {/content}

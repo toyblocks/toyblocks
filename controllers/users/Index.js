@@ -12,21 +12,35 @@ module.exports.prototype = UsersController.prototype.extend({
 
   indexAction: function() {
     var _this = this;
-
-    // TODO: create user database with attributes:
-    // TODO: TU-ID, Username, lastLoggin (?), timesPlayed
-    // TODO: hasPlayedDaily, DailyHighscore
-    // TODO: isAdmin, ...
     var userId  = _this.request.session.user;
     _this.mongodb
       .collection(userModel.collection)
       .find({'tuid': _this.request.session.user.tuid})
       .nextObject(function(err, doc) {
+    console.log(doc);
         _this.view.render({
           title: 'Profil',
           user: doc
         });
       });
+  },
+
+  updatenicknameAction: function() {
+    var _this = this;
+    var newname = _this.request.param('nickname');
+    var tuid = _this.request.session.user.tuid;
+    _this.mongodb
+      .collection('users')
+      .update(
+        {tuid: tuid},
+        {$set: {'nickname': newname}},
+        {},
+        function (err) {
+          if(err)
+            _this.response.json({result:'Fehler'});
+          else
+            _this.response.json({result:'Gespeichert'});
+        });
   }
 
 });
