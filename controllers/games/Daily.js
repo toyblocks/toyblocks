@@ -91,62 +91,7 @@ module.exports.prototype = GamesController.prototype.extend({
   /**
   *  Timed function that generates every day a new set of games
   */
-  generateDailyGame: function() {
-    var _this = this;
-
-    // TODO: render game every day at 0:00, save in mongodb
-    console.log('generating Daily Game');
-
-    //get all the games
-    _this.mongodb
-    .collection('missingparts_games')
-    .find({})
-    .toArray(function(err, mis) {
-      _this.mongodb
-      .collection('sorting_buildings')
-      .find()
-      .toArray(function(err, sor) {
-        _this.mongodb
-        .collection('multiplechoice_questions')
-        .find()
-        .toArray(function(err, mul) {
-          _this.mongodb
-          .collection('assemble_games')
-          .find()
-          .toArray(function(err, ass) {
-
-            //missing
-            mis = _this.shuffleArray(mis).slice(0, 2);
-
-            //sorting
-            var sor1 = _this.shuffleArray(sor).slice(0,7);
-            var sor2 = _this.shuffleArray(sor).slice(0,7);
-
-            //multiple
-            mul = _this.shuffleArray(mul).slice(0, 4);
-
-            //assemble games
-            ass = _this.shuffleArray(ass).slice(0,2);
-
-
-            // we got 4 multiplechoice
-            //        2 missing
-            //        2 sorting
-            //        2 assemble
-            var gameList = {
-              missing: mis,
-              sorting: [sor1,sor2],
-              multiplechoice: mul,
-              assemble: [ass[0], ass[1] + '&level=2']
-
-            }
-
-
-          });
-        });
-      });
-    });
-  },
+  
 
   /* GET daily game
   *  @return games - list of games
@@ -154,6 +99,14 @@ module.exports.prototype = GamesController.prototype.extend({
   gameAction: function() {
     var _this = this;
     var tuid = _this.request.session.user.tuid;
+    var nickname = _this.request.session.user.nickname;
+
+    if (!nickname) {
+      _this.view.render({
+        title: 'Daily Challenge',
+        error: 'Sie haben noch keinen Nickname gesetzt!'
+      });
+    }
 
 
     var games = {
@@ -169,12 +122,13 @@ module.exports.prototype = GamesController.prototype.extend({
     .find({tuid: tuid})
     .nextObject(function (err, ele) {
       console.log(ele);
-      if(!!ele){
+      if (!!ele) {
         _this.view.render({
           title: 'Daily Challenge',
           error: 'Sie haben bereits das heutige Daily gespielt!'
         });
-      }else{
+      }
+      else {
         _this.view.render({
           title: 'Daily Challenge',
           games: games,
@@ -238,7 +192,7 @@ module.exports.prototype = GamesController.prototype.extend({
           .collection('daily_leaderboard')
           .find()
           .sort({score: -1})
-          .limit(2) // TODO change to 15s
+          .limit(15)
           .toArray(function (err, players) {
             
             console.log(ele);
@@ -272,3 +226,67 @@ module.exports.prototype = GamesController.prototype.extend({
     });
   }
 });
+
+
+
+
+module.exports.generateDailyGame = function generateDailyGame (mongodb) {
+  console.log('generating Daily Game');
+
+  function shuffleArray (o){ //v1.0
+  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+    x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+  }
+
+  //get all the games
+  mongodb
+  .collection('missingparts_games')
+  .find({})
+  .toArray(function(err, mis) {
+    mongodb
+    .collection('sorting_buildings')
+    .find()
+    .toArray(function(err, sor) {
+      mongodb
+      .collection('multiplechoice_questions')
+      .find()
+      .toArray(function(err, mul) {
+        mongodb
+        .collection('assemble_games')
+        .find()
+        .toArray(function(err, ass) {
+
+          //missing
+          mis = shuffleArray(mis).slice(0, 2);
+
+          //sorting
+          var sor1 = shuffleArray(sor).slice(0,7);
+          var sor2 = shuffleArray(sor).slice(0,7);
+
+          //multiple
+          mul = shuffleArray(mul).slice(0, 4);
+
+          //assemble games
+          ass = shuffleArray(ass).slice(0,2);
+
+          // TODO
+          // we got 4 multiplechoice
+          //        2 missing
+          //        2 sorting
+          //        2 assemble
+          var gameList = {
+            missing: mis,
+            sorting: [sor1,sor2],
+            multiplechoice: mul,
+            assemble: [ass[0], ass[1] + '&level=2']
+          };
+
+          console.log(gameList);
+
+
+        });
+      });
+    });
+  });
+}

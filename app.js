@@ -27,7 +27,7 @@ var app = express();
 
 
 app.engine('dust', dust);
-
+console.log('Environment: ', app.settings.env);
 
 // development only
 if ('development' === config.mode) {
@@ -77,6 +77,8 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
         next();
       };
 
+      jobs.initJobs(db);
+
       // we hear on every request url here in form of
       // areaname / controllername / actionname
       // defaults are index in every case. in case of the controller was not
@@ -115,11 +117,11 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
         if (err) return err;
         console.log('Express server listening on port ' + app.get('port') + ", with UID " + process.getuid());
       });
-      if ('production' === config.mode) {
+/*      if ('production' === config.mode) {
         http.createServer(credentials, app).listen(443, function(){
           console.log('Express server listening on port 443');
         });
-      }
+      }*/
     }
   }
 );
