@@ -97,22 +97,54 @@ module.exports.prototype = GamesController.prototype.extend({
     // TODO: render game every day at 0:00, save in mongodb
     console.log('generating Daily Game');
 
+    //get all the games
     _this.mongodb
     .collection('missingparts_games')
     .find({})
-    .toArray(function(err, data) {
-      for (var i = data.length - 1; i >= 0; i--) {
-        console.log('missingparts_games - ' + data[i].title);
-      }
-    });
+    .toArray(function(err, mis) {
+      _this.mongodb
+      .collection('sorting_buildings')
+      .find()
+      .toArray(function(err, sor) {
+        _this.mongodb
+        .collection('multiplechoice_questions')
+        .find()
+        .toArray(function(err, mul) {
+          _this.mongodb
+          .collection('assemble_games')
+          .find()
+          .toArray(function(err, ass) {
 
-    _this.mongodb
-    .collection('sorting_games')
-    .find()
-    .toArray(function(err, data) {
-      for (var i = data.length - 1; i >= 0; i--) {
-        console.log('sorting_games - ' + data[i].title);
-      }
+            //missing
+            mis = _this.shuffleArray(mis).slice(0, 2);
+
+            //sorting
+            var sor1 = _this.shuffleArray(sor).slice(0,7);
+            var sor2 = _this.shuffleArray(sor).slice(0,7);
+
+            //multiple
+            mul = _this.shuffleArray(mul).slice(0, 4);
+
+            //assemble games
+            ass = _this.shuffleArray(ass).slice(0,2);
+
+
+            // we got 4 multiplechoice
+            //        2 missing
+            //        2 sorting
+            //        2 assemble
+            var gameList = {
+              missing: mis,
+              sorting: [sor1,sor2],
+              multiplechoice: mul,
+              assemble: [ass[0], ass[1] + '&level=2']
+
+            }
+
+
+          });
+        });
+      });
     });
   },
 
@@ -125,9 +157,10 @@ module.exports.prototype = GamesController.prototype.extend({
 
 
     var games = {
-      missing:  ['52fbe735ca0f3162348d7eca','5330e23d26e0a1ca6a000003'],
+      missing:  ['52fbe7a2ca0f3162348d7ecd','53222b67855748ea73661e90'],
       sorting:  ['52d27d5bf5e06f0000000012,52d27cfbf5e06f000000000e,52d27cb2f5e06f000000000c,52d27c5df5e06f0000000008,52d27c8cf5e06f000000000a,52dbda81fcad941722e984a8,52d27d36f5e06f0000000010'],
       assemble: ['52f171d934e48b00006e0070&level=2'],
+      assemble2: ['52f171d934e48b00006e0070&level=2'],
       multiplechoice: ['52f2aecb029240e1a4000008,5322314a855748ea73661eab,52f2af7b029240e1a400000a']
     };
 
@@ -205,22 +238,17 @@ module.exports.prototype = GamesController.prototype.extend({
           .collection('daily_leaderboard')
           .find()
           .sort({score: -1})
-          .limit(2)
+          .limit(2) // TODO change to 15s
           .toArray(function (err, players) {
             
             console.log(ele);
             console.log(players);
             if(_.contains(players,ele)){
-              console.log("is in best 2, yeahhhh");
+              console.log('is in best 2, yeahhhh');
             }else{
-              console.log("not  in best, pushing");
+              console.log('not  in best, pushing');
               players.push(ele[0]);
             }
-            //ele.concat(players);
-            //ele.sort(function (a,b) {
-//              return a > b;
-            //});
-
             console.log(players);
 
             var d = new Date();

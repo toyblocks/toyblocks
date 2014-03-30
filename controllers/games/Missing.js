@@ -65,12 +65,13 @@ module.exports.prototype = GamesController.prototype.extend({
         });
       });
     }else{
-
+      console.log(ids);
       //give specific game according to ids
       ids = ids.split(',');
       for (var i = 0; i < ids.length; i++) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
       }
+      console.log(ids);
       if(isDaily){
         _this.view.setOnlyContent(true);
       }

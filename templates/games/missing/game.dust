@@ -128,6 +128,7 @@ $(window).ready(function(){
   function getReadyForNext (val) {
     selectedAnswers[gameIndex] = [gameIds[gameIndex],val];
     $('#next-question').prop('disabled', false);
+    console.log(gameIndex, gameIds.length);
     if ((gameIndex+1) < gameIds.length) {
       $('#next-question').show();
     }
@@ -141,7 +142,7 @@ $(window).ready(function(){
   $('#next-question').click(function(){
     gameIndex++;
     loadGame(gameIds[gameIndex]);
-    $('#games-left').text(gameIds.length - gameIndex + 1);
+    $('#games-left').text(gameIds.length - gameIndex-1);
     $(this).prop('disabled', true);
   });
 
@@ -175,7 +176,7 @@ $(window).ready(function(){
     getReadyForNext($(this).context.htmlFor);
   });
 
-  $('#games-left').text(gameIds.length - gameIndex + 1);
+  $('#games-left').text(gameIds.length-1);
   $('#next-question').prop('disabled', true);
   loadGame(gameIds[gameIndex]);
   if(isDaily){
