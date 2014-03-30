@@ -30,10 +30,7 @@ app.engine('dust', dust);
 console.log('Environment: ', app.settings.env);
 
 // development only
-if ('development' === config.mode) {
-
-  // set environment to development
-  process.env.NODE_ENV = 'development';
+if ('development' === app.settings.env) {
 
   // enable pretty html printing
   app.use(express.errorHandler());
@@ -77,6 +74,7 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
         next();
       };
 
+      // cron scripts (for now only daily challenge) 
       jobs.initJobs(db);
 
       // we hear on every request url here in form of
@@ -104,7 +102,7 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
             controllerInstance.run(action.toLowerCase());
           });
         }catch(e){
-          if ('production' === config.mode) {
+          if ('production' === app.settings.env) {
             res.render('error404', {title: 'Fehler', error: e});
           }
           else {
@@ -117,11 +115,6 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
         if (err) return err;
         console.log('Express server listening on port ' + app.get('port') + ", with UID " + process.getuid());
       });
-/*      if ('production' === config.mode) {
-        http.createServer(credentials, app).listen(443, function(){
-          console.log('Express server listening on port 443');
-        });
-      }*/
     }
   }
 );
