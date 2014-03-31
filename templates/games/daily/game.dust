@@ -1,15 +1,14 @@
 {>"layout/layout.dust"/}
 {<content}
-<div class="col-md-12">
-  <div id="daily-container">
 {?error}
   <div class="alert alert-danger" style="margin: 0px;">
 {error} <a href="/games/daily/" class="alert-link">Zurück!</a>
   </div>
 {:else}
+<div class="col-md-12">
+  <div id="daily-container">
   <!--Here be HTML-->
   Lädt...
-{/error}
   </div>
 </div>
 {!
@@ -61,4 +60,5 @@ $(window).ready(function(){
 });
 
 </script>
+{/error}
 {/content}
