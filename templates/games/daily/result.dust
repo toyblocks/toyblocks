@@ -31,3 +31,17 @@
     </tbody>
   </table>
 </div>
+
+<div class="jumbotron col-md-offset-4 col-md-4">
+  <div style="text-align: center;">
+    <h1 class="label label-primary" style="font-size: 35px;">{pointscur} /  {pointsmax} Richtig</h1>
+  </div>
+  <div class="progress" style="margin-top: 20px;height: 26px;">
+    <div class="progress-bar progress-bar-success" style="width: {procentright}%">
+      <span class="sr-only">{procentright}% Korrekt</span>
+    </div>
+    <div class="progress-bar progress-bar-danger" style="width: {procentwrong}%">
+      <span class="sr-only">{procentwrong}% Falsch</span>
+    </div>
+  </div>
+</div>

@@ -164,13 +164,17 @@ module.exports.prototype = GamesController.prototype.extend({
         count++;
         points+=10;
         if(points >= 1000)
-          points+=10;
+          points+=32;
         if(points >= 500)
-          points+=6;
+          points+=16;
         if(points >= 400)
+          points+=8;
+        if(points >= 300)
           points+=4;
         if(points >= 200)
           points+=2;
+        if(points >= 100)
+          points+=1;
       }
     }
 
@@ -222,6 +226,10 @@ module.exports.prototype = GamesController.prototype.extend({
               title: 'Daily Challenge',
               result: result,
               game: game,
+              pointsmax: result.length,
+              pointscur: count,
+              procentwrong: (1 - (count / result.length))*100,
+              procentright: (count / result.length)*100,
               players: players,
               userid: _this.request.session.user.tuid
             });
