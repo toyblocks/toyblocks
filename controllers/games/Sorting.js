@@ -125,7 +125,7 @@ module.exports.prototype = GamesController.prototype.extend({
     //TODO: catch error on clientside
     if(typeof sortIds === 'undefined'){
       _this.response.json({
-        error: 'Du hast keine Elemente sortiert, oder so?'
+        error: 'Error: Keine Elemente übergeben.'
       });
     }
 

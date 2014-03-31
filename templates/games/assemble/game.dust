@@ -125,6 +125,7 @@ $(window).ready(function() {
     else {
       $(this).data('moved', false);
     }
+    $('#submit').prop('disabled', false);
     return false;
   });
 
@@ -157,7 +158,8 @@ $(window).ready(function() {
       }else {
         // disable button, sortable and hover buttons
         $button.prop('disabled', true);
-        $('#assembly').sortable('disable');
+        $('#assembly li').sortable('disable');
+        $('#elements li').sortable('disable');
         $('#elements li, #assembly li').off();
 
         tries++;

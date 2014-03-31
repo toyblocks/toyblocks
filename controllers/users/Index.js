@@ -17,7 +17,6 @@ module.exports.prototype = UsersController.prototype.extend({
       .collection(userModel.collection)
       .find({'tuid': _this.request.session.user.tuid})
       .nextObject(function(err, doc) {
-    console.log(doc);
         _this.view.render({
           title: 'Profil',
           user: doc

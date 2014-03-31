@@ -316,6 +316,7 @@ module.exports.prototype = {
           _this.request.session.user = {
             'employee' : false,
             'givenName' : 'Mansur',
+            'nickname' : 'Mansur!!!',
             'name' : 'Mansur Iqbal',
             'right_level' : 100,
             'student' : true,

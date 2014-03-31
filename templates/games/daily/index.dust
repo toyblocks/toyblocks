@@ -15,7 +15,7 @@
   padding: 14px 24px;
 }
 .box{
-height: 14px;
+  height: 14px;
 }
 .lead{
   margin-top: 24px;
@@ -43,7 +43,7 @@ height: 14px;
   <br><br>
   <div class="panel panel-default">
     <div class="panel-body">
-    <p class="lead">Heute haben schon {gamesPlayed}% gespielt.</p>
+    <p class="lead">Bisher haben {gamesPlayed}% gespielt.</p>
     <div class="progress">
       <div class="progress-bar" role="progressbar" aria-valuenow="{gamesPlayed}" aria-valuemin="0" aria-valuemax="100" style="width: {gamesPlayed}%;">
         <span class="sr-only">{gamesPlayed}% haben heute schon gespielt.</span>
@@ -51,13 +51,24 @@ height: 14px;
     </div>
     </div>
   </div>
+
+
+  {!TODO: remove me!}
+  <div class="alert alert-danger" style="margin: 0px;">
+  }
+<h2>Die Daily Challenge wird momentan alle 15min zurückgesetzt.</h2> 
+  Dies ist nur temporär zum testen.
+  </div>
+  <br><br>
+
+
   <form>
     <input type="hidden" id="playerid" name="playerid" value="{player.id}"/>
     <input type="hidden" id="date" name="date" value="{game.currentDate}"/>
     <a id="play" type="button" class="btn btn-lg btn-success{?hasPlayedTodaysDaily} disabled{/hasPlayedTodaysDaily}" 
     style="clear:left; margin-right: 10px;" href="game" type="/">
     {?hasPlayedTodaysDaily}
-    Du hast das heutige Daily schon gespielt
+    Sie haben das heutige Daily schon gespielt
   {:else}
     Daily Spielen
     {/hasPlayedTodaysDaily}

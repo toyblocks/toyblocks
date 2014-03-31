@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var config = require('./configs')(),
+var config = require('./configs'),
     express = require('express'),
     fs = require('fs'),
     http = require('http'),
@@ -27,7 +27,6 @@ var app = express();
 
 
 app.engine('dust', dust);
-console.log('Environment: ', app.settings.env);
 
 // development only
 if ('development' === app.settings.env) {
@@ -113,7 +112,7 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
 
       http.createServer(app).listen(app.get('port'), function(err){
         if (err) return err;
-        console.log('Express server listening on port ' + app.get('port') + ", with UID " + process.getuid());
+        console.log('Express server listening on port ' + app.get('port') + ", with PID " + process.pid + ' in ' + app.settings.env + ' mode');
       });
     }
   }

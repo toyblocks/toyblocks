@@ -13,20 +13,15 @@
   </div>
 </div>
 {!
-TODO
----------timer against abuse
-  CHECK - set db shit
-  generate games
-  CHECK - show table at result
-  CHECK - benutzername
-  CHECK - fix btns in games
-  CHECK levels in games
+TODO - day timer against abuse
 !}
 <script>
-var games = [['assemble','{games.assemble}'],
-             ['missing','{games.missing}'],
-             ['sorting','{games.sorting}'],
-             ['multiplechoice','{games.multiplechoice}']];
+var games = [['assemble','{assemble}'],
+             ['assemble','{assemble2}'],
+             ['missing','{missing}'],
+             ['sorting','{sorting}'],
+             ['sorting','{sorting2}'],
+             ['multiplechoice','{multiplechoice}']];
 var index = 0;
 var points = [];
   /* let games call this function to load next game */
