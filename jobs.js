@@ -13,7 +13,7 @@ module.exports.initJobs = function initJobs (mongodb) {
     
   }, null, true);
 
-
+  daily.generateDailyGame(mongodb);
   // TODO: move generateDailyGame to daily at 5am
   // run every hour at 25 min
   new cronJob('0 * * * *', function() {
