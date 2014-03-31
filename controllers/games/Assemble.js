@@ -12,8 +12,6 @@ module.exports.prototype = GamesController.prototype.extend({
 /** This Method is used for the game index page,
   * Collect the game data from the database and show it
   *
-  * @return title - the title of the game
-  * @return assembleGames - an array of Games
   */
   indexAction: function() {
     var _this = this;
@@ -28,8 +26,6 @@ module.exports.prototype = GamesController.prototype.extend({
   /**
    * This renders the main game
    *
-   * @return game - information about the game, like title
-   * @return buildingParts - array of buildingParts to display for the template
    */
   gameAction: function() {
     var _this = this,
