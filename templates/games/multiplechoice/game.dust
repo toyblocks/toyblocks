@@ -63,7 +63,7 @@
 </div>
 
 <script>
-var questionIds = [{#questions}"{_id}"{@sep},{/sep}{/questions}],
+var questionIds = [{#questions}'{_id}'{@sep},{/sep}{/questions}],
   actualIndex = 0,
   selectedAnswers = [],
   gamesCount = {questions.length}-1,
@@ -83,11 +83,11 @@ String.prototype.hashString = function(){
 $(window).ready(function(){
 
   function loadQuestion(questionId) {
-    $.ajax({url: "/games/multiplechoice/container?id="+questionId})
+    $.ajax({url: '/games/multiplechoice/container?id=' + questionId })
       .done(function( data ) {
         $('#questions-container').html(data);
       });
-  }
+  };
 
   function doNext() {
     $('#next-question').prop('disabled', false);
@@ -99,7 +99,7 @@ $(window).ready(function(){
       $('#game-overview').hide();
       $('#game-result').show();
     }
-  }
+  };
 
   $('#next-question').click(function(){
     actualIndex++;
@@ -113,15 +113,14 @@ $(window).ready(function(){
   });
 
   $('#game-result').click(function(){
-    selectedAnswers = selectedAnswers.join(",");
+    selectedAnswers = selectedAnswers.join(',');
     if(isDaily){
-      $.ajax({url: "/games/multiplechoice/result?daily=1&result=" + selectedAnswers})
+      $.ajax({url: '/games/multiplechoice/result?daily=1&result=' + selectedAnswers})
         .done(function( data ) {
-          console.log(data.result);
           pushSolution(data.result.join(','));
         });
     }else{
-      $.ajax({url: "/games/multiplechoice/result?result=" + selectedAnswers})
+      $.ajax({url: '/games/multiplechoice/result?result=' + selectedAnswers})
         .done(function( data ) {
           if(isDaily){
             pushSolution(data.selectedAnswer.join(','));
@@ -143,7 +142,7 @@ $(window).ready(function(){
       $(this).removeClass('btn-info');
       $('span.glyphicon').removeClass('glyphicon-check');
       $('span.glyphicon').addClass('glyphicon-unchecked');
-    })
+    });
     $(this).addClass('btn-info');
     $(this).find('span.glyphicon').removeClass('glyphicon-unchecked');
     $(this).find('span.glyphicon').addClass('glyphicon-check');
