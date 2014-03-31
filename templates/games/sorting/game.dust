@@ -182,9 +182,10 @@ $(window).ready(function(){
         isGlyphed = false;
       }else{
 
-        // Make the elements draggable even if glyphicon are added,
-        // but make sure not to activate the buttons everytime
-        // an element is dragged.
+        /* Make the elements draggable even if glyphicon are added,
+         * but make sure not to activate the buttons everytime
+         * an element is dragged.
+        */
         isGlyphed = true;
         $( '#sortable' ).on( 'sortstart',
           function () {

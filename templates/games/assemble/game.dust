@@ -105,7 +105,7 @@ $(window).ready(function() {
    tries = 0,
    isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
 
-  // sortable initialization
+  /* sortable initialization */
   $('#sortablebot, #sortabletop').disableSelection();
   $('#assembly, #elements').sortable({
     connectWith: ".list-group",
@@ -148,22 +148,22 @@ $(window).ready(function() {
 
     var serialized = $('#assemblyform').serialize().split("&").reverse().join("&");
     $.post('/games/assemble/check-sorting', serialized, function(data) {
-      // if error from server (i.e. wrong count of submitted elements)
+      /* if error from server (i.e. wrong count of submitted elements) */
       if(data.error) {
-        // show modal 'not enough elements'
+        /* show modal 'not enough elements' */
         setModalText('Fehler', data.error);
       }else if(isDaily){
         pushSolution(calcCorrection(data.order).join(','));
         return;
       }else {
-        // disable button, sortable and hover buttons
+        /* disable button, sortable and hover buttons */
         $button.prop('disabled', true);
         $('#assembly li').sortable('disable');
         $('#elements li').sortable('disable');
         $('#elements li, #assembly li').off();
 
         tries++;
-        // mark wrong/right elements
+        /* mark wrong/right elements */
         $('#tryagain').show();
         $('#tryagain').prop('disabled', false);
         showCorrection(data.order);
@@ -207,7 +207,7 @@ $(window).ready(function() {
 
   function showCorrection(order) {
     $('#assembly li').each(function(index, element){
-      // remove hover buttons
+      /* remove hover buttons */
       $('.remove, .add').hide();
       if (order[index]) {
         $(this).prepend('<span class="solution glyphicon glyphicon-ok"></span>');
@@ -218,20 +218,20 @@ $(window).ready(function() {
     });
   }
   function showSolutionImage(img) {
-    // remove all unused elements in #elements
+    /* remove all unused elements in #elements */
     $('#elements li').remove();
-    // change heading
+    /* change heading */
     $('h2.elements').text('Lösungsbild');
-    // show solution image in #elements
+    /* show solution image in #elements */
     $('<img>').attr('src', '/ressources/image?id=' + img + '&size=large').appendTo($('#elements'));
-    // deactivate tryagain button, just in case
+    /* deactivate tryagain button, just in case */
     $('#tryagain').prop('disabled', false);
   }
 
   function removeCorrection() {
     $('#assembly li').each(function(){
       $('.solution').remove();
-      // show hover buttons
+      /* show hover buttons */
       $('.remove, .add').removeAttr('style');
     });
   }
