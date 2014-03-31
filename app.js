@@ -6,9 +6,8 @@
 
 var config = require('./configs'),
     express = require('express'),
-    fs = require('fs'),
     http = require('http'),
-    https = require('https'),
+    //https = require('https'),
     path = require('path'),
     cons = require('consolidate'),
     dust = cons.dust,
@@ -16,7 +15,7 @@ var config = require('./configs'),
     jobs = require('./jobs');
 
 dust.helpers = require('dustjs-helpers');
-// helpers do not work... why?
+// TODO: helpers do not work... why?
 dust.helpers.Truncate = function(chunk, context, bodies, params) {
   var data   = dust.helpers.tap(params.data, chunk, context),
       length = dust.helpers.tap(params.length, chunk, context);
@@ -28,7 +27,7 @@ var app = express();
 
 app.engine('dust', dust);
 
-// development only
+// in development only
 if ('development' === app.settings.env) {
 
   // enable pretty html printing
@@ -80,23 +79,24 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
       // areaname / controllername / actionname
       // defaults are index in every case. in case of the controller was not
       // found, we try to search in index area
-      app.all('/:area?/:controller?/:action?', attachDB, function (req, res, next) {
+      app.all('/:area?/:controller?/:action?', attachDB,
+              function (req, res) {
         var area = req.params.area || 'index',
           controller = req.params.controller || 'index',
           action = req.params.action || 'index',
-          controllerClass;
+          ControllerClass;
 
         try{
           try {
-            controllerClass = require(getControllerPath(area, controller));
+            ControllerClass = require(getControllerPath(area, controller));
           }
           catch (e) {
             if (e.code === 'MODULE_NOT_FOUND') {
-              controllerClass = require(getControllerPath('index', area));
+              ControllerClass = require(getControllerPath('index', area));
               action = controller || 'index';
             }
           }
-          var controllerInstance = new controllerClass;
+          var controllerInstance = new ControllerClass();
           controllerInstance.init(req, res, function(){
             controllerInstance.run(action.toLowerCase());
           });
@@ -112,7 +112,9 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
 
       http.createServer(app).listen(app.get('port'), function(err){
         if (err) return err;
-        console.log('Express server listening on port ' + app.get('port') + ", with PID " + process.pid + ' in ' + app.settings.env + ' mode');
+        console.log('Express server listening on port ' +
+         app.get('port') + ', with PID ' + process.pid +
+          ' in ' + app.settings.env + ' mode');
       });
     }
   }
