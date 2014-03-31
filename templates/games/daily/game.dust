@@ -38,6 +38,7 @@ var points = [];
   function loadGame (gamename, id) {
     $.ajax({url: '/games/' + gamename + '/game?isDaily=1&id=' + id})
     .done(function( data ) {
+      console.log('successfull got gamedata');
       $('#daily-container').html(data);
     });
   };

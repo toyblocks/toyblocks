@@ -41,7 +41,6 @@
   opacity: 1 !important;
 }
 .false{
-  //background-color: #FF4135;
   opacity: 1 !important;
 }
 
