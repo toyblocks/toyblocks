@@ -51,16 +51,6 @@
     </div>
     </div>
   </div>
-
-
-  {!TODO: remove me!}
-  <div class="alert alert-danger" style="margin: 0px;">
-<h2>Die Daily Challenge wird momentan alle 15min zurückgesetzt.</h2> 
-  Dies ist nur temporär zum testen.
-  </div>
-  <br><br>
-
-
   <form>
     <input type="hidden" id="playerid" name="playerid" value="{player.id}"/>
     <input type="hidden" id="date" name="date" value="{game.currentDate}"/>
