@@ -100,6 +100,8 @@
 
 <script>
 
+/*TODO: firefox bug, Bestätigen btn wird nach 'nochmal' disabled */
+
 $(window).ready(function() {
   var max_tries = 3,
    tries = 0,
@@ -107,6 +109,7 @@ $(window).ready(function() {
 
   /* sortable initialization*/
   $('#sortablebot, #sortabletop').disableSelection();
+
   $('#assembly, #elements').sortable({
     connectWith: ".list-group",
     scroll: true,
@@ -125,7 +128,15 @@ $(window).ready(function() {
     else {
       $(this).data('moved', false);
     }
+    $('#submit').prop('disabled', false);
     return false;
+  });
+
+  $('#newgame').click(function(){
+    location.reload();
+    
+    /* Reset submit btn for Firefox bug */
+    $('#submit').prop('disabled', false);
   });
 
   $('#tryagain').click(function(){

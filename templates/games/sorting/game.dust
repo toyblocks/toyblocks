@@ -153,6 +153,9 @@ $(window).ready(function(){
   });
   $('#newgame').click(function () {
     location.reload();
+    
+    /* Reset submit btn for Firefox bug */
+    $('#submit').prop('disabled', false);
   });
 
   $('#submit').click(function(){
