@@ -1,6 +1,6 @@
-{>"layout/layout.dust"/}{<content}
+{>"layout/layout.dust"/}
+{<content}
 <style>
-
 #assembly, #elements {
   display: inline-block;
   min-height: 50px;
@@ -18,10 +18,12 @@
   left: 5px;
   position: absolute;
 }
+
 .glyphicon{
   position: absolute;
   background-color: white;
 }
+
 .glyphicon-remove {
   color: #d44950;
 }
@@ -33,6 +35,7 @@
 #assembly li{
   padding: 0px;
 }
+
 #assembly li:hover .remove {
   display: inline;
 }
@@ -98,10 +101,8 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
 <script>
-
-/*TODO: firefox bug, Bestätigen btn wird nach 'nochmal' disabled */
-
 $(window).ready(function() {
   var max_tries = 3,
    tries = 0,
@@ -132,6 +133,8 @@ $(window).ready(function() {
     return false;
   });
 
+  /* onlick listener */
+
   $('#newgame').click(function(){
     location.reload();
     
@@ -139,6 +142,7 @@ $(window).ready(function() {
     $('#submit').prop('disabled', false);
   });
 
+  /* try again btn */
   $('#tryagain').click(function(){
     removeCorrection();
     $('#assembly').sortable('enable');
@@ -163,6 +167,7 @@ $(window).ready(function() {
         /* show modal 'not enough elements'*/
         setModalText('Fehler', data.error);
       }else if(isDaily){
+        /* return the result as array to the daily game */
         pushSolution(calcCorrection(data.order).join(','));
         return;
       }else {
@@ -173,6 +178,7 @@ $(window).ready(function() {
         $('#elements li, #assembly li').off();
 
         tries++;
+
         /* mark wrong/right elements*/
         $('#tryagain').show();
         $('#tryagain').prop('disabled', false);
@@ -198,11 +204,14 @@ $(window).ready(function() {
     });
   });
 
+  /* helper functions */
+
   function setModalText (title, body) {
     $('#checkModal .modal-title').text(title);
     $('#checkModal .modal-body').text(body);
   }
 
+  /* for the daily game we create an array of true and false from the result */
   function calcCorrection(order) {
     var result = [];
     $('#assembly li').each(function(index, element){
@@ -227,6 +236,7 @@ $(window).ready(function() {
       }
     });
   }
+
   function showSolutionImage(img) {
     /* remove all unused elements in #elements*/
     $('#elements li').remove();
@@ -248,6 +258,5 @@ $(window).ready(function() {
 
   $('#submit').prop('disabled', false);
 });
-
 </script>
 {/content}
