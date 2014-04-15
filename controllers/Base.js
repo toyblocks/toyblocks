@@ -96,7 +96,7 @@ module.exports.prototype = {
         findParamsOr = [];
       for (var key in searchParams) {
         // escape regex params
-        var value = searchParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1"),
+        var value = searchParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1'),
           findParam = {};
         findParam[key] = new RegExp('^'+value, 'ig');
         findParamsOr.push(findParam);
@@ -195,7 +195,7 @@ module.exports.prototype = {
         }
       };
       if (!_this.request.session.user) {
-          var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl,
+        var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl,
           ticket = _this.request.param('ticket');
         if (!ticket) {
           //_this.response.redirect('/users/log/in?returnto=' + escapedUrl);
@@ -236,7 +236,7 @@ module.exports.prototype = {
           };
 
           var verifyRequest = https.request(options, function(verifyResponse) {
-            if (verifyResponse.statusCode != 200) {
+            if (verifyResponse.statusCode !== 200) {
               _this.response.render('error-auth', {text:
                 'HRZ Server scheinen nicht zu funktionieren. Gelieferter Status: ' + verifyResponse.statusCode});
             }
@@ -269,7 +269,7 @@ module.exports.prototype = {
                         };
                         _this.mongodb
                           .collection('users')
-                          .insert(user, {w: 1}, function(err, result) {
+                          .insert(user, {w: 1}, function() {
                             _this.request.session.user = user;
                             nextWithRightsCheck();
                           });

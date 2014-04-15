@@ -39,18 +39,22 @@ module.exports.prototype = GamesController.prototype.extend({
       level = parseInt(_this.request.param('level'), 10) || 1,
       isDaily = parseInt(_this.request.param('isDaily'),10) || 0;
 
-
-
     _this.increaseStat('level' + level + '_count_played');
 
-    if(typeof ids === "undefined"){
+    if(typeof ids === 'undefined'){
 
       //give random game
       var count;
       switch(level){
-        case 2: count = 6; break;
-        case 3: count = 10; break;
-        default: count = 3; break;
+        case 2:
+          count = 6;
+          break;
+        case 3:
+          count = 10;
+          break;
+        default:
+          count = 3;
+          break;
       }
 
       _this.mongodb
@@ -65,7 +69,7 @@ module.exports.prototype = GamesController.prototype.extend({
         });
       });
     }else{
-      console.log(ids);
+
       //give specific game according to ids
       ids = ids.split(',');
       for (var i = 0; i < ids.length; i++) {
@@ -77,15 +81,15 @@ module.exports.prototype = GamesController.prototype.extend({
       }
 
       _this.mongodb
-        .collection('missingparts_games')
-        .find({_id: {$in: ids}})
-        .toArray(function(err, game) {
-          _this.view.render({
-            title: 'Fehlstellen',
-            games: game,
-            isDaily: isDaily,
-            level: level
-          });
+      .collection('missingparts_games')
+      .find({_id: {$in: ids}})
+      .toArray(function(err, game) {
+        _this.view.render({
+          title: 'Fehlstellen',
+          games: game,
+          isDaily: isDaily,
+          level: level
+        });
       });
     }
   },
@@ -124,7 +128,7 @@ module.exports.prototype = GamesController.prototype.extend({
           .collection('missingparts_images')
           .find({_id: _this.mongo.ObjectID(solution.toString())})
           .nextObject(function (err2, images2) {
-            images = _this.shuffleArray(images.slice(0,3))
+            images = _this.shuffleArray(images.slice(0,3));
             images.push(images2);
             images = _this.shuffleArray(images);
 
@@ -154,7 +158,7 @@ module.exports.prototype = GamesController.prototype.extend({
       countCorrect = 0,
       countWrong = 0,
       objectIds = [];
-    console.log("enter");
+    console.log('enter');
     if(typeof result === 'undefined'){
       _this.view.render({error:'Error'});
       return;
@@ -207,7 +211,7 @@ module.exports.prototype = GamesController.prototype.extend({
       // Update Stats
       Statistics.prototype.insertStats(_this, 'missing');
 
-      console.log("missing: ", isDaily, solution);
+      console.log('missing: ', isDaily, solution);
       if(isDaily){
         _this.response.json({
           result: solution

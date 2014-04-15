@@ -28,7 +28,9 @@ module.exports.prototype = AdminController.prototype.extend({
     // which span the whole week, from monday
     // 00:00 to next week monday 00:00
     if(typeof week === 'undefined' || week === ''){
-      current = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      current = new Date(today.getFullYear(),
+                         today.getMonth(),
+                         today.getDate());
     }else{
       current = new Date(parseInt(week,10));
     }
@@ -47,7 +49,8 @@ module.exports.prototype = AdminController.prototype.extend({
         // collection with played games for that day, add those entrys
         // and save them in gamesOnDay
         var gamesOnDay = [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0]];
-        for (var i = week.valueOf(), index = 0; i < weekend.valueOf(); i = i + day, index++) {
+        var index = 0;
+        for (var i = week.valueOf(); i < weekend.valueOf(); i = i + day) {
           var count = 0;
           for (var j = 0; j < elements.length; j++) {
             if(elements[j].date.valueOf() === i){
@@ -59,6 +62,7 @@ module.exports.prototype = AdminController.prototype.extend({
             }
           }
           gamesOnDay[index] = [index,count];
+          index++;
         }
 
         //TODO: collect the gamesPlayed count for each game individual
@@ -66,31 +70,32 @@ module.exports.prototype = AdminController.prototype.extend({
         //TODO: see http://www.flotcharts.org/flot/examples/stacking/index.html
 
         var toDateObject = [{
-          "year"  : weekend.getFullYear(),
-          "month" : weekend.getMonth()+1,
-          "day"   : weekend.getDate()-1
+          'year'  : weekend.getFullYear(),
+          'month' : weekend.getMonth()+1,
+          'day'   : weekend.getDate()-1
         }];
         var fromDateObject = [{
-          "year"  : week.getFullYear(),
-          "month" : week.getMonth()+1,
-          "day"   : week.getDate()
+          'year'  : week.getFullYear(),
+          'month' : week.getMonth()+1,
+          'day'   : week.getDate()
         }];
 
         var renderNextWeek = false;
-        if(weekend.valueOf() < today.valueOf())
+        if(weekend.valueOf() < today.valueOf()){
           renderNextWeek = true;
+        }
 
-      _this.view.render({
-        title: 'Statistiken',
-        elements: elements,
-        gamesCount: gamesOnDay,
-        from: fromDateObject,
-        to: toDateObject,
-        renderNextWeek: renderNextWeek,
-        previousWeek: (week.setDate(week.getDate()-6)).valueOf(),
-        nextWeek: weekend.valueOf()
+        _this.view.render({
+          title: 'Statistiken',
+          elements: elements,
+          gamesCount: gamesOnDay,
+          from: fromDateObject,
+          to: toDateObject,
+          renderNextWeek: renderNextWeek,
+          previousWeek: (week.setDate(week.getDate()-6)).valueOf(),
+          nextWeek: weekend.valueOf()
+        });
       });
-    })
   },
 
   monthAction: function() {
@@ -99,7 +104,6 @@ module.exports.prototype = AdminController.prototype.extend({
       today = new Date(),
       day = 86400000,
       current,
-      monthstart,
       monthend;
     
     // same as indexAction but with months
@@ -118,9 +122,11 @@ module.exports.prototype = AdminController.prototype.extend({
     .toArray(
       function (err, elements) {
 
-        var gamesOnDay = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        var index = 0;
+        var gamesOnDay = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
-        for (var i = month.valueOf(), index = 0; i < monthend.valueOf(); i = i + day, index++) {
+        for (var i = month.valueOf(); i < monthend.valueOf(); i = i + day) {
           var count = 0;
           for (var j = 0; j < elements.length; j++) {
             if(elements[j].date.valueOf() === i){
@@ -132,33 +138,35 @@ module.exports.prototype = AdminController.prototype.extend({
             }
           }
           gamesOnDay[index] = [index,count];
+          index++;
         }
         var toDateObject = [{
-          "year":monthend.getFullYear(),
-          "month":monthend.getMonth()+1,
-          "day":monthend.getDate()
+          'year':monthend.getFullYear(),
+          'month':monthend.getMonth()+1,
+          'day':monthend.getDate()
         }];
         var fromDateObject = [{
-          "year":month.getFullYear(),
-          "month":month.getMonth()+1,
-          "day":month.getDate()
+          'year':month.getFullYear(),
+          'month':month.getMonth()+1,
+          'day':month.getDate()
         }];
 
         var renderNextWeek = false;
-        if(monthend.valueOf() < today.valueOf())
+        if(monthend.valueOf() < today.valueOf()){
           renderNextWeek = true;
+        }
 
-      _this.view.render({
-        title: 'Statistiken',
-        elements: elements,
-        gamesCount: gamesOnDay,
-        from: fromDateObject,
-        to: toDateObject,
-        renderNextWeek: renderNextWeek,
-        previousmonth: (month.setMonth(month.getMonth()-1)).valueOf(),
-        nextmonth: monthend.valueOf()
+        _this.view.render({
+          title: 'Statistiken',
+          elements: elements,
+          gamesCount: gamesOnDay,
+          from: fromDateObject,
+          to: toDateObject,
+          renderNextWeek: renderNextWeek,
+          previousmonth: (month.setMonth(month.getMonth()-1)).valueOf(),
+          nextmonth: monthend.valueOf()
+        });
       });
-    })
   },
 
   dailyAction: function() {
@@ -173,54 +181,57 @@ module.exports.prototype = AdminController.prototype.extend({
         title: 'Statistiken',
         elements: elements
       });
-    })
+    });
   },
 
 
   insertStats: function (that, gametype) {
     var today = new Date(),
-      current = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-    console.log("Adding: ", current, gametype, "+1");
+      current = new Date(today.getFullYear(),
+                         today.getMonth(),
+                         today.getDate());
 
     // create a new entry if no entry contains today
     // also increase by one
     // TODO: dirty switch, replace maybe? 
     // TODO: { $inc : { gametype: +1 } } doesnt work
     switch(gametype){
-      case "sorting": 
+      case 'sorting':
         that.mongodb
           .collection('statistics')
           .update({date: current},
-                  { $inc : { "sorting": +1 } },
+                  { $inc : { 'sorting': +1 } },
                   {upsert : true}, function (err) {
                     if(err) console.log(err);
-                  }); break;
-      case "assemble":
+                  });
+        break;
+      case 'assemble':
         that.mongodb
           .collection('statistics')
           .update({date: current},
-                  { $inc : { "assemble": +1 } },
+                  { $inc : { 'assemble': +1 } },
                   {upsert : true}, function (err) {
                     if(err) console.log(err);
-                  }); break;
-      case "multiplechoice":
+                  });
+        break;
+      case 'multiplechoice':
         that.mongodb
           .collection('statistics')
           .update({date: current},
-                  { $inc : { "multiplechoice": +1 } },
+                  { $inc : { 'multiplechoice': +1 } },
                   {upsert : true}, function (err) {
                     if(err) console.log(err);
-                  }); break;
-      case "missing":
+                  });
+        break;
+      case 'missing':
         that.mongodb
           .collection('statistics')
           .update({date: current},
-                  { $inc : { "missing": +1 } },
+                  { $inc : { 'missing': +1 } },
                   {upsert : true}, function (err) {
                     if(err) console.log(err);
-                  }); break;
+                  });
+        break;
     }
   }
-
 });

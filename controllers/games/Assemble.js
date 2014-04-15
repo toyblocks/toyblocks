@@ -9,9 +9,9 @@ module.exports = function () {
 module.exports.prototype = GamesController.prototype.extend({
   name: 'assemble',
 
-/** This Method is used for the game index page,
+  /**
+  * This Method is used for the game index page,
   * Collect the game data from the database and show it
-  *
   */
   indexAction: function() {
     var _this = this;
@@ -24,9 +24,8 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   /**
-   * This renders the main game
-   *
-   */
+  * This renders the main game
+  */
   gameAction: function() {
     var _this = this,
       id = _this.request.param('id'),
@@ -82,7 +81,7 @@ module.exports.prototype = GamesController.prototype.extend({
    * Gets the buildings from the database and returns it with a callback
    *
    * @param game           - information about the current game
-   * @param difficulty     - normal images or with foul images?
+   * @param level          - with or without fake images
    * @param renderCallback - the callback to call after we got the buildings
    */
   renderGame: function(game, level, renderCallback) {
@@ -93,7 +92,6 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
     .collection('assemble_images')
     .find({assemble_category: game.assemble_category})
-    //,_random: {$near: [Math.random(), 0]}
     .limit(partsLimit)
     .toArray( function(err, images){
 
@@ -131,9 +129,7 @@ module.exports.prototype = GamesController.prototype.extend({
   checkSortingAction: function() {
     var _this = this,
       gameid  = _this.request.param('gameid'),
-      sortIDs = _this.request.param('sortings'),
-      attempt = _this.request.param('attempt'),
-      level   = _this.request.param('level');
+      sortIDs = _this.request.param('sortings');
 
     if(typeof sortIDs === 'undefined') {
       _this.response.json({ error: 'Keine Elemente ausgewählt.'});
@@ -182,7 +178,6 @@ module.exports.prototype = GamesController.prototype.extend({
               order: isElementCorrect,
               solution: game.image
             });
-
           });
       });
   }

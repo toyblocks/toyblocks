@@ -61,7 +61,6 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
     .collection('attributes')
     .find({name: 'era' })
     .toArray(function (err, data) {
-      console.log(data[0].values)
       _this.view.render({
         title: 'Fehlstellenspiel hinzufügen',
         eras: data[0].values

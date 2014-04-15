@@ -63,7 +63,7 @@ module.exports.prototype = BaseController.prototype.extend({
     function fill(n, length) {
       var str = '' + n;
       for (var i = str.length+1; i <= length; i++) {
-          str = '0' + str;
+        str = '0' + str;
       }
       return str;
     }
@@ -73,11 +73,11 @@ module.exports.prototype = BaseController.prototype.extend({
       .nextObject(function(err, doc){
         if (doc) {
           var date = doc.value;
-          var string = date.getFullYear()         + '-' + 
+          var string = date.getFullYear()         + '-' +
                       fill((date.getMonth()+1),2) + '-' +
                       fill( date.getDate()    ,2) + ' ' +
                       fill( date.getHours()   ,2) + ':' +
-                      fill( date.getMinutes() ,2) + "\n";
+                      fill( date.getMinutes() ,2) + '\n';
           _this.response.json({lastupdate:string});
         }
       });

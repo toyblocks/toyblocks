@@ -52,7 +52,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
               // filter articles array for first letter
               var currentElement = articles.filter(filterHeadlines);
 
-              // check if there already is an object for the current first letter
+              // check if there is an object for the current first letter
               if (currentElement.length) {
                 currentElement[0].articles.push(data[i]);
               } else {

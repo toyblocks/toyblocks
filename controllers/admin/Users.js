@@ -41,7 +41,10 @@ module.exports.prototype = AdminController.prototype.extend({
         {$set: {'right_level': parseInt(_this.request.param('right_level'))}},
         {},
         function (err) {
-          _this.response.json({result:'success'});
+          if(err)
+            _this.response.json({result:'error'});
+          else
+            _this.response.json({result:'success'});
         });
   }
 

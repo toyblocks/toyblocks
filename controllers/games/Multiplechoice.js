@@ -2,16 +2,16 @@
 
 var GamesController = require('../Games'),
   Statistics = require('../admin/Stats');
+
 module.exports = function () {
 
 };
 
 module.exports.prototype = GamesController.prototype.extend({
   name: 'multiplechoice',
+
   /**
    * This Method is used for the index page
-   * @return title - the title of the game
-   * @return sortGames - an array of Games
    */
   indexAction: function() {
     var _this = this;
@@ -25,9 +25,6 @@ module.exports.prototype = GamesController.prototype.extend({
 
   /**
    * This renders the main game
-   *
-   * @return game - information about the game, like title
-   * @return buildings - an array of buildings to display for the template
    */
   gameAction: function() {
     var _this = this,
@@ -40,9 +37,15 @@ module.exports.prototype = GamesController.prototype.extend({
       //give random game
       var count;
       switch(level){
-        case 2: count = 6; break;
-        case 3: count = 10; break;
-        default: count = 3; break;
+        case 2:
+          count = 6;
+          break;
+        case 3:
+          count = 10;
+          break;
+        default:
+          count = 3;
+          break;
       }
       _this.increaseStat('q'+count+'_count_played');
 
@@ -69,15 +72,15 @@ module.exports.prototype = GamesController.prototype.extend({
       }
 
       _this.mongodb
-        .collection('multiplechoice_questions')
-        .find({_id: {$in: ids}})
-        .toArray(function(err, questions) {
-          _this.view.render({
-            title: 'Multiple Choice',
-            level: level,
-            isDaily: isDaily,
-            questions: questions
-          });
+      .collection('multiplechoice_questions')
+      .find({_id: {$in: ids}})
+      .toArray(function(err, questions) {
+        _this.view.render({
+          title: 'Multiple Choice',
+          level: level,
+          isDaily: isDaily,
+          questions: questions
+        });
       });
     }
   },
@@ -96,8 +99,10 @@ module.exports.prototype = GamesController.prototype.extend({
     .find({_id: _this.mongo.ObjectID(id)})
     .nextObject(function (err, question) {
 
-      var answersRight = _this.shuffleArray(question.multiplechoice_answer_right)[0];
-      var answersWrong = _this.shuffleArray(question.multiplechoice_answer_wrong).slice(0,3);
+      var right = question.multiplechoice_answer_right;
+      var wrong = question.multiplechoice_answer_wrong;
+      var answersRight = _this.shuffleArray(right)[0];
+      var answersWrong = _this.shuffleArray(wrong).slice(0,3);
       var answers = _this.shuffleArray(answersWrong.concat(answersRight));
 
       _this.view.render({
@@ -108,7 +113,6 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   resultAction: function(){
-    console.log("enter");
     var _this = this,
       result  = _this.request.param('result'),
       isDaily  = _this.request.param('daily') || false,
@@ -143,7 +147,8 @@ module.exports.prototype = GamesController.prototype.extend({
         for (var j = 0; j < selected.length; j++) {
           if(String(questions[i]._id) === String(selected[j][0])){
             for (var k = 0; k < answers.length; k++) {
-              if(String(selected[j][1]) === String(_this.hashString(answers[k]))){
+              if(String(selected[j][1]) ===
+                 String(_this.hashString(answers[k]))){
                 isCorrect = true;
               }
             }
@@ -153,9 +158,9 @@ module.exports.prototype = GamesController.prototype.extend({
         solution.push(isCorrect);
         questions[i].selectedAnswer = isCorrect;
         if(isCorrect){
-            countCorrect++;
+          countCorrect++;
         }else{
-            countWrong++;
+          countWrong++;
         }
       }
 

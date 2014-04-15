@@ -118,11 +118,8 @@ module.exports.prototype = GamesController.prototype.extend({
  */
   checkSortingAction: function() {
     var _this = this,
-      sortIds = _this.request.param('sortings'),
-      level   = _this.request.param('level'),
-      attempt = _this.request.param('attempt');
+      sortIds = _this.request.param('sortings');
 
-    //TODO: catch error on clientside
     if(typeof sortIds === 'undefined'){
       _this.response.json({
         error: 'Error: Keine Elemente übergeben.'
@@ -158,12 +155,15 @@ module.exports.prototype = GamesController.prototype.extend({
             }
 
             for (var _id in sortedBuildings) {
-              if (!sortedBuildings[_id]){ continue; }
+              if (!sortedBuildings[_id]){
+                continue;
+              }
               // go through all buildings and check index of era in era-array
               var buildingEraIndex = eras.indexOf(sortedBuildings[_id].era);
               orderNumbers.push(eras.indexOf(sortedBuildings[_id].era));
-              if (buildingEraIndex < lastEraIndex)
+              if (buildingEraIndex < lastEraIndex){
                 solutionIsCorrect = false;
+              }
               lastEraIndex = buildingEraIndex;
             }
             
@@ -171,15 +171,15 @@ module.exports.prototype = GamesController.prototype.extend({
             var order = [],
               prepend,
               same;
-            for (var i = 0; i < orderNumbers.length; i++) {
+            for (var k = 0; k < orderNumbers.length; k++) {
               same = prepend = 0;
               for (var j = 0; j < orderNumbers.length; j++) {
-                if(orderNumbers[i] > orderNumbers[j])
+                if(orderNumbers[k] > orderNumbers[j])
                   prepend++;
-                else if(orderNumbers[i] === orderNumbers[j])
+                else if(orderNumbers[k] === orderNumbers[j])
                   same++;
               }
-              order.push(prepend <= i && i <= (prepend + same - 1));
+              order.push(prepend <= k && k <= (prepend + same - 1));
             }
 
             // Update Stats

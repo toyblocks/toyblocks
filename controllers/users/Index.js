@@ -12,7 +12,6 @@ module.exports.prototype = UsersController.prototype.extend({
 
   indexAction: function() {
     var _this = this;
-    var userId  = _this.request.session.user;
     _this.mongodb
       .collection(userModel.collection)
       .find({'tuid': _this.request.session.user.tuid})
@@ -28,7 +27,10 @@ module.exports.prototype = UsersController.prototype.extend({
     var _this = this;
     var newname = _this.request.param('nickname');
     var tuid = _this.request.session.user.tuid;
+
+    /* apply name to session, so the user doesnt have to logout */
     _this.request.session.user.nickname = newname;
+
     _this.mongodb
       .collection('users')
       .update(
@@ -42,5 +44,4 @@ module.exports.prototype = UsersController.prototype.extend({
             _this.response.json({result:'Gespeichert'});
         });
   }
-
 });

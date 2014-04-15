@@ -1,36 +1,12 @@
 'use strict';
 
 var GamesController = require('../Games'),
-  Statistics = require('../admin/Stats'),
-  _ = require('underscore');
+  Statistics = require('../admin/Stats');
 
-module.exports = function () {
-
-};
+module.exports = function () {};
 
 module.exports.prototype = GamesController.prototype.extend({
   name: 'daily',
-
-  /* Calculates how many people played todays Daily
-  *@return percentGamesPlayed
-  */ 
-  getPercentGamesPlayed: function(){
-    var _this = this;
-
-    _this.mongodb
-     .collection('users')
-     .find({right_level: 300})
-     .count(function (err, maxGamesPlayed) {
-        maxGamesPlayed = maxGamesPlayed || 1;
-      _this.mongodb
-       .collection('daily_leaderboard')
-       .find()
-       .count(function (err, currentGamesPlayed) {
-        currentGamesPlayed = currentGamesPlayed || 0;
-        return (((currentGamesPlayed * 100) / maxGamesPlayed));
-      });
-    });
-  },
 
   /**
   * GET index Page for DailyChallenge
@@ -38,31 +14,32 @@ module.exports.prototype = GamesController.prototype.extend({
   indexAction: function() {
     var _this = this,
       userId  = _this.request.session.user.tuid;
-      //played = _this.getPercentGamesPlayed();
 
     _this.mongodb
-     .collection('daily_leaderboard')
-     .find({tuid: userId})
-     .nextObject(function (err, user) {
-        var hasPlayed;
-        if(!!user){
-          hasPlayed = true;
-        }
+    .collection('daily_leaderboard')
+    .find({tuid: userId})
+    .nextObject(function (err, user) {
+
+      var hasPlayed;
+      if(!!user){
+        hasPlayed = true;
+      }
+      _this.mongodb
+     .collection('users')
+     .find({right_level: 300})
+     .count(function (err, maxGamesPlayed) {
+        maxGamesPlayed = maxGamesPlayed || 1;
         _this.mongodb
-       .collection('users')
-       .find({right_level: 300})
-       .count(function (err, maxGamesPlayed) {
-          maxGamesPlayed = maxGamesPlayed || 1;
-        _this.mongodb
-         .collection('daily_leaderboard')
-         .find()
-         .count(function (err, currentGamesPlayed) {
+       .collection('daily_leaderboard')
+       .find()
+       .count(function (err, currentGamesPlayed) {
           currentGamesPlayed = currentGamesPlayed || 0;
-            _this.view.render( {
-              title: 'Daily Challenge',
-              gamesPlayed: (((currentGamesPlayed * 100) / maxGamesPlayed)).toFixed(1),
-              hasPlayedTodaysDaily: hasPlayed
-            });
+          _this.view.render( {
+            title: 'Daily Challenge',
+            gamesPlayed: (((currentGamesPlayed * 100) /
+                          maxGamesPlayed)).toFixed(1),
+            hasPlayedTodaysDaily: hasPlayed
+          });
         });
       });
     });
@@ -97,14 +74,9 @@ module.exports.prototype = GamesController.prototype.extend({
     });
   },
 
-  /**
-  *  Timed function that generates every day a new set of games
-  */
-  
-
   /* GET daily game
   *  @return games - list of games
-  */ 
+  */
   gameAction: function() {
     var _this = this;
     var tuid = _this.request.session.user.tuid;
@@ -142,20 +114,20 @@ module.exports.prototype = GamesController.prototype.extend({
             assemble2: ele.assemble2,
             multiplechoice: ele.multiplechoice
           });
-        })
+        });
       }
     });
   },
 
   /* GET daily game
   *  @return games - list of games
-  */ 
+  */
   resultAction: function() {
-    var _this = this;
-    var result =  _this.request.param('result').split(',');
-    var tuid = _this.request.session.user.tuid;
-    var points = 0;
-    var count = 0;
+    var _this = this,
+      result =  _this.request.param('result').split(','),
+      tuid = _this.request.session.user.tuid,
+      points = 0,
+      count = 0;
 
     // TODO: check the date
     // TODO: make assemble and sorting games less worth
@@ -184,7 +156,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .nextObject(function (err, ele) {
       if(!!ele){
         _this.view.render({
-          error: 'Error: Sie haben das heutige Daily schon gespielt oder der Server hat einen Fehler.'
+          error: 'Error: Sie haben das heutige Daily schon gespielt.'
         });
         return;
       }
@@ -219,7 +191,6 @@ module.exports.prototype = GamesController.prototype.extend({
               day: d.getDate()
             };
 
-            console.log(ele[0].tuid, points, ' points, ', count, '/', result.length);
             Statistics.prototype.insertStats(_this, 'daily');
 
             _this.view.render({
@@ -233,33 +204,37 @@ module.exports.prototype = GamesController.prototype.extend({
               players: players,
               userid: _this.request.session.user.tuid
             });
-          });    
+          });
         });
     });
   }
 });
 
 
-
-
+/**
+*  Timed function that generates every day a new set of games
+*  Gets called from jobs.js
+*/
 module.exports.generateDailyGame = function generateDailyGame (mongodb) {
   console.log('>> Generating Daily Game');
 
   function shuffleArray (o){ //v1.0
-  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
-    x = o[--i], o[i] = o[j], o[j] = x);
-  return o;
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+      x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
   }
+
  //get all the games
   mongodb
   .collection('daily_leaderboard')
-  .remove(function (err, ele) {
+  .remove(function (err) {
     if(err)
       console.log(err);
     else
       console.log('>> Cleared daily_leaderboard collection');
   });
-  //get all the games
+
+  // get all the games
   mongodb
   .collection('missingparts_games')
   .find({})
@@ -292,8 +267,8 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
 
           //multiple
           mul = shuffleArray(mul).slice(0, 4);
-          for (var i = 0; i < mul.length; i++) {
-            mul[i] = mul[i]._id;
+          for (var j = 0; j < mul.length; j++) {
+            mul[j] = mul[j]._id;
           }
 
           //assemble games
@@ -308,23 +283,24 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
 
           mongodb
           .collection('daily_games')
-          .update({},{
+          .update({},
+          {
             missing: mis.join(','),
             sorting: sor1.join(','),
             sorting2: sor2.join(','),
             multiplechoice: mul.join(','),
             assemble: ass[0],
             assemble2: ass[1]
-          },{}, function (err) {
+          },
+          {},
+          function (err) {
             if(err)
               console.log('>> daily games error: ' + err);
             else
               console.log('>> Generated new Daily Game');
           });
-
-
         });
       });
     });
   });
-}
+};

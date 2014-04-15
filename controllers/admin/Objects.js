@@ -47,7 +47,7 @@ module.exports.prototype = AdminController.prototype.extend({
         .insert(
           type,
           {w:1},
-          function(err, objects) {
+          function(err) {
             if (err) console.warn(err.message);
             if (err && err.message.indexOf('E11000 ') !== -1) {
               // this _id was already inserted in the database
@@ -143,7 +143,7 @@ module.exports.prototype = AdminController.prototype.extend({
                   objects: objects
                 });
               });
-            });
+          });
       });
   },
 
@@ -334,7 +334,7 @@ module.exports.prototype = AdminController.prototype.extend({
                       // finally update object in db
                       _this.mongodb
                         .collection(type.name)
-                        .update({_id: object._id}, object, {}, function(err, result) {
+                        .update({_id: object._id}, object, {}, function(err) {
                           if (err) throw new Error(err);
                           _this.response.redirect(redirectPath);
                         });
@@ -345,7 +345,7 @@ module.exports.prototype = AdminController.prototype.extend({
               // inserting object into db
               _this.mongodb
                 .collection(type.name)
-                .insert(object, {}, function(err, result) {
+                .insert(object, {}, function(err) {
                   if (err) throw new Error(err);
                   _this.response.redirect(redirectPath);
                 });

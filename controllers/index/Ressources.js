@@ -60,9 +60,8 @@ module.exports.prototype = BaseController.prototype.extend({
                     // write new image into mongodb
                     _this.mongodb
                       .collection('images' + size)
-                      .insert(doc, {}, function(err, newDoc) {
-
-                      });
+                      .insert(doc, {}, function() {
+                    });
                     showImageFunc(doc.type, buffer);
                     //_this.response.type('image/' + doc.type);
                     //_this.response.send(buffer);

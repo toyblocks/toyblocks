@@ -12,8 +12,8 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
   indexAction: function() {
     var _this = this,
-      countPerPage = 20,
-      page = _this.getPage();
+      countPerPage = 20;
+      //page = _this.getPage();
 
     _this.mongodb
     .collection('encyclopedia_articles')
