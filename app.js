@@ -63,6 +63,7 @@ function getControllerPath(area, controller) {
 mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
     config.mongodb.port + '/' + config.mongodb.db, function(err, db) {
     if(err) {
+      console.log(err);
       console.log('Sorry, there is no mongo db server running.');
     } else {
       // initialize db attaching here

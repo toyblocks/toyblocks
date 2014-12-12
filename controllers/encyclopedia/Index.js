@@ -32,6 +32,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
           .skip(_this.getPaginationSkip())
           .limit(_this.getPaginationLimit())
           .toArray(function(err, data){
+            
             data.sort(function(a, b) {
               var textA = a.title.toUpperCase();
               var textB = b.title.toUpperCase();

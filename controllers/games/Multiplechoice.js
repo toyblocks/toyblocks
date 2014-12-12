@@ -47,6 +47,8 @@ module.exports.prototype = GamesController.prototype.extend({
           count = 3;
           break;
       }
+      // TODO: Set count always to 10
+      
       _this.increaseStat('q'+count+'_count_played');
 
       _this.mongodb

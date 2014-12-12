@@ -56,6 +56,8 @@ module.exports.prototype = GamesController.prototype.extend({
           count = 3;
           break;
       }
+      // TODO: Set count always to 5
+      // TODO: Add difficulty level
 
       _this.mongodb
       .collection('missingparts_games')
@@ -75,7 +77,7 @@ module.exports.prototype = GamesController.prototype.extend({
       for (var i = 0; i < ids.length; i++) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
       }
-      console.log(ids);
+
       if(isDaily){
         _this.view.setOnlyContent(true);
       }
@@ -158,7 +160,7 @@ module.exports.prototype = GamesController.prototype.extend({
       countCorrect = 0,
       countWrong = 0,
       objectIds = [];
-    console.log('enter');
+      
     if(typeof result === 'undefined'){
       _this.view.render({error:'Error'});
       return;
@@ -211,7 +213,7 @@ module.exports.prototype = GamesController.prototype.extend({
       // Update Stats
       Statistics.prototype.insertStats(_this, 'missing');
 
-      console.log('missing: ', isDaily, solution);
+      //console.log('missing: ', isDaily, solution);
       if(isDaily){
         _this.response.json({
           result: solution

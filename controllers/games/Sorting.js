@@ -36,18 +36,11 @@ module.exports.prototype = GamesController.prototype.extend({
       limit = parseInt(_this.request.param('limit'),10) || 7,
       isDaily = parseInt(_this.request.param('isDaily'),10) || 0;
 
-    //+ Jonas Raoni Soares Silva
-    //@ http://jsfromhell.com/array/shuffle [v1.0]
-    function shuffle(o){ //v1.0
-      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
-       x = o[--i], o[i] = o[j], o[j] = x);
-      return o;
-    }
 
     _this.increaseStat('level'+level+'_count_played');
     if(typeof ids === 'undefined'){
       _this.renderGame(level, function(err, buildings){
-        buildings = shuffle(buildings).slice(0,limit);
+        buildings = _this.shuffleshuffleArray(buildings).slice(0,limit);
         _this.view.render({
           title: 'Zeitstrahl',
           level: level,
@@ -67,7 +60,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .collection('sorting_buildings')
         .find({_id: {$in: ids}})
         .toArray(function (err, buildings) {
-          buildings = shuffle(buildings);
+          buildings = _this.shuffleArray(buildings);
           _this.view.render({
             title: 'Zeitstrahl',
             level: level,

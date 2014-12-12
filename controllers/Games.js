@@ -21,6 +21,7 @@ module.exports.prototype = BaseController.prototype.extend({
 
   //+ Jonas Raoni Soares Silva
   //@ http://jsfromhell.com/array/shuffle [v1.0]
+  // actually this is Fisher-Yates Shuffle
   shuffleArray: function (o){ //v1.0
     for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
       x = o[--i], o[i] = o[j], o[j] = x);
