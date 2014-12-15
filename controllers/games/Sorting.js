@@ -40,7 +40,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.increaseStat('level'+level+'_count_played');
     if(typeof ids === 'undefined'){
       _this.renderGame(level, function(err, buildings){
-        buildings = _this.shuffleshuffleArray(buildings).slice(0,limit);
+        buildings = _this.shuffleArray(buildings).slice(0,limit);
         _this.view.render({
           title: 'Zeitstrahl',
           level: level,
@@ -74,9 +74,8 @@ module.exports.prototype = GamesController.prototype.extend({
 /** 
  * Gets the buildings from the database and returns it with a callback
  * 
- * @param countLimit     - count limit of buildings
+ * @param level          - level of game
  * @param renderCallback - the callback to call after we got the buildings
- * @param game           - information about the current game
  */
   renderGame: function(level, renderCallback) {
     if (level === 3) {

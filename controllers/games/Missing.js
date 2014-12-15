@@ -44,25 +44,9 @@ module.exports.prototype = GamesController.prototype.extend({
     if(typeof ids === 'undefined'){
 
       //give random game
-      var count;
-      switch(level){
-        case 2:
-          count = 6;
-          break;
-        case 3:
-          count = 10;
-          break;
-        default:
-          count = 3;
-          break;
-      }
-      // TODO: Set count always to 5
-      // TODO: Add difficulty level
+      var count = 5;
 
-      _this.mongodb
-      .collection('missingparts_games')
-      .find()
-      .toArray( function(err, games) {
+      _this.renderGame(level, function(err, games) {
         games = _this.shuffleArray(games).slice(0, count);
         _this.view.render({
           title: 'Fehlstellen',
@@ -96,6 +80,31 @@ module.exports.prototype = GamesController.prototype.extend({
     }
   },
 
+/** 
+ * Fetches related entries from the database and returns it with a callback
+ * 
+ * @param Level          - level of game
+ * @param renderCallback - the callback to call after we got the buildings
+ */
+  renderGame: function(level, renderCallback) {
+    console.log("Level is: " + level);
+    console.log("callback is: " + renderCallback);
+    if (level === 2) {
+      // Only level 2 buildings
+      this.mongodb
+        .collection('missingparts_games')
+        .find({level: 2})
+        .toArray(renderCallback);
+    } else {
+
+      // only level 1
+      this.mongodb
+        .collection('missingparts_games')
+        .find({level: 1})
+        .toArray(renderCallback);
+    }
+  },
+
   /**
   *  renderGame() fetches images from mongodb
   *
@@ -111,7 +120,10 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.view.render({ error: 'No ID specified' });
       return;
     }
-    
+    if(id === 'undefined'){
+      console.log("Id is undefined");
+      return;
+    }
     _this.mongodb
     .collection('missingparts_games')
     .find({_id: _this.mongo.ObjectID(id)})
@@ -125,12 +137,17 @@ module.exports.prototype = GamesController.prototype.extend({
         .find({ missingparts_category: game.missingparts_category,
                 _id: {$nin: game.missingparts_correctimage}}) // no 2 solutions
         .toArray(function (err, images) {
+
+
+          console.log("wrong images:");
+          console.log(images);
+          
           
           _this.mongodb
           .collection('missingparts_images')
           .find({_id: _this.mongo.ObjectID(solution.toString())})
           .nextObject(function (err2, images2) {
-            images = _this.shuffleArray(images.slice(0,3));
+            images = _this.shuffleArray(images).slice(0,3);
             images.push(images2);
             images = _this.shuffleArray(images);
 

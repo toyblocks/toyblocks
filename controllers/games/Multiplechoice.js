@@ -35,26 +35,11 @@ module.exports.prototype = GamesController.prototype.extend({
     if(typeof ids === 'undefined'){
 
       //give random game
-      var count;
-      switch(level){
-        case 2:
-          count = 6;
-          break;
-        case 3:
-          count = 10;
-          break;
-        default:
-          count = 3;
-          break;
-      }
-      // TODO: Set count always to 10
+      var count = 10;
       
       _this.increaseStat('q'+count+'_count_played');
 
-      _this.mongodb
-      .collection('multiplechoice_questions')
-      .find()
-      .toArray( function(err, questions) {
+      _this.renderGame(level, function (err, questions) {
         questions = _this.shuffleArray(questions).slice(0, count);
         _this.view.render({
           title: 'Multiple Choice',
@@ -84,6 +69,29 @@ module.exports.prototype = GamesController.prototype.extend({
           questions: questions
         });
       });
+    }
+  },
+
+  /** 
+ * Fetches related entries from the database and returns it with a callback
+ * 
+ * @param Level          - level of game
+ * @param renderCallback - the callback to call after we got the buildings
+ */
+  renderGame: function(level, renderCallback) {
+    if (level === 2) {
+      // Only level 2 buildings
+      this.mongodb
+        .collection('multiplechoice_questions')
+        .find({level: 2})
+        .toArray(renderCallback);
+    } else {
+
+      // only level 1
+      this.mongodb
+        .collection('multiplechoice_questions')
+        .find({level: 1})
+        .toArray(renderCallback);
     }
   },
 

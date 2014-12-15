@@ -165,6 +165,7 @@ $(window).ready(function(){
 
     var serialized = $('#sortingform').serialize();
     $.post('/games/sorting/check-sorting', serialized, function(data) {
+      console.log(data);
 
       if(isDaily){
         pushSolution(calcCorrection(data.order).join(','));
@@ -204,7 +205,8 @@ $(window).ready(function(){
             $('#submit').prop('disabled', true);
             $('#newgame').show();
             $('#newgame').prop('disabled', false);
-            setModalText('Falsch!','Sie haben keine Versuche mehr!');
+            setModalText('Falsch!','Sie haben keine Versuche mehr! Die Lösung wird aufgedeckt.');
+            // TODO: Show solution
             break;
           case 1:
             setModalText('Falsch!','Ihre Lösung ist falsch. Sie haben noch einen Versuch!');
