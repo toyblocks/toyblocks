@@ -5,6 +5,14 @@
 {/contentHead}
 
 {<content}
+  <div class="">
+   <div class="col-sm-2">
+      <a href="/moderation/encyclopedia/article" role="button" class="btn btn-default btn-sm btn-block">
+        <span class="glyphicon glyphicon-plus"></span>
+        Neuer Artikel
+      </a>
+    </div>
+  </div>
 <div class="col-md-10">
   <div class="row">
     <table class="table table-hover">
@@ -39,14 +47,6 @@
         {/articles}
       </tbody>
     </table>
-  </div>
-  <div class="row">
-   <div class="col-sm-2">
-      <a href="/moderation/encyclopedia/article" role="button" class="btn btn-default btn-sm btn-block">
-        <span class="glyphicon glyphicon-plus"></span>
-        Neuer Artikel
-      </a>
-    </div>
   </div>
 </div>
 {/content}

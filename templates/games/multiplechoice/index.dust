@@ -7,16 +7,12 @@
   {game_multiplechoice_explain|s}
   <div class="list-group">
     <a href="/games/multiplechoice/game?level=1" class="well list-group-item">
-    	<strong>3 Fragen</strong>
+    	<strong>Schwierigkeitsstufe 1</strong>
       <span class="badge">{#_user.stats.multiplechoice.q1_count_played}{.}{:else}0{/_user.stats.multiplechoice.q1_count_played} mal gespielt</span>
     </a>
     <a href="/games/multiplechoice/game?level=2" class="well list-group-item">
-    	<strong>6 Fragen</strong>
+    	<strong>Schwierigkeitsstufe 2</strong>
       <span class="badge">{#_user.stats.multiplechoice.q6_count_played}{.}{:else}0{/_user.stats.multiplechoice.q6_count_played} mal gespielt</span>
-    </a>
-    <a href="/games/multiplechoice/game?level=3" class="well list-group-item">
-    	<strong>10 Fragen</strong>
-      <span class="badge">{#_user.stats.multiplechoice.q10_count_played}{.}{:else}0{/_user.stats.multiplechoice.q10_count_played} mal gespielt</span>
     </a>
   </div>
 </div>

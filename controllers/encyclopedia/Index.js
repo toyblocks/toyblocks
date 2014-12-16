@@ -24,20 +24,21 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
       .collection('encyclopedia_articles')
       .count(function(err, totalCount) {
         _this.setPagination(totalCount, countPerPage);
+        var skip = _this.getPaginationSkip(),
+           limit = _this.getPaginationLimit();
+
         _this.mongodb
           .collection('encyclopedia_articles')
           .find(
             findParams,
             {title: 1, _id: 1})
-          .skip(_this.getPaginationSkip())
-          .limit(_this.getPaginationLimit())
           .toArray(function(err, data){
             
+            // Sort and cut data
             data.sort(function(a, b) {
-              var textA = a.title.toUpperCase();
-              var textB = b.title.toUpperCase();
-              return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+              return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
             });
+            data = data.slice(skip, skip + limit);
 
 
             var articles = [];
@@ -63,7 +64,6 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                 });
               }
             }
-
             _this.view.render({
               title: 'Enzyklopädie - Glossar',
               route: '/encyclopedia',

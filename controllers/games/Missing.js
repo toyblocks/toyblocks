@@ -116,12 +116,8 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this,
       id = _this.request.param('id');
 
-    if(typeof id === 'undefined'){
+    if(typeof id === 'undefined' || id === 'undefined'){
       _this.view.render({ error: 'No ID specified' });
-      return;
-    }
-    if(id === 'undefined'){
-      console.log("Id is undefined");
       return;
     }
     _this.mongodb
@@ -138,11 +134,6 @@ module.exports.prototype = GamesController.prototype.extend({
                 _id: {$nin: game.missingparts_correctimage}}) // no 2 solutions
         .toArray(function (err, images) {
 
-
-          console.log("wrong images:");
-          console.log(images);
-          
-          
           _this.mongodb
           .collection('missingparts_images')
           .find({_id: _this.mongo.ObjectID(solution.toString())})
