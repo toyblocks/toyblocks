@@ -36,6 +36,7 @@ $(function(){
         $('#search_input input').val('');
       });
     });
+    // Search
     var $searchInput = $('<input type="text" name="search" placeholder="Suchen nach..." class="form-control"></div>'),
       $searchInputWrapper = $('<div id="search_input"></div>'),
       searchEvent;
@@ -59,6 +60,39 @@ $(function(){
         });
       }, 500);
     });
+    // Filter
+    /*
+    var $filterInput = $(
+'<div class="btn-group dropup">' +
+  '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
+    'Filter<span class="caret"></span>' +
+  '</button>' +
+  '<ul class="dropdown-menu" role="menu">' +
+    '<li><b>Anzeigen</b></li>' +
+    '<li><a href="#">Student</a></li>' +
+    '<li><a href="#">Moderator</a></li>' +
+    '<li><a href="#">Admin</a></li>' +
+    '<li class="divider"></li>' +
+    '<li><b>Sortieren nach</b></li>' +
+    '<li><a href="#">Vornamen</a></li>' +
+    '<li><a href="#">Nachnamen</a></li>' +
+    '<li><a href="#">Nickname</a></li>' +
+    '<li><a href="#">TU-ID</a></li>' +
+  '</ul>' +
+'</div>'),
+      $filterInputWrapper = $('<div id="filter_input"></div>'),
+      filterEvent;
+    $filterInput.on('keyup', function(event) {
+      clearTimeout(filterEvent);
+      filterEvent = setTimeout(function(){
+        $.get(location.href, filterParams, function(data) {
+          $('#content').html(data);
+        });
+      }, 500);
+    });
+*/
+    //$filterInputWrapper.append($filterInput);
+    //$('#page_selection').append($filterInputWrapper);
     $searchInputWrapper.append($searchInput);
     $('#page_selection').append($searchInputWrapper);
   }

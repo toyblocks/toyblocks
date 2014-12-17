@@ -46,6 +46,21 @@ module.exports.prototype = AdminController.prototype.extend({
           else
             _this.response.json({result:'success'});
         });
+  },
+
+  deleteUser: function() {
+    var _this = this;
+    console.log("User Deleted called")
+    _this.response.json({result:'success'});
+    return;
+    _this.mongodb
+      .collection('users')
+      .remove({_id: _this.request.param('id')}, {}, function() {
+          if(err)
+            _this.response.json({result:'error'});
+          else
+            _this.response.json({result:'success'});
+        });
   }
 
 });

@@ -18,7 +18,7 @@
 /* Sorttable Stuff */
 #sortable {
   list-style-type: none;
-  padding: 5px;
+  padding: 9px;
   width: 100%;
   margin-bottom: 7px solid #EEE;
 }
@@ -26,7 +26,7 @@
   position: relative;
   display: inline-block;
   vertical-align: top;
-  margin: 1px;
+  margin: 3px;
   font-size: 1.2em;
   width: 13%; /*should be 14.28% but margin and padding are evil*/
  /* height: 240px;*/
@@ -38,7 +38,7 @@
 
 /* Timeline Stuff */
 .timeline-tag{
-  width: 86px; /*was 66px*/
+  width: 86px;
   height: 66px;
   border: 5px #fff solid;
   border-radius: 66px;
@@ -69,7 +69,6 @@
   margin-bottom: 7px;
   margin-left: 10px;
   background-color: #428bca;
-  /*background-image: linear-gradient(to right,#001F3F 0,#0074D9 100%);*/
 }
 .timeline-arrow{
   border-color: transparent transparent transparent #428bca;
@@ -78,6 +77,22 @@
   right: 76px;
   margin-top: -16px;
   position: absolute;
+}
+.era{
+  text-align: center;
+  font-size: 0.7em;
+  color: #428bca;
+}
+.result-text{
+  text-align: center;
+  font-size: 1.4em;
+}
+.result-description{
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  margin-bottom: 4px;
+  margin-top: 4px;
+  text-align: center;
+  font-size: 0.8em;
 }
 
 #triesLeft{
@@ -111,6 +126,7 @@
     </ul>
   </div>
 </form>
+<div id="result-container"></div>
 <br>
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
   <p>
@@ -162,10 +178,8 @@ $(window).ready(function(){
     var $button = $(this);
     $button.prop('disabled', true);
     $('#attempt').val(tries);
-
     var serialized = $('#sortingform').serialize();
     $.post('/games/sorting/check-sorting', serialized, function(data) {
-      console.log(data);
 
       if(isDaily){
         pushSolution(calcCorrection(data.order).join(','));
@@ -184,11 +198,12 @@ $(window).ready(function(){
         $('#newgame').prop('disabled', false);
         $('#tryagain').prop('disabled', true);
         isGlyphed = false;
+        showCorrection(data.order);
+        showResultBelow(data.result);
       }else{
 
-        /* Make the elements draggable even if glyphicon are added,
-         * but make sure not to activate the buttons everytime
-         * an element is dragged.
+        /* Make the elements draggable even if the glyphicon are added,
+         * but activate the buttons only once.
         */
         isGlyphed = true;
         $( '#sortable' ).on( 'sortstart',
@@ -205,18 +220,20 @@ $(window).ready(function(){
             $('#submit').prop('disabled', true);
             $('#newgame').show();
             $('#newgame').prop('disabled', false);
+            showCorrection(data.order);
+            showResultBelow(data.result);
             setModalText('Falsch!','Sie haben keine Versuche mehr! Die Lösung wird aufgedeckt.');
-            // TODO: Show solution
             break;
           case 1:
             setModalText('Falsch!','Ihre Lösung ist falsch. Sie haben noch einen Versuch!');
+            showCorrection(data.order);
             break;
           default:
             setModalText('Falsch!','Ihre Lösung ist leider falsch. Sie haben noch ' + (maxTries - tries) + ' Versuche!');
+            showCorrection(data.order);
           };
-
       }
-      showCorrection(data.order);
+      
       $('#checkModal').modal();
     });
   });
@@ -228,13 +245,14 @@ $(window).ready(function(){
     $('#submit').prop('disabled', false);
     $('#tryagain').prop('disabled', true);
     removeCorrection();
-  }
+  };
 
   function setModalText (title, body) {
     $('#checkModal .modal-title').text(title);
     $('#checkModal .modal-body').text(body);
   };
 
+  /* Create Array of true and false for the daily game */
   function calcCorrection(order) {
     var result = [];
     $('#sortable li').each(function(index){
@@ -245,9 +263,9 @@ $(window).ready(function(){
       }
     });
     return result;
-  }
+  };
 
-  function showCorrection(order, number) {
+  function showCorrection(order) {
     $('#sortable li').each(function(index){
       if (order[index]) {
         $(this).prepend('<span class="green glyphicon glyphicon-ok"></span>');
@@ -256,7 +274,34 @@ $(window).ready(function(){
         $(this).prepend('<span class="red glyphicon glyphicon-remove"></span>');
       }
     });
-  }
+  };
+
+  /*
+  * Shows the correct solution after the game has ended.
+  */
+  function showResultBelow (buildings) {
+    var resultHtml = '<div class="result-text">Lösung</div><form id="resultsortingform"><div class="row"><ul id="sortable" class="well">';
+    for (var i = 0; i < buildings.length; i++) {
+      resultHtml += '<li class="center-block"><div class="thumbnail"><div class="era">'+
+                    buildings[i].era +
+                    '</div><img src="/ressources/image?id='+
+                    buildings[i].image+
+                    '&amp;size=middle" alt="'+
+                    buildings[i].title +
+                    '"><div class="result-description">'+
+                    buildings[i].title +
+                    '</div><div class="result-description"><b>Ort:</b><br>'+
+                    buildings[i].city + ', ' + buildings[i].country +
+                    '</div><div class="result-description"><b>Baujahr:</b> '+
+                    (buildings[i].buildyear_begin || '???') +
+                    '</div><div class="result-description"><b>Bauherr:</b><br>'+
+                    buildings[i].builder +
+                    '</div></div></li>';
+    };
+
+    resultHtml += '</ul></div></form>';
+    $('#result-container').append(resultHtml);
+  };
 
   function removeCorrection() {
     $('#sortable li .glyphicon').each(function(index){

@@ -16,12 +16,12 @@
     </div>
   {! Show the game !}
     <div class="col-md-7">
-      <h3>{title}</h3>
+      <h3 style="color: #428bca;">{title}</h3>
       <div class="input-group games">
         <span class="input-group-btn">
           {@if cond="{selectedAnswer}"}
             <p style="font-size: 14px">
-            Korrekt!
+            Korrekt! Es ist ein:
             <span class="glyphicon glyphicon-ok pull-right green" style="margin-right: 10px; font-size:40px;"></span>
             </p>
             {#missingparts_correctimage}
@@ -54,6 +54,8 @@
     var e = $(this);
     $.get( '/games/missing/getsolutionpicture?id=' + $(this).attr('id'), function( data ) {
       $(e).attr('src', '/ressources/image?id=' + data.imgid + '&size=middle');
+      $(e).parent().before('</div><div class="description" style="font-size: 14px;">' + data.imgtitle + '</div><div>');
+      
     }, 'json');
   })
   </script>

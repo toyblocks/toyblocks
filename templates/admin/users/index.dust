@@ -3,7 +3,7 @@
 {<contentHead}
 <div class="col-md-12 col-sm-12">
   <div class="row">
-    <div class="col-sm-8 col-md-8">
+    <div class="col-sm-11 col-md-11">
       <h3>User Übersicht</h3>
 {/contentHead}
 {<content}
@@ -16,6 +16,9 @@
           <th>Student</th>
           <th>Mitarbeiter</th>
           <th>Rechte</th>
+          <th>
+      <button id="delete-all" type="button" class="btn btn-danger">Alle löschen</button></td>
+          </th>
         </tr>
         {#users}
         <tr>
@@ -27,13 +30,18 @@
           <td>{?employee}Ja{:else}Nein{/employee}</td>
           <td>
             <input type="hidden" class="tuid" name="tuid" value="{tuid}">
-            <select class="right-level" name="right_level" id="right_level" class="form-control">
+            <select class="right-level btn btn-default dropdown-toggle" name="right_level" id="right_level" class="form-control">
               <option value="100"{@eq key=right_level value=100} selected{/eq}>Admin</option>
               <option value="200"{@eq key=right_level value=200} selected{/eq}>Moderator</option>
               <option value="300"{@eq key=right_level value=300} selected{/eq}>Student</option>
             </select>
             <p class="saved settingssaved alert alert-success" style="display: none;">Änderung gespeichert.</p>
-            <p class="failed settingssaved alert alert-danger" style="display: none;">FAIL.</p>
+            <p class="failed settingssaved alert alert-danger" style="display: none;">Ein Fehler ist aufgetretten.</p>
+          </td>
+          <td>
+            <button id="{_id}" type="button" class="btn btn-danger btn-block delete-user">Löschen</button></td>
+            <p class="delete-success  alert alert-success" style="display: none;">Gelöscht</p>
+            <p class="delete-failed  alert alert-danger" style="display: none;">Ein Fehler ist aufgetretten.</p>
           </td>
         </tr>
         {:else}
@@ -51,6 +59,48 @@
 
 <script>
 var _searchFields = ['tuid', 'givenName', 'surname', 'nickname', 'right_level'];
+
+$('body').on('click', '.delete-user', function(){
+    console.log("user deleteing.. omg!" + userid);
+    /* somehwhere here href="/admin/objects/delete-object?type=users&id={_id}" */
+    console.log(this.id)
+    console.log($(this).next())
+    console.log($(this).parent())
+    console.log($($(this).parent().parent().find('p.saved')))
+
+    var slide = $($(this).parent().parent().find('p.delete-success'));
+    slide.slideDown('fast');
+    setTimeout(function() {
+      slide.slideUp('fast');
+    }, 2000);
+    return;
+
+
+    var $this = $(this);
+    var userid = ($this).val();
+    console.log(userid)
+    $.ajax({
+      type: "POST",
+      url: "delete",
+      data: { id: userid}
+    })
+    .fail(function( jqXHR, textStatus ) {
+      /*alert( "Request failed: " + textStatus ); */
+      var slide = $($this).find('p.failed');
+      slide.text("Request failed: " + textStatus);
+      slide.slideDown('fast');
+      setTimeout(function() {
+        slide.slideUp('fast');
+      }, 2000);
+    })
+    .done(function () {
+      var slide = $($this).find('p.saved');
+      slide.slideDown('fast');
+      setTimeout(function() {
+        slide.slideUp('fast');
+      }, 2000);
+    });
+  });
 
 $('body').on('change', '.right-level', function(){
   var $this = $(this);

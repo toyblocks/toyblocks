@@ -25,7 +25,6 @@ module.exports.prototype = BaseController.prototype.extend({
     this.view.render({});
   },
 
-
   aboutAction: function () {
     var _this = this;
     _this.getDbTexts(
@@ -37,7 +36,6 @@ module.exports.prototype = BaseController.prototype.extend({
         });
       });
   },
-
 
   impressumAction: function () {
     var _this = this;
@@ -57,9 +55,9 @@ module.exports.prototype = BaseController.prototype.extend({
     });
   },
 
-  // TODO: get actual date from db
   lastupdateAction: function() {
     var _this = this;
+
     function fill(n, length) {
       var str = '' + n;
       for (var i = str.length+1; i <= length; i++) {
@@ -67,10 +65,12 @@ module.exports.prototype = BaseController.prototype.extend({
       }
       return str;
     }
+
     _this.mongodb
       .collection('system_config')
       .find({key: 'last_modified'})
       .nextObject(function(err, doc){
+
         if (doc) {
           var date = doc.value;
           var string = date.getFullYear()         + '-' +

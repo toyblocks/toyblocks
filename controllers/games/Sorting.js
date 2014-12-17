@@ -102,6 +102,7 @@ module.exports.prototype = GamesController.prototype.extend({
     }
   },
 
+
 /**
  * POST request to check the solution
  * the parameters are from the <form> element
@@ -145,20 +146,22 @@ module.exports.prototype = GamesController.prototype.extend({
             for (var i = 0; i < buildings.length; i++) {
               sortedBuildings[''+buildings[i]._id] = buildings[i];
             }
-
+            var index = 0;
             for (var _id in sortedBuildings) {
               if (!sortedBuildings[_id]){
                 continue;
               }
+
               // go through all buildings and check index of era in era-array
               var buildingEraIndex = eras.indexOf(sortedBuildings[_id].era);
-              orderNumbers.push(eras.indexOf(sortedBuildings[_id].era));
+              orderNumbers.push(buildingEraIndex);
+
               if (buildingEraIndex < lastEraIndex){
                 solutionIsCorrect = false;
               }
               lastEraIndex = buildingEraIndex;
             }
-            
+
             // Display which elements are on a wrong position
             var order = [],
               prepend,
@@ -174,13 +177,22 @@ module.exports.prototype = GamesController.prototype.extend({
               order.push(prepend <= k && k <= (prepend + same - 1));
             }
 
+            // reuse buildings array and sort them for result page
+            for (var i = 0; i < buildings.length; i++) {
+              buildings[i].position = eras.indexOf(buildings[i].era);
+            }
+            buildings.sort(function (a,b) {
+              return a.position > b.position;
+            })
+
             // Update Stats
             Statistics.prototype.insertStats(_this, 'sorting');
 
             // response with a json object
             _this.response.json({
               correct: solutionIsCorrect,
-              order: order
+              order: order,
+              result: buildings
             });
           });
       });

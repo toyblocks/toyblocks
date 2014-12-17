@@ -18,6 +18,9 @@
         <div class="inner">
           <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
         </div>
+        {@eq key=level value=1}
+        <p>{title}</p>
+        {/eq}
       </label>
       {/images}
     </div>

@@ -81,15 +81,13 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
 /** 
- * Fetches related entries from the database and returns it with a callback
+ * renderGame() - Fetches related entries from the database and returns it with a callback
  * 
  * @param Level          - level of game
  * @param renderCallback - the callback to call after we got the buildings
  */
   renderGame: function(level, renderCallback) {
-    console.log("Level is: " + level);
-    console.log("callback is: " + renderCallback);
-    if (level === 2) {
+    if (level === 3) {
       // Only level 2 buildings
       this.mongodb
         .collection('missingparts_games')
@@ -97,7 +95,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .toArray(renderCallback);
     } else {
 
-      // only level 1
+      // Level 1 and 2
       this.mongodb
         .collection('missingparts_games')
         .find({level: 1})
@@ -106,15 +104,14 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   /**
-  *  renderGame() fetches images from mongodb
+  *  containerAction() fetches container images from mongodb
   *
-  * @param <Array> game
-  * @param <Callback> renderCallback
-  * @return <Array> images in Callback
+  * @return <Array> images for the Container
   */
   containerAction: function() {
     var _this = this,
-      id = _this.request.param('id');
+      id = _this.request.param('id'),
+      level = _this.request.param('level') || 1;
 
     if(typeof id === 'undefined' || id === 'undefined'){
       _this.view.render({ error: 'No ID specified' });
@@ -144,7 +141,8 @@ module.exports.prototype = GamesController.prototype.extend({
 
             _this.view.render({
               game: game,
-              images: images
+              images: images,
+              level: level
             });
           });
         });
@@ -152,11 +150,11 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   /**
-  * checkSelectedAction() checks if game selection is correct
+  * resultAction() checks if game selection is correct
   *
   * @param <Number> result
   * @param <String> gameid
-  * @return <Boolean> correct
+  * @return <Array> correct
   * @return <Number> correctBuilding
   */
   resultAction: function() {
@@ -191,10 +189,10 @@ module.exports.prototype = GamesController.prototype.extend({
       for (var i = 0; i < game.length; i++) {
         var answers = game[i].missingparts_correctimage,
           isCorrect = false;
+
         for (var j = 0; j < selected.length; j++) {
           if(String(selected[j][0]) === String(game[i]._id)){
             for (var k = 0; k < answers.length; k++) {
-              
               if(String(selected[j][1]) === String(answers[k])){
                 isCorrect = true;
                 break;
@@ -212,7 +210,6 @@ module.exports.prototype = GamesController.prototype.extend({
           countWrong++;
         }
       }
-
       var percentage = {
         'wrong': (countWrong   * 100) / (countWrong + countCorrect),
         'right': (countCorrect * 100) / (countWrong + countCorrect)
@@ -221,7 +218,7 @@ module.exports.prototype = GamesController.prototype.extend({
       // Update Stats
       Statistics.prototype.insertStats(_this, 'missing');
 
-      //console.log('missing: ', isDaily, solution);
+      // Update daily
       if(isDaily){
         _this.response.json({
           result: solution
@@ -249,7 +246,8 @@ module.exports.prototype = GamesController.prototype.extend({
     .collection('missingparts_images')
     .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
     .nextObject(function (err, ele) {
-      _this.response.json({imgid: ele.image});
+      _this.response.json({imgid: ele.image,
+                           imgtitle: ele.title,});
     });
   }
 });

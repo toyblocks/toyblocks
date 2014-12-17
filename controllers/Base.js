@@ -107,20 +107,7 @@ module.exports.prototype = {
   },
 
   getSortParams: function() {
-    var filterParams = {};
-    if (this.request.param('filter')) {
-      var filterParams = this.request.param('filter'),
-        sortParamsOr = [];
-        // TODO: Rewrite me
-      for (var key in filterParams) {
-        // escape regex params
-        var value = filterParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1'),
-          sortParam = {};
-        sortParam[key] = new RegExp('^'+value, 'ig');
-        sortParamsOr.push(sortParam);
-      }
-      filterParams = {$or: sortParamsOr};
-    }
+      var filterParams = this.request.param('filter');
     return filterParams;
   },
 

@@ -119,7 +119,7 @@ $(window).ready(function(){
     isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
 
   function loadGame(gameId) {
-    $.ajax({url: "/games/missing/container?id="+gameId})
+    $.ajax({url: "/games/missing/container?level={level}&id="+gameId})
       .done(function( data ) {
         $('#game-container').html(data);
       });
@@ -128,7 +128,6 @@ $(window).ready(function(){
   function getReadyForNext (val) {
     selectedAnswers[gameIndex] = [gameIds[gameIndex],val];
     $('#next-question').prop('disabled', false);
-    console.log(gameIndex, gameIds.length);
     if ((gameIndex+1) < gameIds.length) {
       $('#next-question').show();
     }
@@ -156,10 +155,10 @@ $(window).ready(function(){
       $.ajax({url: "/games/missing/result?daily=1&result=" +
         selectedAnswers})
         .done(function( data ) {
-          console.log(data.result);
           pushSolution(data.result.join(','));
         });
     }else{
+      console.log(selectedAnswers);
       $.ajax({url: "/games/missing/result?result=" +
         selectedAnswers})
         .done(function( data ) {
