@@ -49,29 +49,28 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   deleteAction: function() {
-    var _this = this;
-    console.log("User Deleted called")
-    _this.response.json({result:'success'});
-    return; /*TODO REMOVE ME*/
+    var _this = this,
+      id = _this.request.param('id');
+
     _this.mongodb
       .collection('users')
-      .remove({_id: _this.request.param('id')}, {}, function() {
-          if(err)
+      .remove({_id: _this.mongo.ObjectID(id)}, 1, function(err) {
+          if(err){
             _this.response.json({result:'error'});
-          else
+          }
+          else{
             _this.response.json({result:'success'});
+          }
         });
   },
 
 
   deleteallusersAction: function() {
     var _this = this;
-    console.log("Delete All Users called")
-    _this.response.json({result:'success'});
-    return; /*TODO REMOVE ME*/
+
     _this.mongodb
       .collection('users')
-      .remove({_id: _this.request.param('id')}, {}, function() {
+      .remove({student: true, right_level: 300}, 0, function(err) {
           if(err)
             _this.response.json({result:'error'});
           else
