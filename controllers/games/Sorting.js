@@ -183,10 +183,10 @@ module.exports.prototype = GamesController.prototype.extend({
             }
             buildings.sort(function (a,b) {
               return a.position > b.position;
-            })
+            });
 
             // Update Stats
-            Statistics.prototype.insertStats(_this, 'sorting');
+            Statistics.prototype.insertStats(_this, { $inc : { 'sorting': +1 }});
 
             // response with a json object
             _this.response.json({

@@ -191,7 +191,7 @@ module.exports.prototype = GamesController.prototype.extend({
               day: d.getDate()
             };
 
-            Statistics.prototype.insertStats(_this, 'daily');
+            Statistics.prototype.insertStats(_this, { $inc : { 'daily': +1 }});
 
             _this.view.render({
               title: 'Daily Challenge',

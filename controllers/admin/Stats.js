@@ -65,9 +65,6 @@ module.exports.prototype = AdminController.prototype.extend({
           index++;
         }
 
-        //TODO: collect the gamesPlayed count for each game individual
-        //TODO: and render them on the frontend with flot.stack.js
-        //TODO: see http://www.flotcharts.org/flot/examples/stacking/index.html
 
         var toDateObject = [{
           'year'  : weekend.getFullYear(),
@@ -185,53 +182,21 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
 
-  insertStats: function (that, gametype) {
+  insertStats: function (db, gametype) {
     var today = new Date(),
       current = new Date(today.getFullYear(),
                          today.getMonth(),
                          today.getDate());
 
-    // create a new entry if no entry contains today
+    // create new entry if no entry is found
     // also increase by one
-    // TODO: dirty switch, replace maybe? 
-    // TODO: { $inc : { gametype: +1 } } doesnt work
-    switch(gametype){
-      case 'sorting':
-        that.mongodb
+
+     db.mongodb
           .collection('statistics')
           .update({date: current},
-                  { $inc : { 'sorting': +1 } },
+                  gametype,
                   {upsert : true}, function (err) {
                     if(err) console.log(err);
                   });
-        break;
-      case 'assemble':
-        that.mongodb
-          .collection('statistics')
-          .update({date: current},
-                  { $inc : { 'assemble': +1 } },
-                  {upsert : true}, function (err) {
-                    if(err) console.log(err);
-                  });
-        break;
-      case 'multiplechoice':
-        that.mongodb
-          .collection('statistics')
-          .update({date: current},
-                  { $inc : { 'multiplechoice': +1 } },
-                  {upsert : true}, function (err) {
-                    if(err) console.log(err);
-                  });
-        break;
-      case 'missing':
-        that.mongodb
-          .collection('statistics')
-          .update({date: current},
-                  { $inc : { 'missing': +1 } },
-                  {upsert : true}, function (err) {
-                    if(err) console.log(err);
-                  });
-        break;
-    }
   }
 });
