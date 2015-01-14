@@ -13,9 +13,9 @@ module.exports = function(grunt) {
           cwd: 'bower_components',
           src: ['jquery/dist/jquery.min.js',
             'bootstrap/dist/js/bootstrap.min.js',
-            'jqueryui/ui/minified/jquery-ui.min.js',
+            'jqueryui/jquery-ui.min.js',
             'jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
-            'summernote/summernote-dist/summernote.min.js',
+            'summernote/dist/summernote.min.js',
             'jquery-bootpag/lib/jquery.bootpag.min.js',
             'jquery-flot/jquery.flot.js'
           ],
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
           src: ['bootstrap/dist/css/bootstrap.min.css',
             'bootstrap/dist/css/bootstrap-theme.min.css',
             'fontawesome/css/font-awesome.min.css',
-            'summernote/summernote-dist/summernote.css'
+            'summernote/dist/summernote.css'
           ],
           dest: 'public/css/vendor/',
           filter: 'isFile'
