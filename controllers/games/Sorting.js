@@ -83,21 +83,21 @@ module.exports.prototype = GamesController.prototype.extend({
       // Only level 2 buildings
       this.mongodb
         .collection('sorting_buildings')
-        .find({level: 2})
+        .find({level: 2, active: true})
         .toArray(renderCallback);
     }else if (level === 2) {
 
       // Level 1 and level 2
       this.mongodb
         .collection('sorting_buildings')
-        .find()
+        .find({active: true})
         .toArray(renderCallback);
     } else {
 
       // only level 1
       this.mongodb
         .collection('sorting_buildings')
-        .find({level: 1})
+        .find({level: 1, active: true})
         .toArray(renderCallback);
     }
   },

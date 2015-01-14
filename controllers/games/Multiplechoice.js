@@ -83,14 +83,14 @@ module.exports.prototype = GamesController.prototype.extend({
       // Only level 2 buildings
       this.mongodb
         .collection('multiplechoice_questions')
-        .find({level: 2})
+        .find({level: 2, active: true})
         .toArray(renderCallback);
     } else {
 
       // only level 1
       this.mongodb
         .collection('multiplechoice_questions')
-        .find({level: 1})
+        .find({level: 1, active: true})
         .toArray(renderCallback);
     }
   },
@@ -180,7 +180,7 @@ module.exports.prototype = GamesController.prototype.extend({
       };
 
       // Update Stats
-      Statistics.prototype.insertStats(_this, 'multiplechoice');
+      Statistics.prototype.insertStats(_this, { $inc : { 'multiplechoice': +1 }});
 
       if(isDaily){
         _this.response.json({

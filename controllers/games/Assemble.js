@@ -39,7 +39,7 @@ module.exports.prototype = GamesController.prototype.extend({
       //give random game
       _this.mongodb
         .collection('assemble_games')
-        .find()
+        .find({active: true})
         .toArray(function(err, game) {
 
           // Get a random element
@@ -62,7 +62,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
       _this.mongodb
         .collection('assemble_games')
-        .find({_id: _this.mongo.ObjectID(id)})
+        .find({_id: _this.mongo.ObjectID(id), active: true})
         .nextObject(function(err, game) {
           _this.renderGame(game, level, function(err, buildingParts){
             _this.view.render({
