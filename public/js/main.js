@@ -61,9 +61,9 @@ $(function(){
       }, 500);
     });
     // Filter
-    /*
+    
     var $filterInput = $(
-'<div class="btn-group dropup">' +
+'<div class="btn-group dropdown">' +
   '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
     'Filter<span class="caret"></span>' +
   '</button>' +
@@ -82,19 +82,30 @@ $(function(){
 '</div>'),
       $filterInputWrapper = $('<div id="filter_input"></div>'),
       filterEvent;
-    $filterInput.on('keyup', function(event) {
+    $filterInput.on('click', function(event) {
       clearTimeout(filterEvent);
       filterEvent = setTimeout(function(){
+        console.log("FilterEvent started")
+        var filterParams = {};
+        if(window._filterFields && window._filterFields.length > 0){
+          //add filtering
+          console.log("event, filterfields")
+        }
+        if(window._sortFields && window._sortFields.length > 0){
+          //add Sorting
+          console.log("event, sortfields")
+        }
+        filterParams.filter = {student: 1};
         $.get(location.href, filterParams, function(data) {
           $('#content').html(data);
         });
       }, 500);
     });
-*/
-    //$filterInputWrapper.append($filterInput);
-    //$('#page_selection').append($filterInputWrapper);
+
+    $filterInputWrapper.append($filterInput);
+    $('#filter-bar').append($filterInputWrapper);
     $searchInputWrapper.append($searchInput);
-    $('#page_selection').append($searchInputWrapper);
+    $('#search-bar').append($searchInputWrapper);
   }
 
 
