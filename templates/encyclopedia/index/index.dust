@@ -1,10 +1,13 @@
 {>"layout/layout.dust"/}
 
 {<contentHead}
-<ol class="breadcrumb">
-  <li><a href="/">Home</a></li>
-  <li class="active">Enzyklopädie</li>
-</ol>
+<div class="row">
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Enzyklopädie</li>
+{>"layout/search"/}
+  </ol>
+</div>
 <div class="row">
 {/contentHead}
 {<content}
@@ -49,9 +52,10 @@
 </div>
 
 <script>
-window._searchFields = ['title',
-  'missingparts_category',
-  'assemble_category'];
+window._searchFields = ['title'];
+window._filterFields = null;
+window._sortBy = [{name: 'title', display: 'Titel absteigend', direction: 1},
+                  {name: 'title', display: 'Titel aufsteigend', direction: -1}];
 </script>
 
 {>"layout/pagination"/}

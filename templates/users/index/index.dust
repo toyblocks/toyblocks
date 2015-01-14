@@ -1,22 +1,22 @@
 {>"layout/layout.dust"/}
 {<content}
-<div class="col-md-6 col-sm-6">
+<div class="col-md-8 col-sm-10">
 <div class="form-horizontal">
   <div class="form-group">
-    <label class="col-sm-4 control-label"></label>
-    <div class="col-sm-8">
+    <label class="col-sm-5 control-label"></label>
+    <div class="col-sm-7">
       <h3>Profil</h3>
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-4 control-label">TU-ID</label>
-    <div class="col-sm-8">
+    <label class="col-sm-5 control-label">TU-ID</label>
+    <div class="col-sm-7">
       <p class="form-control-static">{user.tuid}</p>
     </div>
   </div>
     <div class="form-group">
-    <label class="col-sm-4 control-label">Rolle</label>
-    <div class="col-sm-8">
+    <label class="col-sm-5 control-label">Rolle</label>
+    <div class="col-sm-7">
       <p class="form-control-static">              
               {@eq key=user.right_level value=100}Admin{/eq}
               {@eq key=user.right_level value=200}Moderator{/eq}
@@ -25,29 +25,25 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="name" class="col-sm-4 control-label">Name</label>
-    <div class="col-sm-8">
+    <label for="name" class="col-sm-5 control-label">Name</label>
+    <div class="col-sm-7">
       <p class="form-control-static">{user.givenName} {user.surname}</p>
     </div>
   </div>
   <div class="form-group">
-    <label for="name" class="col-sm-4 control-label">Nickname</label>
-    <div class="col-sm-8">
+    <label for="name" class="col-sm-5 control-label">Nickname</label>
+    <div class="col-sm-7">
        <input type="nickname" class="form-control" id="inputNickname" value="{user.nickname}">
-       <!--<span class="help-block">Dein Nickname dient zum Schutz deiner Identität bei der Daily Challenge.</span>-->
+       <button class="btn btn-primary">Speichern</button>
+        <p class="success alert alert-success" style="display: none; margin-top: 0px;">Änderung gespeichert.</p>
+        <p class="failure alert alert-danger" style="display: none; margin-top: 0px;">Ein Fehler ist aufgetretten.</p>
+        <!--<span class="help-block">Dein Nickname dient zum Schutz deiner Identität bei der Daily Challenge.</span>-->
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-offset-4 col-sm-10">
-      <button class="btn btn-primary">Speichern</button>
-      <p class="success alert alert-success" style="display: none; margin-top: -32px;">Änderung gespeichert.</p>
-      <p class="failure alert alert-danger" style="display: none; margin-top: -32px;">Ein Fehler ist aufgetretten.</p>
-    </div>
-  </div>
-    <div class="form-group">
-    <label for="name" class="col-sm-4 control-label">Gespielte Spiele</label>
-    <div class="col-sm-8">
-      <p class="form-control-static">{user.gamescount}</p>
+    <label for="name" class="col-sm-5 control-label">Gespielte Spiele</label>
+    <div class="col-sm-7">
+      <p class="form-control-static">{count_played}</p>
     </div>
   </div>
 </div>

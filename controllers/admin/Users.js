@@ -11,8 +11,10 @@ module.exports.prototype = AdminController.prototype.extend({
   indexAction: function() {
     var _this = this,
       countPerPage = 20,
-      findParams = _this.getFindParams();
-
+      findParams = _this.getFindParams(),
+      filterParams = _this.getFilterParams(),
+      sortParams = _this.getSortParams();
+      // sort {surname: { $natural: 1 }} 
     _this.mongodb
       .collection('users')
       .count(function(err, totalCount) {
@@ -20,7 +22,7 @@ module.exports.prototype = AdminController.prototype.extend({
         _this.mongodb
           .collection('users')
           .find(findParams)
-          .sort( {surname: { $natural: 1 }} )
+          .sort(sortParams)
           .skip(_this.getPaginationSkip())
           .limit(_this.getPaginationLimit())
           .toArray(function(err, users){

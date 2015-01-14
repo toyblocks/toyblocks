@@ -12,9 +12,9 @@
 
 <div class="col-md-12 col-sm-12">
     <h3>{type.title} Übersicht</h3>
-    <button style="margin-bottom:10px" type="button" class="btn btn-primary objecttype-form"
-        href="/admin/objects/form?type={type.name}"
-        data-target="#objectFormModal" data-toggle="modal">Neue {type.title} erstellen</button>
+    <button style="margin-bottom:10px" type="button" class="btn btn-primary objecttype-form" href="/admin/objects/form?type={type.name}" data-target="#objectFormModal" data-toggle="modal">Neue {type.title} erstellen</button>
+{>"layout/search"/}
+
   <div class="row">
     <div class="col-sm-12 col-md-12">
 {/contentHead}

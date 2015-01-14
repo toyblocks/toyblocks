@@ -90,25 +90,35 @@ module.exports.prototype = {
   },
 
   getFindParams: function() {
-    var findParams = {};
-    if (this.request.param('search')) {
-      var searchParams = this.request.param('search'),
-        findParamsOr = [];
+    var findParams = {},
+      findParamsOr = [],
+      searchParams = this.request.param('search');
+
+    if (searchParams) {
       for (var key in searchParams) {
         // escape regex params
         var value = searchParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1'),
           findParam = {};
         findParam[key] = new RegExp('^'+value, 'ig');
-        findParamsOr.push(findParam);
+       findParamsOr.push(findParam);
       }
       findParams = {$or: findParamsOr};
     }
     return findParams;
   },
 
-  getSortParams: function() {
-      var filterParams = this.request.param('filter');
+  getFilterParams: function() {
+    var filterParams = this.request.param('filter');
+    console.log("getFilterParams:")
+    console.log(filterParams)
     return filterParams;
+  },
+
+  getSortParams: function() {
+    var sortParams = this.request.param('sort');
+    console.log("getSortParams:")
+    console.log(sortParams)
+    return sortParams;
   },
 
   increaseStat: function(key) {

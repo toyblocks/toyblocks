@@ -28,8 +28,8 @@ module.exports.prototype = UsersController.prototype.extend({
                       (doc.stats.sorting.level3_count_played        || 0);
         _this.view.render({
           title: 'Profil',
-          user: doc
-          count_played = count;
+          user: doc,
+          count_played: count
         });
       });
   },

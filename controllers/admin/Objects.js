@@ -191,12 +191,8 @@ module.exports.prototype = AdminController.prototype.extend({
             _this.response.redirect(redirectPath);
           });
         }
-        
         _this.updateLastModifiedTimestamp();
-
       });
-
-
   },
 
   upsertObjectAction: function (redirection) {

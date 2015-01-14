@@ -293,9 +293,9 @@ $(window).ready(function(){
                     '</div><div class="result-description"><b>Ort:</b><br>'+
                     buildings[i].city + ', ' + buildings[i].country +
                     '</div><div class="result-description"><b>Baujahr:</b> '+
-                    (buildings[i].buildyear_begin || '??') + ' bis ' +
+                    (buildings[i].buildyear_begin || '??') + ' - ' +
                     (buildings[i].buildyear_end || '??') +
-                    '</div><div class="result-description"><b>Bauherr:</b><br>'+
+                    '</div><div class="result-description"><b>Architekt:</b><br>'+
                     buildings[i].architect +
                     '</div></div></li>';
     };
