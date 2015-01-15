@@ -1,5 +1,5 @@
 
-// form elements
+/* form elements */
 $(function(){
   $('body').on('change', 'form input[type=file]', function(event) {
     var $fileInput = $(this),
@@ -24,7 +24,7 @@ $(function(){
   });
 
 
-  // init bootpag
+  /* init bootpag */
   if (window['_paginationPages']) {
     $('#page_selection').bootpag({
       total: window._paginationPages || 1,
@@ -36,7 +36,7 @@ $(function(){
         $('#search_input input').val('');
       });
     });
-    // Search
+    /* Search */
     var $searchInput = $('<input type="text" name="search" placeholder="Suchen nach..." class="form-control"></div>'),
       $searchInputWrapper = $('<div id="search_input"></div>'),
       searchEvent;
@@ -60,7 +60,7 @@ $(function(){
         });
       }, 500);
     });
-    // Filter
+    /* Filter */
     
     var $filterInput = $(
 '<div class="btn-group dropdown">' +
@@ -82,28 +82,29 @@ $(function(){
 '</div>'),
       $filterInputWrapper = $('<div id="filter_input"></div>'),
       filterEvent;
+
+      /*I'm working on it... 15.01.2015*/
     $filterInput.on('click', function(event) {
       clearTimeout(filterEvent);
       filterEvent = setTimeout(function(){
         console.log("FilterEvent started")
         var filterParams = {};
         if(window._filterFields && window._filterFields.length > 0){
-          //add filtering
           console.log("event, filterfields")
         }
         if(window._sortFields && window._sortFields.length > 0){
-          //add Sorting
           console.log("event, sortfields")
         }
         filterParams.filter = {student: 1};
+
         $.get(location.href, filterParams, function(data) {
           $('#content').html(data);
         });
       }, 500);
     });
 
-    $filterInputWrapper.append($filterInput);
-    $('#filter-bar').append($filterInputWrapper);
+    /*$filterInputWrapper.append($filterInput);
+    $('#filter-bar').append($filterInputWrapper);*/
     $searchInputWrapper.append($searchInput);
     $('#search-bar').append($searchInputWrapper);
   }
@@ -137,11 +138,11 @@ $(function(){
       toolbar: [
         ['style', ['style']],
         ['font', ['bold', 'italic', 'underline', 'clear']],
-        // ['fontname', ['fontname']],
-        // ['fontsize', ['fontsize']],
+        /* ['fontname', ['fontname']], */
+        /* ['fontsize', ['fontsize']], */
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
-        // ['height', ['height']],
+        /* ['height', ['height']], */
         ['table', ['table']],
         ['insert', ['link', 'picture', 'video']],
         ['view', ['fullscreen', 'codeview']],
@@ -153,7 +154,7 @@ $(function(){
   $(document).ready(function(){
     initSummernote();
 
-    // object references selection for objects
+    /* object references selection for objects */
     var $objecttypeTrigger;
     $('#objectFormModal').on('click', '.select-objecttype', function() {
       $objecttypeTrigger = $(this);
@@ -192,7 +193,7 @@ $(function(){
       });
     });
 
-    // disable modal caching
+    /* disable modal caching */
     $('body').on('hidden.bs.modal',
       '#objectFormModal, #objectTypesModal, #enumsModal',
       function() {
@@ -230,7 +231,7 @@ $(function(){
 });
 
 
-// set last-updated
+/* set last-updated */
 $.get( '/index/lastupdate', function( data ) {
   $('#last-update').append(data.lastupdate);
 }, 'json');
