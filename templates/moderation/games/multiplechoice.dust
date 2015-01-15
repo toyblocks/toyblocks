@@ -24,6 +24,13 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_multiplechoice_level">Schwierigkeitsstufe</label>
+      <div class="col-sm-6">
+        <input name="values[multiplechoice_level]" type="text" id="attr_multiplechoice_level" class="form-control" required="">
+      </div>
+    </div>
+
     <div class="form-group multiple">
       <label class="col-sm-3 control-label" for="attr_multiplechoice_answer_right">
         Richtige Antwort
