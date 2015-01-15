@@ -76,11 +76,11 @@ module.exports.prototype = GamesController.prototype.extend({
  * Fetches related entries from the database and returns it with a callback
  * 
  * @param Level          - level of game
- * @param renderCallback - the callback to call after we got the buildings
+ * @param renderCallback - the callback to call after we got the questions
  */
   renderGame: function(level, renderCallback) {
     if (level === 2) {
-      // Only level 2 buildings
+      // Only level 2 questions
       this.mongodb
         .collection('multiplechoice_questions')
         .find({level: 2, active: true})

@@ -27,7 +27,7 @@
     <div class="form-group">
       <label class="col-sm-3 control-label" for="attr_multiplechoice_level">Schwierigkeitsstufe</label>
       <div class="col-sm-6">
-        <input name="values[multiplechoice_level]" type="text" id="attr_multiplechoice_level" class="form-control" required="">
+        <select name="values[level]" id="attr_level" class="form-control"><option value="1">In der Vorlesung besprochen</option><option value="2">Nicht in der Vorlesung besprochen</option></select>
       </div>
     </div>
 
