@@ -36,6 +36,48 @@
     </div>
 
     <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_country">Land</label>
+      <div class="col-sm-6">
+        <input name="values[country]" type="text" id="attr_country" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_city">Stadt</label>
+      <div class="col-sm-6">
+        <input name="values[city]" type="text" id="attr_city" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_architect">Architekt</label>
+      <div class="col-sm-6">
+        <input name="values[architect]" type="text" id="attr_architect" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_builder">Bauherr</label>
+      <div class="col-sm-6">
+        <input name="values[builder]" type="text" id="attr_builder" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_buildyear">Baujahr</label>
+      <div class="col-sm-6">
+        <input name="values[buildyear]" type="text" id="attr_buildyear" class="form-control" required="">
+      </div>
+    </div>
+
+    <div class="form-group" style="display:none">
+      <label class="col-sm-3 control-label" for="attr_active">Aktiv</label>
+      <div class="col-sm-6">
+        <input name="values[active]" type="text" id="attr_active" class="form-control" value="true">
+      </div>
+    </div>
+
+    <div class="form-group">
       <label class="col-sm-3 control-label" for="attr_level">Schwierigkeitsstufe</label>
       <div class="col-sm-6">
         <select name="values[level]" id="attr_level" class="form-control">
