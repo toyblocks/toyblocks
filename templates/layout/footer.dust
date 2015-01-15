@@ -12,6 +12,7 @@
 {! admin only !}
 {?_isAdmin}
 <script src="/js/vendor/summernote.min.js"></script>
+<script src="/js/admin.js"></script>
 {/_isAdmin}
 {!  end admin only !}
 <script src="/js/main.js"></script>
