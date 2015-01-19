@@ -203,7 +203,6 @@ $(function(){
 
   $(document).ajaxSuccess(function() {
     referencesResolve();
-    initSummernote();
   });
 
   referencesResolve();
