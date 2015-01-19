@@ -21,10 +21,14 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
       _this.setPagination(totalCount, countPerPage);
       _this.mongodb
         .collection('encyclopedia_articles')
-        .find({}, {title: 1, _id: 1})
+        .find({}, {title: 1, _id: 1, article_body: 1, image: 1})
         .skip(_this.getPaginationSkip())
         .limit(_this.getPaginationLimit())
         .toArray(function(err, data){
+          for (var i = 0; i < data.length; i++) {
+            data[i].article_body = data[i].article_body.slice(0,80);
+            console.log(data[i].article_body);
+          };
           _this.view.render({
             title: 'Enzyklopädie',
             route: '/moderation/encyclopedia',

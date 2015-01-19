@@ -1,37 +1,40 @@
 {>"layout/layout.dust"/}
 
-{<contentHead}
-{>"moderation/index/navbar.dust"/}
-{/contentHead}
+{<contentHead}  
 
-{<content}
-  <div class="">
-   <div class="col-sm-2">
-      <a href="/moderation/encyclopedia/article" role="button" class="btn btn-default btn-sm btn-block">
-        <span class="glyphicon glyphicon-plus"></span>
-        Neuer Artikel
-      </a>
-    </div>
-  </div>
-<div class="col-md-10">
+<div class="col-md-12 col-sm-12">
   <div class="row">
-    <table class="table table-hover">
-      <thead>
+    <div class="col-sm-11 col-md-11">
+      <div class="row">
+        <a href="/moderation/encyclopedia/article" role="button" class="btn btn-default btn-sm btn-block pull-right" style="margin-left: 50px; width: 170px"><span class="glyphicon glyphicon-plus"></span>Neuer Artikel</a>
+        {>"layout/search"/}
+        <p style="font-size: 24px;">Enzyklopädie</p>
+      </div>
+{/contentHead}
+{<content}
+      <table id="searchTable" class="table">
         <tr>
+          <th>Bild</th>
           <th>Titel</th>
-          <th>Anzeigen</th>
+          <th>Text</th>
           <th>Bearbeiten</th>
           <th>Löschen</th>
         </tr>
-      </thead>
-      <tbody>
         {#articles}
         <tr>
-          <td>{title}</td>
+          <td>
+            {#image}
+            <img src="/ressources/image?id={image}&amp;size=middle" style="height: 20px;">
+            {:else}
+            {/image}
+          </td>
           <td>
             <a href="/encyclopedia/index/article?id={_id}">
-              <span class="glyphicon glyphicon-zoom-in"></span>
+              {title}
             </a>
+          </td>
+          <td>
+            {article_body}...
           </td>
           <td>
             <a href="/moderation/encyclopedia/article?id={_id}">
