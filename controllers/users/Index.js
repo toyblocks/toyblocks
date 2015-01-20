@@ -16,16 +16,22 @@ module.exports.prototype = UsersController.prototype.extend({
       .collection(userModel.collection)
       .find({'tuid': _this.request.session.user.tuid})
       .nextObject(function(err, doc) {
-        var count =  (doc.stats.assemble.level1_count_played        || 0) +
-                      (doc.stats.assemble.level2_count_played       || 0) + 
-                      (doc.stats.missing.level1_count_played        || 0) +
-                      (doc.stats.missing.level2_count_played        || 0) +
-                      (doc.stats.missing.level3_count_played        || 0) +
-                      (doc.stats.multiplechoice.level1_count_played || 0) +
-                      (doc.stats.multiplechoice.level2_count_played || 0) +
-                      (doc.stats.sorting.level1_count_played        || 0) +
-                      (doc.stats.sorting.level2_count_played        || 0) +
-                      (doc.stats.sorting.level3_count_played        || 0);
+        var count = 0;
+        try{
+          count += (doc.stats.assemble.level1_count_played       || 0);
+          count += (doc.stats.assemble.level2_count_played       || 0);
+          count += (doc.stats.missing.level1_count_played        || 0);
+          count += (doc.stats.missing.level2_count_played        || 0);
+          count += (doc.stats.missing.level3_count_played        || 0);
+          count += (doc.stats.multiplechoice.level1_count_played || 0);
+          count += (doc.stats.multiplechoice.level2_count_played || 0);
+          count += (doc.stats.sorting.level1_count_played        || 0);
+          count += (doc.stats.sorting.level2_count_played        || 0);
+          count += (doc.stats.sorting.level3_count_played        || 0);
+        }catch (e){
+          //Whooops!!
+        };
+        
         _this.view.render({
           title: 'Profil',
           user: doc,
