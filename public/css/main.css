@@ -146,3 +146,7 @@ footer a {
   white-space:nowrap;
   max-width:300px;
 }
+.highlight { font-weight:bold; }
+.highlighted{
+  font-weight:bold;
+}

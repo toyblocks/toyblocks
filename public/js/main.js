@@ -1,3 +1,7 @@
+/* add highlight function to jquery for search highlighting */
+jQuery.fn.highlight=function(c){function e(b,c){var d=0;if(3==b.nodeType){var a=b.data.toUpperCase().indexOf(c),a=a-(b.data.substr(0,a).toUpperCase().length-b.data.substr(0,a).length);if(0<=a){d=document.createElement("span");d.className="highlight";a=b.splitText(a);a.splitText(c.length);var f=a.cloneNode(!0);d.appendChild(f);a.parentNode.replaceChild(d,a);d=1}}else if(1==b.nodeType&&b.childNodes&&!/(script|style)/i.test(b.tagName))for(a=0;a<b.childNodes.length;++a)a+=e(b.childNodes[a],c);return d} return this.length&&c&&c.length?this.each(function(){e(this,c.toUpperCase())}):this};
+jQuery.fn.removeHighlight=function(){return this.find("span.highlight").each(function(){this.parentNode.firstChild.nodeName;with(this.parentNode)replaceChild(this.firstChild,this),normalize()}).end()};
+/* all credit goes to: http://johannburkard.de/blog/programming/javascript/highlight-javascript-text-higlighting-jquery-plugin.html */
 
 /* form elements */
 $(function(){
@@ -43,8 +47,9 @@ $(function(){
     $searchInput.on('keyup', function(event) {
       clearTimeout(searchEvent);
       searchEvent = setTimeout(function(){
-        var searchParams = {};
-        if ($searchInput.val()) {
+        var searchParams = {},
+          inputValue = $searchInput.val();
+        if (inputValue) {
           if (window._searchFields && window._searchFields.length > 0) {
             searchParams.search = {};
             for (var i = 0; i < window._searchFields.length; i++) {
@@ -57,6 +62,9 @@ $(function(){
         }
         $.get(location.href, searchParams, function(data) {
           $('#content').html(data);
+          if(inputValue != ''){
+            $('#content').highlight(inputValue);
+          }
         });
       }, 500);
     });
@@ -213,4 +221,3 @@ $(function(){
 $.get( '/index/lastupdate', function( data ) {
   $('#last-update').append(data.lastupdate);
 }, 'json');
-
