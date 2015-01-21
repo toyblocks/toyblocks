@@ -1,6 +1,15 @@
 {>"layout/layout.dust"/}
+{<contentHead}
+<div class="col-md-12 col-sm-12">
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/moderation/">Moderation</a></li>
+  <li class="active">Fehlstellen-Spiel</li>
+</ol>
+
+{/contentHead}
 {<content}
-{>"moderation/index/navbar.dust"/}
 
 
 <div class="col-sm-10">
@@ -162,4 +171,5 @@ $(window).ready(function() {
 });
 */
 </script>
+<div style="height: 160px; width: 1px;"></div>
 {/content}

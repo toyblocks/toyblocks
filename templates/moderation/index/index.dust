@@ -1,4 +1,13 @@
 {>"layout/layout.dust"/}
+{<contentHead}
+<div class="col-md-12 col-sm-12">
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">Moderation</li>
+</ol>
+
+{/contentHead}
 {<content}
 <style type="text/css">
 h2{
@@ -9,15 +18,14 @@ h2{
   font-size: 28px;
 }
 </style>
-{>"moderation/index/navbar.dust"/}
 <div class="height: 100px;"></div>
-<div class="col-md-10">
+<div class="col-md-7">
     <div class="media">
       <a class="pull-left" href="/moderation/games/sorting">
         <span class="media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
       </a>
       <div class="media-body">
-        <h4 class="media-heading">Zeitstrahl</h4>
+        <h4 class="media-heading"><a href="/moderation/games/sorting">Zeitstrahl</a></h4>
         Für den Zeitstrahl können nur mehr Gebäude angelegt werden. Diese werden dann automatisch hinzugefügt und zufällig verteilt.
       </div>
     </div>
@@ -26,7 +34,7 @@ h2{
         <span class="media-object glyphicon icon-missing" style="font-size: 60px;width: 64px; height: 64px;"></span>
       </a>
       <div class="media-body">
-        <h4 class="media-heading">Fehlstellenspiel</h4>
+        <h4 class="media-heading"><a href="/moderation/games/missing">Fehlstellenspiel</a></h4>
         Das Fehlstellenspiel benötigt ein Hauptbild mit Fehlstellen, ein Lösungsbild, eine Kategorie der Einzelteile und gegebenenfalls eine neue Kategorie für die Einzelteile (sollte diese nicht vorhanden sein).
       </div>
     </div>
@@ -35,7 +43,7 @@ h2{
         <span class="media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
       </a>
       <div class="media-body">
-        <h4 class="media-heading">Baukasten</h4>
+        <h4 class="media-heading"><a href="/moderation/games/assemble">Baukasten</a></h4>
         Beim Baukasten erstellt man neue Spiele und wählt dort die passenden Einzelteile aus einer List aus. Einzelne Teile kann man ebenfalls neu hinzufügen.
       </div>
     </div>
@@ -44,20 +52,21 @@ h2{
         <span class="media-object glyphicon icon-multiple" style="font-size: 60px; width: 64px; height: 64px;"></span>
       </a>
       <div class="media-body">
-        <h4 class="media-heading">Multiple Choice</h4>
+        <h4 class="media-heading"><a href="/moderation/games/multiplechoice">Multiple Choice</a></h4>
         Es können neue Fragen hinzugefügt werden. Eine Frage besteht aus einem Bild, einem Fragentext, mindestens einer richtigen Antwort und mindestens 3 falschen Antworten.
       </div>
     </div>
-    <hr>
     <div class="media">
       <a class="pull-left" href="/moderation/encyclopedia">
         <span class="media-object glyphicon glyphicon-book" style="font-size: 60px;width: 64px; height: 64px;"></span>
       </a>
       <div class="media-body">
-        <h4 class="media-heading">Enzyklopädie</h4>
+        <h4 class="media-heading"><a href="/moderation/encyclopedia">Enzyklopädie</a></h4>
         Die Enzyklopäde besteht aus Artikeln.<br>
         Artikel haben einen Titel, einen Text und ein optionales Bild.
       </div>
+      <div style="height: 60px; width: 1px;"></div>
     </div>
 </div>
+
 {/content}

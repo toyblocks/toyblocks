@@ -1,14 +1,20 @@
 {>"layout/layout.dust"/}
 
-{<contentHead}  
-
+{<contentHead}
 <div class="col-md-12 col-sm-12">
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/moderation/">Moderation</a></li>
+  <li class="active">Enzyklopädie</li>
+</ol>
+
   <div class="row">
-    <div class="col-sm-11 col-md-11">
+    <div class="col-sm-12 col-md-12">
       <div class="row">
-        <a href="/moderation/encyclopedia/article" role="button" class="btn btn-default btn-sm btn-block pull-right" style="margin-left: 50px; width: 170px"><span class="glyphicon glyphicon-plus"></span>Neuer Artikel</a>
-        {>"layout/search"/}
         <p style="font-size: 24px;">Enzyklopädie</p>
+        {>"layout/search"/}
+        <a href="/moderation/encyclopedia/article" role="button" class="btn btn-primary objecttype-form" style="margin-bottom:10px; width: 170px"><span class="glyphicon glyphicon-plus"></span> Neuer Artikel</a>
       </div>
 {/contentHead}
 {<content}
@@ -18,7 +24,6 @@
           <th>Titel</th>
           <th>Text</th>
           <th>Bearbeiten</th>
-          <th>Löschen</th>
         </tr>
         {#articles}
         <tr>
@@ -37,13 +42,11 @@
             {article_body}...
           </td>
           <td>
-            <a href="/moderation/encyclopedia/article?id={_id}">
-              <span class="glyphicon glyphicon-pencil"></span>
+            <a href="/moderation/encyclopedia/article?id={_id}" alt="Artikel bearbeiten" title="Artikel bearbeiten">
+              <span class="glyphicon glyphicon-pencil btn-primary btn-sm" style="width: 40px"></span>
             </a>
-          </td>
-          <td>
-            <a href="/moderation/encyclopedia/delete?type=encyclopedia_articles&id={_id}">
-              <span class="glyphicon glyphicon-trash"></span>
+            <a href="/moderation/encyclopedia/delete?type=encyclopedia_articles&id={_id}"  alt="Artikel löschen" title="Artikel löschen">
+              <span class="glyphicon glyphicon-trash btn-danger btn-sm" style="width: 40px"></span>
             </a>
           </td>
         </tr>
@@ -53,7 +56,11 @@
   </div>
 </div>
 {/content}
-
 {<contentFoot}
+
+<script>
+window._searchFields = ['title', 'article_text'];
+</script>
+
 {>"layout/pagination"/}
 {/contentFoot}

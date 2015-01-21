@@ -12,8 +12,8 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
   indexAction: function() {
     var _this = this,
-      countPerPage = 20;
-      //page = _this.getPage();
+      countPerPage = 30,
+      findParams = _this.getFindParams();
 
     _this.mongodb
     .collection('encyclopedia_articles')
@@ -21,13 +21,14 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
       _this.setPagination(totalCount, countPerPage);
       _this.mongodb
         .collection('encyclopedia_articles')
-        .find({}, {title: 1, _id: 1, article_body: 1, image: 1})
+        .find(findParams, {title: 1, _id: 1, article_body: 1, image: 1})
         .skip(_this.getPaginationSkip())
         .limit(_this.getPaginationLimit())
+        .sort({title: 1})
         .toArray(function(err, data){
           for (var i = 0; i < data.length; i++) {
             data[i].article_body = data[i].article_body.slice(0,80);
-            console.log(data[i].article_body);
+            console.log(data[i].title);
           };
           _this.view.render({
             title: 'Enzyklopädie',

@@ -1,6 +1,15 @@
 {>"layout/layout.dust"/}
+{<contentHead}
+<div class="col-md-12 col-sm-12">
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/moderation/">Moderation</a></li>
+  <li class="active">Multiplechoicespiele</li>
+</ol>
+
+{/contentHead}
 {<content}
-{>"moderation/index/navbar.dust"/}
 <div class="col-md-10">
   <form class="form-horizontal" id="multiplechoiceform" action="/moderation/games/addmultiplechoice" role="form" method="post">
 

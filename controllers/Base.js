@@ -90,21 +90,27 @@ module.exports.prototype = {
   },
 
   getFindParams: function() {
-    var findParams = {},
+    var result = {},
       findParamsOr = [],
+      regexParam = {},
       searchParams = this.request.param('search');
 
     if (searchParams) {
       for (var key in searchParams) {
+        // TODO: might need to reintroduce this
         // escape regex params
-        var value = searchParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1'),
-          findParam = {};
-        findParam[key] = new RegExp('^'+value, 'ig');
-       findParamsOr.push(findParam);
+        //var value = searchParams[key].replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+
+        // we want MongoDB to use its regex itself, like that:
+        //{ "title" : { $regex : "Haus" , $options : "i"}}
+        regexParam[key] = { $regex : searchParams[key], $options : "i"};
+        findParamsOr.push(regexParam);
+        regexParam = {};
+
       }
-      findParams = {$or: findParamsOr};
+      result = {$or: findParamsOr};
     }
-    return findParams;
+    return result;
   },
 
   getFilterParams: function() {

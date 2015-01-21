@@ -99,7 +99,8 @@ module.exports.prototype = AdminController.prototype.extend({
   // show all objects for a specific type
   objectsAction: function () {
     var _this = this,
-      countPerPage = 10,
+      countPerPage = 15,
+      onlyContent = _this.request.param('only_content') || false,
       findParams = _this.getFindParams();
 
     // getting main type
@@ -126,13 +127,7 @@ module.exports.prototype = AdminController.prototype.extend({
               .toArray(function(err, objects) {
                 // for remote calls we change the template
                 if (_this.request.param('_view') === 'selection') {
-                  if (_this.request.param('only_content') &&
-                    _this.request.param('only_content') === '1') {
-                    _this.view.setParam('onlyContent', true);
-                  }
-                  else {
-                    _this.view.setParam('onlyContent', false);
-                  }
+                  _this.view.setParam('onlyContent', onlyContent);
                   _this.view.setTemplate(_this.view.getTemplate() + '-remote');
                 }
                 _this.view.render({
