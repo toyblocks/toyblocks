@@ -6,7 +6,6 @@
   <li>Administration</li>
   <li class="active">Statistiken</li>
 </ol>
-<!--<li {@eq key=_action value="daily"}class="active"{/eq}><a href="/admin/stats/daily">Daily</a></li>-->
 
 <script src="/js/vendor/Chart.min.js"></script>
 <script type="text/javascript">
@@ -73,38 +72,38 @@ $(window).ready(function(){
     barValueSpacing: 5,
     barDatasetSpacing: 1,
     tooltipFillColor: "rgba(0,0,0,0.8)",
-    // Function - Determines whether to execute the customTooltips function instead of drawing the built in tooltips (See [Advanced - External Tooltips](#advanced-usage-custom-tooltips))
+    {! Function - Determines whether to execute the customTooltips function instead of drawing the built in tooltips (See [Advanced - External Tooltips](#advanced-usage-custom-tooltips))!}
     customTooltips: false,
 
-    // String - Tooltip label font colour
+    {! String - Tooltip label font colour!}
     tooltipFontColor: "#fff",
 
-    // Number - pixel width of padding around tooltip text
+    {! Number - pixel width of padding around tooltip text!}
     tooltipYPadding: 6,
 
-    // Number - pixel width of padding around tooltip text
+    {! Number - pixel width of padding around tooltip text!}
     tooltipXPadding: 6,
 
-    // Number - Size of the caret on the tooltip
+    {! Number - Size of the caret on the tooltip!}
     tooltipCaretSize: 8,
 
-    // Number - Pixel radius of the tooltip border
+    {! Number - Pixel radius of the tooltip border!}
     tooltipCornerRadius: 6,
 
-    // Number - Pixel offset from point x to tooltip edge
+    {! Number - Pixel offset from point x to tooltip edge!}
     tooltipXOffset: 10,
 
 
-    // String - Tooltip label font declaration for the scale label
+    {! String - Tooltip label font declaration for the scale label!}
     tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
-    // String - Tooltip title font declaration for the scale label
+    {! String - Tooltip title font declaration for the scale label!}
     tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
     multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
   };
-  // Get context with jQuery - using jQuery's .get() method.
+  {! Get context with jQuery - using jQuery's .get() method.!}
   var ctx = $("#myChart").get(0).getContext("2d");
-  // This will get the first returned node in the jQuery collection.
+  {! This will get the first returned node in the jQuery collection.!}
   myLineChart = new Chart(ctx).Line(data, options);
 });
 </script>
