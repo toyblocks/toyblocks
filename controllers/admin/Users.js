@@ -14,14 +14,16 @@ module.exports.prototype = AdminController.prototype.extend({
       findParams = _this.getFindParams(),
       filterParams = _this.getFilterParams(),
       sortParams = _this.getSortParams();
-      // sort {surname: { $natural: 1 }} 
+
+    console.log("sortParams");
+    console.log(sortParams);
     _this.mongodb
       .collection('users')
       .count(function(err, totalCount) {
         _this.setPagination(totalCount, countPerPage);
         _this.mongodb
           .collection('users')
-          .find(findParams)
+          .find({$and: [filterParams, findParams]})
           .sort(sortParams)
           .skip(_this.getPaginationSkip())
           .limit(_this.getPaginationLimit())

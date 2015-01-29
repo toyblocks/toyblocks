@@ -1,9 +1,14 @@
 <div class="row">
-  <div class="col-lg-6">
+{?question.image}
+  <div class="col-lg-7">
     <center>
     <img class="image" src="/ressources/image?id={question.image}&size=large">
     </center>
   </div>
+  {:else}
+  <div class="col-lg-4">
+  </div>
+  {/question.image}
   <div class="row">
     <center>
     <div class="questionbox col-lg-6">

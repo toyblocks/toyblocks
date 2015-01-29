@@ -37,7 +37,7 @@ module.exports.prototype = GamesController.prototype.extend({
       //give random game
       var count = 10;
       
-      _this.increaseStat('q'+count+'_count_played');
+      _this.increaseStat('level'+level+'_count_played');
 
       _this.renderGame(level, function (err, questions) {
         questions = _this.shuffleArray(questions).slice(0, count);
@@ -79,20 +79,20 @@ module.exports.prototype = GamesController.prototype.extend({
  * @param renderCallback - the callback to call after we got the questions
  */
   renderGame: function(level, renderCallback) {
-    if (level === 2) {
-      // Only level 2 questions
-      this.mongodb
-        .collection('multiplechoice_questions')
-        .find({level: 2, active: true})
-        .toArray(renderCallback);
-    } else {
+    var query;
 
-      // only level 1
-      this.mongodb
-        .collection('multiplechoice_questions')
-        .find({level: 1, active: true})
-        .toArray(renderCallback);
+    if (level === 3) {
+      query = {level: 2, active: true};
+    } else if (level === 2) {
+      query = {active: true};
+    } else {
+      query = {level: 1, active: true};
     }
+
+    this.mongodb
+      .collection('multiplechoice_questions')
+      .find(query)
+      .toArray(renderCallback);
   },
 
   containerAction: function() {

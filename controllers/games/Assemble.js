@@ -95,11 +95,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .limit(partsLimit)
     .toArray( function(err, images){
 
-      if(level === 1){
-        images = _this.shuffleArray(images);
-        renderCallback(err, images);
-
-      }else if(level === 2){
+      if(level === 2){
 
         // Add fake images to array
         var fakeIds = game.assemble_fakeimages;
@@ -115,6 +111,9 @@ module.exports.prototype = GamesController.prototype.extend({
           images = _this.shuffleArray(images);
           renderCallback(err, images);
         });
+      }else {
+        images = _this.shuffleArray(images);
+        renderCallback(err, images);
       }
     });
   },
@@ -169,7 +168,7 @@ module.exports.prototype = GamesController.prototype.extend({
               isSolutionCorrect = isSolutionCorrect && isCorrect;
             }
 
-
+            console.log("Assemble calling InsertStats");
             // Update Stats
             Statistics.prototype.insertStats(_this, { $inc : { 'assemble': +1 }});
 

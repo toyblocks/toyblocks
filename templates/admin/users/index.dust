@@ -6,7 +6,24 @@
     <div class="col-sm-11 col-md-11">
       <div class="row">
         <button id="delete-all" type="button" class="btn btn-warning pull-right" style="margin-left: 50px; width: 170px">Alle Studenten löschen</button>
-        {>"layout/search"/}  
+        {>"layout/search"/}
+        <div class="btn-group dropdown pull-right" style="margin-right: 10px;">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Filter 
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><b style="padding: 3px 20px;">Anzeigen</b></li>
+            <li><a class="filterbutton" href="#" data-key="right_level" data-query="300">Student</a></li>
+            <li><a class="filterbutton" href="#" data-key="right_level" data-query="200">Moderator</a></li>
+            <li><a class="filterbutton" href="#" data-key="right_level" data-query="100">Admin</a></li>
+            <li class="divider"></li>
+            <li><b style="padding: 3px 20px;">Sortieren nach</b></li>
+            <li><a class="sortbutton" data-query="givenName" href="#">Vornamen</a></li>
+            <li><a class="sortbutton" data-query="surname" href="#">Nachnamen</a></li>
+            <li><a class="sortbutton" data-query="nickname" href="#">Nickname</a></li>
+            <li><a class="sortbutton" data-query="tuid" href="#">TU-ID</a></li>
+          </ul>
+        </div>
         <p style="font-size: 24px;">User Übersicht</p>
         <p class="success settingssaved alert alert-success" style="display: none;margin-left: 85%; margin-top: 10px">Studenten wurden gelöscht.</p>
         <p class="failure settingssaved alert alert-danger" style="display: none;margin-left: 85%;margin-top: 10px">Ein Fehler ist aufgetretten.</p>

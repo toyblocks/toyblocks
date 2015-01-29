@@ -1,5 +1,4 @@
 {>"layout/layout.dust"/}
-
 {<content}
 <div class="col-md-10 col-sm-10">
   <span class="pull-left glyphicon icon-multiple" style="font-size: 52px; width: 64px; height: 64px; color: #428bca;"></span>
@@ -8,11 +7,14 @@
   <div class="list-group">
     <a href="/games/multiplechoice/game?level=1" class="well list-group-item">
     	<strong>Schwierigkeitsstufe 1</strong>
-      <span class="badge">{#_user.stats.multiplechoice.q1_count_played}{.}{:else}0{/_user.stats.multiplechoice.q1_count_played} mal gespielt</span>
+      <span class="badge">{#_user.stats.multiplechoice.level1_count_played}{.}{:else}0{/_user.stats.multiplechoice.level1_count_played} mal gespielt</span>
+      <br>
+      Themen die in der Vorlesung behandelt wurden.
     </a>
     <a href="/games/multiplechoice/game?level=2" class="well list-group-item">
     	<strong>Schwierigkeitsstufe 2</strong>
-      <span class="badge">{#_user.stats.multiplechoice.q6_count_played}{.}{:else}0{/_user.stats.multiplechoice.q6_count_played} mal gespielt</span>
+      <span class="badge">{#_user.stats.multiplechoice.level2_count_played}{.}{:else}0{/_user.stats.multiplechoice.level2_count_played} mal gespielt</span>
+      <br>Themen die nicht in der Vorlesung behandelt wurden.
     </a>
   </div>
 </div>

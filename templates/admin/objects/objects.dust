@@ -66,9 +66,19 @@
 <div class="modal fade" id="objectTypesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"></div></div></div>
 
 <script>
+/* TODO: create something like this for the search fields: '{#attributes}{.}{@sep}', '{/sep}{/attributes}' */
 window._searchFields = ['title',
-  'missingparts_category',
-  'assemble_category'];
+                        'multiplechoice_question',
+                        'text',
+                        'article_body',
+                        'multiplechoice_answer',
+                        'multiplechoice_answer_wrong',
+                        'assemble_category',
+                        'architekct',
+                        'builder',
+                        'buildyear',
+                        'city',
+                        'country'];
 </script>
 
 {>"layout/pagination"/}

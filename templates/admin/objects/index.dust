@@ -87,20 +87,18 @@ label .glyphicon {
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-9 col-md-9">
+    <div class="col-sm-12 col-md-12">
       <table class="table">
         <tr>
           <th>Titel</th>
           <th>Tech. Name</th>
           <th>Attribute</th>
-          <th>Aktion</th>
         </tr>
         {#types}
         <tr>
           <td><a href="/admin/objects/objects?type={name}">{title}</a></td>
           <td>{name}</td>
           <td>{#attributeNames}{.}{@sep}, {/sep}{/attributeNames}</td>
-          <td>Bearbeiten</td>
         </tr>
         {:else}
         <tr><td colspan="4">Bisher keine Objekttypen vorhanden</td></tr>

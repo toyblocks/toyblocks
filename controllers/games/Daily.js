@@ -129,26 +129,46 @@ module.exports.prototype = GamesController.prototype.extend({
       points = 0,
       count = 0;
 
-    // TODO: check the date
-    // TODO: make assemble and sorting games less worth
-    for (var i = 0; i < result.length; i++) {
-      if(result[i] === 'true'){
+    var bounspoints_mc = true,
+        bounspoints_sort1 = true,
+        bounspoints_sort2 = true,
+        bounspoints_miss = true,
+        bounspoints_ass = true;
+
+    // Iterate over result array and calculate bonus points
+    for (var i = result.length-1; i >= 0; i--) {
+      var c = (result[i] === 'true');
+      if(c){
         count++;
-        points+=10;
-        if(points >= 1000)
-          points+=32;
-        if(points >= 500)
-          points+=16;
-        if(points >= 400)
-          points+=8;
-        if(points >= 300)
-          points+=4;
-        if(points >= 200)
-          points+=2;
-        if(points >= 100)
-          points+=1;
+      }
+
+      // multiplechoice
+      if(i >= (result.length-5)){
+        if(c){ points += 14; }else{ bounspoints_mc = false; }
+      }
+      // sorting 2
+      if(i >= (result.length-13) && i < (result.length-5)){
+        if(c){ points += 7; }else{ bounspoints_sort2 = false; }
+      }
+      //sorting 1
+      if(i >= (result.length-20) && i < (result.length-13)){
+        if(c){ points += 7; }else{ bounspoints_sort1 = false; }
+      }
+      // missing
+      if(i >= (result.length-25) && i < (result.length-20)){
+        if(c){ points += 10; }else{ bounspoints_miss = false; }
+      }
+      // both assemble
+      if(i < (result.length-25)){
+        if(c){ points += 6; }else{ bounspoints_ass = false; }
       }
     }
+
+    if(bounspoints_mc){     points+=50; }
+    if(bounspoints_sort1){  points+=59; }
+    if(bounspoints_sort2){  points+=59; }
+    if(bounspoints_miss){   points+=51; }
+    if(bounspoints_ass){    points+=53; }
 
     _this.mongodb
     .collection('daily_leaderboard')
@@ -190,7 +210,7 @@ module.exports.prototype = GamesController.prototype.extend({
               month: d.getMonth()+1,
               day: d.getDate()
             };
-
+            
             Statistics.prototype.insertStats(_this, { $inc : { 'daily': +1 }});
 
             _this.view.render({
@@ -218,16 +238,11 @@ module.exports.prototype = GamesController.prototype.extend({
 module.exports.generateDailyGame = function generateDailyGame (mongodb) {
   console.log('>> Generating Daily Game');
 
-  function shuffleArray (o){ //v1.0
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
-      x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
-  }
-
  //get all the games
   mongodb
   .collection('daily_leaderboard')
   .remove(function (err) {
+    //TODO: Add wins to first player
     if(err)
       console.log(err);
     else
@@ -237,46 +252,46 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
   // get all the games
   mongodb
   .collection('missingparts_games')
-  .find({})
+  .find({active: true}, {_id: 1})
   .toArray(function(err, mis) {
     mongodb
     .collection('sorting_buildings')
-    .find()
+    .find({active: true}, {_id: 1})
     .toArray(function(err, sor) {
       mongodb
       .collection('multiplechoice_questions')
-      .find()
+      .find({active: true}, {_id: 1})
       .toArray(function(err, mul) {
         mongodb
         .collection('assemble_games')
-        .find()
+        .find({active: true}, {_id: 1})
         .toArray(function(err, ass) {
 
           //missing
-          mis = shuffleArray(mis).slice(0, 2);
+          mis = _this.shuffleArray(mis).slice(0, 2);
           mis[0] = mis[0]._id;
           mis[1] = mis[1]._id;
 
           //sorting
-          var sor1 = shuffleArray(sor).slice(0,7);
-          var sor2 = shuffleArray(sor).slice(0,7);
+          var sor1 = _this.shuffleArray(sor).slice(0,7);
+          var sor2 = _this.shuffleArray(sor).slice(0,7);
           for (var i = 0; i < sor1.length; i++) {
             sor1[i] = sor1[i]._id;
             sor2[i] = sor2[i]._id;
           }
 
           //multiple
-          mul = shuffleArray(mul).slice(0, 4);
+          mul = _this.shuffleArray(mul).slice(0, 5);
           for (var j = 0; j < mul.length; j++) {
             mul[j] = mul[j]._id;
           }
 
           //assemble games
-          ass = shuffleArray(ass).slice(0,2);
+          ass = _this.shuffleArray(ass).slice(0,2);
           ass[0] = ass[0]._id + '&level=2'; //TODO: randomize levels
           ass[1] = ass[1]._id + '&level=2';
 
-          // we got 4 multiplechoice
+          // we got 5 multiplechoice
           //        2 missing
           //        2 sorting
           //        2 assemble

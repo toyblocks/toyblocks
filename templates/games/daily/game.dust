@@ -23,43 +23,50 @@ var games = [['assemble','{assemble}'],
              ['multiplechoice','{multiplechoice}']];
 var index = 0;
 var points = [];
-  /* let games call this function to load next game */
-  function loadNextGame () {
-    if(index < games.length){
-      console.log("Load next game ", index, games[index][0], games[index][1]);
-      loadGame(games[index][0],games[index][1]);
-      index++;
-    }else{
-      loadResult();    
-    }
-  };
-  
-  /* Load the next game according to index and games array */
-  function loadGame (gamename, id) {
-    $.ajax({url: '/games/' + gamename + '/game?isDaily=1&id=' + id})
-    .done(function( data ) {
-      console.log('successfull got gamedata');
-      $('#daily-container').html(data);
-    });
-  };
-  /* Load the result with leaderboard */
-  function loadResult () {
-    $.ajax({url: '/games/daily/result?result=' + points.join(',')})
-    .done(function( data ) {
-      $('#daily-container').html(data);
-    });
-  };
-  /* Let each game push the result into our array */
+
+/* let games call this function to load next game */
+function loadNextGame () {
+  if(index < games.length){
+    loadGame(games[index][0],games[index][1]);
+    index++;
+  }else{
+    loadResult();    
+  }
+};
+
+/* Load the next game according to index and games array */
+function loadGame (gamename, id) {
+  $.ajax({url: '/games/' + gamename + '/game?isDaily=1&id=' + id})
+  .done(function( data ) {
+    $('#daily-container').html(data);
+  });
+};
+
+/* Load the result with leaderboard */
+function loadResult () {
+  $.ajax({url: '/games/daily/result?result=' + points.join(',')})
+  .done(function( data ) {
+    $('#daily-container').html(data);
+  });
+};
+
+/* Let each game push the result into our array */
 function pushSolution (bool) {
-    points.push(bool);
-    console.log(bool);
-    loadNextGame();
-  };
+  points.push(bool);
+  loadNextGame();
+};
+
+function shuffleArray(o){
+  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+    x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+};
+
 $(window).ready(function(){
+  /*Not sure how to do with counting points, shuffleArray(games);*/
   /* Load first game */
   loadNextGame();
 });
-
 </script>
 {/error}
 {/content}

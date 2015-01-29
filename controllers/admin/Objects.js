@@ -18,6 +18,7 @@ module.exports.prototype = AdminController.prototype.extend({
     this.mongodb
       .collection('object_types')
       .find({})
+      .sort({title: 1})
       .toArray(function(err, types){
         _this.mongodb
           .collection(attributeModel.collection)
