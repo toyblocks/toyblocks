@@ -17,7 +17,7 @@ module.exports = function(grunt) {
             'jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
             'summernote/dist/summernote.min.js',
             'jquery-bootpag/lib/jquery.bootpag.min.js',
-            'jquery-flot/jquery.flot.js'
+            'chartjs/Chart.min.js'
           ],
           dest: 'public/js/vendor/',
           filter: 'isFile'

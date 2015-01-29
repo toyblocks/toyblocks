@@ -1,91 +1,125 @@
-{>"layout/layout.dust"/}{<content}
-{>"admin/stats/tabs.dust"/}
-<style type="text/css">
-.stats-container {
-  box-sizing: border-box;
-  width: 100%;
-  height: 450px;
-  padding: 20px 15px 15px 15px;
-  margin: 15px auto 30px auto;
-  border: 1px solid #ddd;
-  background: #fff;
-  background: linear-gradient(#f6f6f6 0, #fff 50px);
-  background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
-  background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
-  background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
-  background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-  -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
+{>"layout/layout.dust"/}
+{<content}
 
-.stats-graph {
-  width: 100%;
-  height: 100%;
-  font-size: 14px;
-  line-height: 1.2em;
-}
-</style>
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li>Administration</li>
+  <li class="active">Statistiken</li>
+</ol>
+<!--<li {@eq key=_action value="daily"}class="active"{/eq}><a href="/admin/stats/daily">Daily</a></li>-->
 
-<!-- powered by http://www.flotcharts.org/flot/ -->
-<script language="javascript" type="text/javascript" src="/js/vendor/jquery.flot.js"></script>
+<script src="/js/vendor/Chart.min.js"></script>
 <script type="text/javascript">
+var myLineChart;
 $(window).ready(function(){
-  var gamesCount = [{#gamesCount}[{.}]{@sep},{/sep}{/gamesCount}];
-  $.plot("#graph", [{
-    data: gamesCount
-  }],{
-    series: {
-      lines: {
-        show: true,
-        lineWidth: 2,
-        fill: true,
-        fillColor: { colors: [ { opacity: 0.5 }, { opacity: 0.2 } ] }
-      },
-      points: {
-        show: true,
-        lineWidth: 2 
-      },
-      shadowSize: 1
-    },
-    grid: {
-      tickColor: "#f9f9f9",
-      borderWidth: 0
-    },
-    colors: ["#1BB2E9"],
-    xaxis: {
-      ticks: [
-        [ 0, "Montag"],
-        [ 1, "Dienstag" ],
-        [ 2, "Mittwoch" ],
-        [ 3, "Donnerstag" ],
-        [ 4, "Freitag" ],
-        [ 5, "Samstag" ],
-        [ 6, "Sonntag" ]],
-      tickDecimals: 0
-    },
-    yaxis: {
-      ticks: 10,
-      tickDecimals: 0,
-      min: 0,
-      tickFormatter: function(val, axis) { return val < axis.max ? val : "Anzahl<br>Spiele";}
-    },
-  });
+  var data = {
+      labels: [{labels}],
+      datasets: [
+          {
+              label: "Baukasten",
+              fillColor: "rgba(250,250,85,0.2)",
+              strokeColor: "rgba(250,250,85,1)",
+              pointColor: "rgba(250,250,85,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(250,250,85,1)",
+              data: [{assemble}]
+          },
+          {
+              label: "Zeitstrahl",
+              fillColor: "rgba(20,220,120,0.2)",
+              strokeColor: "rgba(20,220,120,1)",
+              pointColor: "rgba(20,220,120,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(20,220,120,1)",
+              data: [{sorting}]
+          },
+          {
+              label: "Multiplechoice",
+              fillColor: "rgba(220,120,0,0.2)",
+              strokeColor: "rgba(220,120,0,1)",
+              pointColor: "rgba(220,120,0,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,120,0,1)",
+              data: [{multiplechoice}]
+          },
+          {
+              label: "Fehlstellen",
+              fillColor: "rgba(0,120,220,0.2)",
+              strokeColor: "rgba(0,120,220,1)",
+              pointColor: "rgba(0,120,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(0,120,220,1)",
+              data: [{missing}]
+          },
+          {
+              label: "Daily",
+              fillColor: "rgba(110,110,110,0.2)",
+              strokeColor: "rgba(110,110,110,1)",
+              pointColor: "rgba(110,110,110,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(110,110,110,1)",
+              data: [{daily}]
+          }
+      ]
+  };
+  var options = {
+    responive: true,
+    animation: true,
+    barValueSpacing: 5,
+    barDatasetSpacing: 1,
+    tooltipFillColor: "rgba(0,0,0,0.8)",
+    // Function - Determines whether to execute the customTooltips function instead of drawing the built in tooltips (See [Advanced - External Tooltips](#advanced-usage-custom-tooltips))
+    customTooltips: false,
+
+    // String - Tooltip label font colour
+    tooltipFontColor: "#fff",
+
+    // Number - pixel width of padding around tooltip text
+    tooltipYPadding: 6,
+
+    // Number - pixel width of padding around tooltip text
+    tooltipXPadding: 6,
+
+    // Number - Size of the caret on the tooltip
+    tooltipCaretSize: 8,
+
+    // Number - Pixel radius of the tooltip border
+    tooltipCornerRadius: 6,
+
+    // Number - Pixel offset from point x to tooltip edge
+    tooltipXOffset: 10,
+
+
+    // String - Tooltip label font declaration for the scale label
+    tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+    // String - Tooltip title font declaration for the scale label
+    tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
+  };
+  // Get context with jQuery - using jQuery's .get() method.
+  var ctx = $("#myChart").get(0).getContext("2d");
+  // This will get the first returned node in the jQuery collection.
+  myLineChart = new Chart(ctx).Line(data, options);
 });
 </script>
-<div class="pull-right">{#from}{day}.{month}.{year}{/from} bis {#to}{day}.{month}.{year}{/to}</div>
+<div class="headline">Statistiken für den {#from}{day}.{month}.{year}{/from} bis {#to}{day}.{month}.{year}{/to}</div>
 <br>
-<div class="stats-container">
-  <div id="graph" class="stats-graph"></div>
+<li><a href="" onclick="myLineChart.removeData();">Ausblenden</a></li>
+<div class="stats-container2">
+  <canvas id="myChart" width="1150px" height="400px"></canvas>
 </div>
 
 <ul class="pager">
-  <li><a href="?week={previousWeek}">Vorherige Woche</a></li>
+  <li><a href="?month={previousmonth}">Vorherigen Monat</a></li>
   <li><a href="?">Heute</a></li>
 {@if cond="{renderNextWeek}"}
-  <li><a href="?week={nextWeek}">Nächste Woche</a></li>
+  <li><a href="?month={nextmonth}">Nächsten Monat</a></li>
 {/if}
 </ul>
 {/content}

@@ -1,7 +1,10 @@
 {>"layout/layout.dust"/}
 
 {<content}
-{>"admin/stats/tabs.dust"/}
+
+<br>
+<!--<li class="active"><a href="/admin/stats/">Moantsübersicht</a></li>-->
+<!--<li class="active"><a href="/admin/stats/daily">Daily</a></li>-->
 
 <ul class="pager">
 <h1>WIP</h1>

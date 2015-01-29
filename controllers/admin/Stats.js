@@ -14,7 +14,8 @@ module.exports = function () {
 module.exports.prototype = AdminController.prototype.extend({
   name: 'stats',
 
-  indexAction: function() {
+/*
+  index2Action: function() {
     var _this = this,
       week = _this.request.param('week'),
       today = new Date(),
@@ -82,6 +83,7 @@ module.exports.prototype = AdminController.prototype.extend({
           renderNextWeek = true;
         }
 
+
         _this.view.render({
           title: 'Statistiken',
           elements: elements,
@@ -94,8 +96,8 @@ module.exports.prototype = AdminController.prototype.extend({
         });
       });
   },
-
-  monthAction: function() {
+*/
+  indexAction: function() {
     var _this = this,
       month = _this.request.param('month'),
       today = new Date(),
@@ -119,24 +121,62 @@ module.exports.prototype = AdminController.prototype.extend({
     .toArray(
       function (err, elements) {
 
-        var index = 0;
-        var gamesOnDay = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        /*
+        data:
+labels:   ["1.1", "2.1", "3.1", etc]
+assemble: [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
+missing:  [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
+sorting:  [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
+mc:       [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
+daily:    [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
+        */
 
+        var assemble = [],
+            missing = [],
+            sorting = [],
+            multiplechoice = [],
+            daily = [],
+            labels = [],
+            index = 0;
+
+        console.log("elements length is" + elements.length);
+
+        var today = new Date(),
+          current = new Date(today.getFullYear(),
+                             today.getMonth(),
+                             today.getDate());
+          console.log(current);
+          console.log(current.valueOf());
+
+        console.log("------------");
         for (var i = month.valueOf(); i < monthend.valueOf(); i = i + day) {
+          var count_multiplechoice = 0,
+            count_assemble = 0,
+            count_sorting = 0,
+            count_missing = 0,
+            count_daily = 0;
+
           var count = 0;
           for (var j = 0; j < elements.length; j++) {
-            if(elements[j].date.valueOf() === i){
-              count = num(elements[j].sorting) +
-                       num(elements[j].missing) +
-                       num(elements[j].assemble) +
-                       num(elements[j].multiplechoice);
-              break;
+            if((elements[j].date.valueOf() === i) || ((elements[j].date.valueOf() - i) === -82800000)){
+              count_sorting += num(elements[j].sorting);
+              count_missing += num(elements[j].missing);
+              count_assemble += num(elements[j].assemble);
+              count_multiplechoice += num(elements[j].multiplechoice);
+              count_daily += num(elements[j].daily);
             }
           }
-          gamesOnDay[index] = [index,count];
-          index++;
+          multiplechoice.push(count_multiplechoice);
+          assemble.push(count_assemble)
+          sorting.push(count_sorting);
+          missing.push(count_missing);
+          daily.push(count_daily);
+          labels.push(String(new Date(i).getDate()) +
+                      '.' +
+                      String(new Date(i).getMonth() + 1));
         }
+
+
         var toDateObject = [{
           'year':monthend.getFullYear(),
           'month':monthend.getMonth()+1,
@@ -155,8 +195,12 @@ module.exports.prototype = AdminController.prototype.extend({
 
         _this.view.render({
           title: 'Statistiken',
-          elements: elements,
-          gamesCount: gamesOnDay,
+          multiplechoice: multiplechoice,
+          assemble: assemble,
+          sorting: sorting,
+          missing: missing,
+          daily: daily,
+          labels: labels,
           from: fromDateObject,
           to: toDateObject,
           renderNextWeek: renderNextWeek,
@@ -183,17 +227,14 @@ module.exports.prototype = AdminController.prototype.extend({
 
 
   insertStats: function (db, gametype) {
-    var today = new Date(),
-      current = new Date(today.getFullYear(),
+    var today = new Date();
+    var currentDay = new Date(today.getFullYear(),
                          today.getMonth(),
-                         today.getDate());
-
+                         today.getDate(), 0, 0, 0, 0);
     // create new entry if no entry is found
-    // also increase by one
-
      db.mongodb
           .collection('statistics')
-          .update({date: current},
+          .update({date: currentDay},
                   gametype,
                   {upsert : true}, function (err) {
                     if(err) console.log(err);
