@@ -70,49 +70,45 @@ $(function(){
     });
     /* Filter */
     
-    var $filterInput = $(
-'<div class="btn-group dropdown">' +
-  '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
-    'Filter<span class="caret"></span>' +
-  '</button>' +
-  '<ul class="dropdown-menu" role="menu">' +
-    '<li><b>Anzeigen</b></li>' +
-    '<li><a href="#">Student</a></li>' +
-    '<li><a href="#">Moderator</a></li>' +
-    '<li><a href="#">Admin</a></li>' +
-    '<li class="divider"></li>' +
-    '<li><b>Sortieren nach</b></li>' +
-    '<li><a href="#">Vornamen</a></li>' +
-    '<li><a href="#">Nachnamen</a></li>' +
-    '<li><a href="#">Nickname</a></li>' +
-    '<li><a href="#">TU-ID</a></li>' +
-  '</ul>' +
-'</div>'),
-      $filterInputWrapper = $('<div id="filter_input"></div>'),
-      filterEvent;
+    
+    $('.filterbutton').click(function(e) {
+      e.preventDefault();
 
-      /*I'm working on it... 15.01.2015*/
-    $filterInput.on('click', function(event) {
-      clearTimeout(filterEvent);
-      filterEvent = setTimeout(function(){
-        console.log("FilterEvent started")
-        var filterParams = {};
-        if(window._filterFields && window._filterFields.length > 0){
-          console.log("event, filterfields")
-        }
-        if(window._sortFields && window._sortFields.length > 0){
-          console.log("event, sortfields")
-        }
-        filterParams.filter = {student: 1};
+      var filterParams = {};
+      filterParams.filter = {};
+      filterParams.filterkey = {};
+      filterParams.filterkey = this.dataset.key;
+      filterParams.filter = this.dataset.query;
 
-        $.get(location.href, filterParams, function(data) {
-          $('#content').html(data);
-        });
-      }, 500);
+      $.get(location.href, filterParams, function(data) {
+        $('#content').html(data);
+      });
     });
 
-    /*$filterInputWrapper.append($filterInput);
-    $('#filter-bar').append($filterInputWrapper);*/
+    var sortDirection = {};
+    $('.sortbutton').click(function(e) {
+      e.preventDefault();
+
+      var sortParams = {};
+      var sortquery = this.dataset.query;
+      sortParams.sort = sortquery;
+      if(sortDirection[sortquery] === undefined){
+        sortDirection[sortquery] = 1;
+      }else{
+        sortDirection[sortquery] = -sortDirection[sortquery];
+      }
+      console.log(sortDirection[sortquery]);
+      sortParams.sortdirection = sortDirection[sortquery];
+
+      console.log(sortParams.sortdirection);
+      
+      $.get(location.href, sortParams, function(data) {
+        $('#content').html(data);
+      });
+    });
+
+    //$filterInputWrapper.append($filterInput);
+    //$('#filter-bar').append($filterInputWrapper);
     $searchInputWrapper.append($searchInput);
     $('#search-bar').append($searchInputWrapper);
   }

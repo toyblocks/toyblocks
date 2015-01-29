@@ -28,7 +28,6 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
         .toArray(function(err, data){
           for (var i = 0; i < data.length; i++) {
             data[i].article_body = data[i].article_body.slice(0,80);
-            console.log(data[i].title);
           };
           _this.view.render({
             title: 'Enzyklopädie',

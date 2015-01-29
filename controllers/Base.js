@@ -106,7 +106,6 @@ module.exports.prototype = {
         regexParam[key] = { $regex : searchParams[key], $options : "i"};
         findParamsOr.push(regexParam);
         regexParam = {};
-
       }
       result = {$or: findParamsOr};
     }
@@ -114,16 +113,35 @@ module.exports.prototype = {
   },
 
   getFilterParams: function() {
-    var filterParams = this.request.param('filter');
-    console.log("getFilterParams:")
-    console.log(filterParams)
-    return filterParams;
+    var filterKey = this.request.param('filterkey'),
+      filterQuery = this.request.param('filter'),
+      filterParams = {},
+      filterParamsNumber = {};
+
+
+    if(filterQuery === undefined)
+      return {};
+
+    filterParamsNumber[filterKey] = Number(filterQuery);
+    filterParams[filterKey] = filterQuery;
+    var result = {$or: [filterParams, filterParamsNumber]};
+    return result;
   },
 
   getSortParams: function() {
-    var sortParams = this.request.param('sort');
-    console.log("getSortParams:")
-    console.log(sortParams)
+    var sortQuery = this.request.param('sort'),
+      direction = this.request.param('sortdirection'),
+      sortParamsNumber = {},
+      sortParams = {};
+
+    if(sortQuery === undefined)
+      return {};
+
+    if(direction === undefined){
+      sortParams[sortQuery] = 1;
+    }else{
+      sortParams[sortQuery] = Number(direction);
+    }
     return sortParams;
   },
 
@@ -336,13 +354,13 @@ module.exports.prototype = {
         if (!_this.request.session.user) {
           _this.request.session.user = {
             'employee' : false,
-            'givenName' : 'Mansur',
-            'nickname' : 'Mansur!!!',
-            'name' : 'Mansur Iqbal',
+            'givenName' : 'Local',
+            'nickname' : 'ToyblocksDev',
+            'name' : 'Local Development',
             'right_level' : 100,
             'student' : true,
-            'surname' : 'Iqbal',
-            'tuid' : 'm_iqbal',
+            'surname' : 'Development',
+            'tuid' : 'developer',
             'stats': {
               'sorting': {
                 'level1_count_played': 32
