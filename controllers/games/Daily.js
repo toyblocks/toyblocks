@@ -317,10 +317,7 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
             if(err)
               console.log('>> daily games error: ' + err);
             else{
-              var newDate = new Date();
-              newDate.setTime( unixtime*1000 );
-              dateString = newDate.toUTCString );
-              console.log('>> [DailyGame] Successfully generated new game at ' + dateString);
+              console.log('>> [DailyGame] Successfully generated new game at ' + new Date().getTime());
             }
           });
         });
