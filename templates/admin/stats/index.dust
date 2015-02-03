@@ -101,7 +101,7 @@ $(window).ready(function(){
     tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
     multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
   };
-  {! Get context with jQuery - using jQuery's .get() method.!}
+  {! Get context with jQuery - using jQuerys .get() method.!}
   var ctx = $("#myChart").get(0).getContext("2d");
   {! This will get the first returned node in the jQuery collection.!}
   myLineChart = new Chart(ctx).Line(data, options);
@@ -109,7 +109,6 @@ $(window).ready(function(){
 </script>
 <div class="headline">Statistiken für den {#from}{day}.{month}.{year}{/from} bis {#to}{day}.{month}.{year}{/to}</div>
 <br>
-<li><a href="" onclick="myLineChart.removeData();">Ausblenden</a></li>
 <div class="stats-container2">
   <canvas id="myChart" width="1150px" height="400px"></canvas>
 </div>

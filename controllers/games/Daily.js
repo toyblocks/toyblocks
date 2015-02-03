@@ -165,8 +165,8 @@ module.exports.prototype = GamesController.prototype.extend({
     }
 
     if(bounspoints_mc){     points+=50; }
-    if(bounspoints_sort1){  points+=59; }
-    if(bounspoints_sort2){  points+=59; }
+    if(bounspoints_sort1){  points+=69; }
+    if(bounspoints_sort2){  points+=69; }
     if(bounspoints_miss){   points+=51; }
     if(bounspoints_ass){    points+=53; }
 
@@ -236,7 +236,6 @@ module.exports.prototype = GamesController.prototype.extend({
 *  Gets called from jobs.js
 */
 module.exports.generateDailyGame = function generateDailyGame (mongodb) {
-  console.log('>> Generating Daily Game');
 
  //get all the games
   mongodb
@@ -245,8 +244,6 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
     //TODO: Add wins to first player
     if(err)
       console.log(err);
-    else
-      console.log('>> Cleared daily_leaderboard collection');
   });
 
   // get all the games
@@ -268,26 +265,26 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
         .toArray(function(err, ass) {
 
           //missing
-          mis = _this.shuffleArray(mis).slice(0, 2);
+          mis = this.shuffleArray(mis).slice(0, 2);
           mis[0] = mis[0]._id;
           mis[1] = mis[1]._id;
 
           //sorting
-          var sor1 = _this.shuffleArray(sor).slice(0,7);
-          var sor2 = _this.shuffleArray(sor).slice(0,7);
+          var sor1 = this.shuffleArray(sor).slice(0,7);
+          var sor2 = this.shuffleArray(sor).slice(0,7);
           for (var i = 0; i < sor1.length; i++) {
             sor1[i] = sor1[i]._id;
             sor2[i] = sor2[i]._id;
           }
 
           //multiple
-          mul = _this.shuffleArray(mul).slice(0, 5);
+          mul = this.shuffleArray(mul).slice(0, 5);
           for (var j = 0; j < mul.length; j++) {
             mul[j] = mul[j]._id;
           }
 
           //assemble games
-          ass = _this.shuffleArray(ass).slice(0,2);
+          ass = this.shuffleArray(ass).slice(0,2);
           ass[0] = ass[0]._id + '&level=2'; //TODO: randomize levels
           ass[1] = ass[1]._id + '&level=2';
 
@@ -311,8 +308,6 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
           function (err) {
             if(err)
               console.log('>> daily games error: ' + err);
-            else
-              console.log('>> Generated new Daily Game');
           });
         });
       });
