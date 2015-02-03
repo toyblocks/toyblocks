@@ -237,6 +237,14 @@ module.exports.prototype = GamesController.prototype.extend({
 */
 module.exports.generateDailyGame = function generateDailyGame (mongodb) {
 
+  // TODO: somehow use _this.shuffleArray
+  // but I don't know how right now
+  function shuffleArray (o){ //v1.0
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+      x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+  }
+
  //get all the games
   mongodb
   .collection('daily_leaderboard')
@@ -265,26 +273,26 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
         .toArray(function(err, ass) {
 
           //missing
-          mis = this.shuffleArray(mis).slice(0, 2);
+          mis = shuffleArray(mis).slice(0, 2);
           mis[0] = mis[0]._id;
           mis[1] = mis[1]._id;
 
           //sorting
-          var sor1 = this.shuffleArray(sor).slice(0,7);
-          var sor2 = this.shuffleArray(sor).slice(0,7);
+          var sor1 = shuffleArray(sor).slice(0,7);
+          var sor2 = shuffleArray(sor).slice(0,7);
           for (var i = 0; i < sor1.length; i++) {
             sor1[i] = sor1[i]._id;
             sor2[i] = sor2[i]._id;
           }
 
           //multiple
-          mul = this.shuffleArray(mul).slice(0, 5);
+          mul = shuffleArray(mul).slice(0, 5);
           for (var j = 0; j < mul.length; j++) {
             mul[j] = mul[j]._id;
           }
 
           //assemble games
-          ass = this.shuffleArray(ass).slice(0,2);
+          ass = shuffleArray(ass).slice(0,2);
           ass[0] = ass[0]._id + '&level=2'; //TODO: randomize levels
           ass[1] = ass[1]._id + '&level=2';
 
@@ -308,6 +316,12 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
           function (err) {
             if(err)
               console.log('>> daily games error: ' + err);
+            else{
+              var newDate = new Date();
+              newDate.setTime( unixtime*1000 );
+              dateString = newDate.toUTCString );
+              console.log('>> [DailyGame] Successfully generated new game at ' + dateString);
+            }
           });
         });
       });
