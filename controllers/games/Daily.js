@@ -182,17 +182,18 @@ module.exports.prototype = GamesController.prototype.extend({
     .collection('daily_leaderboard')
     .find({date: todaysUnixDate})
     .nextObject(function (err, ele) {
-      var asd = ele.players;
-      console.log("asd");
-      console.log(asd);
+
+      var playersWithoutCurrent = ele.players;
+      console.log("playersWithoutCurrent");
+      console.log(playersWithoutCurrent);
+
       var contains = false;
-      for (var i = 0; i < asd.length; i++) {
-        if(String(asd[i].tuid) === String(tuid))
+      for (var i = 0; i < playersWithoutCurrent.length; i++) {
+        if(String(playersWithoutCurrent[i].tuid) === String(tuid))
           contains = true;
       }
 
-      if(!contains){
-        console.log("Error, is schon heute");
+      if(contains){
         _this.view.render({
           error: 'Error: Sie haben das heutige Daily schon gespielt.'
         });
@@ -266,15 +267,6 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
       x = o[--i], o[i] = o[j], o[j] = x);
     return o;
   }
-
- //get all the games
-  mongodb
-  .collection('daily_leaderboard')
-  .remove(function (err) {
-    //TODO: Add wins to first player
-    if(err)
-      console.log(err);
-  });
 
   // get all the games
   mongodb
