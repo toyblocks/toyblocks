@@ -57,7 +57,10 @@ module.exports.prototype = GamesController.prototype.extend({
     .collection('daily_leaderboard')
     .find({date: todaysUnixDate})
     .nextObject(function (err, data) {
-      var users = data.players;
+      var users;
+      if(!!data && !!data.players){
+        users = data.players;
+      }
       users.sort(function (a, b) {
         return a.score < b.score;
       });
