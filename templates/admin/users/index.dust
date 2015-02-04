@@ -69,11 +69,9 @@
         <tr><td colspan="3">Bisher keine User vorhanden</td></tr>
         {/users}
       </table>
-      {>"layout/pagination"/}
 {/content}
 {<contentFoot}
-
-      
+{>"layout/pagination"/}
     </div>
   </div>
   <div class="modal fade" id="enumsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
