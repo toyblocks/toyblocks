@@ -57,7 +57,7 @@ module.exports.prototype = GamesController.prototype.extend({
     .collection('daily_leaderboard')
     .find({date: todaysUnixDate})
     .nextObject(function (err, data) {
-      var users;
+      var users = [];
       if(!!data && !!data.players){
         users = data.players;
       }
