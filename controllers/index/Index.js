@@ -65,7 +65,7 @@ module.exports.prototype = BaseController.prototype.extend({
       }
       return str;
     }
-
+    
     _this.mongodb
       .collection('system_config')
       .find({key: 'last_modified'})

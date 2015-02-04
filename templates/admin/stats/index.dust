@@ -10,11 +10,7 @@
 <script src="/js/vendor/Chart.min.js"></script>
 <script type="text/javascript">
 var myLineChart;
-$(window).ready(function(){
-  var data = {
-      labels: [{labels}],
-      datasets: [
-          {
+var inputData = [{
               label: "Baukasten",
               fillColor: "rgba(250,250,85,0.2)",
               strokeColor: "rgba(250,250,85,1)",
@@ -63,52 +59,78 @@ $(window).ready(function(){
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(110,110,110,1)",
               data: [{daily}]
-          }
-      ]
+          }];
+
+
+
+$(window).ready(function(){
+
+  function drawchart (gamesdata) {
+      var options = {
+        responive: true,
+        animation: true,
+        barValueSpacing: 5,
+        barDatasetSpacing: 1,
+        tooltipFillColor: "rgba(0,0,0,0.8)",
+        {! Function - Determines whether to execute the customTooltips function!}
+        customTooltips: false,
+        {! String - Tooltip label font colour!}
+        tooltipFontColor: "#fff",
+        {! Number - pixel width of padding around tooltip text!}
+        tooltipYPadding: 6,
+        {! Number - pixel width of padding around tooltip text!}
+        tooltipXPadding: 6,
+        {! Number - Size of the caret on the tooltip!}
+        tooltipCaretSize: 8,
+        {! Number - Pixel radius of the tooltip border!}
+        tooltipCornerRadius: 6,
+        {! Number - Pixel offset from point x to tooltip edge!}
+        tooltipXOffset: 10,
+        {! String - Tooltip label font declaration for the scale label!}
+        tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+        {! String - Tooltip title font declaration for the scale label!}
+        tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+        multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
+      };
+      var data = {
+        labels: [{labels}],
+        datasets: gamesdata
+    };
+    var ctx = $("#myChart").get(0).getContext("2d");
+    myLineChart = new Chart(ctx).Line(data, options);
   };
-  var options = {
-    responive: true,
-    animation: true,
-    barValueSpacing: 5,
-    barDatasetSpacing: 1,
-    tooltipFillColor: "rgba(0,0,0,0.8)",
-    {! Function - Determines whether to execute the customTooltips function instead of drawing the built in tooltips (See [Advanced - External Tooltips](#advanced-usage-custom-tooltips))!}
-    customTooltips: false,
 
-    {! String - Tooltip label font colour!}
-    tooltipFontColor: "#fff",
+  $('.redraw-chart-button').click(function (e) {
+    //todo: check which checkboxes are checked
+    // push them into an array
+    // call drawchart
+  });
 
-    {! Number - pixel width of padding around tooltip text!}
-    tooltipYPadding: 6,
-
-    {! Number - pixel width of padding around tooltip text!}
-    tooltipXPadding: 6,
-
-    {! Number - Size of the caret on the tooltip!}
-    tooltipCaretSize: 8,
-
-    {! Number - Pixel radius of the tooltip border!}
-    tooltipCornerRadius: 6,
-
-    {! Number - Pixel offset from point x to tooltip edge!}
-    tooltipXOffset: 10,
-
-
-    {! String - Tooltip label font declaration for the scale label!}
-    tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-
-    {! String - Tooltip title font declaration for the scale label!}
-    tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
-  };
-  {! Get context with jQuery - using jQuerys .get() method.!}
-  var ctx = $("#myChart").get(0).getContext("2d");
-  {! This will get the first returned node in the jQuery collection.!}
-  myLineChart = new Chart(ctx).Line(data, options);
+  drawchart(inputData);
 });
 </script>
 <div class="headline">Statistiken für den {#from}{day}.{month}.{year}{/from} bis {#to}{day}.{month}.{year}{/to}</div>
 <br>
+
+<div class="well">
+  <label class="checkbox-inline">
+    <input type="checkbox" id="inlineCheckbox1" value="option1" checked>Baukasten
+  </label>
+  <label class="checkbox-inline">
+    <input type="checkbox" id="inlineCheckbox2" value="option2" checked>Zeitstrahl
+  </label>
+  <label class="checkbox-inline">
+    <input type="checkbox" id="inlineCheckbox3" value="option3" checked>Multiplechoice
+  </label>
+  <label class="checkbox-inline">
+    <input type="checkbox" id="inlineCheckbox4" value="option4" checked>Fehlstellen
+  </label>
+  <label class="checkbox-inline">
+    <input type="checkbox" id="inlineCheckbox5" value="option5" checked>Daily
+  </label>
+  <button id="redraw-chart-button" type="button" class="btn btn-primary">Anzeigen</button>
+</div>
+
 <div class="stats-container2">
   <canvas id="myChart" width="1150px" height="400px"></canvas>
 </div>

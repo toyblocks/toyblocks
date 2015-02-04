@@ -127,13 +127,12 @@ module.exports.prototype = GamesController.prototype.extend({
       result =  _this.request.param('result').split(','),
       tuid = _this.request.session.user.tuid,
       points = 0,
-      count = 0;
-
-    var bounspoints_mc = true,
-        bounspoints_sort1 = true,
-        bounspoints_sort2 = true,
-        bounspoints_miss = true,
-        bounspoints_ass = true;
+      count = 0,
+      bounspoints_mc = true,
+      bounspoints_sort1 = true,
+      bounspoints_sort2 = true,
+      bounspoints_miss = true,
+      bounspoints_ass = true;
 
     // Iterate over result array and calculate bonus points
     for (var i = result.length-1; i >= 0; i--) {
@@ -164,70 +163,93 @@ module.exports.prototype = GamesController.prototype.extend({
       }
     }
 
-    if(bounspoints_mc){     points+=50; }
-    if(bounspoints_sort1){  points+=69; }
-    if(bounspoints_sort2){  points+=69; }
-    if(bounspoints_miss){   points+=51; }
-    if(bounspoints_ass){    points+=53; }
+    if(bounspoints_mc){    points+=50; }
+    if(bounspoints_sort1){ points+=129; }
+    if(bounspoints_sort2){ points+=129; }
+    if(bounspoints_miss){  points+=50; }
+    if(bounspoints_ass){   points+=50; }
+
+
+    var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000),
+      player = {
+        tuid: tuid,
+        nickname: _this.request.session.user.nickname,
+        score: points
+    };
+
 
     _this.mongodb
     .collection('daily_leaderboard')
-    .find({tuid: tuid})
+    .find({date: todaysUnixDate})
     .nextObject(function (err, ele) {
-      if(!!ele){
+      var asd = ele.players;
+      console.log("asd");
+      console.log(asd);
+      var contains = false;
+      for (var i = 0; i < asd.length; i++) {
+        if(String(asd[i].tuid) === String(tuid))
+          contains = true;
+      }
+
+      if(!contains){
+        console.log("Error, is schon heute");
         _this.view.render({
           error: 'Error: Sie haben das heutige Daily schon gespielt.'
         });
         return;
       }
-      
+
       _this.mongodb
       .collection('daily_leaderboard')
-      .insert({ tuid: tuid,
-              nickname: _this.request.session.user.nickname,
-              score: points
-        }, function (err, ele) {
+      .update({ date: todaysUnixDate },
+              {$push: {
+                players: player
+              }
+            }, { upsert : true},
+            function (err) {
 
-          _this.mongodb
-          .collection('daily_leaderboard')
-          .find()
-          .sort({score: -1})
-          .limit(15)
-          .toArray(function (err, players) {
-            
-            var contains = false;
-            for (var i = 0; i < players.length; i++) {
-              if(String(players[i].tuid) === String(ele[0].tuid))
-                contains = true;
-            }
-            if(!contains){
-              players.push(ele[0]);
-            }
+              _this.mongodb
+              .collection('daily_leaderboard')
+              .find({date: todaysUnixDate})
+              .nextObject(function (err, data) {
 
-            var d = new Date();
-            var game = {
-              year: d.getFullYear(),
-              month: d.getMonth()+1,
-              day: d.getDate()
-            };
-            
-            Statistics.prototype.insertStats(_this, { $inc : { 'daily': +1 }});
+console.log("players");
+console.log(players);
+                var players = data.players;
+                players.sort(function (a, b) {
+                  return a.score < b.score;
+                });
+console.log("players");
+console.log(players);
 
-            _this.view.render({
-              title: 'Daily Challenge',
-              result: result,
-              game: game,
-              pointsmax: result.length,
-              pointscur: count,
-              procentwrong: (1 - (count / result.length))*100,
-              procentright: (count / result.length)*100,
-              players: players,
-              userid: _this.request.session.user.tuid
-            });
-          });
-        });
-    });
-  }
+                if(!contains){
+                  players.push(player);
+                }
+
+                var d = new Date();
+                var game = {
+                  year: d.getFullYear(),
+                  month: d.getMonth()+1,
+                  day: d.getDate()
+                };
+
+                Statistics.prototype.insertStats(_this, { $inc : { 'daily': +1 }});
+
+                _this.view.render({
+                  title: 'Daily Challenge',
+                  result: result,
+                  game: game,
+                  pointsmax: result.length,
+                  pointscur: count,
+                  procentwrong: (1 - (count / result.length))*100,
+                  procentright: (count / result.length)*100,
+                  players: players,
+                  userid: tuid
+                });
+              });
+});
+});
+}
 });
 
 
@@ -315,7 +337,7 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
           {},
           function (err) {
             if(err)
-              console.log('>> daily games error: ' + err);
+              console.log('>> [DailyGame] Error at ' + new Date().getTime() + " - " + err);
             else{
               console.log('>> [DailyGame] Successfully generated new game at ' + new Date().getTime());
             }

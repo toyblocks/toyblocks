@@ -1,7 +1,6 @@
 /* add highlight function to jquery for search highlighting */
 jQuery.fn.highlight=function(c){function e(b,c){var d=0;if(3==b.nodeType){var a=b.data.toUpperCase().indexOf(c),a=a-(b.data.substr(0,a).toUpperCase().length-b.data.substr(0,a).length);if(0<=a){d=document.createElement("span");d.className="highlight";a=b.splitText(a);a.splitText(c.length);var f=a.cloneNode(!0);d.appendChild(f);a.parentNode.replaceChild(d,a);d=1}}else if(1==b.nodeType&&b.childNodes&&!/(script|style)/i.test(b.tagName))for(a=0;a<b.childNodes.length;++a)a+=e(b.childNodes[a],c);return d} return this.length&&c&&c.length?this.each(function(){e(this,c.toUpperCase())}):this};
-jQuery.fn.removeHighlight=function(){return this.find("span.highlight").each(function(){this.parentNode.firstChild.nodeName;with(this.parentNode)replaceChild(this.firstChild,this),normalize()}).end()};
-/* all credit goes to: http://johannburkard.de/blog/programming/javascript/highlight-javascript-text-higlighting-jquery-plugin.html */
+/* all credit goes to: http://johannburkard.de/ */
 
 /* form elements */
 $(function(){
@@ -30,23 +29,45 @@ $(function(){
 
   /* init bootpag */
   if (window['_paginationPages']) {
+
+    var pageNumber = 1,
+      searchQuery = '',
+      filterQuery = '',
+      sortQuery = '';
+
+    function refreshPage () {
+      $.get(location.href,
+            {page: pageNumber,
+            search: searchQuery,
+            filter: filterQuery.filter,
+            filterkey: filterQuery.filterkey,
+            sort: sortQuery.sort,
+            sortdirection: sortQuery.sortdirection},
+            function (data) {
+              $('#content').html(data);
+              if(searchQuery != ''){
+                $('#content').highlight($searchInput.val());
+              }
+              /*TODO: somehow update paginationPages... */
+            });
+    }
+
     $('#page_selection').bootpag({
       total: window._paginationPages || 1,
       page: 1,
       maxVisible: 10
     }).on('page', function(event, num){
-      $.get(location.href, {page: num}, function(data) {
-        $('#content').html(data);
-        $('#search_input input').val('');
-      });
+      pageNumber = num;
+      refreshPage();
     });
+
     /* Search */
     var $searchInput = $('<input type="text" name="search" placeholder="Suchen nach..." class="form-control"></div>'),
       $searchInputWrapper = $('<div id="search_input"></div>'),
       searchEvent;
     $searchInput.on('keyup', function(event) {
       clearTimeout(searchEvent);
-      searchEvent = setTimeout(function(){
+      searchEvent = setTimeout(function (e) {
         var searchParams = {},
           inputValue = $searchInput.val();
         if (inputValue) {
@@ -60,17 +81,13 @@ $(function(){
             searchParams.search = {title: $searchInput.val()};
           }
         }
-        $.get(location.href, searchParams, function(data) {
-          $('#content').html(data);
-          if(inputValue != ''){
-            $('#content').highlight(inputValue);
-          }
-        });
-      }, 500);
+        searchQuery = searchParams.search;
+        refreshPage();
+        }, 150);
     });
+
+
     /* Filter */
-    
-    
     $('.filterbutton').click(function(e) {
       e.preventDefault();
 
@@ -80,35 +97,30 @@ $(function(){
       filterParams.filterkey = this.dataset.key;
       filterParams.filter = this.dataset.query;
 
-      $.get(location.href, filterParams, function(data) {
-        $('#content').html(data);
-      });
+      filterQuery = filterParams;
+      refreshPage();
     });
 
-    var sortDirection = {};
+    /* Sort */
+    var sortDirection = 1;
     $('.sortbutton').click(function(e) {
       e.preventDefault();
 
       var sortParams = {};
-      var sortquery = this.dataset.query;
-      sortParams.sort = sortquery;
-      if(sortDirection[sortquery] === undefined){
-        sortDirection[sortquery] = 1;
+      var currentSortQuery = this.dataset.query;
+      sortParams.sort = currentSortQuery;
+      if(sortQuery != currentSortQuery){
+        sortDirection = 1;
       }else{
-        sortDirection[sortquery] = -sortDirection[sortquery];
+        sortDirection = -sortDirection;
       }
-      console.log(sortDirection[sortquery]);
-      sortParams.sortdirection = sortDirection[sortquery];
+      sortQuery = currentSortQuery;
+      sortParams.sortdirection = sortDirection;
 
-      console.log(sortParams.sortdirection);
-      
-      $.get(location.href, sortParams, function(data) {
-        $('#content').html(data);
-      });
+      sortQuery = sortParams;
+      refreshPage();
     });
 
-    //$filterInputWrapper.append($filterInput);
-    //$('#filter-bar').append($filterInputWrapper);
     $searchInputWrapper.append($searchInput);
     $('#search-bar').append($searchInputWrapper);
   }

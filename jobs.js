@@ -12,4 +12,5 @@ module.exports.initJobs = function initJobs (mongodb) {
   new cronJob('1 0 * * *', function() {
     daily.generateDailyGame(mongodb);
   }, null, true);
+  
 };
