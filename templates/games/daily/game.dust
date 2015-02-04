@@ -91,20 +91,21 @@ function shuffleArray(o){
 $(window).ready(function(){
   /*Not sure how to do with counting points, shuffleArray(games);*/
   /* Load first game */
-  loadNextGame();
   beginTime = new Date().getTime();
+  loadNextGame();
+  /*
   $('#ready').click(function (event) {
     $('#ready').prop('disabled', true);
     $('#ready').text('3');
     setTimeout(function() {
       $('#ready').text('2');
       setTimeout(function() {
-        $('#ready').text('1')
+        $('#ready').text('1');
         setTimeout(function() {
         }, 1000);
       }, 1000);
     }, 1000);
-  });
+  });*/
 });
 </script>
 {/error}
