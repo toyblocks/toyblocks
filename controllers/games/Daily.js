@@ -51,12 +51,16 @@ module.exports.prototype = GamesController.prototype.extend({
   leaderboardAction: function () {
     var _this = this;
 
+    var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000);
+
     _this.mongodb
     .collection('daily_leaderboard')
-    .find()
-    .sort({score: -1})
-    .limit(15)
-    .toArray(function (err, users) {
+    .find({date: todaysUnixDate})
+    .nextObject(function (err, data) {
+      var users = data.players;
+      users.sort(function (a, b) {
+        return a.score < b.score;
+      });
         
       var d = new Date();
       var game = {
@@ -90,11 +94,23 @@ module.exports.prototype = GamesController.prototype.extend({
       return;
     }
 
+    var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000);
+
     _this.mongodb
     .collection('daily_leaderboard')
-    .find({tuid: tuid})
-    .nextObject(function (err, ele) {
-      if (!!ele) {
+    .find({date: todaysUnixDate})
+    .nextObject(function (err, leaderboardData) {
+      var contained = false;
+
+      if(!!leaderboardData && !!leaderboardData.players){
+        var players = leaderboardData.players;
+        for (var i = 0; i < players.length; i++) {
+          if(players[i].tuid == tuid)
+            contained = true;
+        };
+      }
+
+      if (contained) {
         _this.view.render({
           title: 'Daily Challenge',
           error: 'Sie haben bereits das heutige Daily gespielt!'
@@ -125,6 +141,7 @@ module.exports.prototype = GamesController.prototype.extend({
   resultAction: function() {
     var _this = this,
       result =  _this.request.param('result').split(','),
+      playtime =  _this.request.param('time'),
       tuid = _this.request.session.user.tuid,
       points = 0,
       count = 0,
@@ -169,19 +186,26 @@ module.exports.prototype = GamesController.prototype.extend({
     if(bounspoints_miss){  points+=50; }
     if(bounspoints_ass){   points+=50; }
 
-
     var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000),
       player = {
         tuid: tuid,
         nickname: _this.request.session.user.nickname,
-        score: points
+        score: points,
+        time: playtime
     };
 
-
+/*
     _this.mongodb
     .collection('daily_leaderboard')
     .find({date: todaysUnixDate})
     .nextObject(function (err, ele) {
+      
+      
+      // Comon.. Nobody would insert himself twice if the frontend blocks it, right?
+      // I mean, they are architecture students, not hackers, right? right?
+
+      // Actually, they get blocked when they start the game...
+      // Meh, I should do it here...
 
       var playersWithoutCurrent = ele.players;
       console.log("playersWithoutCurrent");
@@ -199,7 +223,7 @@ module.exports.prototype = GamesController.prototype.extend({
         });
         return;
       }
-
+      */
       _this.mongodb
       .collection('daily_leaderboard')
       .update({ date: todaysUnixDate },
@@ -207,25 +231,17 @@ module.exports.prototype = GamesController.prototype.extend({
                 players: player
               }
             }, { upsert : true},
-            function (err) {
+            function (err, data) {
 
               _this.mongodb
               .collection('daily_leaderboard')
               .find({date: todaysUnixDate})
               .nextObject(function (err, data) {
 
-console.log("players");
-console.log(players);
                 var players = data.players;
                 players.sort(function (a, b) {
                   return a.score < b.score;
                 });
-console.log("players");
-console.log(players);
-
-                if(!contains){
-                  players.push(player);
-                }
 
                 var d = new Date();
                 var game = {
@@ -248,9 +264,9 @@ console.log(players);
                   userid: tuid
                 });
               });
-});
-});
-}
+/*});*/
+      });
+    }
 });
 
 

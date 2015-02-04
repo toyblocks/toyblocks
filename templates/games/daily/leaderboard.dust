@@ -2,11 +2,11 @@
 {<content}
 <style type="text/css" scoped="true">
 .yeahyoumadeitintothetop5{
-  background-color: #3D9970;
+  background-color: #337ab7 !important; /*#3D9970;*/
   color:#eeeeee;
 }
 .yeahyoumadeitintothetop5 span:before{
-  content: "Du!";
+  content: "-->";
 }
 </style>
 <h3>Rangliste</h3>
@@ -24,12 +24,12 @@
     </thead>
     <tbody>
       {#players}
-      <tr{@eq key=playerid value=userid} class="yeahyoumadeitintothetop5"{/eq}>
+      <tr{@eq key=tuid value=userid} class="yeahyoumadeitintothetop5"{/eq}>
         <td>{@idx}{@math key="{.}" method="add" operand="1"/}{/idx}</td>
         <td>{nickname}</td>
         <td>{score}</td>
       </tr>
-  {/players}
+      {/players}
     </tbody>
   </table>
       {:else}
