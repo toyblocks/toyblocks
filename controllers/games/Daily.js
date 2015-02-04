@@ -166,19 +166,19 @@ module.exports.prototype = GamesController.prototype.extend({
         if(c){ points += 14; }else{ bounspoints_mc = false; }
       }
       // sorting 2
-      if(i >= (result.length-13) && i < (result.length-5)){
+      if(i >= (result.length-14) && i < (result.length-5)){
         if(c){ points += 7; }else{ bounspoints_sort2 = false; }
       }
       //sorting 1
-      if(i >= (result.length-20) && i < (result.length-13)){
+      if(i >= (result.length-21) && i < (result.length-13)){
         if(c){ points += 7; }else{ bounspoints_sort1 = false; }
       }
       // missing
-      if(i >= (result.length-25) && i < (result.length-20)){
+      if(i >= (result.length-26) && i < (result.length-20)){
         if(c){ points += 10; }else{ bounspoints_miss = false; }
       }
       // both assemble
-      if(i < (result.length-25)){
+      if(i < (result.length-26)){
         if(c){ points += 6; }else{ bounspoints_ass = false; }
       }
     }
