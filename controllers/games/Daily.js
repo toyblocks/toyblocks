@@ -62,7 +62,11 @@ module.exports.prototype = GamesController.prototype.extend({
         users = data.players;
       }
       users.sort(function (a, b) {
-        return a.score < b.score;
+        if (a.score > b.score){
+          return -1;
+        }else{
+          return 1;
+        }
       });
       for (var i = 0; i < users.length; i++) {
         users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
@@ -236,7 +240,11 @@ module.exports.prototype = GamesController.prototype.extend({
 
                 var users = data.players;
                 users.sort(function (a, b) {
-                  return Number(a.score) < Number(b.score);
+                  if (a.score > b.score){
+                    return -1;
+                  }else{
+                    return 1;
+                  } 
                 });
                 for (var i = 0; i < users.length; i++) {
                   users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
