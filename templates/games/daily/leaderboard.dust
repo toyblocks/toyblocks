@@ -11,8 +11,8 @@
 </style>
 <h3>Rangliste</h3>
 <span class="help-block">Das ist die heutige Rangliste der Daily Challenge</span>
-<div class="block-center">
-  <div class="panel panel-default col-md-7">
+<div class="col-md-8">
+  <div class="panel panel-default">
     <div class="panel-heading">Die besten Spieler am {game.day}.{game.month}.{game.year}!</div>
     {?players}
     <table class="table table-striped">
