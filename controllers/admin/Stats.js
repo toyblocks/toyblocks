@@ -137,18 +137,15 @@ daily:    [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
             multiplechoice = [],
             daily = [],
             labels = [],
+            all = [],
             index = 0;
 
-        console.log("elements length is" + elements.length);
 
         var today = new Date(),
           current = new Date(today.getFullYear(),
                              today.getMonth(),
                              today.getDate());
-          console.log(current);
-          console.log(current.valueOf());
 
-        console.log("------------");
         for (var i = month.valueOf(); i < monthend.valueOf(); i = i + day) {
           var count_multiplechoice = 0,
             count_assemble = 0,
@@ -171,6 +168,8 @@ daily:    [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
           sorting.push(count_sorting);
           missing.push(count_missing);
           daily.push(count_daily);
+          all.push((count_multiplechoice + count_assemble + count_sorting + count_missing + count_daily));
+
           labels.push(String(new Date(i).getDate()) +
                       '.' +
                       String(new Date(i).getMonth() + 1));
@@ -199,6 +198,7 @@ daily:    [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
           assemble: assemble,
           sorting: sorting,
           missing: missing,
+          all: all,
           daily: daily,
           labels: labels,
           from: fromDateObject,
