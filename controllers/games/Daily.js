@@ -149,6 +149,7 @@ module.exports.prototype = GamesController.prototype.extend({
       result =  _this.request.param('result').split(','),
       playtime =  _this.request.param('time'),
       tuid = _this.request.session.user.tuid,
+      nickname = _this.request.session.user.nickname,
       points = 0,
       count = 0,
       bounspoints_mc = true,
@@ -195,7 +196,7 @@ module.exports.prototype = GamesController.prototype.extend({
     var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000),
       player = {
         tuid: tuid,
-        nickname: _this.request.session.user.nickname,
+        nickname: nickname,
         score: points,
         time: playtime
     };
@@ -216,7 +217,9 @@ module.exports.prototype = GamesController.prototype.extend({
           }
         }
       }
-      
+      /* Lets see if someone is cheating */
+      console.log('[DailyChallenge] ' + tuid + ' aka ' +  nickname + ' has ' + points + ' points with ' + count + ' / ' + result.length);
+
       _this.mongodb
       .collection('daily_leaderboard')
       .update({ date: todaysUnixDate },
@@ -343,7 +346,7 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
           {},
           function (err) {
             if(err)
-              console.log('>> [DailyGame] Error at ' + currenttime + " - " + err);
+              console.log('>> [DailyGame] Error at ' + currenttime + ' - ' + err);
             else{
               console.log('>> [DailyGame] Successfully generated new game at ' + currenttime);
             }

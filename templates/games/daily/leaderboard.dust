@@ -11,34 +11,36 @@
 </style>
 <h3>Rangliste</h3>
 <span class="help-block">Das ist die heutige Rangliste der Daily Challenge</span>
-<div class="panel panel-default">
-  <div class="panel-heading">Die besten Spieler am {game.day}.{game.month}.{game.year}!</div>
-  {?players}
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Benutzername</th>
-        <th>Punktzahl</th>
-        <th>Dauer</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#players}
-      <tr{@eq key=tuid value=userid} class="user"{/eq}>
-        <td>{@idx}{@math key="{.}" method="add" operand="1"/}{/idx}</td>
-        <td>{nickname}</td>
-        <td>{score}</td>
-        <td>{time} Sekunden</td>
-      </tr>
-      {/players}
-    </tbody>
-  </table>
-      {:else}
-      <br>
-<div class="alert alert-danger" style="margin: 0px;"> Heute hat noch niemand gespielt! 
-  <a href="/games/daily/game" class="alert-link">Seien Sie Erster!</a>
-</div>
-{/players}
+<div class="block-center">
+  <div class="panel panel-default col-md-7">
+    <div class="panel-heading">Die besten Spieler am {game.day}.{game.month}.{game.year}!</div>
+    {?players}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Benutzername</th>
+          <th>Punktzahl</th>
+          <th>Dauer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#players}
+        <tr{@eq key=tuid value=userid} class="user"{/eq}>
+          <td>{@idx}{@math key="{.}" method="add" operand="1"/}{/idx}</td>
+          <td>{nickname}</td>
+          <td>{score}</td>
+          <td>{time} Sekunden</td>
+        </tr>
+        {/players}
+      </tbody>
+    </table>
+        {:else}
+        <br>
+  <div class="alert alert-danger" style="margin: 0px;"> Heute hat noch niemand gespielt! 
+    <a href="/games/daily/game" class="alert-link">Seien Sie Erster!</a>
+  </div>
+  {/players}
+  </div>
 </div>
 {/content}
