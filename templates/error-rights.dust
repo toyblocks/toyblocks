@@ -2,10 +2,11 @@
 {<content}
 <div class="jumbotron">
   <div class="page-header">
-    <h1>Keine erfolderlichen Rechte um diese Seite zu sehen!</h1>
+    <h1>Du besitzt nicht die erfolderlichen Rechte um diese Seite zu betrachten!</h1>
     <p>Wende dich an den Administrator.</p>
-    <a class="btn btn-primary btn-lg" role="button"
-    href="/">Zur Startseite</a>
+    <a class="btn btn-primary btn-lg" role="button" href="/">
+      Zurück zur Startseite
+    </a>
   </div>
 </div>
 {/content}

@@ -2,18 +2,16 @@
 {<content}
 <div class="jumbotron">
   <div class="page-header">
-    <h1>404 - Seite nicht gefunden!</h1>
-    <p>Irgendwas ist schiefgelaufen. Vesuchs nochmal! Der Fehler war:</p>
+    <h1>404 - Bauwerk nicht gefunden!</h1>
+    <p>Leider ist etwas schiefgelaufen. Diese Seite existiert nicht. Sollte dies nicht so sein, dann melde die folgenden Fehlermeldung:</p>
     <p>
       <code>{error}</code>
     </p>
     <p>
-    <a class="btn btn-primary btn-lg" role="button"
-    href="/">Zur Startseite</a>
-    <a class="btn btn-primary btn-lg" role="button"
-      mailto="dev@www5.architektur.tu-darmstadt.de">
+    <a class="btn btn-primary btn-lg" role="button" href="/">Zurück zur Startseite</a> 
+    <!--<a class="btn btn-primary btn-lg" role="button" style="margin-left: 5px" mailto="reynolds.tud@gmail.com" >
       <span class="glyphicon glyphicon-envelope"></span>
-      oder melde einen Bug!</a>
+      oder melde einen Bug!</a>-->
     </p> 
   </div>
 </div>

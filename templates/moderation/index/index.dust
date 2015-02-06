@@ -26,7 +26,7 @@ h2{
       </a>
       <div class="media-body">
         <h4 class="media-heading"><a href="/moderation/games/sorting">Zeitstrahl</a></h4>
-        Für den Zeitstrahl können nur mehr Gebäude angelegt werden. Diese werden dann automatisch hinzugefügt und zufällig verteilt.
+        Für das Zeitstrahl-Spiel können weitere Gebäude angelegt werden. Diese werden automatisch dem Spiel hinzugefügt und zufällig bei den Spielen verteilt. Zusätzlich werden die angelegten Gebäude in der Enzyklopädie angezeigt.
       </div>
     </div>
     <div class="media">
@@ -44,7 +44,7 @@ h2{
       </a>
       <div class="media-body">
         <h4 class="media-heading"><a href="/moderation/games/assemble">Baukasten</a></h4>
-        Beim Baukasten erstellt man neue Spiele und wählt dort die passenden Einzelteile aus einer List aus. Einzelne Teile kann man ebenfalls neu hinzufügen.
+        Beim Baukasten erstellt man neue Spiele und wählt dort die passenden Einzelteile aus einer Liste aus. Diese kann man ebenfalls neu hinzufügen.
       </div>
     </div>
     <div class="media">
@@ -53,7 +53,7 @@ h2{
       </a>
       <div class="media-body">
         <h4 class="media-heading"><a href="/moderation/games/multiplechoice">Multiple Choice</a></h4>
-        Es können neue Fragen hinzugefügt werden. Eine Frage besteht aus einem Bild, einem Fragentext, mindestens einer richtigen Antwort und mindestens 3 falschen Antworten.
+        Für das Multiplechoice-Spiel können Fragen hinzugefügt werden. Diese bestehen aus einem Bild, einem Fragentext, mindestens einer richtigen Antwort und mindestens 3 falschen Antworten.
       </div>
     </div>
     <div class="media">
@@ -62,8 +62,7 @@ h2{
       </a>
       <div class="media-body">
         <h4 class="media-heading"><a href="/moderation/encyclopedia">Enzyklopädie</a></h4>
-        Die Enzyklopäde besteht aus Artikeln.<br>
-        Artikel haben einen Titel, einen Text und ein optionales Bild.
+        Die Enzyklopäde besteht aus Artikeln, diese haben einen Titel, einen Text und ein optionales Bild.
       </div>
       <div style="height: 60px; width: 1px;"></div>
     </div>
