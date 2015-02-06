@@ -1,10 +1,10 @@
 <style type="text/css" scoped="true">
-.yeahyoumadeitintothetop5{
+.user{
   background-color: #337ab7 !important;
   color:#eeeeee;
 }
 
-.yeahyoumadeitintothetop5 tr:before{
+.user tr:before{
   content: "-->";
 }
 </style>
@@ -18,14 +18,16 @@
         <th>#</th>
         <th>Benutzername</th>
         <th>Punktzahl</th>
+        <th>Dauer</th>
       </tr>
     </thead>
     <tbody>
 {#players}
-      <tr{@eq key=tuid value=userid} class="yeahyoumadeitintothetop5"{/eq}>
+      <tr{@eq key=tuid value=userid} class="user"{/eq}>
         <td>{@idx}{@math key="{.}" method="add" operand="1"/}{/idx}</td>
         <td>{nickname}</td>
         <td>{score}</td>
+        <td>{time} Sekunden</td>
       </tr>
 {/players}
     </tbody>

@@ -64,6 +64,9 @@ module.exports.prototype = GamesController.prototype.extend({
       users.sort(function (a, b) {
         return a.score < b.score;
       });
+      for (var i = 0; i < users.length; i++) {
+        users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
+      }
         
       var d = new Date();
       var game = {
@@ -197,36 +200,23 @@ module.exports.prototype = GamesController.prototype.extend({
         time: playtime
     };
 
-/*
     _this.mongodb
     .collection('daily_leaderboard')
     .find({date: todaysUnixDate})
-    .nextObject(function (err, ele) {
-      
-      
-      // Comon.. Nobody would insert himself twice if the frontend blocks it, right?
-      // I mean, they are architecture students, not hackers, right? right?
+    .nextObject(function (err, leaderboardData) {
 
-      // Actually, they get blocked when they start the game...
-      // Meh, I should do it here...
+      if(!!leaderboardData && !!leaderboardData.players){
 
-      var playersWithoutCurrent = ele.players;
-      console.log("playersWithoutCurrent");
-      console.log(playersWithoutCurrent);
-
-      var contains = false;
-      for (var i = 0; i < playersWithoutCurrent.length; i++) {
-        if(String(playersWithoutCurrent[i].tuid) === String(tuid))
-          contains = true;
+        for (var i = 0; i < ele.players.length; i++) {
+          if(String(ele.players[i].tuid) === String(tuid)){
+            _this.view.render({
+              error: 'Error: Sie haben das heutige Daily schon gespielt.'
+            });
+            return;
+          }
+        }
       }
-
-      if(contains){
-        _this.view.render({
-          error: 'Error: Sie haben das heutige Daily schon gespielt.'
-        });
-        return;
-      }
-      */
+      
       _this.mongodb
       .collection('daily_leaderboard')
       .update({ date: todaysUnixDate },
@@ -241,10 +231,13 @@ module.exports.prototype = GamesController.prototype.extend({
               .find({date: todaysUnixDate})
               .nextObject(function (err, data) {
 
-                var players = data.players;
-                players.sort(function (a, b) {
-                  return a.score < b.score;
+                var users = data.players;
+                users.sort(function (a, b) {
+                  return Number(a.score) < Number(b.score);
                 });
+                for (var i = 0; i < users.length; i++) {
+                  users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
+                }
 
                 var d = new Date();
                 var game = {
@@ -263,11 +256,11 @@ module.exports.prototype = GamesController.prototype.extend({
                   pointscur: count,
                   procentwrong: (1 - (count / result.length))*100,
                   procentright: (count / result.length)*100,
-                  players: players,
+                  players: users,
                   userid: tuid
                 });
               });
-/*});*/
+          });
       });
     }
 });
@@ -278,6 +271,8 @@ module.exports.prototype = GamesController.prototype.extend({
 *  Gets called from jobs.js
 */
 module.exports.generateDailyGame = function generateDailyGame (mongodb) {
+
+  var currenttime = new Date().getTime();
 
   // TODO: somehow use _this.shuffleArray
   // but I don't know how right now
@@ -326,7 +321,7 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
 
           //assemble games
           ass = shuffleArray(ass).slice(0,2);
-          ass[0] = ass[0]._id + '&level=2'; //TODO: randomize levels
+          ass[0] = ass[0]._id + '&level=2';
           ass[1] = ass[1]._id + '&level=2';
 
           // we got 5 multiplechoice
@@ -348,9 +343,9 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
           {},
           function (err) {
             if(err)
-              console.log('>> [DailyGame] Error at ' + new Date().getTime() + " - " + err);
+              console.log('>> [DailyGame] Error at ' + currenttime + " - " + err);
             else{
-              console.log('>> [DailyGame] Successfully generated new game at ' + new Date().getTime());
+              console.log('>> [DailyGame] Successfully generated new game at ' + currenttime);
             }
           });
         });
