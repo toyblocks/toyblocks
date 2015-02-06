@@ -207,8 +207,8 @@ module.exports.prototype = GamesController.prototype.extend({
 
       if(!!leaderboardData && !!leaderboardData.players){
 
-        for (var i = 0; i < ele.players.length; i++) {
-          if(String(ele.players[i].tuid) === String(tuid)){
+        for (var i = 0; i < leaderboardData.players.length; i++) {
+          if(String(leaderboardData.players[i].tuid) === String(tuid)){
             _this.view.render({
               error: 'Error: Sie haben das heutige Daily schon gespielt.'
             });
