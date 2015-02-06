@@ -93,8 +93,6 @@ module.exports.prototype = {
     var result = {},
       findParamsOr = [],
       searchParams = this.request.param('search');
-      console.log("searchParams");
-      console.log(searchParams);
     if (searchParams) {
       for (var key in searchParams) {
         var regexParam = {};
