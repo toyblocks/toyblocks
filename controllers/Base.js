@@ -111,15 +111,25 @@ module.exports.prototype = {
     var filterKey = this.request.param('filterkey'),
       filterQuery = this.request.param('filter'),
       filterParams = {},
-      filterParamsNumber = {};
+      filterParamsSecond = {};
 
 
-    if(filterQuery === undefined)
+    if(filterQuery === undefined || filterKey === '')
       return {};
 
-    filterParamsNumber[filterKey] = Number(filterQuery);
-    filterParams[filterKey] = filterQuery;
-    var result = {$or: [filterParams, filterParamsNumber]};
+    if(isNaN(Number(filterQuery))){
+      filterParamsSecond[filterKey] = {};
+    }else{
+      filterParamsSecond[filterKey] = Number(filterQuery);
+    }
+
+    if(filterQuery === ''){
+      filterParams[filterKey] = {$regex: '[^()]', $options: 'i'};
+    }else{
+      filterParams[filterKey] = filterQuery;
+    }
+    
+    var result = {$or: [filterParams, filterParamsSecond]};
     return result;
   },
 

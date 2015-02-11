@@ -15,7 +15,7 @@ module.exports.prototype = GamesController.prototype.extend({
       'game_assemble_text', 'game_missing_text',
       'game_multiplechoice_text'],
       function(texts) {
-        texts.title = 'Alle Spiele';
+        texts.title = 'Spiele Übersicht - ToyBlocks';
         _this.view.render(texts);
       });
   }

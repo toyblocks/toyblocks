@@ -15,8 +15,6 @@ module.exports.prototype = AdminController.prototype.extend({
       filterParams = _this.getFilterParams(),
       sortParams = _this.getSortParams();
 
-    console.log("sortParams");
-    console.log(sortParams);
     _this.mongodb
       .collection('users')
       .count(function(err, totalCount) {
@@ -29,7 +27,7 @@ module.exports.prototype = AdminController.prototype.extend({
           .limit(_this.getPaginationLimit())
           .toArray(function(err, users){
             _this.view.render({
-              title: 'User Verwaltung',
+              title: 'User Verwaltung - ToyBlocks',
               users: users
             });
           });

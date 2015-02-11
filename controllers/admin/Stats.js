@@ -85,7 +85,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
 
         _this.view.render({
-          title: 'Statistiken',
+          title: 'Statistiken - ToyBlocks',
           elements: elements,
           gamesCount: gamesOnDay,
           from: fromDateObject,
@@ -193,7 +193,7 @@ daily:    [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
         }
 
         _this.view.render({
-          title: 'Statistiken',
+          title: 'Statistiken - ToyBlocks',
           multiplechoice: multiplechoice,
           assemble: assemble,
           sorting: sorting,
@@ -219,7 +219,7 @@ daily:    [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
     .toArray(
       function (err, elements) {
       _this.view.render({
-        title: 'Statistiken',
+        title: 'Statistiken - ToyBlocks',
         elements: elements
       });
     });

@@ -27,7 +27,7 @@ module.exports.prototype = AdminController.prototype.extend({
           .find({})
           .toArray(function(err, objectTypes){
             _this.view.render({
-              title: 'Attribute Verwaltung',
+              title: 'Attribute Verwaltung - ToyBlocks',
               attributes: attributes,
               attributeTypes: attributeModel.getTypes(),
               objectTypes: objectTypes

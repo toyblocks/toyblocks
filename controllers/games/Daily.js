@@ -9,39 +9,57 @@ module.exports.prototype = GamesController.prototype.extend({
   name: 'daily',
 
   /**
+  * Intern function
+  * 
+  */
+  hasUserPlayedDaily: function (db, tuid, callback) {
+    var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000);
+
+    db.mongodb
+    .collection('daily_leaderboard')
+    .find({date: todaysUnixDate})
+    .nextObject(function (err, leaderboardData) {
+
+      if(!!leaderboardData && !!leaderboardData.players){
+        var players = leaderboardData.players;
+        for (var i = 0; i < players.length; i++) {
+          if(players[i].tuid == tuid){
+            callback(true);
+            return;
+          }
+        };
+      }
+      callback(false);
+    });
+  },
+
+  /**
   * GET index Page for DailyChallenge
   */
   indexAction: function() {
     var _this = this,
       userId  = _this.request.session.user.tuid;
 
-    _this.mongodb
-    .collection('daily_leaderboard')
-    .find({tuid: userId})
-    .nextObject(function (err, user) {
+    _this.hasUserPlayedDaily(_this, userId, function (hasPlayed) {
 
-      var hasPlayed;
-      if(!!user){
-        hasPlayed = true;
-      }
-      _this.mongodb
-     .collection('users')
-     .find({right_level: 300})
-     .count(function (err, maxGamesPlayed) {
-        maxGamesPlayed = maxGamesPlayed || 1;
         _this.mongodb
-       .collection('daily_leaderboard')
-       .find()
-       .count(function (err, currentGamesPlayed) {
-          currentGamesPlayed = currentGamesPlayed || 0;
-          _this.view.render( {
-            title: 'Daily Challenge',
-            gamesPlayed: (((currentGamesPlayed * 100) /
-                          maxGamesPlayed)).toFixed(1),
-            hasPlayedTodaysDaily: hasPlayed
+       .collection('users')
+       .find({right_level: 300})
+       .count(function (err, maxGamesPlayed) {
+          maxGamesPlayed = maxGamesPlayed || 1;
+          _this.mongodb
+         .collection('daily_leaderboard')
+         .find()
+         .count(function (err, currentGamesPlayed) {
+            currentGamesPlayed = currentGamesPlayed || 0;
+            _this.view.render( {
+              title: 'Daily Challenge - ToyBlocks',
+              gamesPlayed: (((currentGamesPlayed * 100) /
+                            maxGamesPlayed)).toFixed(1),
+              hasPlayedTodaysDaily: hasPlayed
+            });
           });
         });
-      });
     });
   },
 
@@ -62,11 +80,7 @@ module.exports.prototype = GamesController.prototype.extend({
         users = data.players;
       }
       users.sort(function (a, b) {
-        if (a.score > b.score){
-          return -1;
-        }else{
-          return 1;
-        }
+        return (a.score > b.score) ? -1 : 1;
       });
       for (var i = 0; i < users.length; i++) {
         users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
@@ -80,7 +94,7 @@ module.exports.prototype = GamesController.prototype.extend({
       };
 
       _this.view.render({
-        title: 'Daily Challenge Bestenliste',
+        title: 'Bestenliste - Daily Challenge - ToyBlocks',
         game: game,
         players: users,
         userid: _this.request.session.user.tuid
@@ -93,46 +107,33 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   gameAction: function() {
     var _this = this;
-    var tuid = _this.request.session.user.tuid;
+    var userId = _this.request.session.user.tuid;
     var nickname = _this.request.session.user.nickname;
 
     if (!nickname) {
       _this.view.render({
-        title: 'Daily Challenge',
+        title: 'Daily Challenge - ToyBlocks',
         error: 'Sie haben noch keinen Nickname in ihrem Profil gesetzt!'
       });
       return;
     }
 
-    var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000);
+    _this.hasUserPlayedDaily(_this, userId, function (hasPlayed) {
 
-    _this.mongodb
-    .collection('daily_leaderboard')
-    .find({date: todaysUnixDate})
-    .nextObject(function (err, leaderboardData) {
-      var contained = false;
+      if (hasPlayed && userId != 'developer') {  
 
-      if(!!leaderboardData && !!leaderboardData.players){
-        var players = leaderboardData.players;
-        for (var i = 0; i < players.length; i++) {
-          if(players[i].tuid == tuid)
-            contained = true;
-        };
-      }
-
-      if (contained) {
         _this.view.render({
-          title: 'Daily Challenge',
+          title: 'Daily Challenge - ToyBlocks',
           error: 'Sie haben bereits das heutige Daily gespielt!'
         });
-      }
-      else {
+      }else {
+
         _this.mongodb
         .collection('daily_games')
         .find()
         .nextObject(function (err, ele) {
           _this.view.render({
-            title: 'Daily Challenge',
+            title: 'Daily Challenge - ToyBlocks',
             missing: ele.missing,
             sorting: ele.sorting2,
             sorting2: ele.sorting,
@@ -150,105 +151,85 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   resultAction: function() {
     var _this = this,
-      result =  _this.request.param('result').split(','),
+      result =  _this.request.param('result').split(';'),
       playtime =  _this.request.param('time'),
       tuid = _this.request.session.user.tuid,
       nickname = _this.request.session.user.nickname,
       points = 0,
       count = 0,
+      gamelength = 0,
       bounspoints_mc = true,
       bounspoints_sort1 = true,
       bounspoints_sort2 = true,
       bounspoints_miss = true,
-      bounspoints_ass = true;
+      bounspoints_ass1 = true,
+      bounspoints_ass2 = true;
 
-    // Iterate over result array and calculate bonus points
-    for (var i = result.length-1; i >= 0; i--) {
-      var c = (result[i] === 'true');
-      if(c){
-        count++;
-      }
+      var resultelement = [
+          {type: 'assemble', title: 'Baukasten'},
+          {type: 'assemble', title: 'Baukasten'},
+          {type: 'missing', title: 'Fehlstellen'},
+          {type: 'sort', title: 'Zeitstrahl'},
+          {type: 'sort', title: 'Zeitstrahl'},
+          {type: 'multiple', title: 'Multiplechoice'}];
 
-      // multiplechoice
-      if(i >= (result.length-5)){
-        if(c){ points += 14; }else{ bounspoints_mc = false; }
-      }
-      // sorting 2
-      if(i >= (result.length-14) && i < (result.length-5)){
-        if(c){ points += 7; }else{ bounspoints_sort2 = false; }
-      }
-      //sorting 1
-      if(i >= (result.length-21) && i < (result.length-13)){
-        if(c){ points += 7; }else{ bounspoints_sort1 = false; }
-      }
-      // missing
-      if(i >= (result.length-26) && i < (result.length-20)){
-        if(c){ points += 10; }else{ bounspoints_miss = false; }
-      }
-      // both assemble
-      if(i < (result.length-26)){
-        if(c){ points += 6; }else{ bounspoints_ass = false; }
-      }
-    }
+    for (var i = 0; i < result.length; i++) {
+      var singlegame = result[i].split(',');
+      resultelement[i].singles = singlegame;
+      for (var j = 0; j < singlegame.length; j++) {
+        var c = (singlegame[j] === 'true');
+        if(c){ count++; }
+        gamelength++;
+
+        if(i === 5){ // multiplechoice
+          if(c){ points += 14; }else{ bounspoints_mc = false; }}
+        if(i === 4){ // sorting 2
+          if(c){ points += 7; }else{ bounspoints_sort2 = false; }}
+        if(i === 3){ // sorting 1
+          if(c){ points += 7; }else{ bounspoints_sort1 = false; }}
+        if(i === 2){ // missing
+          if(c){ points += 10; }else{ bounspoints_miss = false; }}
+        if(i === 1){ // ass2
+          if(c){ points += 6; }else{ bounspoints_ass2 = false; }}
+        if(i === 0){ // ass1
+          if(c){ points += 6; }else{ bounspoints_ass1 = false; }}
+      };
+    };
 
     if(bounspoints_mc){    points+=50; }
     if(bounspoints_sort1){ points+=129; }
     if(bounspoints_sort2){ points+=129; }
-    if(bounspoints_miss){  points+=50; }
-    if(bounspoints_ass){   points+=50; }
+    if(bounspoints_miss){  points+=49; }
+    if(bounspoints_ass1){   points+=51; }
+    if(bounspoints_ass2){   points+=52; }
 
-    var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000),
-      player = {
-        tuid: tuid,
-        nickname: nickname,
-        score: points,
-        time: playtime
-    };
 
-    _this.mongodb
-    .collection('daily_leaderboard')
-    .find({date: todaysUnixDate})
-    .nextObject(function (err, leaderboardData) {
+    _this.hasUserPlayedDaily(_this, tuid, function (hasPlayed) {
+      if (hasPlayed && tuid != 'developer') {
+        _this.view.render({
+          title: 'Daily Challenge - ToyBlocks',
+          error: 'Sie haben bereits das heutige Daily gespielt!'
+        });
+      }else{
 
-      if(!!leaderboardData && !!leaderboardData.players){
+        /*TODO: sometimes on the server the time is off, I don't know why */
+        var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000),
+          player = {
+            tuid: tuid,
+            nickname: nickname,
+            score: points,
+            time: playtime
+        };
 
-        for (var i = 0; i < leaderboardData.players.length; i++) {
-          if(String(leaderboardData.players[i].tuid) === String(tuid)){
-            _this.view.render({
-              error: 'Error: Sie haben das heutige Daily schon gespielt.'
-            });
-            return;
-          }
-        }
-      }
-      /* Lets see if someone is cheating */
-      console.log('[DailyChallenge] ' + tuid + ' aka ' +  nickname + ' has ' + points + ' points with ' + count + ' / ' + result.length);
-
-      _this.mongodb
-      .collection('daily_leaderboard')
-      .update({ date: todaysUnixDate },
-              {$push: {
-                players: player
-              }
-            }, { upsert : true},
-            function (err, data) {
-
-              _this.mongodb
-              .collection('daily_leaderboard')
-              .find({date: todaysUnixDate})
-              .nextObject(function (err, data) {
-
-                var users = data.players;
-                users.sort(function (a, b) {
-                  if (a.score > b.score){
-                    return -1;
-                  }else{
-                    return 1;
-                  } 
-                });
-                for (var i = 0; i < users.length; i++) {
-                  users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
+        _this.mongodb
+        .collection('daily_leaderboard')
+        .update({ date: todaysUnixDate },
+                {$push: {
+                  players: player
                 }
+              }, { upsert : true},
+              function (err, data) {
+
 
                 var d = new Date();
                 var game = {
@@ -260,18 +241,17 @@ module.exports.prototype = GamesController.prototype.extend({
                 Statistics.prototype.insertStats(_this, { $inc : { 'daily': +1 }});
 
                 _this.view.render({
-                  title: 'Daily Challenge',
-                  result: result,
+                  title: 'Daily Challenge - ToyBlocks',
+                  result: resultelement,
                   game: game,
-                  pointsmax: result.length,
+                  pointsmax: gamelength,
                   pointscur: count,
-                  procentwrong: (1 - (count / result.length))*100,
-                  procentright: (count / result.length)*100,
-                  players: users,
+                  procentwrong: (1 - (count / gamelength))*100,
+                  procentright: (count / gamelength)*100,
                   userid: tuid
                 });
-              });
-          });
+            });
+        };
       });
     }
 });

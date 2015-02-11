@@ -30,7 +30,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
             data[i].article_body = data[i].article_body.slice(0,80);
           };
           _this.view.render({
-            title: 'Enzyklopädie',
+            title: 'Enzyklopädie - ToyBlocks',
             route: '/moderation/encyclopedia',
             articles: data
           });
@@ -46,7 +46,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
       .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
       .nextObject(function(err, article) {
         _this.view.render({
-          title: 'Enzyklopädie - ' + article.title,
+          title: article.title + ' - Enzyklopädie - ToyBlocks',
           route: '/moderation/encyclopedia',
           id: article._id,
           image: article.image,

@@ -28,7 +28,7 @@ module.exports.prototype = AdminController.prototype.extend({
               types[typeIndex].attributeNames = Object.keys(types[typeIndex].attributes);
             }
             _this.view.render({
-              title: 'Objekte Verwaltung',
+              title: 'Objekte Verwaltung - ToyBlocks',
               types: types,
               attributes: attributes,
               attributeTypes: attributeModel.getTypes()
@@ -132,7 +132,7 @@ module.exports.prototype = AdminController.prototype.extend({
                   _this.view.setTemplate(_this.view.getTemplate() + '-remote');
                 }
                 _this.view.render({
-                  title: type.title + ' Verwaltung',
+                  title: type.title + ' Verwaltung - ToyBlocks',
                   type: type,
                   attributes: attributes,
                   attributesByName: attributesByName,
@@ -365,7 +365,7 @@ module.exports.prototype = AdminController.prototype.extend({
             .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
             .nextObject(function(err, object) {
               _this.view.render({
-                title: type.title + ' bearbeiten',
+                title: type.title + ' bearbeiten - ToyBlocks',
                 type: type,
                 attributes: attributes,
                 object: object
@@ -374,7 +374,7 @@ module.exports.prototype = AdminController.prototype.extend({
         }
         else {
           _this.view.render({
-            title: type.title + ' erstellen',
+            title: type.title + ' erstellen - ToyBlocks',
             type: type,
             attributes: attributes
           });

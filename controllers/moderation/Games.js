@@ -1,7 +1,8 @@
 'use strict';
 
 var AdminObjectsController = require('../admin/Objects'),
-  AttributesController = require('../admin/Attributes');
+  AttributesController = require('../admin/Attributes'),
+  daily = require('./controllers/games/Daily.js');
 
 module.exports = function () {
 
@@ -66,6 +67,25 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
         eras: data[0].values
       });
     });
+  },
+
+  dailyAction: function () {
+    _this.mongodb
+    .collection('daily_games')
+    .find()
+    .toArray(function (err, data) {
+      _this.view.render({
+        title: 'Daily Challenge',
+        games: data
+      });
+    });
+
+  },
+
+  newdailyAction: function () {
+    var _this = this;
+
+    daily.generateDailyGame(_this.mongodb);
   },
 
   addsortingAction: function() {

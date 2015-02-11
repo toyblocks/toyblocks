@@ -1,49 +1,73 @@
 <style type="text/css" scoped="true">
-.user{
-  background-color: #337ab7 !important;
-  color:#eeeeee;
+
+.result-thumbnail{
+  width: 16%;
+  display: block;
+  padding: 15px;
+  padding-left: 16px;
+  margin-right: 5px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  float: left;
+  box-sizing: border-box;
+  -webkit-transition: border .2s ease-in-out;
+  -o-transition: border .2s ease-in-out;
+  transition: border .2s ease-in-out;
+}
+.leaderboardlink{
+  width: 300px;
+  margin-top: 40px;
+}
+.pointslabel{
+  font-size: 35px;
+  font-variant: small-caps;
+  margin-bottom: 25px;
+  text-align: center;
+}
+.upperlabel{
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 18px;
+  margin-left: 0px;
 }
 
-.user tr:before{
-  content: "-->";
+.lowerlabel{
+  margin: 0px;
+  padding: 0px;
+  height: 20px;
+  width: 93%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
 }
 </style>
-<h3>Rangliste</h3>
-<span class="help-block">Das ist die heutige Rangliste der Daily Challenge</span>
-<div class="panel panel-default">
-  <div class="panel-heading">Die besten Spieler am {game.day}.{game.month}.{game.year}!</div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Benutzername</th>
-        <th>Punktzahl</th>
-        <th>Dauer</th>
-      </tr>
-    </thead>
-    <tbody>
-{#players}
-      <tr{@eq key=tuid value=userid} class="user"{/eq}>
-        <td>{@idx}{@math key="{.}" method="add" operand="1"/}{/idx}</td>
-        <td>{nickname}</td>
-        <td>{score}</td>
-        <td>{time} Sekunden</td>
-      </tr>
-{/players}
-    </tbody>
-  </table>
-</div>
 
-<div class="jumbotron col-md-offset-4 col-md-4">
-  <div style="text-align: center;">
-    <h1 class="label label-primary" style="font-size: 35px;">{pointscur} /  {pointsmax} Richtig</h1>
-  </div>
-  <div class="progress" style="margin-top: 20px;height: 26px;">
-    <div class="progress-bar progress-bar-success" style="width: {procentright}%">
-      <span class="sr-only">{procentright}% Korrekt</span>
+<h3>Ergebniss</h3>
+<span class="help-block">Deine Auswertung am {game.day}.{game.month}.{game.year}</span>
+<div class="jumbotron">
+  <div class="center-block pointslabel">{pointscur} /  {pointsmax} Richtig</div>
+  <div class="row">
+    {#result}
+    <div class="result-thumbnail">
+      <div class="row upperlabel">
+        <span class="glyphicon icon-{type}"></span> {title}
+      </div>
+      <div class="progress lowerlabel">
+        {#singles}
+        {@if cond="{.}"}
+        <span class="green glyphicon glyphicon-ok"></span>
+        {:else}
+        <span class="red glyphicon glyphicon-remove"></span>
+        {/if}
+        {/singles}
+      </div>
     </div>
-    <div class="progress-bar progress-bar-danger" style="width: {procentwrong}%">
-      <span class="sr-only">{procentwrong}% Falsch</span>
-    </div>
+    {/result}
   </div>
+
+  <a class="leaderboardlink center-block btn btn-success btn-lg" href="/games/daily/leaderboard">Ranglistenplazierung ansehen</a>
+
 </div>

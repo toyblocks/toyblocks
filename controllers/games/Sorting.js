@@ -20,7 +20,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.getDbTexts(
       ['game_sorting_explain'],
       function(texts) {
-        texts.title = 'Zeitstrahl';
+        texts.title = 'Zeitstrahl - ToyBlocks';
         _this.view.render(texts);
       });
   },
@@ -42,7 +42,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.renderGame(level, function(err, buildings){
         buildings = _this.shuffleArray(buildings).slice(0,limit);
         _this.view.render({
-          title: 'Zeitstrahl',
+          title: 'Zeitstrahl - ToyBlocks',
           level: level,
           buildings: buildings
         });
@@ -62,7 +62,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .toArray(function (err, buildings) {
           buildings = _this.shuffleArray(buildings);
           _this.view.render({
-            title: 'Zeitstrahl',
+            title: 'Zeitstrahl - ToyBlocks',
             level: level,
             isDaily: isDaily,
             buildings: buildings

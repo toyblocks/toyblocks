@@ -79,12 +79,6 @@
 
 <script>
 var _searchFields = ['tuid', 'givenName', 'surname', 'nickname', 'right_level'];
-var _filterFields = [ {name: 'Admins',
-                      filter: {right_level: 100}},
-                      {name: 'Moderatoren',
-                      filter: {right_level: 200}},
-                      {name: 'Studenten',
-                      filter: {right_level: 300}}];
 
 
 function activate (object, result) {

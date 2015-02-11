@@ -18,7 +18,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.getDbTexts(
       ['game_assemble_explain'],
       function(texts) {
-        texts.title = 'Baukasten';
+        texts.title = 'Baukasten - ToyBlocks';
         _this.view.render(texts);
       });
   },
@@ -47,7 +47,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
           _this.renderGame(game, level, function(err, buildingParts){
             _this.view.render({
-              title: 'Baukasten',
+              title: 'Baukasten - ToyBlocks',
               game: game,
               buildingparts: buildingParts
             });
@@ -66,7 +66,7 @@ module.exports.prototype = GamesController.prototype.extend({
         .nextObject(function(err, game) {
           _this.renderGame(game, level, function(err, buildingParts){
             _this.view.render({
-              title: 'Baukasten',
+              title: 'Baukasten - ToyBlocks',
               game: game,
               isDaily: isDaily,
               buildingparts: buildingParts
@@ -167,8 +167,7 @@ module.exports.prototype = GamesController.prototype.extend({
               isElementCorrect.unshift(isCorrect);
               isSolutionCorrect = isSolutionCorrect && isCorrect;
             }
-
-            console.log("Assemble calling InsertStats");
+            
             // Update Stats
             Statistics.prototype.insertStats(_this, { $inc : { 'assemble': +1 }});
 

@@ -11,14 +11,14 @@ module.exports.prototype = BaseController.prototype.extend({
   indexAction: function() {
     var _this = this;
     _this.view.render({
-      title: 'Spiel hinzufügen'
+      title: 'Spiel hinzufügen - ToyBlocks'
     });
   },
 
   missingAction: function() {
     var _this = this;
     _this.view.render({
-      title: 'Fehlstellenspiel hinzufügen'
+      title: 'Fehlstellenspiel hinzufügen - ToyBlocks'
     });
   }
 });

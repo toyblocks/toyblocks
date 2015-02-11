@@ -1,0 +1,37 @@
+{>"layout/layout.dust"/}
+
+{<content}
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/encyclopedia">Enzyklopädie</a></li>
+  <li class="active">{building.title}</li>
+</ol>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="pull-right" style="margin-left: 15px;">
+          {#building.image}
+            <img src="/ressources/image?id={.}&amp;size=middle" alt="{title}"
+            data-content="<img src='/ressources/image?id={.}&size=large' height='500px' />">
+            <br>
+          {/building.image}
+          <div class="mouseover-info">Mouseover zum vergrößern</div>
+        </div>
+        <h3>{building.title}</h3>
+          <p><b>Era:</b> {building.era}</p>
+          <p><b>Ort:</b> {building.city}, {building.country}</p>
+          <p><b>Baujahr:</b> {building.buildyear}</p>
+          <p><b>Architekt:</b> {building.architect}</p>
+          <p><b>Bauherr:</b> {building.builder}</p>
+          {@if cond="{building.level} == 1"}
+          <p><b>Wird in der Vorlesung behandelt</b></p>
+          {:else}
+          <p><b>Wird nicht in der Vorlesung behandelt</b></p>
+          {/if}
+          <p>{building.description}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{/content}

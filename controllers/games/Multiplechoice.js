@@ -18,7 +18,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.getDbTexts(
       ['game_multiplechoice_explain'],
       function(texts) {
-        texts.title = 'Multiple Choice';
+        texts.title = 'Multiple Choice - ToyBlocks';
         _this.view.render(texts);
       });
   },
@@ -42,7 +42,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.renderGame(level, function (err, questions) {
         questions = _this.shuffleArray(questions).slice(0, count);
         _this.view.render({
-          title: 'Multiple Choice',
+          title: 'Multiple Choice - ToyBlocks',
           level: level,
           questions: questions
         });
@@ -63,7 +63,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .find({_id: {$in: ids}})
       .toArray(function(err, questions) {
         _this.view.render({
-          title: 'Multiple Choice',
+          title: 'Multiple Choice - ToyBlocks',
           level: level,
           isDaily: isDaily,
           questions: questions

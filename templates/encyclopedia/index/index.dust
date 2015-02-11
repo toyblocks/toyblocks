@@ -1,12 +1,38 @@
 {>"layout/layout.dust"/}
+<style type="text/css" scoped="true">
 
+.no-image-offset{
+  margin-left: 20px;
+}
+.mini-img{
+  height: 15px;
+  width: 15px;
+  margin-top: -3px;
+}
+.bar{
+  padding-bottom: 1px;
+}
+.bar-headline{
+  font-size: 24px;
+  margin-left: 20px;
+}
+</style>
 {<contentHead}
-<div class="row">
-  <ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li class="active">Enzyklopädie</li>
-{>"layout/search"/}
-  </ol>
+<div class="bar row breadcrumb">
+        {>"layout/search"/}
+        <div class="btn-group dropdown pull-right" style="margin-right: 10px;">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Filter 
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><b style="padding: 3px 20px;">Anzeigen</b></li>
+            <li><a class="filterbutton" href="#" data-key="" data-query="">Alle</a></li>
+            <li><a class="filterbutton" href="#" data-key="level" data-query="1">Gebäude aus der Vorlesung</a></li>
+            <li><a class="filterbutton" href="#" data-key="level" data-query="2">Gebäude nicht aus der Vorlesung</a></li>
+            <li><a class="filterbutton" href="#" data-key="article_body" data-query="">Artikel</a></li>
+          </ul>
+        </div>
+        <p class="bar-headline">Enzyklopädie</p>
 </div>
 <div class="row">
 {/contentHead}
@@ -20,7 +46,10 @@
             <ul class="list-group">
               {#articles}
                 <li class="list-group-item">
-                  <a href="/encyclopedia/index/article?id={_id}">{title}</a>
+                  {?image}
+                  <img src="/ressources/image?id={image}&amp;size=middle" alt="" class="img-circle mini-img">
+                  <a {:else}<a class="no-image-offset" {/image}
+                  href="/encyclopedia/index/{#isArticle}article{:else}building{/isArticle}?id={_id}">{title}</a>
                 </li>
               {/articles}
               </ul>
@@ -38,7 +67,10 @@
             <ul class="list-group">
               {#articles}
                 <li class="list-group-item">
-                  <a href="/encyclopedia/index/article?id={_id}">{title}</a>
+                  {?image}
+                  <img src="/ressources/image?id={image}&amp;size=middle" alt="" class="img-circle mini-img">
+                  <a {:else}<a class="no-image-offset" {/image}
+                  href="/encyclopedia/index/{#isArticle}article{:else}building{/isArticle}?id={_id}">{title}</a>
                 </li>
               {/articles}
               </ul>
@@ -53,9 +85,6 @@
 
 <script>
 window._searchFields = ['title'];
-window._filterFields = null;
-window._sortBy = [{name: 'title', display: 'Titel absteigend', direction: 1},
-                  {name: 'title', display: 'Titel aufsteigend', direction: -1}];
 </script>
 
 {>"layout/pagination"/}

@@ -16,7 +16,7 @@ module.exports.prototype = BaseController.prototype.extend({
     else {
       this.view.setNoNavBar(true);
       this.view.render({
-        title: 'Startseite'
+        title: 'Startseite - ToyBlocks'
       });
     }
   },
@@ -31,7 +31,7 @@ module.exports.prototype = BaseController.prototype.extend({
       ['information'],
       function(texts) {
         _this.view.render({
-          title: 'Information',
+          title: 'Information - ToyBlocks',
           text: texts.information
         });
       });
@@ -43,7 +43,7 @@ module.exports.prototype = BaseController.prototype.extend({
       ['imprint'],
       function(texts) {
         _this.view.render({
-          title: 'Impressum',
+          title: 'Impressum - ToyBlocks',
           text: texts.imprint
         });
       });
@@ -51,7 +51,7 @@ module.exports.prototype = BaseController.prototype.extend({
 
   error404Action: function () {
     this.view.render({
-      title: '404 Seite nicht gefunden'
+      title: '404 Seite nicht gefunden - ToyBlocks'
     });
   },
 

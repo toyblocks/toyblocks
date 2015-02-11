@@ -177,7 +177,9 @@ $(function(){
       $(this).find('#addNewEnum').click(function(){
         var $input = $('#newEnumValue'),
           newValue = $input.val();
-        $('#enumsList').append('<li class="list-group-item">' + newValue + '<input type="hidden" name="enums[]" value="' + newValue + '" /><span class="badge delete-enum"><span class="red glyphicon glyphicon-remove"></span></span></li>');
+        $('#enumsList').append('<li class="list-group-item">' +
+           newValue + '<input type="hidden" name="enums[]" value="' +
+           newValue + '" /><span class="badge delete-enum"><span class="red glyphicon glyphicon-remove"></span></span></li>');
         $input.val('');
       });
       $(this).find('#saveEnums').click(function(){

@@ -19,7 +19,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.getDbTexts(
       ['game_missing_explain'],
       function(texts) {
-        texts.title = 'Fehlstellen';
+        texts.title = 'Fehlstellen - ToyBlocks';
         _this.view.render(texts);
       });
   },
@@ -49,7 +49,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.renderGame(level, function(err, games) {
         games = _this.shuffleArray(games).slice(0, count);
         _this.view.render({
-          title: 'Fehlstellen',
+          title: 'Fehlstellen - ToyBlocks',
           games: games,
           level: level
         });
@@ -71,7 +71,7 @@ module.exports.prototype = GamesController.prototype.extend({
       .find({_id: {$in: ids}})
       .toArray(function(err, game) {
         _this.view.render({
-          title: 'Fehlstellen',
+          title: 'Fehlstellen - ToyBlocks',
           games: game,
           isDaily: isDaily,
           level: level
