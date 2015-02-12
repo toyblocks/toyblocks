@@ -32,7 +32,8 @@
             <td>
             {@select key="{type}"}
               {@eq value="image"}
-                {#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" data-content="<img src='/ressources/image?id={.}&size=middle' height='200' />"/>{/object[name]}
+                {#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;"
+                data-content="<img src='/ressources/image?id={.}&size=middle' height='300' />"/>{/object[name]}
               {/eq}
               {@eq value="text"}
                 {! TODO: If possible in dust.js make a helper or a filter for truncating instead css-solution !}
@@ -55,33 +56,30 @@
         <tr><td colspan="4">Keine {type.title} gefunden</td></tr>
         {/objects}
       </table>
+      <script>
+      window._pageCounter = {_paginationPages};
+      </script>
 {/content}
 {<contentFoot}
     </div>
   </div>
 </div>
-
-
-<div class="modal fade" id="objectFormModal" tabindex="-1" role="dialog" aria-labelledby="objectFormModal" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"></div></div></div>
-<div class="modal fade" id="objectTypesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"></div></div></div>
+<div class="modal fade" id="objectFormModal" tabindex="-1" role="dialog" aria-labelledby="objectFormModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="objectTypesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    </div>
+  </div>
+</div>
 
 <script>
-/* TODO: create something like this for the search fields: '{#attributes}{.}{@sep}', '{/sep}{/attributes}' */
-window._searchFields = ['title',
-                        'multiplechoice_question',
-                        'text',
-                        'article_body',
-                        'multiplechoice_answer',
-                        'multiplechoice_answer_wrong',
-                        'assemble_category',
-                        'architekct',
-                        'builder',
-                        'buildyear',
-                        'city',
-                        'country'];
+window._searchFields = ['title','{#attributes}{name}{@sep}', '{/sep}{/attributes}'];
 </script>
 
 {>"layout/pagination"/}
-
-
 {/contentFoot}

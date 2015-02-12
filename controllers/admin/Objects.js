@@ -117,6 +117,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
         _this.mongodb
           .collection(type.name)
+          .find(findParams)
           .count(function(err, totalCount) {
             // getting all objects for type
             _this.setPagination(totalCount, countPerPage);

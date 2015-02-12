@@ -69,6 +69,9 @@
         <tr><td colspan="3">Bisher keine User vorhanden</td></tr>
         {/users}
       </table>
+<script>
+window._pageCounter = {_paginationPages};
+</script>
 {/content}
 {<contentFoot}
 {>"layout/pagination"/}

@@ -17,6 +17,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
     _this.mongodb
     .collection('encyclopedia_articles')
+    .find(findParams)
     .count(function (err1, totalCount) {
       _this.setPagination(totalCount, countPerPage);
       _this.mongodb

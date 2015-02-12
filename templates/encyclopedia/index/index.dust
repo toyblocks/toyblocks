@@ -79,14 +79,13 @@
       {/math}
     {/data}
   </div>
+<script>
+window._pageCounter = {_paginationPages};
+window._searchFields = ['title'];
+</script>
 {/content}
 {<contentFoot}
 </div>
-
-<script>
-window._searchFields = ['title'];
-</script>
-
 {>"layout/pagination"/}
 
 {/contentFoot}

@@ -46,9 +46,13 @@
     </table>
         {:else}
         <br>
+  {@if cond="yesterday == today"}
   <div class="alert alert-danger" style="margin: 0px;"> Heute hat noch niemand gespielt! 
     <a href="/games/daily/game" class="alert-link">Seien Sie Erster!</a>
   </div>
+  {:else}
+  <div class="alert alert-danger" style="margin: 0px;"> An diesem Tag hat niemand gespielt! </div>
+  {/if}
   {/players}
   </div>
 </div>

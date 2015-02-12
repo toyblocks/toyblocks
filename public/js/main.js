@@ -48,12 +48,16 @@ $(function(){
               if(searchQuery != ''){
                 $('#content').highlight($searchInput.val());
               }
-              /*TODO: somehow update paginationPages... */
+              $('#page_selection').bootpag({
+                total: window._pageCounter,
+                page: pageNumber,
+                maxVisible: 10
+              });
             });
     }
 
     $('#page_selection').bootpag({
-      total: window._paginationPages || 1,
+      total: window._pageCounter || 1,
       page: 1,
       maxVisible: 10
     }).on('page', function(event, num){

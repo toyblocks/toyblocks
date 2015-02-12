@@ -55,14 +55,11 @@
     </table>
   </div>
 </div>
+<script>
+window._pageCounter = {_paginationPages};
+window._searchFields = ['title', 'article_body'];
+</script>
 {/content}
 {<contentFoot}
-
-<script>
-window._searchFields = ['title', 'article_body'];
-window._filterFields = [{visual: 'Mit Bild', name: 'picture'}, {}];
-window._sortFields = ['title'];
-</script>
-
 {>"layout/pagination"/}
 {/contentFoot}
