@@ -12,8 +12,17 @@
 <h3>Rangliste</h3>
 <span class="help-block">Das ist die heutige Rangliste der Daily Challenge</span>
 <div class="col-md-8">
+
+    <ul class="pager">
+      <li><a href="?date={yesterday}">Vorheriger Tag</a></li>
+      <li><a href="?">Heute</a></li>
+    {@if cond="{tomorrow}"}
+      <li><a href="?date={tomorrow}">Nächster Tag</a></li>
+    {/if}
+    </ul>
   <div class="panel panel-default">
     <div class="panel-heading">Die besten Spieler am {game.day}.{game.month}.{game.year}!</div>
+
     {?players}
     <table class="table table-striped">
       <thead>

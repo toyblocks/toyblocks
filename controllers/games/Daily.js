@@ -67,13 +67,16 @@ module.exports.prototype = GamesController.prototype.extend({
   * GET leaderboard webpage
   */
   leaderboardAction: function () {
-    var _this = this;
-
-    var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000);
+    var _this = this,
+       todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000),
+       givenUnixDate = Number(_this.request.param('date')) || todaysUnixDate,
+       yesterdayUnixDate = (givenUnixDate - 86400000),
+       tomorrowUnixDate = (todaysUnixDate === givenUnixDate) ?
+                                null : (givenUnixDate + 86400000);
 
     _this.mongodb
     .collection('daily_leaderboard')
-    .find({date: todaysUnixDate})
+    .find({date: givenUnixDate})
     .nextObject(function (err, data) {
       var users = [];
       if(!!data && !!data.players){
@@ -86,7 +89,7 @@ module.exports.prototype = GamesController.prototype.extend({
         users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
       }
         
-      var d = new Date();
+      var d = new Date(givenUnixDate);
       var game = {
         year: d.getFullYear(),
         month: d.getMonth()+1,
@@ -97,6 +100,8 @@ module.exports.prototype = GamesController.prototype.extend({
         title: 'Bestenliste - Daily Challenge - ToyBlocks',
         game: game,
         players: users,
+        yesterday: yesterdayUnixDate,
+        tomorrow: tomorrowUnixDate,
         userid: _this.request.session.user.tuid
       });
     });

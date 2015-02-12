@@ -20,7 +20,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
       countPerPage = 50,
       findParams = _this.getFindParams(),
       filterParams = _this.getFilterParams();
-      console.log(filterParams);
+
     _this.mongodb
       .collection('encyclopedia_articles')
       .count(function(err, articleCount) {

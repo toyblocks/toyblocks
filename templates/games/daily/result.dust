@@ -67,6 +67,9 @@
     </div>
     {/result}
   </div>
+  {@if cond="{pointscur} == {pointsmax}"}
+  <h1>Gratulation! Alles richtig!</h1>
+  {/if}
 
   <a class="leaderboardlink center-block btn btn-success btn-lg" href="/games/daily/leaderboard">Ranglistenplazierung ansehen</a>
 

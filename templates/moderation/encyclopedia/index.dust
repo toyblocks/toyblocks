@@ -59,7 +59,7 @@
 {<contentFoot}
 
 <script>
-window._searchFields = ['title', 'article_text'];
+window._searchFields = ['title', 'article_body'];
 window._filterFields = [{visual: 'Mit Bild', name: 'picture'}, {}];
 window._sortFields = ['title'];
 </script>
