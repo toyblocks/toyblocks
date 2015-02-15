@@ -84,7 +84,7 @@ module.exports.prototype = GamesController.prototype.extend({
       }
       users.sort(function (a, b) {
         if(a.score == b.score)
-          return (Number(a.time) > Number(b.time)) ? -1 : 1;
+          return (Number(a.time) > Number(b.time)) ? 1 : -1;
         else
           return (a.score > b.score) ? -1 : 1;
       });
