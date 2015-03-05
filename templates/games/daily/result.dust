@@ -45,7 +45,7 @@
 }
 </style>
 
-<h3>Ergebniss</h3>
+<h3>Ergebnis</h3>
 <span class="help-block">Deine Auswertung am {game.day}.{game.month}.{game.year}</span>
 <div class="jumbotron">
   <div class="center-block pointslabel">{pointscur} /  {pointsmax} Richtig</div>

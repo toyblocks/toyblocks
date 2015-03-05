@@ -158,3 +158,14 @@ footer a {
   font-size: 12px;
   color: gray;
 }
+
+
+/* Games*/
+
+.question-text{
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: 80%;
+  margin-left: 10px;
+}

@@ -1,3 +1,6 @@
+<style type="text/css">
+
+</style>
 <div class="row">
   {! Show the Progressbar !}
   <div class="progress">
@@ -22,7 +25,7 @@
           {@if cond="{selectedAnswer}"}
             {#multiplechoice_answer_right}
               <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
-                <span class="pull-left" style="margin-left: 10px;">{.}</span>
+                <span class="pull-left question-text">{.}</span>
                 <span class="glyphicon glyphicon-ok pull-right" style="margin-right: 10px;"></span>
               </button>
               {@sep}<p style="font-size: 14px;margin-bottom: 0px;">oder</p>{/sep}
@@ -31,7 +34,7 @@
             <p style="font-size: 14px;">Richtig wäre gewesen:</p>
             {#multiplechoice_answer_right}
               <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
-                <span class="pull-left" style="margin-left: 10px;">{.}</span>
+                <span class="pull-left question-text">{.}</span>
                 <span class="glyphicon glyphicon-remove pull-right" style="margin-right: 10px;"></span>
               </button>
               {@sep}<p style="font-size: 14px;margin-bottom: 0px;">oder</p>{/sep}
