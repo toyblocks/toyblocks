@@ -144,6 +144,28 @@ module.exports.prototype = AdminController.prototype.extend({
       });
   },
 
+  /**
+  *   Updates the active attribute of a db
+  */
+  changeactiveAction: function (redirection) {
+    var _this = this,
+      objectId = _this.mongo.ObjectID(_this.request.param('id')),
+      dbtype = _this.request.param('type'),
+      value = _this.request.param('value') === 'true' ? true : false,
+      redirectPath = redirection || '../objects?type=' + dbtype;
+
+    _this.mongodb
+      .collection(dbtype)
+      .update({_id: objectId},
+              {$set: {'active': value}},
+              {},
+              function(err, val) {
+                console.log(val);
+                console.log("update: " + value + " - " + dbtype + " - " + objectId );
+                _this.response.redirect(redirectPath);
+        });
+  },
+
   deleteObjectAction: function (redirection) {
     var _this = this,
       objectId = this.mongo.ObjectID(this.request.param('id'));

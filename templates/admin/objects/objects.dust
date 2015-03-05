@@ -40,6 +40,7 @@
                 <div class="text-truncate">{#object[name]}{.} {/object[name]}</div>
               {/eq}
               {@eq value="bool"}
+                {! <a href="/admin/objects/changeactive?type={object_type.name}&id={_id} &value=true"> !}
                 {?object[name]}Ja{:else}Nein{/object[name]}
               {/eq}
               {@eq value="objecttype"}
@@ -49,8 +50,14 @@
             {/select}
             </td>
           {/attributes}
-          <td><a href="/admin/objects/form?type={type.name}&id={_id}" data-target="#objectFormModal" data-toggle="modal">Editieren</a>
-            <a href="/admin/objects/delete-object?type={object_type.name}&id={_id}">Löschen</a></td>
+          <td>
+            <a href="/admin/objects/form?type={type.name}&id={_id}" data-target="#objectFormModal" data-toggle="modal">Editieren</a>
+            <br>
+            <a href="/admin/objects/delete-object?type={object_type.name}&id={_id}">Löschen</a>
+            <br>
+            <a href="/admin/objects/changeactive?type={object_type.name}&id={_id}&value=false">Inaktiv</a> /
+            <a href="/admin/objects/changeactive?type={object_type.name}&id={_id}&value=true">Aktiv</a>
+          </td>
         </tr>
         {:else}
         <tr><td colspan="4">Keine {type.title} gefunden</td></tr>
