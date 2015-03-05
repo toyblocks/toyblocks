@@ -27,8 +27,8 @@
           <ul class="dropdown-menu" role="menu">
             <li><b style="padding: 3px 20px;">Anzeigen</b></li>
             <li><a class="filterbutton" href="#" data-key="" data-query="">Alle</a></li>
-            <li><a class="filterbutton" href="#" data-key="level" data-query="1">Gebäude aus der Vorlesung</a></li>
-            <li><a class="filterbutton" href="#" data-key="level" data-query="2">Gebäude nicht aus der Vorlesung</a></li>
+            <li><a class="filterbutton" href="#" data-key="level" data-query="1">Gebäude aus dem Kurs</a></li>
+            <li><a class="filterbutton" href="#" data-key="level" data-query="2">Gebäude nicht aus dem Kurs</a></li>
             <li><a class="filterbutton" href="#" data-key="article_body" data-query="">Artikel</a></li>
           </ul>
         </div>

@@ -1,6 +1,11 @@
 {>"layout/layout.dust"/}
 
 {<content}
+<style type="text/css">
+    .popover{
+        max-width:100%;
+    }
+</style>
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
   <li><a href="/encyclopedia">Enzyklopädie</a></li>
@@ -13,7 +18,8 @@
         <div class="pull-right" style="margin-left: 15px;">
           {#building.image}
             <img src="/ressources/image?id={.}&amp;size=middle" alt="{title}"
-            data-content="<img src='/ressources/image?id={.}&size=large' height='500px' />">
+            data-content="<img src='/ressources/image?id={.}&size=large' width='550px;' />"
+            style="margin-bottom: 5px" class="img-rounded">
             <br>
           {/building.image}
           <div class="mouseover-info">Mouseover zum vergrößern</div>
@@ -24,10 +30,11 @@
           <p><b>Baujahr:</b> {building.buildyear}</p>
           <p><b>Architekt:</b> {building.architect}</p>
           <p><b>Bauherr:</b> {building.builder}</p>
+          <br>
           {@if cond="{building.level} == 1"}
-          <p><b>Wird in der Vorlesung behandelt</b></p>
+          <p><b>Wird im Kurs behandelt.</b></p>
           {:else}
-          <p><b>Wird nicht in der Vorlesung behandelt</b></p>
+          <p><b>Wird nicht im Kurs behandelt.</b></p>
           {/if}
           <p>{building.description}</p>
       </div>
