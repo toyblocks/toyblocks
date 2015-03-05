@@ -18,7 +18,10 @@ module.exports.prototype = GamesController.prototype.extend({
   indexAction: function() {
     var _this = this;
     _this.getDbTexts(
-      ['game_sorting_explain'],
+      ['game_sorting_explain',
+      'game_sorting_level1',
+      'game_sorting_level2',
+      'game_sorting_level3'],
       function(texts) {
         texts.title = 'Zeitstrahl - ToyBlocks';
         _this.view.render(texts);

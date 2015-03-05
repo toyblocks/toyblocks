@@ -16,7 +16,9 @@ module.exports.prototype = GamesController.prototype.extend({
   indexAction: function() {
     var _this = this;
     _this.getDbTexts(
-      ['game_multiplechoice_explain'],
+      ['game_multiplechoice_explain',
+      'game_multiplechoice_level1',
+      'game_multiplechoice_level2'],
       function(texts) {
         texts.title = 'Multiple Choice - ToyBlocks';
         _this.view.render(texts);

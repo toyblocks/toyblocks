@@ -8,14 +8,20 @@
     <a href="game?level=1" class="well list-group-item">
     	<strong>Schwierigkeitsstufe 1</strong>
       <span class="badge">{#_user.stats.sorting.level1_count_played}{.}{:else}0{/_user.stats.sorting.level1_count_played} mal gespielt</span>
+      <br>
+      {game_sorting_level1|s}
     </a>
     <a href="game?level=2" class="well list-group-item">
     	<strong>Schwierigkeitsstufe 2</strong>
       <span class="badge">{#_user.stats.sorting.level2_count_played}{.}{:else}0{/_user.stats.sorting.level2_count_played} mal gespielt</span>
+      <br>
+      {game_sorting_level2|s}
     </a>
     <a href="game?level=3" class="well list-group-item">
     	<strong>Schwierigkeitsstufe 3</strong>
       <span class="badge">{#_user.stats.sorting.level3_count_played}{.}{:else}0{/_user.stats.sorting.level3_count_played} mal gespielt</span>
+      <br>
+      {game_sorting_level3|s}
     </a>
   </div>
 </div>

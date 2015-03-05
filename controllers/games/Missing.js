@@ -17,7 +17,9 @@ module.exports.prototype = GamesController.prototype.extend({
   indexAction: function() {
     var _this = this;
     _this.getDbTexts(
-      ['game_missing_explain'],
+      ['game_missing_explain',
+      'game_missing_level1',
+      'game_missing_level2'],
       function(texts) {
         texts.title = 'Fehlstellen - ToyBlocks';
         _this.view.render(texts);

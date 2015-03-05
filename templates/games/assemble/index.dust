@@ -7,12 +7,16 @@
   {game_assemble_explain|s}
   <div class="list-group">
     <a href="game?level=1" class="well list-group-item">
-    	<strong>Schwierigkeitsstufe 01</strong>
+    	<strong>Schwierigkeitsstufe 1</strong>
       <span class="badge">{#_user.stats.assemble.level1_count_played}{.}{:else}0{/_user.stats.assemble.level1_count_played} mal gespielt</span>
+      <br>
+      {game_assemble_level1|s}
     </a>
     <a href="game?level=2" class="well list-group-item">
-    	<strong>Schwierigkeitsstufe 02</strong>
+    	<strong>Schwierigkeitsstufe 2</strong>
       <span class="badge">{#_user.stats.assemble.level2_count_played}{.}{:else}0{/_user.stats.assemble.level2_count_played} mal gespielt</span>
+      <br>
+      {game_assemble_level2|s}
     </a>
   </div>
   <p class="text-muted"></p>

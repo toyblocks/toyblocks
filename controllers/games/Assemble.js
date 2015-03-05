@@ -16,7 +16,9 @@ module.exports.prototype = GamesController.prototype.extend({
   indexAction: function() {
     var _this = this;
     _this.getDbTexts(
-      ['game_assemble_explain'],
+      ['game_assemble_explain',
+      'game_assemble_level1',
+      'game_assemble_level2'],
       function(texts) {
         texts.title = 'Baukasten - ToyBlocks';
         _this.view.render(texts);
