@@ -132,6 +132,9 @@ module.exports.prototype = AdminController.prototype.extend({
                   _this.view.setParam('onlyContent', onlyContent);
                   _this.view.setTemplate(_this.view.getTemplate() + '-remote');
                 }
+                for (var i = 0; i < objects.length; i++) {
+                  objects[i]._objectid = objects[i]._id;
+                };
                 _this.view.render({
                   title: type.title + ' Verwaltung - ToyBlocks',
                   type: type,
@@ -159,8 +162,7 @@ module.exports.prototype = AdminController.prototype.extend({
       .update({_id: objectId},
               {$set: {'active': value}},
               {},
-              function(err, val) {
-                console.log(val);
+              function(err) {
                 console.log("update: " + value + " - " + dbtype + " - " + objectId );
                 _this.response.redirect(redirectPath);
         });

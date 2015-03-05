@@ -40,8 +40,7 @@
                 <div class="text-truncate">{#object[name]}{.} {/object[name]}</div>
               {/eq}
               {@eq value="bool"}
-                {! <a href="/admin/objects/changeactive?type={object_type.name}&id={_id} &value=true"> !}
-                {?object[name]}Ja{:else}Nein{/object[name]}
+                <a href="/admin/objects/changeactive?type={object_type.name}&id={_objectid}{?object[name]}&value=false">Ja{:else}&value=true">Nein{/object[name]}
               {/eq}
               {@eq value="objecttype"}
                 <div data-object-references="{object[name]}" data-object-type="{object_type}"></div>
@@ -51,12 +50,9 @@
             </td>
           {/attributes}
           <td>
-            <a href="/admin/objects/form?type={type.name}&id={_id}" data-target="#objectFormModal" data-toggle="modal">Editieren</a>
+            <a href="/admin/objects/form?type={type.name}&id={_objectid}" data-target="#objectFormModal" data-toggle="modal">Editieren</a>
             <br>
-            <a href="/admin/objects/delete-object?type={object_type.name}&id={_id}">Löschen</a>
-            <br>
-            <a href="/admin/objects/changeactive?type={object_type.name}&id={_id}&value=false">Inaktiv</a> /
-            <a href="/admin/objects/changeactive?type={object_type.name}&id={_id}&value=true">Aktiv</a>
+            <a href="/admin/objects/delete-object?type={object_type.name}&id={_objectid}">Löschen</a>
           </td>
         </tr>
         {:else}
