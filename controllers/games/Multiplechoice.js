@@ -181,6 +181,22 @@ module.exports.prototype = GamesController.prototype.extend({
         'right': (countCorrect * 100) / (countWrong + countCorrect)
       };
 
+      // sort
+      var counter = 0;
+      var sortedResult = [];
+      for (var i = 0; i < questions.length; i++) {
+        for (var j = 0; j < questions.length; j++) {
+          if(String(result[counter]) === String(questions[j]._id)){
+            sortedResult[i]=questions[j];
+            break;
+          }
+        }
+        counter+=2;
+      }
+      console.log(sortedResult);
+      console.log(questions);
+      console.log(result);
+
       // Update Stats
       Statistics.prototype.insertStats(_this, { $inc : { 'multiplechoice': +1 }});
 
@@ -191,7 +207,7 @@ module.exports.prototype = GamesController.prototype.extend({
       }else{
         _this.view.render({
           result: solution,
-          question: questions,
+          question: sortedResult,
           percent: percentage
         });
       }
