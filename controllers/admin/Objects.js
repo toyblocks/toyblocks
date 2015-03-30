@@ -154,23 +154,26 @@ module.exports.prototype = AdminController.prototype.extend({
     var _this = this,
       objectId = _this.mongo.ObjectID(_this.request.param('id')),
       dbtype = _this.request.param('type'),
-      value = _this.request.param('value') === 'true' ? true : false,
-      redirectPath = redirection || '../objects?type=' + dbtype;
+      value = _this.request.param('value') === 'true' ? true : false;
 
+      console.log("Hello! " + objectId + ", " + dbtype + ", " + value);
     _this.mongodb
       .collection(dbtype)
       .update({_id: objectId},
               {$set: {'active': value}},
               {},
               function(err) {
-                console.log("update: " + value + " - " + dbtype + " - " + objectId );
-                _this.response.redirect(redirectPath);
+                if(err)
+                  _this.response.json({result:'error'});
+                else
+                  _this.response.json({result:'success'});
         });
   },
 
   deleteObjectAction: function (redirection) {
     var _this = this,
-      objectId = this.mongo.ObjectID(this.request.param('id'));
+      objectId = this.mongo.ObjectID(this.request.param('id')),
+      search = _this.request.param('search') || '';
 
     // getting main type
     this.getTypeWithAttributes(
@@ -178,7 +181,7 @@ module.exports.prototype = AdminController.prototype.extend({
       function(type, attributes) {
 
         // set redirect path to optional parameter or default value
-        var redirectPath = redirection || '../objects?type=' + type.name;
+        var redirectPath = redirection || '../objects?type=' + type.name + '&search=' + search;
 
         //here we collect all attributes, which are of the image type
         var imageAttributes = [];

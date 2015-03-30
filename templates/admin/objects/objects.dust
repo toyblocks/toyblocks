@@ -14,7 +14,6 @@
     <h3>{type.title} Übersicht</h3>
     <button style="margin-bottom:10px" type="button" class="btn btn-primary objecttype-form" href="/admin/objects/form?type={type.name}" data-target="#objectFormModal" data-toggle="modal">Neue {type.title} erstellen</button>
 {>"layout/search"/}
-
   <div class="row">
     <div class="col-sm-12 col-md-12">
 {/contentHead}
@@ -40,7 +39,11 @@
                 <div class="text-truncate">{#object[name]}{.} {/object[name]}</div>
               {/eq}
               {@eq value="bool"}
-                <a href="/admin/objects/changeactive?type={object_type.name}&id={_objectid}{?object[name]}&value=false">Ja{:else}&value=true">Nein{/object[name]}
+                {?object[name]}
+                  <button class="activebutton btn" type="button" data-type="{object_type.name}" data-id="{_objectid}" data-bool="false">Ja</button>
+                {:else}
+                  <button class="activebutton btn" type="button" data-type="{object_type.name}" data-id="{_objectid}" data-bool="true">Nein</button>
+                {/object[name]}
               {/eq}
               {@eq value="objecttype"}
                 <div data-object-references="{object[name]}" data-object-type="{object_type}"></div>
@@ -61,6 +64,39 @@
       </table>
       <script>
       window._pageCounter = {_paginationPages};
+
+$(window).ready(function() {
+
+  $('.activebutton').click(function(e){
+    e.preventDefault();
+    var _this = this;
+    console.log("send: " + this.dataset.type + ", " + this.dataset.id + ", " + this.dataset.bool);
+    var newresult = this.dataset.bool === 'true' ? false : true;
+    this.disabled = true;
+    $.ajax({
+        type: "POST",
+        url: "changeactive",
+        data: {type: this.dataset.type,
+                id: this.dataset.id,
+                value: this.dataset.bool}
+      })
+      .fail(function( jqXHR, textStatus ) {
+        _this.innerHTML = "Error";
+      })
+      .done(function (data) {
+        _this.disabled = false;
+        if(newresult){
+          _this.dataset.bool = "true";
+          _this.innerHTML = "Nein";
+        }else{
+          _this.dataset.bool = "false";
+          _this.innerHTML = "Ja";
+        }
+      });
+
+  });
+});
+
       </script>
 {/content}
 {<contentFoot}
@@ -79,10 +115,10 @@
     </div>
   </div>
 </div>
-
 <script>
 window._searchFields = ['title','{#attributes}{name}{@sep}', '{/sep}{/attributes}'];
 </script>
+
 
 {>"layout/pagination"/}
 {/contentFoot}
