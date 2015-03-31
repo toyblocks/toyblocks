@@ -64,39 +64,35 @@
       </table>
       <script>
       window._pageCounter = {_paginationPages};
+      $(window).ready(function() {
+        $('.activebutton').click(function(e){
+          e.preventDefault();
+          var _this = this;
+          var newresult = this.dataset.bool === 'true' ? false : true;
+          this.disabled = true;
+          $.ajax({
+              type: "POST",
+              url: "changeactive",
+              data: {type: this.dataset.type,
+                      id: this.dataset.id,
+                      value: this.dataset.bool}
+            })
+            .fail(function( jqXHR, textStatus ) {
+              _this.innerHTML = "Error";
+            })
+            .done(function (data) {
+              _this.disabled = false;
+              if(newresult){
+                _this.dataset.bool = "true";
+                _this.innerHTML = "Nein";
+              }else{
+                _this.dataset.bool = "false";
+                _this.innerHTML = "Ja";
+              }
+            });
 
-$(window).ready(function() {
-
-  $('.activebutton').click(function(e){
-    e.preventDefault();
-    var _this = this;
-    console.log("send: " + this.dataset.type + ", " + this.dataset.id + ", " + this.dataset.bool);
-    var newresult = this.dataset.bool === 'true' ? false : true;
-    this.disabled = true;
-    $.ajax({
-        type: "POST",
-        url: "changeactive",
-        data: {type: this.dataset.type,
-                id: this.dataset.id,
-                value: this.dataset.bool}
-      })
-      .fail(function( jqXHR, textStatus ) {
-        _this.innerHTML = "Error";
-      })
-      .done(function (data) {
-        _this.disabled = false;
-        if(newresult){
-          _this.dataset.bool = "true";
-          _this.innerHTML = "Nein";
-        }else{
-          _this.dataset.bool = "false";
-          _this.innerHTML = "Ja";
-        }
+        });
       });
-
-  });
-});
-
       </script>
 {/content}
 {<contentFoot}
@@ -118,7 +114,5 @@ $(window).ready(function() {
 <script>
 window._searchFields = ['title','{#attributes}{name}{@sep}', '{/sep}{/attributes}'];
 </script>
-
-
 {>"layout/pagination"/}
 {/contentFoot}

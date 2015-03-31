@@ -155,8 +155,7 @@ module.exports.prototype = AdminController.prototype.extend({
       objectId = _this.mongo.ObjectID(_this.request.param('id')),
       dbtype = _this.request.param('type'),
       value = _this.request.param('value') === 'true' ? true : false;
-
-      console.log("Hello! " + objectId + ", " + dbtype + ", " + value);
+      
     _this.mongodb
       .collection(dbtype)
       .update({_id: objectId},

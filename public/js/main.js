@@ -27,7 +27,7 @@ $(function(){
   });
 
 
-  /* init bootpag */
+  /* initilize pagination, search, sort and filter */
   if (window['_paginationPages']) {
 
     var pageNumber = 1,
@@ -35,6 +35,8 @@ $(function(){
       filterQuery = '',
       sortQuery = '';
 
+    /* pagination, search, sort and filter call this
+        function to refresh the page */
     function refreshPage () {
       $.get(location.href,
             {page: pageNumber,
@@ -44,18 +46,30 @@ $(function(){
             sort: sortQuery.sort,
             sortdirection: sortQuery.sortdirection},
             function (data) {
+              /* display the new content */
               $('#content').html(data);
+
+              /* highlight the search if there is any */
               if(searchQuery != ''){
                 $('#content').highlight($searchInput.val());
               }
+
+              console.log(pageNumber + ' / ' + window._pageCounter);
+              /* update pagination */
               $('#page_selection').bootpag({
                 total: window._pageCounter,
                 page: pageNumber,
                 maxVisible: 10
               });
+
+              /* replace pagination text if in encyclopedia */
+              if(window.location.pathname === "/encyclopedia"){
+                replacePaginationText();
+              }
             });
     }
 
+    /* Pagination */
     $('#page_selection').bootpag({
       total: window._pageCounter || 1,
       page: 1,
@@ -125,8 +139,15 @@ $(function(){
       refreshPage();
     });
 
+    /* add the HTML to the webpage */
     $searchInputWrapper.append($searchInput);
     $('#search-bar').append($searchInputWrapper);
+
+
+    /* replace pagination text if in encyclopedia */
+    if(window.location.pathname === "/encyclopedia"){
+      replacePaginationText();
+    }
   }
 
 

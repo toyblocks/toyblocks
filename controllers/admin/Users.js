@@ -17,6 +17,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
     _this.mongodb
       .collection('users')
+      .find({$and: [filterParams, findParams]})
       .count(function(err, totalCount) {
         _this.setPagination(totalCount, countPerPage);
         _this.mongodb

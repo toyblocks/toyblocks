@@ -13,21 +13,24 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   *  for the overview of article
   *
   * @return <String> title Title of indexpage
-  * @return <Array> data
+  * @return <String> route 
+  * @return <Array> data Array of articles and buildings
+  * @return <Array> customPagination
   */
   indexAction: function() {
     var _this = this,
-      countPerPage = 50,
+      countPerPage = 56,
       findParams = _this.getFindParams(),
       filterParams = _this.getFilterParams();
 
     _this.mongodb
       .collection('encyclopedia_articles')
+      .find({$and: [findParams, filterParams]},{})
       .count(function(err, articleCount) {
 
         _this.mongodb
           .collection('sorting_buildings')
-          .find({active: true})
+          .find({$and: [findParams, filterParams, {active: true}]}, {})
           .count(function (err, buildingCount) {
 
             _this.setPagination(articleCount + buildingCount, countPerPage);
@@ -44,6 +47,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                   .find({$and: [findParams, filterParams, {active: true}]}, {title: 1, _id: 1, image: 1})
                   .toArray(function(err, buildingData){
 
+                    // Merge bulding and article arrays
                     for (var i = 0; i < articleData.length; i++) {
                       articleData[i].isArticle = true;
                     };
@@ -51,21 +55,49 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                       buildingData[i].isArticle = false;
                       buildingData[i].image = buildingData[i].image[0] || null;
                     };
-                    
                     var data = articleData.concat(buildingData);
-                    // Sort and cut data
+
+                    // Sort data in regards to umlauts
                     data.sort(function(a, b) {
-                      return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+                      a = a.title.toLowerCase();
+                      a = a.replace("ä", "ae"); 
+                      a = a.replace("ü", "ue"); 
+                      a = a.replace("ö", "oe"); 
+                      a = a.replace("ß", "ss"); 
+                      b = b.title.toLowerCase();
+                      b = b.replace("ä", "ae"); 
+                      b = b.replace("ö", "oe"); 
+                      b = b.replace("ü", "ue"); 
+                      b = b.replace("ß", "ss"); 
+                      return a.localeCompare(b);
                     });
+
+                    // Create custom pagination
+                    var customPagination = [];
+                    var pagCounter = 0;
+                    var lastLetter = data[0].title.charAt(0).toUpperCase();
+                    for (var i = 0; i < data.length; i++) {
+                      if((i % 50) == 0){
+                        var currentLetter = data[i].title.charAt(0).toUpperCase();
+                        if(currentLetter === lastLetter){
+                          customPagination[pagCounter++] = lastLetter;
+                        }else{
+                          customPagination[pagCounter++] = lastLetter + ' - ' + currentLetter;
+                        }
+                        lastLetter = currentLetter;
+                      }
+                    };
+                    customPagination[pagCounter] = lastLetter + ' - ' + data[data.length-1].title.charAt(0).toUpperCase();
+                    
+                    // Skip elements according to pagination skips
                     data = data.slice(skip, skip + limit);
 
 
+                    // Create element array with highlighted letters
                     var articles = [];
-
                     var filterHeadlines = function(element) {
                       return element.headline === currentLetter;
                     };
-
                     for (var i = 0; i < data.length; i++) {
                       // get first letter of article title
                       var currentLetter = data[i].title.charAt(0).toUpperCase();
@@ -86,7 +118,8 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                     _this.view.render({
                       title: 'Glossar - Enzyklopädie - ToyBlocks',
                       route: '/encyclopedia',
-                      data: articles
+                      data: articles,
+                      customPagination: customPagination
                     });
                 });
             });

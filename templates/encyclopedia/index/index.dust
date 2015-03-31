@@ -82,10 +82,20 @@
 <script>
 window._pageCounter = {_paginationPages};
 window._searchFields = ['title'];
+var newPaginationNames = [{#customPagination}'{.}',{/customPagination}];
 </script>
 {/content}
 {<contentFoot}
 </div>
+<script>
+/* replaces pagination numbers with letters */
+function replacePaginationText () {
+  console.log("inside replacePaginationText");
+  var ele = $('#page_selection li').each(function(index){
+    if(index > 0 && index < newPaginationNames.length && index < window._pageCounter+1)
+      this.innerHTML = '<a href="javascript:void(0);">' + newPaginationNames[index] + '</a>';
+  });
+}  
+</script>
 {>"layout/pagination"/}
-
 {/contentFoot}
