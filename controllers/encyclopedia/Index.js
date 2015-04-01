@@ -148,6 +148,16 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
         route: '/encyclopedia',
         image: article.image
       });
+
+      /* update statistics */
+      _this.mongodb
+          .collection('encyclopedia_articles')
+          .update({_id: _this.mongo.ObjectID(_this.request.param('id'))},
+                  { $inc : { 'viewcount': +1 }},
+                  {upsert : true}, function (err) {
+                    console.log("+1");
+                    if(err) console.log(err);
+                  });
     });
   },
 
@@ -172,6 +182,15 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
             building: building,
             route: '/encyclopedia'
           });
+
+          /* update statistics */
+          _this.mongodb
+            .collection('sorting_buildings')
+            .update({_id: _this.mongo.ObjectID(buildingid)},
+                  { $inc : { 'viewcount': +1 }},
+                  {upsert : true}, function (err) {
+                    if(err) console.log(err);
+                  });
       });
   }
 });

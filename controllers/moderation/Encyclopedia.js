@@ -22,7 +22,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
       _this.setPagination(totalCount, countPerPage);
       _this.mongodb
         .collection('encyclopedia_articles')
-        .find(findParams, {title: 1, _id: 1, article_body: 1, image: 1})
+        .find(findParams, {title: 1, _id: 1, article_body: 1, image: 1, viewcount: 1})
         .skip(_this.getPaginationSkip())
         .limit(_this.getPaginationLimit())
         .sort({title: 1})

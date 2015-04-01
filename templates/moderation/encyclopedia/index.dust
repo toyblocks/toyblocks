@@ -23,6 +23,7 @@
           <th>Bild</th>
           <th>Titel</th>
           <th>Text</th>
+          <th>Zähler</th>
           <th>Bearbeiten</th>
         </tr>
         {#articles}
@@ -40,6 +41,9 @@
           </td>
           <td>
             {article_body}...
+          </td>
+          <td>
+            {viewcount}
           </td>
           <td>
             <a href="/moderation/encyclopedia/article?id={_id}" alt="Artikel bearbeiten" title="Artikel bearbeiten">

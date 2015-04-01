@@ -326,11 +326,9 @@ module.exports.prototype = {
                 }
                 else {
                   if (jsonResponse['cas:serviceResponse']['cas:authenticationFailure']) {
-                    _this.response.render('error-auth', {text:
-                      jsonResponse['cas:serviceResponse']['cas:authenticationFailure'].$t +
-                      ' (Code: ' +
-                      jsonResponse['cas:serviceResponse']['cas:authenticationFailure'].code +
-                      ')'
+                    _this.response.render('error-auth', {text: 
+                      jsonResponse['cas:serviceResponse']['cas:authenticationFailure'].$t + ' (Code: ' +
+                      jsonResponse['cas:serviceResponse']['cas:authenticationFailure'].code + ')'
                     });
                   }
                   else {
