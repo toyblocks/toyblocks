@@ -1,6 +1,34 @@
-/* add highlight function to jquery for search highlighting */
-jQuery.fn.highlight=function(c){function e(b,c){var d=0;if(3==b.nodeType){var a=b.data.toUpperCase().indexOf(c),a=a-(b.data.substr(0,a).toUpperCase().length-b.data.substr(0,a).length);if(0<=a){d=document.createElement("span");d.className="highlight";a=b.splitText(a);a.splitText(c.length);var f=a.cloneNode(!0);d.appendChild(f);a.parentNode.replaceChild(d,a);d=1}}else if(1==b.nodeType&&b.childNodes&&!/(script|style)/i.test(b.tagName))for(a=0;a<b.childNodes.length;++a)a+=e(b.childNodes[a],c);return d} return this.length&&c&&c.length?this.each(function(){e(this,c.toUpperCase())}):this};
-/* all credit goes to: http://johannburkard.de/ */
+/* add functions to jquery */
+jQuery.fn.extend({
+  duplicateAfter: function(resetInputs) {
+    var $obj = this.clone();
+    if (resetInputs) {
+      $obj.resetFormElement();
+    }
+    this.after($obj);
+  },
+  resetFormElement: function() {
+    this.find('input').val('');
+    if (this.data('image-preview')) {
+      this.find(this.data('image-preview')).empty();
+    }
+  },
+  removeFormElement: function() {
+    var $formGroup = $(this).parents('.form-group'),
+      $form = $formGroup.parents('form');
+
+  },
+
+  /* all credit for highlight goes to: http://johannburkard.de/ */    
+  highlight: function(c){function e(b,c){var d=0;if(3==b.nodeType){
+    var a=b.data.toUpperCase().indexOf(c),a=a-(b.data.substr(0,a).toUpperCase().length-b.data.substr(0,a).length);
+    if(0<=a){d=document.createElement("span");d.className="highlight";a=b.splitText(a);a.splitText(c.length);
+    var f=a.cloneNode(!0);d.appendChild(f);a.parentNode.replaceChild(d,a);d=1}}
+    else if(1==b.nodeType&&b.childNodes&&!/(script|style)/i.test(b.tagName))
+      for(a=0;a<b.childNodes.length;++a)a+=e(b.childNodes[a],c);return d}
+        return this.length&&c&&c.length?this.each(function(){e(this,c.toUpperCase())}):this}
+});
+
 
 /* form elements */
 $(function(){
@@ -8,18 +36,18 @@ $(function(){
     var $fileInput = $(this),
       $formGroup = $(this).parents('.form-group'),
       $hiddenInput = $(event.target).next('input[type=hidden]');
+
     if (event.target.files && event.target.files.length) {
       var fileReader = new FileReader();
       fileReader.onload = function(e) {
         $hiddenInput.val(e.target.result);
+
         if ($formGroup.data('image-preview')) {
-          var $container = $formGroup
-            .find($formGroup.data('image-preview')),
+
+          var $container = $formGroup.find($formGroup.data('image-preview')),
             $img = $('<img>');
           $img.attr('src', e.target.result);
-          $container
-            .empty()
-            .append($img);
+          $container.empty().append($img);
         }
       };
       fileReader.readAsDataURL(event.target.files[0]);
@@ -47,19 +75,22 @@ $(function(){
             sortdirection: sortQuery.sortdirection},
             function (data) {
               
-              /* if page is beyond the current max, reset */
-              if(window._pageCounter > pageNumber)
-                pageNumber = window._pageCounter;
-
               /* display the new content */
               $('#content').html(data);
+
+              /* if page is beyond the current max, reset.
+                  content is empty anyway */
+              if(window._pageCounter < pageNumber){
+                pageNumber = window._pageCounter;
+                refreshPage();
+                return;
+              }
 
               /* highlight the search if there is any */
               if(searchQuery != ''){
                 $('#content').highlight($searchInput.val());
               }
 
-              console.log(pageNumber + ' / ' + window._pageCounter);
               /* update pagination */
               $('#page_selection').bootpag({
                 total: window._pageCounter,
@@ -105,8 +136,9 @@ $(function(){
           }
         }
         searchQuery = searchParams.search;
+        
         refreshPage();
-        }, 150);
+        }, 400);
     });
 
 
@@ -125,10 +157,10 @@ $(function(){
     });
 
     /* Sort */
-    var sortDirection = 1;
     $('.sortbutton').click(function(e) {
       e.preventDefault();
 
+      var sortDirection = 1;
       var sortParams = {};
       var currentSortQuery = this.dataset.query;
       sortParams.sort = currentSortQuery;
@@ -156,28 +188,7 @@ $(function(){
   }
 
 
-  jQuery.fn.extend({
-    duplicateAfter: function(resetInputs) {
-      var $obj = this.clone();
-      if (resetInputs) {
-        $obj.resetFormElement();
-      }
-      this.after($obj);
-    },
-    resetFormElement: function() {
-      this.find('input').val('');
-      if (this.data('image-preview')) {
-        this.find(this.data('image-preview')).empty();
-      }
-    },
-    removeFormElement: function() {
-      var $formGroup = $(this).parents('.form-group'),
-        $form = $formGroup.parents('form');
-
-    }
-  });
-
-  $(document).ready(function(){
+$(document).ready(function(){
 
     /* object references selection for objects */
     var $objecttypeTrigger;
