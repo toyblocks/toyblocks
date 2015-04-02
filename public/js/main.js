@@ -46,6 +46,11 @@ $(function(){
             sort: sortQuery.sort,
             sortdirection: sortQuery.sortdirection},
             function (data) {
+              
+              /* if page is beyond the current max, reset */
+              if(window._pageCounter > pageNumber)
+                pageNumber = window._pageCounter;
+
               /* display the new content */
               $('#content').html(data);
 
