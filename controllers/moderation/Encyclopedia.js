@@ -13,7 +13,8 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
   indexAction: function() {
     var _this = this,
       countPerPage = 30,
-      findParams = _this.getFindParams();
+      findParams = _this.getFindParams(),
+      sortParams = _this.getSortParams() || {title: 1};
 
     _this.mongodb
     .collection('encyclopedia_articles')
@@ -25,7 +26,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
         .find(findParams, {title: 1, _id: 1, article_body: 1, image: 1, viewcount: 1})
         .skip(_this.getPaginationSkip())
         .limit(_this.getPaginationLimit())
-        .sort({title: 1})
+        .sort(sortParams)
         .toArray(function(err, data){
           for (var i = 0; i < data.length; i++) {
             data[i].article_body = data[i].article_body.slice(0,80);
