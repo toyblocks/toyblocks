@@ -193,10 +193,7 @@ module.exports.prototype = GamesController.prototype.extend({
         }
         counter+=2;
       }
-      console.log(sortedResult);
-      console.log(questions);
-      console.log(result);
-
+      
       // Update Stats
       Statistics.prototype.insertStats(_this, { $inc : { 'multiplechoice': +1 }});
 

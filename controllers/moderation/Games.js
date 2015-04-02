@@ -2,7 +2,7 @@
 
 var AdminObjectsController = require('../admin/Objects'),
   AttributesController = require('../admin/Attributes'),
-  daily = require('./controllers/games/Daily.js');
+  daily = require('../games/Daily.js');
 
 module.exports = function () {
 
@@ -84,7 +84,6 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
   newdailyAction: function () {
     var _this = this;
-
     daily.generateDailyGame(_this.mongodb);
   },
 
