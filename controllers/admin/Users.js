@@ -10,29 +10,21 @@ module.exports.prototype = AdminController.prototype.extend({
 
   indexAction: function() {
     var _this = this,
-      countPerPage = 20,
       findParams = _this.getFindParams(),
       filterParams = _this.getFilterParams(),
       sortParams = _this.getSortParams();
 
-    _this.mongodb
-      .collection('users')
-      .find({$and: [filterParams, findParams]})
-      .count(function(err, totalCount) {
-        _this.setPagination(totalCount, countPerPage);
-        _this.mongodb
-          .collection('users')
-          .find({$and: [filterParams, findParams]})
-          .sort(sortParams)
-          .skip(_this.getPaginationSkip())
-          .limit(_this.getPaginationLimit())
-          .toArray(function(err, users){
-            _this.view.render({
-              title: 'User Verwaltung - ToyBlocks',
-              users: users
-            });
+      _this.mongodb
+        .collection('users')
+        .find({$and: [filterParams, findParams]})
+        .sort(sortParams)
+        .toArray(function(err, users){
+          _this.view.render({
+            title: 'User Verwaltung - ToyBlocks',
+            users: users
           });
-      });
+        });
+
   },
 
   updateAction: function() {
