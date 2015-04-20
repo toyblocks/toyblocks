@@ -72,21 +72,22 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                       return a.localeCompare(b);
                     });
 
+                    function pagStyle (i) {
+                      return i.title.charAt(0).toUpperCase() + i.title.charAt(1);
+                    }
+
                     // Create custom pagination
-                    var customPagination = [];
-                    var pagCounter = 0;
-                    var lastLetter = data[0].title.charAt(0).toUpperCase();
-                    for (var i = 0; i < data.length; i++) {
-                      if((i % 50) == 0){
-                        var currentLetter = data[i].title.charAt(0).toUpperCase();
-                        if(currentLetter === lastLetter){
-                          customPagination[pagCounter++] = lastLetter;
-                        }else{
-                          customPagination[pagCounter++] = lastLetter + ' - ' + currentLetter;
-                        }
-                        lastLetter = currentLetter;
-                      }
+                    var customPagination = [],
+                      pagCounter = 1,
+                      firstLetter = data[0].title.charAt(0).toUpperCase(),
+                      lastLetter;
+
+                    for (var i = countPerPage; i < data.length; i=i+countPerPage) {
+                      lastLetter = pagStyle(data[i-1]);
+                      customPagination[pagCounter++] = firstLetter + ' - ' + lastLetter;
+                      firstLetter = pagStyle(data[i]);
                     };
+
                     customPagination[pagCounter] = lastLetter + ' - ' + data[data.length-1].title.charAt(0).toUpperCase();
                     
                     // Skip elements according to pagination skips
