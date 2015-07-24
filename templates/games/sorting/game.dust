@@ -292,7 +292,7 @@ $(window).ready(function(){
                     buildings[i].title +
                     '</div><div class="result-description"><b>Ort:</b><br>'+
                     buildings[i].city + ', ' + buildings[i].country +
-                    '</div><div class="result-description"><b>Baujahr:</b> '+
+                    '</div><div class="result-description"><b>Bauzeit:</b> '+
                     buildings[i].buildyear +
                     '</div><div class="result-description"><b>Architekt:</b><br>'+
                     buildings[i].architect +
