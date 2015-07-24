@@ -88,7 +88,12 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                       firstLetter = pagStyle(data[i]);
                     };
 
-                    customPagination[pagCounter] = lastLetter + ' - ' + data[data.length-1].title.charAt(0).toUpperCase();
+                    // when there is only one page use firstLetter instead
+                    if(typeof lastLetter === 'undefined'){
+                      customPagination[pagCounter] = firstLetter + ' - ' + data[data.length-1].title.charAt(0).toUpperCase();
+                    }else{
+                      customPagination[pagCounter] = lastLetter + ' - ' + data[data.length-1].title.charAt(0).toUpperCase();
+                    }
                     
                     // Skip elements according to pagination skips
                     data = data.slice(skip, skip + limit);
