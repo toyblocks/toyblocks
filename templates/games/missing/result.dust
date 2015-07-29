@@ -8,10 +8,10 @@
   </div>
   {! Show the picture !}
   {#game}
-  <div class="row">
+  <div class="row" style="height:300px">
     <div class="col-md-5">
       <center>
-        <img class="image" src="/ressources/image?id={missingparts_solutionimage}&size=large" style="max-height: 100%; max-width:100%">
+        <img class="image" src="/ressources/image?id={missingparts_solutionimage}&size=large" style="height: 300px; max-width:100%">
       </center>
     </div>
   {! Show the game !}
@@ -49,13 +49,12 @@
   <div style="height:3px;"></div>
   {/game}
   <script type="text/javascript">
-  /*Load every missingparts_correctimage asynchronos*/
+  {! Load every missingparts_correctimage asynchronos !}
   $('.solutions').each(function () {
     var e = $(this);
     $.get( '/games/missing/getsolutionpicture?id=' + $(this).attr('id'), function( data ) {
       $(e).attr('src', '/ressources/image?id=' + data.imgid + '&size=middle');
       $(e).parent().before('</div><div class="description" style="font-size: 14px;">' + data.imgtitle + '</div><div>');
-      
     }, 'json');
   })
   </script>
