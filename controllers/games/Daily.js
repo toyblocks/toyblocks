@@ -38,7 +38,9 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   indexAction: function() {
     var _this = this,
-      userId  = _this.request.session.user.tuid;
+      userId  = _this.request.session.user.tuid,
+      todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000);
+
 
     _this.hasUserPlayedDaily(_this, userId, function (hasPlayed) {
 
@@ -47,9 +49,15 @@ module.exports.prototype = GamesController.prototype.extend({
        .find({right_level: 300})
        .count(function (err, maxGamesPlayed) {
           maxGamesPlayed = maxGamesPlayed || 1;
+          /*
+            FIXME: HIER STECKT DER WURM DRINNE
+
+
+            count sollte nicht benutzt werden
+          */
           _this.mongodb
          .collection('daily_leaderboard')
-         .find()
+         .find({date: todaysUnixDate})
          .count(function (err, currentGamesPlayed) {
             currentGamesPlayed = currentGamesPlayed || 0;
             _this.view.render( {

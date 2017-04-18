@@ -19,5 +19,6 @@ npm-debug.log
 node_modules/
 bower_components/
 toyblocks_dump/
+toyblocks_dump_server/
 .DS_Store
 .settings

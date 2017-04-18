@@ -158,7 +158,6 @@ $(window).ready(function(){
           pushSolution(data.result.join(','));
         });
     }else{
-      console.log(selectedAnswers);
       $.ajax({url: "/games/missing/result?result=" +
         selectedAnswers})
         .done(function( data ) {
@@ -181,6 +180,16 @@ $(window).ready(function(){
   if(isDaily){
     $('#game-result').text('Weiter');
   }
+
+  $(document).keypress(function(e) {
+    if(e.which == 13) {
+      if((gameIndex+1) < gameIds.length){
+        $('#next-question').trigger("click");
+      }else{
+        $('#game-result').trigger("click");
+      }
+    }
+  });
 });
 </script>
 {/content}

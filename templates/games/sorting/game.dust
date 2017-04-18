@@ -160,6 +160,7 @@ $(window).ready(function(){
   var maxTries = 3,
    tries = 0,
    isGlyphed = false,
+   modalIsShown = false;
    isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
 
   $('#sortable').sortable();
@@ -234,6 +235,7 @@ $(window).ready(function(){
           };
       }
       
+      modalIsShown = true;
       $('#checkModal').modal();
     });
   });
@@ -308,6 +310,26 @@ $(window).ready(function(){
       $(this).remove();
     });
   };
+
+  $('#checkModal').on('hide.bs.modal', function () {
+    modalIsShown = false;
+  });
+
+  $(document).keypress(function(e) {
+    if(e.which == 13) {
+      if (modalIsShown) {
+        $('#checkModal').modal('hide');
+        modalIsShown = false;
+      }else if(isGlyphed){
+        $('#tryagain').trigger("click");
+      }else if(maxTries - tries === 0){
+        $('#newgame').trigger("click");
+      }else{
+        $('#submit').trigger("click");
+      }
+    }
+  });
 });
+
 </script>
 {/content}

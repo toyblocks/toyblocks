@@ -148,7 +148,7 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   /**
-  *   Updates the active attribute of a db
+  *   Updates the active attribute of a db entry
   */
   changeactiveAction: function (redirection) {
     var _this = this,
@@ -365,11 +365,11 @@ module.exports.prototype = AdminController.prototype.extend({
               _this.mongodb
                 .collection(type.name)
                 .insert(object, {}, function(err) {
+                  console.log("new object");
                   if (err) throw new Error(err);
                   _this.response.redirect(redirectPath);
                 });
             }
-
             _this.updateLastModifiedTimestamp();
 
           });

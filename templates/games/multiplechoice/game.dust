@@ -66,6 +66,7 @@
 var questionIds = [{#questions}'{_id}'{@sep},{/sep}{/questions}],
   actualIndex = 0,
   selectedAnswers = [],
+  readyForNext = false;
   gamesCount = {questions.length}-1,
   isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
 
@@ -90,6 +91,7 @@ $(window).ready(function(){
   };
 
   function doNext() {
+    readyForNext = true;
     $('#next-question').prop('disabled', false);
     if (questionIds.length > (actualIndex+1) ) {
       $('#next-question').show();
@@ -102,10 +104,11 @@ $(window).ready(function(){
   };
 
   $('#next-question').click(function(){
+    readyForNext = false;
     actualIndex++;
     loadQuestion(questionIds[actualIndex]);
     $('#games-left').text(gamesCount--);
-    $(this).prop('disabled', true);
+    $('#next-question').prop('disabled', true);
   });
 
   $('#game-overview').click(function(){
@@ -113,6 +116,7 @@ $(window).ready(function(){
   });
 
   $('#game-result').click(function(){
+    readyForNext = false;
     selectedAnswers = selectedAnswers.join(',');
     if(isDaily){
       $.ajax({url: '/games/multiplechoice/result?daily=1&result=' + selectedAnswers})
@@ -148,6 +152,17 @@ $(window).ready(function(){
     $(this).find('span.glyphicon').addClass('glyphicon-check');
     selectedAnswers[actualIndex] = [questionIds[actualIndex],hash];
     doNext();
+  });
+
+  $(document).keypress(function(e) {
+    if(e.which == 13) {
+      if(questionIds.length > (actualIndex+1)){
+        if(readyForNext)
+          $('#next-question').trigger("click");
+      }else{
+        $('#game-result').trigger("click");
+      }
+    }
   });
 
   loadQuestion(questionIds[actualIndex]);
