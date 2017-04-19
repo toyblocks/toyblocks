@@ -1,8 +1,11 @@
 {
   "name": "toyblocks",
-  "version": "1.1",
+  "version": "1.2",
   "authors": [
-    "Simon Bugert <simon.bugert@googlemail.com>"
+    "Simon Bugert <simon.bugert@googlemail.com>",
+    "Mansur Iqbal <mansuriqbal@gmail.com>",
+    "Steven Lamarr Reynolds <reynolds.tud@gmail.com>",
+    "Andrej Tretjakow <tretjakow@gmail.com>"
   ],
   "license": "MIT",
   "private": true,

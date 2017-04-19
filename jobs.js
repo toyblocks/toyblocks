@@ -1,6 +1,10 @@
-// Steve Jobs
 'use strict';
 
+/**
+*
+* This is a cron script to update the Daily games everyday at 00:01
+*
+*/
 
 var cronJob = require('cron').CronJob,
   daily = require('./controllers/games/Daily.js');
