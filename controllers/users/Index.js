@@ -10,12 +10,18 @@ module.exports.prototype = UsersController.prototype.extend({
   name: 'index',
   rightLevel: 400,
 
+  /**
+  * Shows profile page from user
+  * 
+  */
   indexAction: function() {
     var _this = this;
     _this.mongodb
       .collection(userModel.collection)
       .find({'tuid': _this.request.session.user.tuid})
       .nextObject(function(err, doc) {
+
+        // Get how many games were played
         var count = 0;
         try{
           count += (doc.stats.assemble.level1_count_played       || 0);
@@ -29,7 +35,7 @@ module.exports.prototype = UsersController.prototype.extend({
           count += (doc.stats.sorting.level2_count_played        || 0);
           count += (doc.stats.sorting.level3_count_played        || 0);
         }catch (e){
-          //Whooops!!
+          console.log("Error catched in /controllers/users/Index.js", e);
         };
         
         _this.view.render({
@@ -40,6 +46,10 @@ module.exports.prototype = UsersController.prototype.extend({
       });
   },
 
+  /**
+  * Updates Nickname for user
+  * 
+  */
   updatenicknameAction: function() {
     var _this = this;
     var newname = _this.request.param('nickname');

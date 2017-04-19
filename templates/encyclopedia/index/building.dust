@@ -1,5 +1,4 @@
 {>"layout/layout.dust"/}
-
 {<content}
 <style type="text/css">
     .popover{
@@ -11,6 +10,7 @@
   <li><a href="/encyclopedia">Enzyklopädie</a></li>
   <li class="active">{building.title}</li>
 </ol>
+
 <div class="row">
   <div class="col-md-6">
     <div class="panel panel-default">

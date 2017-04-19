@@ -9,7 +9,6 @@
 var cronJob = require('cron').CronJob,
   daily = require('./controllers/games/Daily.js');
 
-
 module.exports.initJobs = function initJobs (mongodb) {
 
   // start the script daily at 00:01

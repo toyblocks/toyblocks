@@ -6,9 +6,5 @@ module.exports = function () {
 
 };
 module.exports.prototype = BaseController.prototype.extend({
-  area: 'encyclopedia',
-
-  checkAuth: function() {
-    return true;
-  }
+  area: 'encyclopedia'
 });

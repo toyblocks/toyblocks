@@ -1,5 +1,10 @@
 {>"layout/layout.dust"/}
 {<content}
+<style type="text/css">
+    .popover{
+        max-width:100%;
+    }
+</style>
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
   <li><a href="/encyclopedia">Enzyklopädie</a></li>
@@ -7,8 +12,6 @@
 </ol>
 
 <div class="row">
-
-
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-body">

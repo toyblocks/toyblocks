@@ -47,6 +47,28 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                   .find({$and: [findParams, filterParams, {active: true}]}, {title: 1, _id: 1, image: 1})
                   .toArray(function(err, buildingData){
 
+                    // check for empty site
+                    //articleData = articleData || [];
+                    //buildingData = buildingData || [];
+                    // render empty page
+                    /*
+                    if(!!articleData){
+                      console.log("articleData is full");
+                    }else{
+                      console.log("articleData is empty");
+                    }
+                    console.log("Rendering Ency Index: " + articleData.length + ", " + buildingData.length);
+
+                    if(articleData.length + buildingData.length == 0){
+                      _this.view.render({
+                        title: 'Glossar - Enzyklopädie - ToyBlocks',
+                        route: '/encyclopedia',
+                        data: [],
+                        customPagination: []
+                      });
+                    }
+                    */
+
                     // Merge bulding and article arrays
                     for (var i = 0; i < articleData.length; i++) {
                       articleData[i].isArticle = true;
@@ -161,7 +183,6 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
           .update({_id: _this.mongo.ObjectID(_this.request.param('id'))},
                   { $inc : { 'viewcount': +1 }},
                   {upsert : true}, function (err) {
-                    console.log("+1");
                     if(err) console.log(err);
                   });
     });

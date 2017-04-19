@@ -13,6 +13,11 @@ module.exports.prototype = BaseController.prototype.extend({
     return true;
   },
 
+  /**
+  * Updates timestap on the lower right
+  * Indicates when the database was last updated
+  *
+  */
   updateLastModifiedTimestamp: function() {
     var _this = this;
     _this.mongodb

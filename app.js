@@ -50,6 +50,13 @@ app.use(express.session());
 app.use(express.static(path.join(__dirname, './public')));
 app.use(app.router);
 
+/**
+*  getControllerPath() creates controller url path
+*
+* @param <String> area
+* @param <String> controller
+* @return <String> path
+*/
 function getControllerPath(area, controller) {
   return './controllers/' +
     area.toLowerCase() +
@@ -87,6 +94,9 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
           action = req.params.action || 'index',
           ControllerClass;
 
+        if ('development' === app.settings.env) {
+          console.log("> " + area +" / " + controller + " / " + action);
+        }
         try{
           try {
             ControllerClass = require(getControllerPath(area, controller));

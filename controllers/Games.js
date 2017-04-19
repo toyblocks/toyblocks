@@ -13,21 +13,27 @@ module.exports.prototype = BaseController.prototype.extend({
     return true;
   },
 
-  shuffle1: function (array) {
-    return array.sort(function () {
-      return 0.5 - Math.random();
-    });
-  },
-
-  //+ Jonas Raoni Soares Silva
-  //@ http://jsfromhell.com/array/shuffle
-  // Fisher-Yates Shuffle
+  /**
+  * Fisher-Yates Shuffle from Jonas Raoni Soares Silva
+  * @ http://jsfromhell.com/array/shuffle
+  * shuffles an array
+  * 
+  * @param <Array> o
+  * @return <Array> o
+  */
   shuffleArray: function (o){
     for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
       x = o[--i], o[i] = o[j], o[j] = x);
     return o;
   },
 
+
+  /**
+  * Creates an hash from given string
+  * 
+  * @param <Array> str
+  * @return <Array> hash
+  */
   hashString: function ( str ){
     var hash = 0, i, l, char;
     if (str.length === 0) return hash;
