@@ -1,10 +1,6 @@
-<div class="row">
-  <div class="col-md-12">
-    <h4>{game.title}</h4>
-  </div>
-</div>
 <div class="col-md-6" id="primarybox">
   <center>
+  <h3>{game.title}</h3>
   <img id="primaryimage" src="/ressources/image?id={game.image}&amp;size=large" title="{game.title}">
   </center>
 </div>

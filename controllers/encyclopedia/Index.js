@@ -19,7 +19,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   */
   indexAction: function() {
     var _this = this,
-      countPerPage = 56,
+      countPerPage = 36,
       findParams = _this.getFindParams(),
       filterParams = _this.getFilterParams();
 

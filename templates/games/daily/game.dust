@@ -75,7 +75,7 @@ function motivatePlayer (bool) {
     case 1: case 2:   text = 'Gut gemacht!'; break;
     case 3:           text = 'Alle guten Dinge sind drei!'; break;
     case 4:           text = 'Vier waren richtig!'; break;
-    case 5: case 6:   text = 'Fast alle erwischt!'; break;
+    case 5: case 6:   text = 'Fast alle erwicht!'; break;
     default:          text = 'Alle korrekt!'; break;
   };
   var slider = $('#motivator');

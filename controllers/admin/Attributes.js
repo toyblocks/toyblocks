@@ -9,6 +9,11 @@ module.exports = function () {
 module.exports.prototype = AdminController.prototype.extend({
   name: 'attributes',
 
+
+  /**
+  * Returns access right level
+  * 
+  */
   getRightLevel: function() {
     if (this.action === 'show-enums' || this.action === 'save-enums') {
       return 100;
@@ -16,6 +21,11 @@ module.exports.prototype = AdminController.prototype.extend({
     return this.rightLevel;
   },
 
+
+  /**
+  * Renders Index page
+  * 
+  */
   indexAction: function() {
     var _this = this;
     _this.mongodb
@@ -36,6 +46,11 @@ module.exports.prototype = AdminController.prototype.extend({
       });
   },
 
+
+  /**
+  * Creates new object in DB
+  * 
+  */
   createAction: function() {
     var _this = this,
       attribute = this.getAttributeFromRequest();
@@ -61,6 +76,11 @@ module.exports.prototype = AdminController.prototype.extend({
     }
   },
 
+
+  /**
+  * Shows Enums
+  * 
+  */
   showEnumsAction: function() {
     var _this = this;
     _this.mongodb
@@ -71,6 +91,11 @@ module.exports.prototype = AdminController.prototype.extend({
       });
   },
 
+
+  /**
+  * Saves Enums
+  * 
+  */
   saveEnumsAction: function(context) {
     var _this = context || this;
     _this.mongodb
@@ -85,6 +110,11 @@ module.exports.prototype = AdminController.prototype.extend({
         });
   },
 
+
+  /**
+  * Extracts attributes from the request
+  * 
+  */
   getAttributeFromRequest: function() {
     var req = this.request,
       attribute = {};

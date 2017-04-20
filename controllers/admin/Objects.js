@@ -10,7 +10,10 @@ module.exports = function () {
 module.exports.prototype = AdminController.prototype.extend({
   name: 'objects',
 
-  // display all objecttypes
+  /**
+  * display all objecttypes
+  * 
+  */
   indexAction: function() {
     var _this = this;
 
@@ -38,7 +41,10 @@ module.exports.prototype = AdminController.prototype.extend({
     // TODO: object type form
   },
 
-  // add a new type to the database
+  /**
+  * add a new type to the database
+  *
+  */
   createTypeAction: function() {
     var type = this.getTypeFromRequest(),
       _this = this;
@@ -97,7 +103,9 @@ module.exports.prototype = AdminController.prototype.extend({
     return type;
   },
 
-  // show all objects for a specific type
+  /**
+  * show all objects for a specific type
+  */
   objectsAction: function () {
     var _this = this,
       countPerPage = 15,

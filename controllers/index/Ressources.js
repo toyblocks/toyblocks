@@ -100,14 +100,3 @@ module.exports.prototype = BaseController.prototype.extend({
     }
   }
 });
-
-
-/*
-var pic = gm(doc.data.read(0,doc.data.length()));
-pic.size(function(err, size){
-  pic.format(function(err, format){
-    console.log(size, format);
-  });
-});
-*/
-
