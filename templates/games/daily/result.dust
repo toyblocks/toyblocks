@@ -1,8 +1,8 @@
 <style type="text/css" scoped="true">
 
 .result-thumbnail{
-  width: 16%;
-  display: block;
+  width: 165px;
+  display: inline-block;
   padding: 15px;
   padding-left: 16px;
   margin-right: 5px;
@@ -10,14 +10,13 @@
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
-  float: left;
   box-sizing: border-box;
   -webkit-transition: border .2s ease-in-out;
   -o-transition: border .2s ease-in-out;
   transition: border .2s ease-in-out;
 }
 .leaderboardlink{
-  width: 300px;
+  max-width: 300px;
   margin-top: 40px;
 }
 .pointslabel{
@@ -48,7 +47,7 @@
 <h3>Ergebnis</h3>
 <span class="help-block">Deine Auswertung am {game.day}.{game.month}.{game.year}</span>
 <div class="jumbotron">
-  <div class="center-block pointslabel">{pointscur} /  {pointsmax} Richtig</div>
+  <div class="center-block pointslabel">{pointscur} /  {pointsmax} Korrekt</div>
   <div class="row">
     {#result}
     <div class="result-thumbnail">

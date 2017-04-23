@@ -3,7 +3,7 @@ $(function(){
   var initSummernote = function() {
     $('.summernote').not('.loaded').summernote({
       disableDragAndDrop: true,
-      height: 200,
+      height: 500,
       toolbar: [
         ['style', ['style']],
         ['font', ['bold', 'italic', 'underline', 'clear']],

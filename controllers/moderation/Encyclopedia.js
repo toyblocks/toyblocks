@@ -14,11 +14,19 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
     var _this = this,
       countPerPage = 30,
       findParams = _this.getFindParams(),
+      filterParams = _this.getFilterParams(),
       sortParams = _this.getSortParams() || {title: 1};
+      console.log(filterParams);
+      console.log(filterParams.viewcount);
+      console.log(findParams);
+      console.log(sortParams);
+      if(sortParams.viewcount === 1){
+        sortParams.viewcount = -1;
+      }
 
     _this.mongodb
     .collection('encyclopedia_articles')
-    .find(findParams)
+    .find({$and: [filterParams, findParams]})
     .count(function (err1, totalCount) {
       _this.setPagination(totalCount, countPerPage);
       _this.mongodb

@@ -77,6 +77,8 @@ $(function(){
               
               /* display the new content */
               $('#content').html(data);
+              /* TODO: push the state into the window history, so back buttons work after search */
+              /* window.history.pushState({"html":data,"pageTitle":"yo","",window.location.href}); */
 
               /* if page is beyond the current max, reset.
                   content is empty anyway */
@@ -138,7 +140,7 @@ $(function(){
         searchQuery = searchParams.search;
         
         refreshPage();
-        }, 400);
+        }, 300);
     });
 
 

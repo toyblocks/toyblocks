@@ -26,8 +26,8 @@
             <li><a class="filterbutton" href="#" data-key="article_body" data-query="">Artikel</a></li>
             <li class="divider"></li>
             <li><b style="padding: 3px 20px;">Sortieren nach</b></li>
-            <li><a class="sortbutton" data-query="givenName" href="#">Titel</a></li>
-            <li><a class="sortbutton" data-query="nickname" href="#">Besucherzahlen</a></li>
+            <li><a class="sortbutton" data-query="title" href="#">Titel</a></li>
+            <li><a class="sortbutton" data-query="viewcount" href="#">Besucherzahlen</a></li>
           </ul>
         </div>
         <a href="/moderation/encyclopedia/article" role="button" class="btn btn-primary objecttype-form" style="margin-bottom:10px; width: 170px"><span class="glyphicon glyphicon-plus"></span> Neuer Artikel</a>

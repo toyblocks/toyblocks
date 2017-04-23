@@ -94,9 +94,6 @@ mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
           action = req.params.action || 'index',
           ControllerClass;
 
-        if ('development' === app.settings.env) {
-          console.log("> " + area +" / " + controller + " / " + action);
-        }
         try{
           try {
             ControllerClass = require(getControllerPath(area, controller));

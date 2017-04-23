@@ -136,7 +136,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.response.json({ error: 'Keine Elemente ausgewählt.'});
       return;
     }
-    // first we got the game params
+    // first we get the game params
     this.mongodb
       .collection('assemble_games')
       .find({_id: this.mongo.ObjectID(gameid)})
@@ -162,6 +162,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
             var isElementCorrect = [],
                 isSolutionCorrect = true;
+            // compare the orderings
             for (var i = 0; i < images.length; i++) {
               var index = images[i].assemble_order - 1;
               var isCorrect = parseInt(images[i]._id, 16) ===
