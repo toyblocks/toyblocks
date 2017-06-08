@@ -100,7 +100,10 @@ module.exports.prototype = {
         // we want MongoDB to use its regex itself, like that:
         // { "title" : { $regex : "Berlin" , $options : "i"}}
         regexParam[key] = { $regex : searchParams[key], $options : "i"};
-        findParamsOr.push(regexParam);
+
+        // if the regex is not empty add it
+        if(!(JSON.stringify(regexParam) === '{}'))
+          findParamsOr.push(regexParam);
       }
       result = {$or: findParamsOr};
     }

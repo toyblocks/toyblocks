@@ -37,6 +37,10 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
             var skip = _this.getPaginationSkip(),
               limit = _this.getPaginationLimit();
 
+            console.log(findParams['$or']);
+            console.log(filterParams);
+            console.log(skip);
+            console.log(limit);
             _this.mongodb
               .collection('encyclopedia_articles')
               .find({$and: [findParams, filterParams]}, {title: 1, _id: 1})

@@ -16,29 +16,39 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
       findParams = _this.getFindParams(),
       filterParams = _this.getFilterParams(),
       sortParams = _this.getSortParams() || {title: 1};
-      console.log(filterParams);
-      console.log(filterParams.viewcount);
-      console.log(findParams);
-      console.log(sortParams);
-      if(sortParams.viewcount === 1){
-        sortParams.viewcount = -1;
-      }
+
+    console.log(filterParams);
+    console.log(filterParams.viewcount);
+    console.log(findParams);
+    console.log(sortParams);
+
+    if(sortParams.viewcount === 1){
+      sortParams.viewcount = -1;
+    }
 
     _this.mongodb
     .collection('encyclopedia_articles')
     .find({$and: [filterParams, findParams]})
     .count(function (err1, totalCount) {
+
       _this.setPagination(totalCount, countPerPage);
       _this.mongodb
         .collection('encyclopedia_articles')
-        .find(findParams, {title: 1, _id: 1, article_body: 1, image: 1, viewcount: 1})
+        .find(findParams,
+              {title: 1,
+                _id: 1,
+                article_body: 1,
+                image: 1,
+                viewcount: 1})
         .skip(_this.getPaginationSkip())
         .limit(_this.getPaginationLimit())
         .sort(sortParams)
-        .toArray(function(err, data){
+        .toArray(function(err, data) { 
+
           for (var i = 0; i < data.length; i++) {
             data[i].article_body = data[i].article_body.slice(0,80);
           };
+
           _this.view.render({
             title: 'Enzyklopädie - ToyBlocks',
             route: '/moderation/encyclopedia',
