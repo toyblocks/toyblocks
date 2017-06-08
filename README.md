@@ -9,6 +9,24 @@ ToyBlocks
 
 It is currently hosted at <https://toyblocks.architektur.tu-darmstadt.de/>.
 
+---
+
+## Getting Started
+
+```
+npm install
+mongorestore --db toyblocks_server toyblocks_database_demo/
+npm run
+
+```
+
+## Documentation
+
+A documentation (in german) for users can be found under `DOCUMENTATION.md´.
+
+----
+
+
 Collaborators:
 
 * Franziska Lang
@@ -17,23 +35,8 @@ Collaborators:
 * Stefanie Müller
 
 Developers:
-      
-* Andrej Tretjakow <tretjakow@gmail.com>
-* Mansur Iqbal <mansuriqbal@gmail.com>
-* Simon Bugert <simon.bugert@googlemail.com>
-* Steven Lamarr Reynolds <reynolds.tud@googlemail.com>
 
----
-
-## Getting Started
-
-```
-npm install
-mongorestore --db toyblocks_server toyblocks_dump_server/
-npm run
-
-´´´
-
-## Documentation
-
-A documentation (in german) for users can be found under `DOCUMENTATION.md´.
+* Andrej Tretjakow
+* Mansur Iqbal
+* Simon Bugert
+* Steven Lamarr Reynolds
