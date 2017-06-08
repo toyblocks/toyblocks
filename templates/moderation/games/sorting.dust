@@ -5,7 +5,8 @@
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
   <li><a href="/moderation/">Moderation</a></li>
-  <li class="active">Zeitstrahl</li>
+  <li><a href="/moderation/sorting">Zeitstrahl</a></li>
+  <li class="active">Gebäude hinzufügen</li>
 </ol>
 
 {/contentHead}
@@ -95,7 +96,11 @@
       </div>
     </div>
 
-    <button id="" type="submit" class="col-sm-offset-3 btn btn-primary">Speichern</button>
+    <button id="" type="submit" class="col-sm-offset-3 btn btn-primary">Gebäude Speichern</button>
+    <a href="/moderation/encyclopedia/" class="btn btn-default">
+      Abbrechen
+    </a>
+    <div style="height: 25px"></div>
 
   </form>
 </div>

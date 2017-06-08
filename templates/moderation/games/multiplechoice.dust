@@ -79,6 +79,10 @@
     </div>
 
     <button id="" type="submit" class="col-sm-offset-3 btn btn-primary">Speichern</button>
+    <a href="/moderation/encyclopedia/" class="btn btn-default">
+      Abbrechen
+    </a>
+    <div style="height: 25px"></div>
 
 </form>
 </div>

@@ -2,9 +2,17 @@
 
 {<contentHead}
 <div class="col-md-12 col-sm-12">
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/admin/">Admin</a></li>
+  <li class="active">Benutzer</li>
+</ol>
+
   <div class="row">
-    <div class="col-sm-11 col-md-11">
+    <div class="col-sm-12 col-md-12">
       <div class="row">
+
         <button id="delete-all" type="button" class="btn btn-warning pull-right" style="margin-left: 50px; width: 170px">Alle Studenten löschen</button>
         {>"layout/search"/}
         <div class="btn-group dropdown pull-right" style="margin-right: 10px;">
@@ -24,8 +32,8 @@
             <li><a class="sortbutton" data-query="tuid" href="#">TU-ID</a></li>
           </ul>
         </div>
-        <p style="font-size: 24px;">User Übersicht</p>
-        <p class="success settingssaved alert alert-success" style="display: none;margin-left: 85%; margin-top: 10px">Studenten wurden gelöscht.</p>
+        <p style="font-size: 24px;">Benutzer Übersicht</p>
+        <p class="success settingssaved alert alert-success" style="display: none;margin-left: 85%; margin-top: 10px">Alle Studenten wurden gelöscht!</p>
         <p class="failure settingssaved alert alert-danger" style="display: none;margin-left: 85%;margin-top: 10px">Ein Fehler ist aufgetretten.</p>
       </div>
 {/contentHead}
@@ -77,8 +85,10 @@
 </div>
 
 <script>
-var _searchFields = ['tuid', 'givenName', 'surname', 'nickname', 'right_level'];
+window._searchFields = ['tuid', 'givenName', 'surname', 'nickname', 'right_level'];
+</script>
 
+<script type="text/javascript">
 
 function activate (object, result) {
   var slider;
@@ -150,4 +160,7 @@ $('#delete-all').click(function () {
   }
 });
 </script>
+<div style="display: none">
+{>"layout/pagination"/}
+</div>
 {/contentFoot}

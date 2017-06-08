@@ -48,6 +48,8 @@ footer a {
 #search_input {
   display: inline-block;
   vertical-align: middle;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 #tud-brand{

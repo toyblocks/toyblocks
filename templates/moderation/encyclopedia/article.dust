@@ -1,44 +1,60 @@
 {>"layout/layout.dust"/}
 
 {<content}
-<form class="form-horizontal" id="createarticle" action="/moderation/encyclopedia/update" role="form" method="post">
-  <input type="hidden" name="type" value="encyclopedia_articles">
-  <input type="hidden" name="id" value="{id}">
-  <div class="row">
+<div class="col-md-12 col-sm-12">
 
-    {?image}
-      <div class="panel panel-default">
-        <div class="panel-heading">Die Auswahl eines neuen Bildes überschreibt das vorhandene.</div>
-        <div class="panel-body">
-          <img src="/ressources/image?id={image}&amp;size=middle">
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/moderation/">Moderation</a></li>
+    <li><a href="/moderation/encyclopedia">Enzyklopädie</a></li>
+    <li class="active">Artikel bearbeiten</li>
+  </ol>
+
+  <form class="form-horizontal" id="createarticle" action="/moderation/encyclopedia/update" role="form" method="post">
+    <input type="hidden" name="type" value="encyclopedia_articles">
+    <input type="hidden" name="id" value="{id}">
+    <div class="row">
+
+      {?image}
+        <div class="panel panel-default">
+          <div class="panel-heading">Die Auswahl eines neuen Bildes überschreibt das vorhandene.</div>
+          <div class="panel-body">
+            <img src="/ressources/image?id={image}&amp;size=middle">
+          </div>
+        </div>
+      {/image}
+
+      <div class="form-group" data-image-preview=".preview-thumbnail">
+        <label for="pictureupload">Artikelbild</label>
+        <input name="values[image_name]" type="file" class="form-attr-image" id="attr_image">
+        <input name="values[image]" type="hidden"{?image} value="_id:{image}"{/image}>
+        <p class="help-block">Bitte nur JPEG Dateien</p>
+        <div class="col-sm-3">
+          <div class="preview-thumbnail"></div>
         </div>
       </div>
-    {/image}
 
-    <div class="form-group" data-image-preview=".preview-thumbnail">
-      <label for="pictureupload">Artikelbild</label>
-      <input name="values[image_name]" type="file" class="form-attr-image" id="attr_image">
-      <input name="values[image]" type="hidden"{?image} value="_id:{image}"{/image}>
-      <p class="help-block">Bitte nur JPEG Dateien</p>
-      <div class="col-sm-3">
-        <div class="preview-thumbnail"></div>
+      <div class="input-group">
+        <span class="input-group-addon">Titel</span>
+        <input name="values[title]" type="text" class="form-control" placeholder="Titel des Artikels" required value="{headline}">
       </div>
+
+    </div>
+    <div class="row">
+      <textarea name="values[article_body]" id="attr_article_body" class="form-control summernote" style="display: none;">{?article}{article|s}{/article}</textarea>
     </div>
 
-    <div class="input-group">
-      <span class="input-group-addon">Titel</span>
-      <input name="values[title]" type="text" class="form-control" placeholder="Titel des Artikels" required value="{headline}">
-    </div>
+    <div style="height: 15px"></div>
 
-  </div>
-  <div class="row">
-    <textarea name="values[article_body]" id="attr_article_body" class="form-control summernote" style="display: none;">{?article}{article|s}{/article}</textarea>
-  </div>
+    <button id="submit-article" type="submit" class="btn btn-primary">
+      Speichern
+    </button>
+    <a href="/moderation/encyclopedia/" class="btn btn-default">
+      Abbrechen
+    </a>
+    <div style="height: 25px"></div>
+  </form>
 
-
-  <button id="submit-article" type="submit" class="btn btn-default">
-    Speichern
-  </button>
-</form>
+</div>
 
 {/content}
