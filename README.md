@@ -30,17 +30,16 @@ A documentation (in german) for users can be found under [DOCUMENTATION.md](http
 ----
 
 
-
 Collaborators:
 
-* Franziska Lang
+* Marion Bolder-Boos
 * Gabriel Dette
-* Dr. Marion Bolder-Boos
+* Franziska Lang
 * Stefanie Müller
 
 Developers:
 
-* Andrej Tretjakow
-* Mansur Iqbal
 * Simon Bugert
+* Mansur Iqbal
 * Steven Lamarr Reynolds
+* Andrej Tretjakow
