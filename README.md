@@ -27,10 +27,17 @@ npm start
 
 A documentation (in german) for users can be found under [DOCUMENTATION.md](https://github.com/toyblocks/toyblocks/blob/master/DOCUMENTATION.md).
 
+
+## License
+
+This project is under the MIT License which can be found under [LICENSE](https://github.com/toyblocks/toyblocks/blob/master/LICENSE).
+
+
 ----
 
 
-Collaborators:
+
+Project Leaders:
 
 * Marion Bolder-Boos
 * Gabriel Dette
