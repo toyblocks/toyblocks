@@ -10,62 +10,80 @@
 {/contentHead}
 {<content}
 <style type="text/css">
-h2{
-  text-align: center;
-  margin-top: 5px;
-  height: 38px;
-  border-bottom: 1px solid #DDD;
-  font-size: 28px;
+.list-group-item-text{
+  color: #2d2d2d;
+}
+.list-group-item{
+  margin: 5px;
+}
+.media-body{
+  padding-left: 10px;
 }
 </style>
 <div class="height: 100px;"></div>
-<div class="col-md-7">
-    <div class="media">
-      <a class="pull-left" href="/moderation/games/sorting">
-        <span class="media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/moderation/games/sorting">Zeitstrahl</a></h4>
-        Für das Zeitstrahl-Spiel können weitere Gebäude angelegt werden. Diese werden automatisch dem Spiel hinzugefügt und zufällig bei den Spielen verteilt. Zusätzlich werden die angelegten Gebäude in der Enzyklopädie angezeigt.
+<div class="col-md-7">      
+    <a href="/moderation/games/sorting">
+    <div class="list-group-item">
+        <span class="pull-left media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
+        <div class="media-body">
+          <h4 class="list-group-item-heading">Zeitstrahl</h4>
+          <div class="list-group-item-text">
+          Für das Zeitstrahl-Spiel können weitere Gebäude angelegt werden. Diese werden automatisch dem Spiel hinzugefügt und zufällig bei den Spielen verteilt. Zusätzlich werden die angelegten Gebäude in der Enzyklopädie angezeigt.
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="media">
-      <a class="pull-left" href="/moderation/games/missing">
-        <span class="media-object glyphicon icon-missing" style="font-size: 60px;width: 64px; height: 64px;"></span>
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/moderation/games/missing">Fehlstellenspiel</a></h4>
-        Das Fehlstellenspiel benötigt ein Hauptbild mit Fehlstellen, ein Lösungsbild, eine Kategorie der Einzelteile und gegebenenfalls eine neue Kategorie für die Einzelteile (sollte diese nicht vorhanden sein).
+    </a>
+    
+    <a href="/moderation/games/missing">
+    <div class="list-group-item">
+        <span class="pull-left media-object glyphicon icon-missing" style="font-size: 60px;width: 64px; height: 64px;"></span>
+        <div class="media-body">
+          <h4 class="list-group-item-heading">Fehlstellenspiel</h4>
+          <div class="list-group-item-text">
+          Das Fehlstellenspiel benötigt ein Hauptbild mit Fehlstellen, ein Lösungsbild, eine Kategorie der Einzelteile und gegebenenfalls eine neue Kategorie für die Einzelteile (sollte diese nicht vorhanden sein).
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="media">
-      <a class="pull-left" href="/moderation/games/assemble">
-        <span class="media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/moderation/games/assemble">Baukasten</a></h4>
-        Beim Baukasten erstellt man neue Spiele und wählt dort die passenden Einzelteile aus einer Liste aus. Diese kann man ebenfalls neu hinzufügen.
+    </a>
+    
+    <a href="/moderation/games/assemble">
+      <div class="list-group-item">
+        <span class="pull-left media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
+        <div class="media-body">
+          <h4 class="list-group-item-heading">Baukasten</h4>
+          <div class="list-group-item-text">
+          Beim Baukasten erstellt man neue Spiele und wählt dort die passenden Einzelteile aus einer Liste aus. Diese kann man ebenfalls neu hinzufügen.
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="media">
-      <a class="pull-left" href="/moderation/games/multiplechoice">
-        <span class="media-object glyphicon icon-multiple" style="font-size: 60px; width: 64px; height: 64px;"></span>
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/moderation/games/multiplechoice">Multiple Choice</a></h4>
-        Für das Multiplechoice-Spiel können Fragen hinzugefügt werden. Diese bestehen aus einem Bild, einem Fragentext, mindestens einer richtigen Antwort und mindestens 3 falschen Antworten.
+    </a>
+    
+    <a href="/moderation/games/multiplechoice">
+    <div class="list-group-item">
+        <span class="pull-left media-object glyphicon icon-multiple" style="font-size: 60px; width: 64px; height: 64px;"></span>
+        <div class="media-body">
+          <h4 class="list-group-item-heading">Multiple Choice</h4>
+          <div class="list-group-item-text">
+          Für das Multiplechoice-Spiel können Fragen hinzugefügt werden. Diese bestehen aus einem Bild, einem Fragentext, mindestens einer richtigen Antwort und mindestens 3 falschen Antworten.
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="media">
-      <a class="pull-left" href="/moderation/encyclopedia">
-        <span class="media-object glyphicon glyphicon-book" style="font-size: 60px;width: 64px; height: 64px;"></span>
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/moderation/encyclopedia">Enzyklopädie</a></h4>
-        Die Enzyklopäde besteht aus Artikeln, diese haben einen Titel, einen Text und ein optionales Bild.
+    </a>
+    
+    <a href="/moderation/encyclopedia">
+      <div class="list-group-item">
+        <span class="pull-left media-object glyphicon glyphicon-book" style="font-size: 60px;width: 64px; height: 64px;"></span>
+        <div class="media-body">
+          <h4 class="list-group-item-heading">Enzyklopädie</h4>
+          <div class="list-group-item-text">
+          Die Enzyklopäde besteht aus Artikeln, diese haben einen Titel, einen Text und ein optionales Bild.
+          </div>
+        </div>
       </div>
-      <div style="height: 60px; width: 1px;"></div>
-    </div>
+    </a>
+
+<div style="height: 30px; width: 1px;"></div>
 </div>
+
 
 {/content}
