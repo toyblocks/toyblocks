@@ -1,4 +1,6 @@
 <div class="row">
+<h1>Fehlstellenspiel Ergebnis</h1>
+
   {! Show the Progressbar !}
   <div class="progress">
     <div class="progress-bar progress-bar-success" style="width: {percent.right}%">
