@@ -1,24 +1,26 @@
-<div class="col-md-6" id="primarybox">
-  <center>
-  <h3>{game.title}</h3>
-  <img id="primaryimage" src="/ressources/image?id={game.image}&amp;size=large" title="{game.title}">
-  </center>
-</div>
-<div class="row col-md-6">
-  <form id="gameform">
-    <input type="hidden" name="gameid" value="{game._id}">
-    <div id="selectable">
-      {#images}
-      <label class="box select-answer" for="{_id}">
-        <input type="radio" name="sortings" id="{_id}" value="{_id}" class="hidden">
-        <div class="inner">
-          <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
-        </div>
-        {@eq key=level value=1}
-        <p>{title}</p>
-        {/eq}
-      </label>
-      {/images}
-    </div>
-  </form>
+<div id="parentbox">
+  <div class="col-md-6" id="primarybox">
+    <center>
+    <h3>{game.title}</h3>
+    <img id="primaryimage" src="/ressources/image?id={game.image}&amp;size=large" title="{game.title}">
+    </center>
+  </div>
+  <div class="col-md-6" id="selectablebox">
+    <form id="gameform">
+      <input type="hidden" name="gameid" value="{game._id}">
+      <div id="selectable">
+        {#images}
+        <label class="box select-answer" for="{_id}">
+          <input type="radio" name="sortings" id="{_id}" value="{_id}" class="hidden">
+          
+            <img src="/ressources/image?id={image}&amp;size=middle" alt="{title}" title="Wähle ein Bild aus!">
+          
+          {@eq key=level value=1}
+          <p>{title}</p>
+          {/eq}
+        </label>
+        {/images}
+      </div>
+    </form>
+  </div>
 </div>

@@ -3,26 +3,22 @@
 {<content}
 <style type="text/css">
 
-#selectable img{
-  width: auto;
-  height: 130px;
-  margin: 6px;
-  padding: 0px;
-  max-width: 400px; /* TODO: max-width is 200px but this looks bad either way currently*/
-  display: block;
-  position: relative;
-  left: -50%;
+#parentbox{
+  display: table;
+}
+#primarybox{
+  height: 500px;
+  display: table-cell;
+}
+#selectablebox{
+  max-height: 500px;
+  display: table-cell;
+
 }
 .inner {
     float: left;
     position: relative;
     left: 50%;
-}
-#selectable .glyphicon {
-  position: absolute;
-  right: 4px;
-  top: 6px;
-  font-size:40px;
 }
 #primaryimage {
   width: auto;
@@ -34,29 +30,55 @@
 #selectable .glyphicon-ok { color: lime; z-index: 999}
 #selectable .glyphicon-remove { color: red; z-index: 999}
 
-.box{
-  position: relative;
+#selectable{
+  max-height: 450px;
 }
-.selected {
-    background-color: #0074D9 !important;
+
+#selectable .box {
+  cursor: pointer;
+  width: 45%;
+  max-height: 50%;
+  margin: 3px;
+  overflow: hidden;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+  background-color: white;
+  display: inline-flex;
+}
+
+#selectable img{
+  width: auto;
+  margin: 6px;
+  padding: 0px;
+  max-height: 200px;
+  /*display: block;
+  position: relative;
+  left: -50%;*/
+}
+#selectable .glyphicon {
+  position: absolute;
+  right: 4px;
+  top: 6px;
+  font-size:40px;
+}
+
+.box:hover {
+    background-color: rgb(182, 221, 255) !important;
 }
 
 .selected:hover {
     background-color: #0074D9 !important;
 }
 
-#selectable .box {
-  display: block;
-  cursor: pointer;
-  width: auto;
-  overflow: hidden;
-  *position: relative;
-  border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-  background-color: white;
-  float: left;
+.selected {
+    background-color: #0074D9 !important;
+  
+   -moz-box-shadow:    inset 0 0 10px #0074D9 !imporant;
+   -webkit-box-shadow: inset 0 0 10px #0074D9 !imporant;
+   box-shadow:         inset 0 0 10px #0074D9 !imporant;
+
 }
 
 /* Buttonbox */
