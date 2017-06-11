@@ -22,13 +22,20 @@
   width: 100%;
   margin-bottom: 7px solid #EEE;
 }
-#sortable li {
+.row li{
   position: relative;
   display: inline-block;
   vertical-align: top;
   margin: 3px;
   font-size: 1.2em;
-  width: 13%; /*should be 14.28% but margin and padding are evil*/
+  /* should be 14.28% but margin and padding are evil.
+  TODO: on smaller devices this creates two rows */
+
+  width: 13%;
+  
+}
+#sortable li {
+  cursor: pointer;
  /* height: 240px;*/
 }
 .description{
@@ -282,7 +289,7 @@ $(window).ready(function(){
   * Shows the correct solution after the game has ended.
   */
   function showResultBelow (buildings) {
-    var resultHtml = '<div class="result-text">Lösung</div><form id="resultsortingform"><div class="row"><ul id="sortable" class="well">';
+    var resultHtml = '<div class="result-text">Lösung</div><form id="resultsortingform"><div class="row"><ul id="res-sortable" class="well">';
     for (var i = 0; i < buildings.length; i++) {
       resultHtml += '<li class="center-block"><div class="thumbnail"><div class="era">'+
                     buildings[i].era +
