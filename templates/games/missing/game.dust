@@ -203,7 +203,7 @@ $(window).ready(function(){
     $('#game-result').text('Weiter');
   }
 
-  /*$(document).keypress(function(e) {
+  $(document).keypress(function(e) {
     if(e.which == 13) {
       if((gameIndex+1) < gameIds.length){
         $('#next-question').trigger("click");
@@ -211,7 +211,7 @@ $(window).ready(function(){
         $('#game-result').trigger("click");
       }
     }
-  });*/
+  });
 });
 </script>
 {/content}

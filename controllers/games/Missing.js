@@ -39,14 +39,13 @@ module.exports.prototype = GamesController.prototype.extend({
     var _this = this,
       ids = _this.request.param('id'),
       level = parseInt(_this.request.param('level'), 10) || 1,
-      isDaily = parseInt(_this.request.param('isDaily'),10) || 0;
+      isDaily = parseInt(_this.request.param('isDaily'),10) || 0,
+      count = parseInt(_this.request.param('count'),10) || 5;
 
     _this.increaseStat('level' + level + '_count_played');
 
     if(typeof ids === 'undefined'){
-
-      //give random game
-      var count = 5;
+      //give random games
 
       _this.renderGame(level, function(err, games) {
         games = _this.shuffleArray(games).slice(0, count);
@@ -57,8 +56,8 @@ module.exports.prototype = GamesController.prototype.extend({
         });
       });
     }else{
-
       //give specific game according to ids
+
       ids = ids.split(',');
       for (var i = 0; i < ids.length; i++) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
@@ -67,6 +66,7 @@ module.exports.prototype = GamesController.prototype.extend({
       if(isDaily){
         _this.view.setOnlyContent(true);
       }
+
 
       _this.mongodb
       .collection('missingparts_games')
@@ -106,8 +106,10 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   /**
-  *  containerAction() fetches container images from mongodb
+  *  containerAction() fetches container solutions from mongodb for given game id
   *
+  * @param <String> id
+  * @param <String> level
   * @return <Array> images for the Container
   */
   containerAction: function() {
@@ -119,26 +121,32 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.view.render({ error: 'No ID specified' });
       return;
     }
+
     _this.mongodb
     .collection('missingparts_games')
     .find({_id: _this.mongo.ObjectID(id)})
     .nextObject(function (err, game) {
-      //get one random solution
+
+      //get one random right solution
       var solution = game.missingparts_correctimage[
           Math.floor(game.missingparts_correctimage.length * Math.random())];
 
+      // Get the wrong solutions
       _this.mongodb
         .collection('missingparts_images')
         .find({ missingparts_category: game.missingparts_category,
                 _id: {$nin: game.missingparts_correctimage}}) // no 2 solutions
         .toArray(function (err, images) {
 
+          // Get the right solution
           _this.mongodb
           .collection('missingparts_images')
           .find({_id: _this.mongo.ObjectID(solution.toString())})
-          .nextObject(function (err2, images2) {
+          .nextObject(function (err2, solutionimage) {
+
+            // mix the solutions together
             images = _this.shuffleArray(images).slice(0,3);
-            images.push(images2);
+            images.push(solutionimage);
             images = _this.shuffleArray(images);
 
             _this.view.render({
@@ -174,6 +182,7 @@ module.exports.prototype = GamesController.prototype.extend({
       return;
     }
 
+    // extract the games and selected ids
     result = result.split(',');
     for (var i = 0; i < (result.length/2); i++) {
       selected[i] = [result[i*2], result[(i*2)+1]];
@@ -186,16 +195,16 @@ module.exports.prototype = GamesController.prototype.extend({
     .find( {_id: {$in: objectIds}} )
     .toArray(function(err, game) {
 
-      // lets see if the correct image is clicked
+      // lets see if the correct answer was selected
       // because the order is random we need to iterate all the things
       for (var i = 0; i < game.length; i++) {
         var answers = game[i].missingparts_correctimage,
           isCorrect = false;
 
         for (var j = 0; j < selected.length; j++) {
-          if(String(selected[j][0]) === String(game[i]._id)){
+          if(String(selected[j][0]) === String(game[i]._id)) {
             for (var k = 0; k < answers.length; k++) {
-              if(String(selected[j][1]) === String(answers[k])){
+              if(String(selected[j][1]) === String(answers[k])) {
                 isCorrect = true;
                 break;
               }
