@@ -59,14 +59,15 @@ footer a {
 }
 #welcome-container{
   color: #428bca;
-  font-size:150px;
+  font-size: 10vmax;
   text-align:center;
   line-height:normal;
+  max-width: 100%;
 }
 #toyblocks-title{
   font-variant: small-caps;
-  font-size:150px;
-
+  font-size: 13vmax;
+  max-width: 100%;
 }
 @media (min-width: 768px) {
   #welcome-gameslist .caption {
@@ -91,6 +92,11 @@ footer a {
 
 .glyphicon-cup:before{content:"\e075"}
 
+@media (min-width: 992px){
+  .col-md-20 {
+      width: 20%;
+  }
+}
 
 /* Admin */
 

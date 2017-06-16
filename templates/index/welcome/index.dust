@@ -25,7 +25,7 @@
   </div>
 </div>
 <div class="row" id="welcome-gameslist">
-  <div class="col-sm-4 col-md-2">
+  <div class="col-sm-4 col-md-20">
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-sort"></span><h3 class="h3text"> Zeitstrahl</h3>
@@ -34,7 +34,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-4 col-md-2">
+  <div class="col-sm-4 col-md-20">
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-missing"></span><h3 class="h3text"> Fehlstellen</h3>
@@ -43,7 +43,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-4 col-md-2">
+  <div class="col-sm-4 col-md-20">
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-assemble"></span><h3 class="h3text"> Baukasten</h3>
@@ -52,7 +52,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-4 col-md-2">
+  <div class="col-sm-4 col-md-20">
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-multiple"></span><h3 class="h3text"> Multiple Choice</h3>
@@ -61,7 +61,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-4 col-md-2">
+  <div class="col-sm-4 col-md-20">
     <div class="thumbnail">
       <div class="caption">
         <span class="welcome-startglyphs glyphicon icon-challenge"></span><h3 class="h3text"> Daily Challenge</h3>
