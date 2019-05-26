@@ -19,7 +19,7 @@ module.exports.prototype = UsersController.prototype.extend({
     _this.mongodb
       .collection(userModel.collection)
       .find({'tuid': _this.request.session.user.tuid})
-      .nextObject(function(err, doc) {
+      .next(function(err, doc) {
 
         // Get how many games were played
         var count = 0;

@@ -86,7 +86,7 @@ module.exports.prototype = AdminController.prototype.extend({
     _this.mongodb
       .collection(attributeModel.collection)
       .find({name: _this.request.param('attribute')})
-      .nextObject(function(err, attribute) {
+      .next(function(err, attribute) {
         _this.view.render({attribute: attribute});
       });
   },

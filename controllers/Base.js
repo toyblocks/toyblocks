@@ -202,7 +202,7 @@ module.exports.prototype = {
     {
       _this.request.mongodb.collection('system_config')
         .find({'key': 'login_password'})
-        .nextObject(function(err, doc) {
+        .next(function(err, doc) {
           if (_this.request.param('password') !== doc.value) {
             _this.response.render('login-password', {title: 'Passwort eingeben'});
           }
@@ -302,7 +302,7 @@ module.exports.prototype = {
                   _this.mongodb
                     .collection('users')
                     .find({'tuid': tuid})
-                    .nextObject(function(err, doc) {
+                    .next(function(err, doc) {
                       if (!doc) {
                         // insert new user
                         var user = {

@@ -37,7 +37,7 @@ module.exports.prototype = BaseController.prototype.extend({
         _this.mongodb
           .collection('images')
           .find({_id: _this.mongo.ObjectID(picId)})
-          .nextObject(function(err, doc) {
+          .next(function(err, doc) {
             // getting original image
             if (doc) {
               var width,
@@ -79,7 +79,7 @@ module.exports.prototype = BaseController.prototype.extend({
       _this.mongodb
         .collection('images' + size)
         .find({_id: _this.mongo.ObjectID(picId)})
-        .nextObject(function(err, doc) {
+        .next(function(err, doc) {
           if (doc) {
             // if found render
             showImageFunc(doc.type, doc.data.value(true));

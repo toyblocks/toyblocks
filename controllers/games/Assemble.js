@@ -65,7 +65,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.mongodb
         .collection('assemble_games')
         .find({_id: _this.mongo.ObjectID(id), active: true})
-        .nextObject(function(err, game) {
+        .next(function(err, game) {
           _this.renderGame(game, level, function(err, buildingParts){
             _this.view.render({
               title: 'Baukasten - ToyBlocks',
@@ -140,7 +140,7 @@ module.exports.prototype = GamesController.prototype.extend({
     this.mongodb
       .collection('assemble_games')
       .find({_id: this.mongo.ObjectID(gameid)})
-      .nextObject(function(err, game) {
+      .next(function(err, game) {
 
         _this.mongodb
           .collection('assemble_images')

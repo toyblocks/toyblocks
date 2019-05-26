@@ -125,7 +125,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
     .collection('missingparts_games')
     .find({_id: _this.mongo.ObjectID(id)})
-    .nextObject(function (err, game) {
+    .next(function (err, game) {
 
       //get one random right solution
       var solution = game.missingparts_correctimage[
@@ -142,7 +142,7 @@ module.exports.prototype = GamesController.prototype.extend({
           _this.mongodb
           .collection('missingparts_images')
           .find({_id: _this.mongo.ObjectID(solution.toString())})
-          .nextObject(function (err2, solutionimage) {
+          .next(function (err2, solutionimage) {
 
             // mix the solutions together
             images = _this.shuffleArray(images).slice(0,3);
@@ -256,7 +256,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
     .collection('missingparts_images')
     .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
-    .nextObject(function (err, ele) {
+    .next(function (err, ele) {
       _this.response.json({imgid: ele.image,
                            imgtitle: ele.title,});
     });

@@ -172,7 +172,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
     _this.mongodb
     .collection('encyclopedia_articles')
     .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
-    .nextObject(function(err, article) {
+    .next(function(err, article) {
       _this.view.render({
         title: article.title + ' - Enzyklopädie - ToyBlocks',
         article: article.article_body,
@@ -207,7 +207,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
     _this.mongodb
       .collection('sorting_buildings')
       .find({_id: _this.mongo.ObjectID(buildingid)})
-      .nextObject(function (err, building){
+      .next(function (err, building){
           _this.view.render({
             title: building.title + ' - Enzyklopädie - ToyBlocks',
             building: building,

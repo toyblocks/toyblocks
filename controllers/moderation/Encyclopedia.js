@@ -64,7 +64,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
       _this.mongodb
       .collection('encyclopedia_articles')
       .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
-      .nextObject(function(err, article) {
+      .next(function(err, article) {
         _this.view.render({
           title: article.title + ' - Enzyklopädie - ToyBlocks',
           route: '/moderation/encyclopedia',

@@ -69,7 +69,7 @@ module.exports.prototype = BaseController.prototype.extend({
     _this.mongodb
       .collection('system_config')
       .find({key: 'last_modified'})
-      .nextObject(function(err, doc){
+      .next(function(err, doc){
 
         if (doc) {
           var date = doc.value;

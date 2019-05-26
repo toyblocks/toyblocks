@@ -202,7 +202,7 @@ module.exports.prototype = AdminController.prototype.extend({
           _this.mongodb
             .collection(type.name)
             .find({_id: objectId})
-            .nextObject(function(err, object){
+            .next(function(err, object){
               // receive & delete images
               var imageIds = [];
               for (var i = 0; i < imageAttributes.length; i++) {
@@ -336,7 +336,7 @@ module.exports.prototype = AdminController.prototype.extend({
               _this.mongodb
                 .collection(type.name)
                 .find({_id: object._id})
-                .nextObject(function(err, oldObject) {
+                .next(function(err, oldObject) {
                   var deleteImages = [];
                   for (var i = 0; i < attributes.length; i++) {
                     if (attributes[i].type === 'image') {
@@ -398,7 +398,7 @@ module.exports.prototype = AdminController.prototype.extend({
           _this.mongodb
             .collection(type.name)
             .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
-            .nextObject(function(err, object) {
+            .next(function(err, object) {
               _this.view.render({
                 title: type.title + ' bearbeiten - ToyBlocks',
                 type: type,
@@ -446,7 +446,7 @@ module.exports.prototype = AdminController.prototype.extend({
     _this.mongodb
       .collection('object_types')
       .find({name: typeName})
-      .nextObject(
+      .next(
         function(err, type) {
           if (err)
             throw new Error(err);

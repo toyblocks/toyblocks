@@ -126,7 +126,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
       .collection('attributes')
       .find({name: 'era'})
-      .nextObject(function(err, attribute) {
+      .next(function(err, attribute) {
 
         var eras = attribute.values,
             sortedBuildings = {};

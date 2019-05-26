@@ -31,7 +31,7 @@ app.engine('dust', dust);
 if ('development' === app.settings.env) {
 
   // enable pretty html printing
-  app.use(express.errorHandler());
+  //app.use(express.errorHandler());
   app.locals.pretty = true;
   dust.helpers.optimizers.format = function(ctx, node) { return node; };
 }
@@ -67,12 +67,15 @@ function getControllerPath(area, controller) {
     });
 }
 
-mongodb.MongoClient.connect('mongodb://' + config.mongodb.host + ':' +
-    config.mongodb.port + '/' + config.mongodb.db, function(err, db) {
+const mongoDbPath = 'mongodb://' + config.mongodb.host + ':' + config.mongodb.port + '/' + config.mongodb.db;
+
+mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function(err, client) {
     if(err) {
       console.log(err);
       console.log('Sorry, there is no mongo db server running.');
     } else {
+
+      const db = client.db('toyblocks')
       // initialize db attaching here
       var attachDB = function(req, res, next) {
         req.mongodb = db;

@@ -18,7 +18,7 @@ module.exports.prototype = GamesController.prototype.extend({
     db.mongodb
     .collection('daily_leaderboard')
     .find({date: todaysUnixDate})
-    .nextObject(function (err, leaderboardData) {
+    .next(function (err, leaderboardData) {
 
       if(!!leaderboardData && !!leaderboardData.players){
         var players = leaderboardData.players;
@@ -85,7 +85,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
     .collection('daily_leaderboard')
     .find({date: givenUnixDate})
-    .nextObject(function (err, data) {
+    .next(function (err, data) {
       var users = [];
       if(!!data && !!data.players){
         users = data.players;
@@ -147,7 +147,7 @@ module.exports.prototype = GamesController.prototype.extend({
         _this.mongodb
         .collection('daily_games')
         .find()
-        .nextObject(function (err, ele) {
+        .next(function (err, ele) {
           _this.view.render({
             title: 'Daily Challenge - ToyBlocks',
             missing: ele.missing,

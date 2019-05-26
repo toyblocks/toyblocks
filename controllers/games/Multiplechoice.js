@@ -109,7 +109,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
     .collection('multiplechoice_questions')
     .find({_id: _this.mongo.ObjectID(id)})
-    .nextObject(function (err, question) {
+    .next(function (err, question) {
 
       var right = question.multiplechoice_answer_right;
       var wrong = question.multiplechoice_answer_wrong;
