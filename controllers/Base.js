@@ -3,6 +3,10 @@
 var _ = require('underscore'),
     View = require('../views/Base');
 
+var https = require('https');
+var util = require('util');
+var parseString = require('xml2js').parseString;
+
 module.exports = function() {
 
 };
@@ -242,19 +246,20 @@ module.exports.prototype = {
         }
       };
       if (!_this.request.session.user) {
-        var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl,
-          ticket = _this.request.param('ticket');
+        //var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
+        var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
+
+        var ticket = _this.request.param('ticket');
         if (!ticket) {
           //_this.response.redirect('/users/log/in?returnto=' + escapedUrl);
           // let user login via hrz
-          _this.response.redirect('https://sso.hrz.tu-darmstadt.de/login?service=' + service);
+          _this.response.redirect('https://sso.tu-darmstadt.de/login?service=' + service);
         }
         else {
           // -3 because there is ? or & before which is %3F or %26 escaped
           service = service.substr(0, service.indexOf('ticket%3D' + ticket) - 3);
           // hrz sends us back with a ticket
           // TODO: auslagern
-          var https = require('https');
 
           // not needed, but prepared for the future
           var body = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">' +
@@ -271,7 +276,7 @@ module.exports.prototype = {
           '</SOAP-ENV:Envelope>';
 
           var options = {
-            host: 'sso.hrz.tu-darmstadt.de',
+            host: 'sso.tu-darmstadt.de',
             port: 443,
             path: '/serviceValidate?service=' + service + '&ticket=' + ticket,
             method: 'GET',
@@ -293,57 +298,63 @@ module.exports.prototype = {
                 //console.log('STATUS: ' + verifyResponse.statusCode);
                 //console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
                 //console.log('BODY: ' + chunk);
-                var xml2json = require('xml2json');
-                var jsonResponse = JSON.parse(xml2json.toJson(chunk));
-                if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
-                  var tuid = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']['cas:user'],
-                    attributes = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']['cas:attributes'];
+                parseString(chunk, function(err, jsonResponse) {
+                  
+                  // Print Response Object
+                  console.log(util.inspect(jsonResponse, false, null));
 
-                  _this.mongodb
-                    .collection('users')
-                    .find({'tuid': tuid})
-                    .next(function(err, doc) {
-                      if (!doc) {
-                        // insert new user
-                        var user = {
-                          tuid: tuid,
-                          right_level: 300,
-                          givenName: attributes['cas:givenName'],
-                          surname: attributes['cas:surname'],
-                          employee: (attributes['cas:eduPersonAffiliation'].indexOf('employee') >= 0),
-                          student: (attributes['cas:eduPersonAffiliation'].indexOf('student') >= 0),
-                          _attributes: attributes
-                        };
-                        _this.mongodb
-                          .collection('users')
-                          .insert(user, {w: 1}, function() {
-                            _this.request.session.user = user;
-                            nextWithRightsCheck();
-                          });
-                      }
-                      else {
-                        _this.request.session.user = doc;
-                        nextWithRightsCheck();
-                      }
-                    });
-                }
-                else {
-                  if (jsonResponse['cas:serviceResponse']['cas:authenticationFailure']) {
-                    _this.response.render('error-auth', {text: 
-                      jsonResponse['cas:serviceResponse']['cas:authenticationFailure'].$t + ' (Code: ' +
-                      jsonResponse['cas:serviceResponse']['cas:authenticationFailure'].code + ')'
-                    });
+                  // Successfull login
+                  if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
+                    var tuid = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']['cas:user'],
+                      attributes = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']['cas:attributes'];
+
+                    _this.mongodb
+                      .collection('users')
+                      .find({'tuid': tuid})
+                      .next(function(err, doc) {
+                        if (!doc) {
+                          // insert new user
+                          var user = {
+                            tuid: tuid,
+                            right_level: 300,
+                            givenName: attributes['cas:givenName'],
+                            surname: attributes['cas:surname'],
+                            employee: (attributes['cas:eduPersonAffiliation'].indexOf('employee') >= 0),
+                            student: (attributes['cas:eduPersonAffiliation'].indexOf('student') >= 0),
+                            _attributes: attributes
+                          };
+                          _this.mongodb
+                            .collection('users')
+                            .insertOne(user, {w: 1}, function() {
+                              _this.request.session.user = user;
+                              nextWithRightsCheck();
+                            });
+                        }
+                        else {
+                          _this.request.session.user = doc;
+                          nextWithRightsCheck();
+                        }
+                      });
                   }
                   else {
-                    _this.response.render('error-auth', {text: 'Strange response: ' + chunk});
+                    // Login failed
+                    if (jsonResponse['cas:serviceResponse']['cas:authenticationFailure']) {
+                      _this.response.render('error-auth', {text: 
+                        jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['_'] + ' (Code: ' +
+                        jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['$'].code + ')'
+                      });
+                    }
+                    else {
+                      _this.response.render('error-auth', {text: 'Strange response: ' + chunk});
+                    }
                   }
-                }
+                });
               });
             }
           });
 
           verifyRequest.on('error', function(e) {
-            console.log('problem with request: ' + e.message);
+            console.log('Problem with request: ' + e.message);
           });
 
           // write data to request body
