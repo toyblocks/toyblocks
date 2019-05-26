@@ -31,7 +31,7 @@ module.exports.prototype = AdminController.prototype.extend({
     var _this = this;
     _this.mongodb
       .collection('users')
-      .update(
+      .updateOne(
         {tuid: _this.request.param('tuid')},
         {$set: {'right_level': parseInt(_this.request.param('right_level'))}},
         {},
@@ -49,7 +49,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
     _this.mongodb
       .collection('users')
-      .remove({_id: _this.mongo.ObjectID(id)}, 1, function(err) {
+      .removeOne({_id: _this.mongo.ObjectID(id)}, 1, function(err) {
           if(err){
             _this.response.json({result:'error'});
           }
@@ -65,7 +65,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
     _this.mongodb
       .collection('users')
-      .remove({student: true, right_level: 300}, 0, function(err) {
+      .removeOne({student: true, right_level: 300}, 0, function(err) {
           if(err)
             _this.response.json({result:'error'});
           else

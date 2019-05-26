@@ -239,7 +239,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
         _this.mongodb
         .collection('daily_leaderboard')
-        .update({ date: todaysUnixDate },
+        .updateOne({ date: todaysUnixDate },
                 {$push: {
                   players: player
                 }
@@ -338,7 +338,7 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
 
           mongodb
           .collection('daily_games')
-          .update({},
+          .updateOne({},
           {
             missing: mis.join(','),
             sorting: sor1.join(','),

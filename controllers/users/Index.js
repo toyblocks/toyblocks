@@ -23,20 +23,26 @@ module.exports.prototype = UsersController.prototype.extend({
 
         // Get how many games were played
         var count = 0;
-        try{
-          count += (doc.stats.assemble.level1_count_played       || 0);
-          count += (doc.stats.assemble.level2_count_played       || 0);
-          count += (doc.stats.missing.level1_count_played        || 0);
-          count += (doc.stats.missing.level2_count_played        || 0);
-          count += (doc.stats.missing.level3_count_played        || 0);
-          count += (doc.stats.multiplechoice.level1_count_played || 0);
-          count += (doc.stats.multiplechoice.level2_count_played || 0);
-          count += (doc.stats.sorting.level1_count_played        || 0);
-          count += (doc.stats.sorting.level2_count_played        || 0);
-          count += (doc.stats.sorting.level3_count_played        || 0);
-        }catch (e){
-          console.log("Error catched in /controllers/users/Index.js", e);
-        };
+        if(doc && doc.stats){
+          if(doc.stats.assemble){
+            count += doc.stats.assemble.level1_count_played ? doc.stats.assemble.level1_count_played : 0;
+            count += doc.stats.assemble.level2_count_played ? doc.stats.assemble.level2_count_played : 0;
+          }
+          if(doc.stats.missing){
+            count += doc.stats.missing.level1_count_played ? doc.stats.missing.level1_count_played : 0;
+            count += doc.stats.missing.level2_count_played ? doc.stats.missing.level2_count_played : 0;
+            count += doc.stats.missing.level3_count_played ? doc.stats.missing.level3_count_played : 0;
+          }
+          if(doc.stats.multiplechoice){
+            count += doc.stats.multiplechoice.level1_count_played ? doc.stats.multiplechoice.level1_count_played : 0;
+            count += doc.stats.multiplechoice.level2_count_played ? doc.stats.multiplechoice.level2_count_played : 0;
+          }
+          if(doc.stats.sorting){
+            count += doc.stats.sorting.level1_count_played ? doc.stats.sorting.level1_count_played : 0;
+            count += doc.stats.sorting.level2_count_played ? doc.stats.sorting.level2_count_played : 0;
+            count += doc.stats.sorting.level3_count_played ? doc.stats.sorting.level3_count_played : 0;
+          }
+        }
         
         _this.view.render({
           title: 'Profil',
@@ -60,15 +66,15 @@ module.exports.prototype = UsersController.prototype.extend({
 
     _this.mongodb
       .collection('users')
-      .update(
+      .updateOne(
         {tuid: tuid},
         {$set: {'nickname': newname}},
         {},
         function (err) {
           if(err)
-            _this.response.json({result:'Fehler'});
+            _this.response.json({result: 'Fehler: ' + err});
           else
-            _this.response.json({result:'Gespeichert'});
+            _this.response.json({result: 'Gespeichert'});
         });
   }
 });

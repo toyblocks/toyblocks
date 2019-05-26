@@ -2,7 +2,7 @@
 {<content}
 <div class="jumbotron">
   <div class="page-header">
-    <h1>Es sind Problem mit der Authentifizierung aufgetretten!</h1>
+    <h1>Es sind Probleme bei der Authentifizierung aufgetretten</h1>
     <p>{text}</p>
     <a class="btn btn-primary btn-lg" role="button" href="/">
       Zurück zur Startseite

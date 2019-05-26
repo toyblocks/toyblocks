@@ -184,7 +184,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
       /* update statistics */
       _this.mongodb
           .collection('encyclopedia_articles')
-          .update({_id: _this.mongo.ObjectID(_this.request.param('id'))},
+          .updateOne({_id: _this.mongo.ObjectID(_this.request.param('id'))},
                   { $inc : { 'viewcount': +1 }},
                   {upsert : true}, function (err) {
                     if(err) console.log(err);
@@ -217,7 +217,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
           /* update statistics */
           _this.mongodb
             .collection('sorting_buildings')
-            .update({_id: _this.mongo.ObjectID(buildingid)},
+            .updateOne({_id: _this.mongo.ObjectID(buildingid)},
                   { $inc : { 'viewcount': +1 }},
                   {upsert : true}, function (err) {
                     if(err) console.log(err);

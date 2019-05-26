@@ -22,7 +22,7 @@ module.exports.prototype = BaseController.prototype.extend({
     var _this = this;
     _this.mongodb
     .collection('system_config')
-    .update({key: 'last_modified'},
+    .updateOne({key: 'last_modified'},
             {key: 'last_modified', value: new Date()},
             {upsert: true},
             function(err) {

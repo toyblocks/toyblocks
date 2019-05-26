@@ -57,7 +57,7 @@ module.exports.prototype = AdminController.prototype.extend({
     if (attribute) {
       this.mongodb
         .collection(attributeModel.collection)
-        .insert(
+        .insertOne(
           attribute,
           {w:1},
           function(err) {
@@ -100,7 +100,7 @@ module.exports.prototype = AdminController.prototype.extend({
     var _this = context || this;
     _this.mongodb
       .collection(attributeModel.collection)
-      .update(
+      .updateOne(
         {name: _this.request.param('attribute')},
         {$set: {values: _this.request.param('enums')}},
         {},

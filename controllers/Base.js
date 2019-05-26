@@ -178,7 +178,7 @@ module.exports.prototype = {
     user.stats[this.name][key] ++;
 
     _this.mongodb.collection('users')
-      .update(
+      .updateOne(
         {tuid: user.tuid},
         {$inc: incKey},
         {w:0}

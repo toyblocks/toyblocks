@@ -51,7 +51,7 @@ module.exports.prototype = AdminController.prototype.extend({
     if (type) {
       _this.mongodb
         .collection('object_types')
-        .insert(
+        .insertOne(
           type,
           {w:1},
           function(err) {
@@ -166,7 +166,7 @@ module.exports.prototype = AdminController.prototype.extend({
       
     _this.mongodb
       .collection(dbtype)
-      .update({_id: objectId},
+      .updateOne({_id: objectId},
               {$set: {'active': value}},
               {},
               function(err) {
@@ -210,15 +210,15 @@ module.exports.prototype = AdminController.prototype.extend({
                   imageIds = imageIds.concat(object[imageAttributes[i]]);
               }
 
-              _this.mongodb.collection('images').remove({_id: {$in: imageIds}}, {}, function () {
-                _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
+              _this.mongodb.collection('images').removeOne({_id: {$in: imageIds}}, {}, function () {
+                _this.mongodb.collection(type.name).removeOne({_id: objectId}, {}, function() {
                   _this.response.redirect(redirectPath);
                 });
               });
             });
         }
         else {
-          _this.mongodb.collection(type.name).remove({_id: objectId}, {}, function() {
+          _this.mongodb.collection(type.name).removeOne({_id: objectId}, {}, function() {
             _this.response.redirect(redirectPath);
           });
         }
@@ -312,7 +312,7 @@ module.exports.prototype = AdminController.prototype.extend({
         // save all images in bulk
         _this.mongodb
           .collection('images')
-          .insert(images, {keepGoing:true}, function (err, result) {
+          .insertMany(images, {keepGoing:true}, function (err, result) {
             // set image ids in object
             for (var i in imageValues) {
               if (Array.isArray(imageValues[i])) {
@@ -357,11 +357,11 @@ module.exports.prototype = AdminController.prototype.extend({
                   }
                   _this.mongodb
                     .collection('images')
-                    .remove({_id: {$in: deleteImages}}, {}, function() {
+                    .removeOne({_id: {$in: deleteImages}}, {}, function() {
                       // finally update object in db
                       _this.mongodb
                         .collection(type.name)
-                        .update({_id: object._id}, object, {}, function(err) {
+                        .updateOne({_id: object._id}, object, {}, function(err) {
                           if (err) throw new Error(err);
                           _this.response.redirect(redirectPath);
                         });
@@ -372,8 +372,8 @@ module.exports.prototype = AdminController.prototype.extend({
               // inserting object into db
               _this.mongodb
                 .collection(type.name)
-                .insert(object, {}, function(err) {
-                  console.log("new object");
+                .insertOne(object, {}, function(err) {
+                  console.log("added new object: " + object);
                   if (err) throw new Error(err);
                   _this.response.redirect(redirectPath);
                 });
