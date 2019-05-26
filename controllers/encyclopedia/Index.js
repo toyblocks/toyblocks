@@ -37,10 +37,6 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
             var skip = _this.getPaginationSkip(),
               limit = _this.getPaginationLimit();
 
-            console.log(findParams['$or']);
-            console.log(filterParams);
-            console.log(skip);
-            console.log(limit);
             _this.mongodb
               .collection('encyclopedia_articles')
               .find({$and: [findParams, filterParams]}, {title: 1, _id: 1})
@@ -50,28 +46,6 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                   .collection('sorting_buildings')
                   .find({$and: [findParams, filterParams, {active: true}]}, {title: 1, _id: 1, image: 1})
                   .toArray(function(err, buildingData){
-
-                    // check for empty site
-                    //articleData = articleData || [];
-                    //buildingData = buildingData || [];
-                    // render empty page
-                    /*
-                    if(!!articleData){
-                      console.log("articleData is full");
-                    }else{
-                      console.log("articleData is empty");
-                    }
-                    console.log("Rendering Ency Index: " + articleData.length + ", " + buildingData.length);
-
-                    if(articleData.length + buildingData.length == 0){
-                      _this.view.render({
-                        title: 'Glossar - Enzyklopädie - ToyBlocks',
-                        route: '/encyclopedia',
-                        data: [],
-                        customPagination: []
-                      });
-                    }
-                    */
 
                     // Merge bulding and article arrays
                     for (var i = 0; i < articleData.length; i++) {
@@ -86,15 +60,15 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                     // Sort data in regards to umlauts
                     data.sort(function(a, b) {
                       a = a.title.toLowerCase();
-                      a = a.replace("ä", "ae"); 
-                      a = a.replace("ü", "ue"); 
-                      a = a.replace("ö", "oe"); 
-                      a = a.replace("ß", "ss"); 
+                      a = a.replace("ä", "ae");
+                      a = a.replace("ü", "ue");
+                      a = a.replace("ö", "oe");
+                      a = a.replace("ß", "ss");
                       b = b.title.toLowerCase();
-                      b = b.replace("ä", "ae"); 
-                      b = b.replace("ö", "oe"); 
-                      b = b.replace("ü", "ue"); 
-                      b = b.replace("ß", "ss"); 
+                      b = b.replace("ä", "ae");
+                      b = b.replace("ö", "oe");
+                      b = b.replace("ü", "ue");
+                      b = b.replace("ß", "ss");
                       return a.localeCompare(b);
                     });
 

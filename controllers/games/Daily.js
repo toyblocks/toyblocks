@@ -349,11 +349,7 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
           },
           {},
           function (err) {
-            if(err)
-              console.log('>> [DailyGame] Error at ' + currenttime + ' - ' + err);
-            else{
-              console.log('>> [DailyGame] Successfully generated new game at ' + currenttime);
-            }
+            // do nothing
           });
         });
       });

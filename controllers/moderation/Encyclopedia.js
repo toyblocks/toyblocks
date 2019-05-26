@@ -17,11 +17,6 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
       filterParams = _this.getFilterParams(),
       sortParams = _this.getSortParams() || {title: 1};
 
-    console.log(filterParams);
-    console.log(filterParams.viewcount);
-    console.log(findParams);
-    console.log(sortParams);
-
     if(sortParams.viewcount === 1){
       sortParams.viewcount = -1;
     }

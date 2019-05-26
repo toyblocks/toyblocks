@@ -373,7 +373,6 @@ module.exports.prototype = AdminController.prototype.extend({
               _this.mongodb
                 .collection(type.name)
                 .insertOne(object, {}, function(err) {
-                  console.log("added new object: " + object);
                   if (err) throw new Error(err);
                   _this.response.redirect(redirectPath);
                 });

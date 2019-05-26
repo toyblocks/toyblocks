@@ -251,7 +251,6 @@ module.exports.prototype = {
 
         var ticket = _this.request.param('ticket');
         if (!ticket) {
-          //_this.response.redirect('/users/log/in?returnto=' + escapedUrl);
           // let user login via hrz
           _this.response.redirect('https://sso.tu-darmstadt.de/login?service=' + service);
         }
@@ -259,7 +258,6 @@ module.exports.prototype = {
           // -3 because there is ? or & before which is %3F or %26 escaped
           service = service.substr(0, service.indexOf('ticket%3D' + ticket) - 3);
           // hrz sends us back with a ticket
-          // TODO: auslagern
 
           // not needed, but prepared for the future
           var body = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">' +
@@ -354,7 +352,7 @@ module.exports.prototype = {
           });
 
           verifyRequest.on('error', function(e) {
-            console.log('Problem with request: ' + e.message);
+            _this.response.render('error-auth', {text: 'Problem with request: ' + e.message});
           });
 
           // write data to request body
