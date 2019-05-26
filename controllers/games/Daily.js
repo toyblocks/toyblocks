@@ -281,8 +281,8 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
 
   var currenttime = new Date().getTime();
 
-  // TODO: somehow use _this.shuffleArray
-  // but I don't know how right now
+  // Fisher-Yates Shuffle from Jonas Raoni Soares Silva
+  // @ http://jsfromhell.com/array/shuffle
   function shuffleArray (o){ //v1.0
     for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
       x = o[--i], o[i] = o[j], o[j] = x);
@@ -309,12 +309,13 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
 
           //missing
           mis = shuffleArray(mis).slice(0, 2);
-          mis[0] = mis[0]._id;
-          mis[1] = mis[1]._id;
+          for (var i = 0; i < mis.length; i++) {
+            mis[i] = mis[i]._id;
+          }
 
           //sorting
-          var sor1 = shuffleArray(sor).slice(0,7);
-          var sor2 = shuffleArray(sor).slice(0,7);
+          var sor1 = shuffleArray(sor).slice(0, 7);
+          var sor2 = shuffleArray(sor).slice(0, 7);
           for (var i = 0; i < sor1.length; i++) {
             sor1[i] = sor1[i]._id;
             sor2[i] = sor2[i]._id;
@@ -327,9 +328,10 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
           }
 
           //assemble games
-          ass = shuffleArray(ass).slice(0,2);
-          ass[0] = ass[0]._id + '&level=2';
-          ass[1] = ass[1]._id + '&level=2';
+          ass = shuffleArray(ass).slice(0, 2);
+          for (var i = 0; i < ass.length; i++) {
+            ass[i] = ass[i]._id + '&level=2';
+          }
 
           // we got 5 multiplechoice
           //        2 missing
