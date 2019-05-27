@@ -227,7 +227,7 @@ module.exports.prototype = GamesController.prototype.extend({
       };
 
       // Update Stats
-      Statistics.prototype.insertStats(_this, { $inc : { 'missing': +1 }});
+      Statistics.prototype.insertStats(_this, 'missing');
 
       // Update daily
       if(isDaily){

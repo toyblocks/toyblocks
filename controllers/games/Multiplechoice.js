@@ -195,7 +195,7 @@ module.exports.prototype = GamesController.prototype.extend({
       }
       
       // Update Stats
-      Statistics.prototype.insertStats(_this, { $inc : { 'multiplechoice': +1 }});
+      Statistics.prototype.insertStats(_this, 'multiplechoice');
 
       if(isDaily){
         _this.response.json({

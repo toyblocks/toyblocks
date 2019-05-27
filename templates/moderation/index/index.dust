@@ -9,6 +9,7 @@
 
 {/contentHead}
 {<content}
+
 <style type="text/css">
 .list-group-item-text{
   color: #2d2d2d;
@@ -22,8 +23,8 @@
 </style>
 <div class="height: 100px;"></div>
 <div class="col-md-7">      
-    <a href="/moderation/games/sorting">
-    <div class="list-group-item">
+    <a class="moderation-list-item" href="/moderation/games/sorting">
+      <div class="list-group-item">
         <span class="pull-left media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
         <div class="media-body">
           <h4 class="list-group-item-heading">Zeitstrahl</h4>
@@ -34,8 +35,8 @@
       </div>
     </a>
     
-    <a href="/moderation/games/missing">
-    <div class="list-group-item">
+    <a class="moderation-list-item" href="/moderation/games/missing">
+      <div class="list-group-item">
         <span class="pull-left media-object glyphicon icon-missing" style="font-size: 60px;width: 64px; height: 64px;"></span>
         <div class="media-body">
           <h4 class="list-group-item-heading">Fehlstellenspiel</h4>
@@ -46,7 +47,7 @@
       </div>
     </a>
     
-    <a href="/moderation/games/assemble">
+    <a class="moderation-list-item" href="/moderation/games/assemble">
       <div class="list-group-item">
         <span class="pull-left media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
         <div class="media-body">
@@ -58,8 +59,8 @@
       </div>
     </a>
     
-    <a href="/moderation/games/multiplechoice">
-    <div class="list-group-item">
+    <a class="moderation-list-item" href="/moderation/games/multiplechoice">
+      <div class="list-group-item">
         <span class="pull-left media-object glyphicon icon-multiple" style="font-size: 60px; width: 64px; height: 64px;"></span>
         <div class="media-body">
           <h4 class="list-group-item-heading">Multiple Choice</h4>
@@ -70,7 +71,7 @@
       </div>
     </a>
     
-    <a href="/moderation/encyclopedia">
+    <a class="moderation-list-item" href="/moderation/encyclopedia">
       <div class="list-group-item">
         <span class="pull-left media-object glyphicon glyphicon-book" style="font-size: 60px;width: 64px; height: 64px;"></span>
         <div class="media-body">

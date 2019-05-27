@@ -131,7 +131,7 @@ $(window).ready(function(){
   <div class="headline col-md-3" style="margin-top:28px">Statistiken für den {#from}{day}.{month}.{year}{/from} bis {#to}{day}.{month}.{year}{/to}</div>
   <div class="well center-block col-md-9">
     <label class="checkbox-inline">
-      <input type="checkbox" id="drawCheckbox0" checked>Alle
+      <input type="checkbox" id="drawCheckbox0" checked>Alle Spiele
     </label>
     <label class="checkbox-inline">
       <input type="checkbox" id="drawCheckbox1" checked>Baukasten
@@ -146,7 +146,7 @@ $(window).ready(function(){
       <input type="checkbox" id="drawCheckbox4" checked>Fehlstellen
     </label>
     <label class="checkbox-inline">
-      <input type="checkbox" id="drawCheckbox5" checked>Daily
+      <input type="checkbox" id="drawCheckbox5" checked>Daily Challenge
     </label>
     <button id="redraw-chart-button" type="button" class="btn btn-primary" style="margin-left: 15px">Anzeigen</button>
   </div>

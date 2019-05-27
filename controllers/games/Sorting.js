@@ -189,7 +189,7 @@ module.exports.prototype = GamesController.prototype.extend({
             });
 
             // Update Stats
-            Statistics.prototype.insertStats(_this, { $inc : { 'sorting': +1 }});
+            Statistics.prototype.insertStats(_this, 'sorting');
 
             // response with a json object
             _this.response.json({

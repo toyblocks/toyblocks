@@ -254,7 +254,7 @@ module.exports.prototype = GamesController.prototype.extend({
                   day: d.getDate()
                 };
 
-                Statistics.prototype.insertStats(_this, { $inc : { 'daily': +1 }});
+                Statistics.prototype.insertStats(_this, 'daily');
 
                 _this.view.render({
                   title: 'Daily Challenge - ToyBlocks',
@@ -341,13 +341,15 @@ module.exports.generateDailyGame = function generateDailyGame (mongodb) {
           mongodb
           .collection('daily_games')
           .updateOne({},
-          {
-            missing: mis.join(','),
-            sorting: sor1.join(','),
-            sorting2: sor2.join(','),
-            multiplechoice: mul.join(','),
-            assemble: ass[0],
-            assemble2: ass[1]
+          {$set:
+            {
+              missing: mis.join(','),
+              sorting: sor1.join(','),
+              sorting2: sor2.join(','),
+              multiplechoice: mul.join(','),
+              assemble: ass[0],
+              assemble2: ass[1]
+            }
           },
           {},
           function (err) {

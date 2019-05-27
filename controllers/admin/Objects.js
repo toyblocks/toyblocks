@@ -361,7 +361,7 @@ module.exports.prototype = AdminController.prototype.extend({
                       // finally update object in db
                       _this.mongodb
                         .collection(type.name)
-                        .updateOne({_id: object._id}, object, {}, function(err) {
+                        .updateOne({_id: object._id}, {$set: object}, {}, function(err) {
                           if (err) throw new Error(err);
                           _this.response.redirect(redirectPath);
                         });
@@ -442,6 +442,11 @@ module.exports.prototype = AdminController.prototype.extend({
 
   getTypeWithAttributes: function (typeName, cb) {
     var _this = this;
+
+    if (!typeName) {
+      throw new Error('Param "typeName" is needed.');
+    }
+
     _this.mongodb
       .collection('object_types')
       .find({name: typeName})

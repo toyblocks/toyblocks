@@ -19,15 +19,16 @@ module.exports.prototype = BaseController.prototype.extend({
   *
   */
   updateLastModifiedTimestamp: function() {
-    var _this = this;
-    _this.mongodb
-    .collection('system_config')
-    .updateOne({key: 'last_modified'},
-            {key: 'last_modified', value: new Date()},
-            {upsert: true},
-            function(err) {
-              if(err)
-                console.log('Error in updateLastModifiedTimestamp.');
-            });
+    this.mongodb
+      .collection('system_config')
+      .updateOne(
+        {key: 'last_modified'},
+        {$set: {key: 'last_modified', value: new Date()}},
+        {upsert: true},
+        function(err) {
+          if(err)
+            console.log('Error in updateLastModifiedTimestamp.');
+        }
+    );
   }
 });

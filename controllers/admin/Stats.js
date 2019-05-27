@@ -151,7 +151,7 @@ daily:    [ 0, 1, 23, 32, 12, 23, 1 , 32, 32, 32, 32, 32, 3, 2, 32, etc];
      db.mongodb
           .collection('statistics')
           .updateOne({date: currentDay},
-                  gametype,
+                  {$inc: {[gametype]: +1}},
                   {upsert : true}, function (err) {
                     if(err) console.log(err);
                   });

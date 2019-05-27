@@ -172,7 +172,7 @@ module.exports.prototype = GamesController.prototype.extend({
             }
             
             // Update Stats
-            Statistics.prototype.insertStats(_this, { $inc : { 'assemble': +1 }});
+            Statistics.prototype.insertStats(_this, 'assemble');
 
             _this.response.json({
               correct: isSolutionCorrect,
