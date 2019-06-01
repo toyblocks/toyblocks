@@ -43,7 +43,7 @@ Lediglich der **http-proxy** wird mit Root-Rechten gestartet um den Port 80 öff
 Ein _git post-receive hook_ kopiert die Änderungen nach `/home/production/apps/toyblocks` und **forever** startet die Applikation neu, da es die Dateiänderungen bemerkt.  
 Node.js ist in `/home/production/node/latest` installiert, was das updaten und wechseln von Versionen vereinfacht.  
 Logs werden im Verzeichnis `/home/production/logs` gespeichert.  
-Der Datenbankspeicher liegt in `/home/production/dbs/mongo`.  
+Der Datenbankspeicher liegt in `/home/production/dbs/mongo`.
 
 
 Abhängigkeiten und Anforderungen
@@ -101,7 +101,8 @@ Beim Aufruf einer Webseite wird die URL in der Hauptapplikationsdatei _app.js_ d
 Der _Base-Controller_ bekommt beim Insanziieren von der _app.js_ den _Mongo-Datenbank-Handler_, das _MongoDB-Objekt_, das _Request-Objekt_ von Express.js und das _Response-Objekt_ übergeben. So kann man in jedem Controller dadrauf zugreifen. Wenn ein Controller insaziiert ist, wird die Funktion _run()_ aufgerufen, die die passende Action darin aufruft. In der Action ist dann der eigentliche Code für diesen Seitenaufruf. Nach allen Operationen wird _this.view.render()_ aufgerufen, die das passende Template lädt.
 
 #### View
-Die _this.view_ Variable ist eine Insanz der View, die sich in der Datei _views/Base.js_ befindet. Dort werden Templates geladen und entsprechende Basis-Variablen (wie z.B. _area, _controller oder _action um in jedem Template zu wissen, wo man sich befindet - hilfreich für das Layout-Template) an die Templates übergeben.
+Die _this.view_ Variable ist eine Insanz der View, die sich in der Datei _views/Base.js_ befindet.
+Dort werden Templates geladen und entsprechende Basis-Variablen (wie z.B. \_area, \_controller oder \_action um in jedem Template zu wissen, wo man sich befindet - hilfreich für das Layout-Template) an die Templates übergeben.
 
 #### Templates
 Die Templates befinden sich im Ordner _templates/_ und sind ähnlich den Controllern angeordnet, d.h. für jede Area und Controller ein Ordner. Je Action gibt es ein Template, das so wie die Action selbst mit _.dust_ als Endung benannt wird. **Dust.js** ist die Template-Engine. Mehr dazu auf der [Homepage von dust.js][dust].  
@@ -144,19 +145,22 @@ Zusätzlich muss für die Suche die Volltext suche innerhalb MongoDB aktiviert w
 
 Um die Demo Datenbank zu importieren
 
-    mongorestore --db toyblocks_server toyblocks_dump_server/
+    mongorestore --db toyblocks toyblocks_dump_server/
 
 Um ein Backup der Datenbank zu erstellen
 
     mongodump --db toyblocks -o toyblocks_dump/
 
+und danach gezippt werden mit
+
+    tar -zcvf dump.tar.gz toyblocks_dump/toyblocks
 
 
 
 [toyblocks]:  https://toyblocks.architektur.tu-darmstadt.de/  "Toyblocks URL"
 [nodejs]:  http://nodejs.org/  "node.js"
 [npm]: https://www.npmjs.org/
-[mongo]: http://www.mongodb.org/ "mongoDB" 
+[mongo]: http://www.mongodb.org/ "mongoDB"
 [express]: http://expressjs.com/ "express"
 [dust]: http://linkedin.github.io/dustjs/ "Dustjs"
 [http-proxy]: https://github.com/nodejitsu/node-http-proxy/tree/v0.10.4 "node-http-proxy"
