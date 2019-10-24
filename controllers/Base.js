@@ -280,7 +280,7 @@ module.exports.prototype = {
             method: 'GET',
             headers: {
               'Content-Type': 'text/xml',
-              'Content-Length': Buffer.byteLength(body)
+              'Content-Length': 0 //Buffer.byteLength(body)
             },
           //  ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
           };
