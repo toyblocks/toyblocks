@@ -319,6 +319,7 @@ module.exports.prototype = {
                       .next(function(err, doc) {
                         if (!doc) {
                           // insert new user
+                          console.log("Creating new user: " + tuid);
                           var user = {
                             tuid: tuid,
                             right_level: 300,
@@ -337,6 +338,7 @@ module.exports.prototype = {
                         }
                         else {
                           _this.request.session.user = doc;
+                          console.log("Found " + tuid + " user: " + JSON.stringify(doc));
                           nextWithRightsCheck();
                         }
                       });
