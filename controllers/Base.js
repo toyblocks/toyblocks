@@ -303,7 +303,7 @@ module.exports.prototype = {
 
                   // Successfull login
                   if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
-                    var success = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess'];
+                    var success = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess'][0];
                     var tuid = success['cas:user'][0];
 
                     // TODO: attributes are empty currently
