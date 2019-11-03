@@ -31,11 +31,12 @@
           <p><b>Architekt:</b> {building.architect}</p>
           <p><b>Bauherr:</b> {building.builder}</p>
           <br>
-          {@if cond="{building.level} == 1"}
+          {@eq key=building.level value="true" type="boolean"}
           <p><b>Wird im Kurs behandelt.</b></p>
           {:else}
           <p><b>Wird nicht im Kurs behandelt.</b></p>
-          {/if}
+          {/eq}
+
           <p>{building.description}</p>
       </div>
     </div>

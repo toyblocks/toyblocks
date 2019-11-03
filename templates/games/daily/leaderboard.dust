@@ -16,9 +16,11 @@
     <ul class="pager">
       <li><a href="?date={yesterday}">Vorheriger Tag</a></li>
       <li><a href="?">Heute</a></li>
-    {@if cond="{tomorrow}"}
+      {@eq key=tomorrow value="true" type="boolean"}
       <li><a href="?date={tomorrow}">Nächster Tag</a></li>
-    {/if}
+      {:else}
+      <li><a href="?date={tomorrow}">Nächster Tag</a></li>
+      {/eq}
     </ul>
   <div class="panel panel-default">
     <div class="panel-heading">Die besten Spieler am {game.day}.{game.month}.{game.year}!</div>
@@ -46,12 +48,13 @@
     </table>
     {:else}
     <br>
-    {@if cond="{tomorrow}"}
-      <div class="alert alert-danger" style="margin: 0px;"> An diesem Tag hat niemand gespielt! </div>
+
+    {@eq key=tomorrow value="true" type="boolean"}
+          <div class="alert alert-danger" style="margin: 0px;"> An diesem Tag hat niemand gespielt! </div>
     {:else}
-      <div class="alert alert-danger" style="margin: 0px;"> Es hat noch niemand gespielt! <a href="/games/daily/game" class="alert-link">Seien Sie Erster!</a></div>
-      
-    {/if}
+          <div class="alert alert-danger" style="margin: 0px;"> Es hat noch niemand gespielt! <a href="/games/daily/game" class="alert-link">Seien Sie Erster!</a></div>
+    {/eq};
+
   {/players}
 
 

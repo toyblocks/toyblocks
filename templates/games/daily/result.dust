@@ -56,19 +56,20 @@
       </div>
       <div class="progress lowerlabel">
         {#singles}
-        {@if cond="{.}"}
-        <span class="green glyphicon glyphicon-ok"></span>
-        {:else}
-        <span class="red glyphicon glyphicon-remove"></span>
-        {/if}
+          {@eq key="{.}" value="true" type="boolean"}
+          <span class="green glyphicon glyphicon-ok"></span>
+          {:else}
+          <span class="red glyphicon glyphicon-remove"></span>
+          {/eq}
         {/singles}
       </div>
     </div>
     {/result}
   </div>
-  {@if cond="{pointscur} == {pointsmax}"}
-  <h1>Gratulation! Alles richtig!</h1>
-  {/if}
+
+  {@eq key="{pointscur}" value="{pointsmax}" type="string"}
+    <h1>Gratulation! Alles richtig!</h1>
+  {/eq}
 
   <a class="leaderboardlink center-block btn btn-success btn-lg" href="/games/daily/leaderboard">Ranglistenplazierung ansehen</a>
 

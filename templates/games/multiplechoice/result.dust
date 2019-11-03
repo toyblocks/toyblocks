@@ -22,7 +22,7 @@
       <h3>{multiplechoice_question}</h3>
       <div class="input-group questions">
         <span class="input-group-btn">
-          {@if cond="{selectedAnswer}"}
+          {@eq key=selectedAnswer type="boolean" value="true"}
             {#multiplechoice_answer_right}
               <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
                 <span class="pull-left question-text">{.}</span>
@@ -39,7 +39,7 @@
               </button>
               {@sep}<p style="font-size: 14px;margin-bottom: 0px;">oder</p>{/sep}
             {/multiplechoice_answer_right}
-          {/if}
+          {/eq}
         </span>
       </div>
     </div>

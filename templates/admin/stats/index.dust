@@ -159,8 +159,8 @@ $(window).ready(function(){
 <ul class="pager">
   <li><a href="?month={previousmonth}">Vorherigen Monat</a></li>
   <li><a href="?">Heute</a></li>
-{@if cond="{renderNextWeek}"}
+  {@eq key=renderNextWeek value="true" type="boolean"}
   <li><a href="?month={nextmonth}">Nächsten Monat</a></li>
-{/if}
+  {/eq}
 </ul>
 {/content}

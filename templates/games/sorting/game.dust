@@ -168,7 +168,7 @@ $(window).ready(function(){
    tries = 0,
    isGlyphed = false,
    modalIsShown = false;
-   isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
+   isDaily = {@eq key=isDaily value="true" type="boolean"}true{:else}false{/eq};
 
   $('#sortable').sortable();
   $('#sortable').disableSelection();

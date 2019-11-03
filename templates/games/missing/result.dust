@@ -21,7 +21,7 @@
       <h3 style="color: #428bca;">{title}</h3>
       <div class="input-group games">
         <span class="input-group-btn">
-          {@if cond="{selectedAnswer}"}
+          {@eq key=selectedAnswer value="true" type="boolean"}
             <p style="font-size: 14px">
             Korrekt! Es ist ein:
             <span class="glyphicon glyphicon-ok pull-right green" style="margin-right: 10px; font-size:40px;"></span>
@@ -43,7 +43,7 @@
             </div>
             {@sep}<p style="font-size: 14px;margin-bottom: 0px;">oder</p>{/sep}
             {/missingparts_correctimage}
-          {/if}
+          {/eq}
         </span>
       </div>
     </div>

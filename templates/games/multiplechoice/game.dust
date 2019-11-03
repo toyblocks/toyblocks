@@ -68,7 +68,7 @@ var questionIds = [{#questions}'{_id}'{@sep},{/sep}{/questions}],
   selectedAnswers = [],
   readyForNext = false;
   gamesCount = {questions.length}-1,
-  isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
+  isDaily = {@eq key=isDaily value="true" type="boolean"}true{:else}false{/eq};
 
 String.prototype.hashString = function(){
     var hash = 0, i, char;

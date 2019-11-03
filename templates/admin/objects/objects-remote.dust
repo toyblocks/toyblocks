@@ -19,11 +19,11 @@ button:hover{
     {#objects attributes=attributes object_type=type}
     <tr>
       {#attributes object=.}
-      {@if cond="'{type}' == 'image'"}
-      <td>{#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" />{/object[name]}</td>
-      {:else}
-      <td>{#object[name]}{.}{/object[name]}</td>
-      {/if}
+      {@eq key=type value="image" type="string"}
+          <td>{#object[name]}<img src="/ressources/image?id={.}&size=middle" style="max-width:50px;" />{/object[name]}</td>
+        {:else}
+          <td>{#object[name]}{.}{/object[name]}</td>
+      {/eq}
       {/attributes}
       <td><button type="button" class="btn select-object" data-object-id="{_id}"><span class="glyphicon glyphicon-ok"></span></button></td>
     </tr>

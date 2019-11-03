@@ -106,7 +106,7 @@
 $(window).ready(function() {
   var max_tries = 3,
    tries = 0,
-   isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
+   isDaily = {@eq key=isDaily value="true" type="boolean"}true{:else}false{/eq};
 
   /* sortable initialization*/
   $('#sortablebot, #sortabletop').disableSelection();

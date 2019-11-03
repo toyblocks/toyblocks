@@ -138,7 +138,7 @@ $(window).ready(function(){
   var gameIds = [{#games}"{_id}"{@sep},{/sep}{/games}],
     gameIndex = 0,
     selectedAnswers = [],
-    isDaily = {@if cond="{isDaily}"}true{:else}false{/if};
+    isDaily = {@eq key=isDaily value="true" type="boolean"}true{:else}false{/eq};
 
   function loadGame(gameId) {
     $.ajax({url: "/games/missing/container?level={level}&id="+gameId})
