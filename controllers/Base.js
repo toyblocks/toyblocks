@@ -273,25 +273,17 @@ module.exports.prototype = {
             '</SOAP-ENV:Body>' +
           '</SOAP-ENV:Envelope>';
 
+          // /serviceValidate specifiys CAS 2.0
+          // See docu for CAS protocol:
+          // https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol.html
           var options = {
             host: 'sso.tu-darmstadt.de',
             port: 443,
             path: '/serviceValidate?service=' + service + '&ticket=' + ticket,
             method: 'GET',
-            headers: {
-              'Content-Type': 'text/xml',
-              'Content-Length': 0 //Buffer.byteLength(body)
-            },
-            service: undefined,
-            paths: {
-              login: 'users/log/in',
-              logout: 'users/log/out',
-              serviceValidate: 'users/', // ?
-              validate: 'users/', // ?
-            }
-          //  ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
+            // ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
           };
-          console.log('OPTIONS: ' + options);
+          //console.log('OPTIONS: ' + JSON.stringify(options));
 
           var verifyRequest = https.request(options, function(verifyResponse) {
             if (verifyResponse.statusCode !== 200) {
@@ -301,9 +293,9 @@ module.exports.prototype = {
             else {
               verifyResponse.setEncoding('utf8');
               verifyResponse.on('data', function (chunk) {
-                console.log('STATUS: ' + verifyResponse.statusCode);
-                console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
-                console.log('BODY: ' + chunk);
+                //console.log('STATUS: ' + verifyResponse.statusCode);
+                //console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
+                //console.log('BODY: ' + chunk);
                 parseString(chunk, function(err, jsonResponse) {
                   
                   // Print Response Object
@@ -311,8 +303,15 @@ module.exports.prototype = {
 
                   // Successfull login
                   if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
-                    var tuid = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']['cas:user'],
-                      attributes = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']['cas:attributes'];
+                    var success = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess'];
+                    var tuid = success['cas:user'];
+
+                    // TODO: attributes are empty currently
+                    // not sure why, documentation says there should be stuff
+                    // See docu:
+                    // https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol-Specification.html#257-example-response-with-custom-attributes
+                    var attributes = success['cas:attributes'] | {};
+                    var affiliation = attributes['cas:eduPersonAffiliation'] | "";
 
                     _this.mongodb
                       .collection('users')
@@ -325,8 +324,8 @@ module.exports.prototype = {
                             right_level: 300,
                             givenName: attributes['cas:givenName'],
                             surname: attributes['cas:surname'],
-                            employee: (attributes['cas:eduPersonAffiliation'].indexOf('employee') >= 0),
-                            student: (attributes['cas:eduPersonAffiliation'].indexOf('student') >= 0),
+                            employee: (affiliation.indexOf('employee') >= 0),
+                            student: (affiliation.indexOf('student') >= 0),
                             _attributes: attributes
                           };
                           _this.mongodb
