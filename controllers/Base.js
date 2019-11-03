@@ -324,8 +324,8 @@ module.exports.prototype = {
                             right_level: 300,
                             givenName: attributes['cas:givenName'],
                             surname: attributes['cas:surname'],
-                            employee: (affiliation.indexOf('employee') >= 0),
-                            student: (affiliation.indexOf('student') >= 0),
+                            employee: ((affiliation + "").indexOf('employee') >= 0),
+                            student: ((affiliation + "").indexOf('student') >= 0),
                             _attributes: attributes
                           };
                           _this.mongodb
