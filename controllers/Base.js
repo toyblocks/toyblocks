@@ -313,6 +313,10 @@ module.exports.prototype = {
                     var attributes = success['cas:attributes'] | {};
                     var affiliation = attributes['cas:eduPersonAffiliation'] | "";
 
+                    if(tuid === null || tuid === undefined || tuid === ""){
+                      _this.response.render('error-auth', {text: 'TU-ID is very strange. Canceling: ' + chunk});
+                    }
+
                     _this.mongodb
                       .collection('users')
                       .find({'tuid': tuid})
