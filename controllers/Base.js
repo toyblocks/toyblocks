@@ -304,7 +304,7 @@ module.exports.prototype = {
                   // Successfull login
                   if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
                     var success = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess'];
-                    var tuid = success['cas:user'];
+                    var tuid = success['cas:user'][0];
 
                     // TODO: attributes are empty currently
                     // not sure why, documentation says there should be stuff
