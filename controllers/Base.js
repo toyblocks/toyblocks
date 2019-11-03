@@ -282,8 +282,16 @@ module.exports.prototype = {
               'Content-Type': 'text/xml',
               'Content-Length': 0 //Buffer.byteLength(body)
             },
+            service: undefined,
+            paths: {
+              login: 'users/log/in',
+              logout: 'users/log/out',
+              serviceValidate: 'users/', // ?
+              validate: 'users/', // ?
+            }
           //  ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
           };
+          console.log('OPTIONS: ' + options);
 
           var verifyRequest = https.request(options, function(verifyResponse) {
             if (verifyResponse.statusCode !== 200) {
@@ -293,9 +301,9 @@ module.exports.prototype = {
             else {
               verifyResponse.setEncoding('utf8');
               verifyResponse.on('data', function (chunk) {
-                //console.log('STATUS: ' + verifyResponse.statusCode);
-                //console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
-                //console.log('BODY: ' + chunk);
+                console.log('STATUS: ' + verifyResponse.statusCode);
+                console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
+                console.log('BODY: ' + chunk);
                 parseString(chunk, function(err, jsonResponse) {
                   
                   // Print Response Object
