@@ -259,33 +259,8 @@ module.exports.prototype = {
           service = service.substr(0, service.indexOf('ticket%3D' + ticket) - 3);
           // hrz sends us back with a ticket
 
-          // not needed, but prepared for the future
-          var body = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">' +
-            '<SOAP-ENV:Header/>' +
-            '<SOAP-ENV:Body>' +
-              '<samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol" MajorVersion="1"' +
-                'MinorVersion="1" RequestID="_192.168.16.51.1024506224022"' +
-                'IssueInstant="2002-06-19T17:03:44.022Z">' +
-                '<samlp:AssertionArtifact>' +
-                  ticket +
-                '</samlp:AssertionArtifact>' +
-              '</samlp:Request>' +
-            '</SOAP-ENV:Body>' +
-          '</SOAP-ENV:Envelope>';
-
-          // /serviceValidate specifiys CAS 2.0
-          // See docu for CAS protocol:
-          // https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol.html
-          var options = {
-            host: 'sso.tu-darmstadt.de',
-            port: 443,
-            path: '/serviceValidate?service=' + service + '&ticket=' + ticket,
-            method: 'GET',
-            // ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
-          };
-          var CAS3 = true;
-          if(CAS3){
-            body = '' +
+          // SAML 1.1 for /samlValidate POST request
+          var body = '' +
               '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">\n' +
               '    <SOAP-ENV:Header/>\n' +
               '    <SOAP-ENV:Body>\n' +
@@ -297,19 +272,22 @@ module.exports.prototype = {
               '    </SOAP-ENV:Body>\n' +
               '</SOAP-ENV:Envelope>\n';
 
-            options = {
-              host: 'sso.tu-darmstadt.de',
-              port: 80,
-              path: '/samlValidate?TARGET=' + service,
-              method: 'GET',
-              headers: {
-                'Content-Type': 'text/xml',  
-                'Content-Length': Buffer.byteLength(body)  
-              },
-              // ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
-            };            
-          }
-          console.log('OPTIONS: ' + JSON.stringify(options));
+          // /serviceValidate specifiys CAS 2.0
+          // See docu for CAS protocol:
+          // https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol.html
+          var options = {
+            host: 'sso.tu-darmstadt.de',
+            port: 443,
+            path: '/p3/serviceValidate?service=' + service + '&ticket=' + ticket,
+            method: 'GET',
+            //headers: {
+            //  'Content-Type': 'text/xml',  
+            //  'Content-Length': Buffer.byteLength(body)  
+            //},
+            //body: body,
+            // ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
+          };
+          //console.log('OPTIONS: ' + JSON.stringify(options));
 
           var verifyRequest = https.request(options, function(verifyResponse) {
             if (verifyResponse.statusCode !== 200) {
@@ -319,25 +297,21 @@ module.exports.prototype = {
             else {
               verifyResponse.setEncoding('utf8');
               verifyResponse.on('data', function (chunk) {
-                console.log('STATUS: ' + verifyResponse.statusCode);
-                console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
-                console.log('BODY: ' + chunk);
+                //console.log('STATUS: ' + verifyResponse.statusCode);
+                //console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
+                //console.log('BODY: ' + chunk);
+
                 parseString(chunk, function(err, jsonResponse) {
                   
                   // Print Response Object
-                  console.log(util.inspect(jsonResponse, false, null));
+                  //console.log(util.inspect(jsonResponse, false, null));
 
                   // Successfull login
                   if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
                     var success = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess'][0];
                     var tuid = success['cas:user'][0];
-
-                    // TODO: attributes are empty currently
-                    // not sure why, documentation says there should be stuff
-                    // See docu:
-                    // https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol-Specification.html#257-example-response-with-custom-attributes
-                    var attributes = success['cas:attributes'] | {};
-                    var affiliation = attributes['cas:eduPersonAffiliation'] | "";
+                    var attributes = success['cas:attributes'][0];
+                    var affiliation = attributes['cas:eduPersonAffiliation'] | [];
 
                     if(tuid === null || tuid === undefined || tuid === ""){
                       _this.response.render('error-auth', {text: 'TU-ID is very strange. Canceling: ' + chunk});
@@ -352,13 +326,13 @@ module.exports.prototype = {
                           var user = {
                             tuid: tuid,
                             right_level: 300,
-                            givenName: attributes['cas:givenName'],
-                            surname: attributes['cas:surname'],
-                            employee: ((affiliation + "").indexOf('employee') >= 0),
-                            student: ((affiliation + "").indexOf('student') >= 0),
+                            givenName: attributes['cas:givenName'][0],
+                            surname: attributes['cas:surname'][0],
+                            employee: affiliation.includes('employee'),
+                            student: affiliation.includes('student'),
                             _attributes: attributes
                           };
-                          console.log("Creating new " + tuid + " user: " + JSON.stringify(user));
+                          //console.log("Creating new " + tuid + " user: " + JSON.stringify(user));
                           _this.mongodb
                             .collection('users')
                             .insertOne(user, {w: 1}, function() {
@@ -368,7 +342,7 @@ module.exports.prototype = {
                         }
                         else {
                           _this.request.session.user = doc;
-                          console.log("Found " + tuid + " user: " + JSON.stringify(doc));
+                          //console.log("Found " + tuid + " user: " + JSON.stringify(doc));
                           nextWithRightsCheck();
                         }
                       });
