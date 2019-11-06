@@ -76,6 +76,16 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                       return i.title.charAt(0).toUpperCase() + i.title.charAt(1);
                     }
 
+                    if(data.length === 0){
+                      _this.view.render({
+                        title: 'Glossar - Enzyklopädie - ToyBlocks',
+                        route: '/encyclopedia',
+                        data: [],
+                        customPagination: []
+                      });
+                      return;
+                    }
+
                     // Create custom pagination
                     var customPagination = [],
                       pagCounter = 1,
