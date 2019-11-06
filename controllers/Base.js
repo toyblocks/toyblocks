@@ -304,14 +304,14 @@ module.exports.prototype = {
                 parseString(chunk, function(err, jsonResponse) {
                   
                   // Print Response Object
-                  //console.log(util.inspect(jsonResponse, false, null));
+                  console.log(JSON.stringify(jsonResponse));
 
                   // Successfull login
                   if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
                     var success = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess'][0];
                     var tuid = success['cas:user'][0];
                     var attributes = success['cas:attributes'][0];
-                    var affiliation = attributes['cas:eduPersonAffiliation'] | [];
+                    var affiliation = attributes['cas:eduPersonAffiliation'][0] | [];
 
                     if(tuid === null || tuid === undefined || tuid === ""){
                       _this.response.render('error-auth', {text: 'TU-ID is very strange. Canceling: ' + chunk});
@@ -341,6 +341,26 @@ module.exports.prototype = {
                             });
                         }
                         else {
+                          if(doc.givenName === "" ||
+                            doc.givenName === null ||
+                            doc.givenName === undefined){
+
+                            var user = {
+                              tuid: tuid,
+                              right_level: 300,
+                              givenName: attributes['cas:givenName'][0],
+                              surname: attributes['cas:surname'][0],
+                              employee: affiliation.includes('employee'),
+                              student: affiliation.includes('student'),
+                              _attributes: attributes
+                            };
+                            
+                            _this.mongodb
+                              .collection('users')
+                              .updateOne(
+                                {tuid: tuid},
+                                user);
+                          }
                           _this.request.session.user = doc;
                           //console.log("Found " + tuid + " user: " + JSON.stringify(doc));
                           nextWithRightsCheck();
