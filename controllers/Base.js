@@ -283,7 +283,33 @@ module.exports.prototype = {
             method: 'GET',
             // ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
           };
-          //console.log('OPTIONS: ' + JSON.stringify(options));
+          var CAS3 = true;
+          if(CAS3){
+            body = '' +
+              '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">\n' +
+              '    <SOAP-ENV:Header/>\n' +
+              '    <SOAP-ENV:Body>\n' +
+              '        <samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol"' + 
+              'MajorVersion="1" MinorVersion="1" RequestID="_192.168.16.51.1024506224022"' +
+              'IssueInstant="2002-06-19T17:03:44.022Z">\n' +
+              '            <samlp:AssertionArtifact>' + ticket+ '</samlp:AssertionArtifact>\n' +
+              '        </samlp:Request>\n' +
+              '    </SOAP-ENV:Body>\n' +
+              '</SOAP-ENV:Envelope>\n';
+
+            options = {
+              host: 'sso.tu-darmstadt.de',
+              port: 80,
+              path: '/samlValidate?TARGET=' + service,
+              method: 'GET',
+              headers: {
+                'Content-Type': 'text/xml',  
+                'Content-Length': Buffer.byteLength(body)  
+              },
+              // ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
+            };            
+          }
+          console.log('OPTIONS: ' + JSON.stringify(options));
 
           var verifyRequest = https.request(options, function(verifyResponse) {
             if (verifyResponse.statusCode !== 200) {
@@ -293,9 +319,9 @@ module.exports.prototype = {
             else {
               verifyResponse.setEncoding('utf8');
               verifyResponse.on('data', function (chunk) {
-                //console.log('STATUS: ' + verifyResponse.statusCode);
-                //console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
-                //console.log('BODY: ' + chunk);
+                console.log('STATUS: ' + verifyResponse.statusCode);
+                console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
+                console.log('BODY: ' + chunk);
                 parseString(chunk, function(err, jsonResponse) {
                   
                   // Print Response Object
@@ -323,7 +349,6 @@ module.exports.prototype = {
                       .next(function(err, doc) {
                         if (!doc) {
                           // insert new user
-                          console.log("Creating new user: " + tuid);
                           var user = {
                             tuid: tuid,
                             right_level: 300,
@@ -333,6 +358,7 @@ module.exports.prototype = {
                             student: ((affiliation + "").indexOf('student') >= 0),
                             _attributes: attributes
                           };
+                          console.log("Creating new " + tuid + " user: " + JSON.stringify(user));
                           _this.mongodb
                             .collection('users')
                             .insertOne(user, {w: 1}, function() {
