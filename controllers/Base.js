@@ -311,7 +311,13 @@ module.exports.prototype = {
                     var success = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess'][0];
                     var tuid = success['cas:user'][0];
                     var attributes = success['cas:attributes'][0];
-                    var affiliation = attributes['cas:eduPersonAffiliation'][0] | [];
+                    var affiliation = attributes['cas:eduPersonAffiliation'];
+                    var isEmployee = affiliation.includes('employee');
+                    var isStudent = affiliation.includes('student');
+                    
+                    console.log(tuid);
+                    console.log(attributes);
+                    console.log(affiliation);
 
                     if(tuid === null || tuid === undefined || tuid === ""){
                       _this.response.render('error-auth', {text: 'TU-ID is very strange. Canceling: ' + chunk});
@@ -328,8 +334,8 @@ module.exports.prototype = {
                             right_level: 300,
                             givenName: attributes['cas:givenName'][0],
                             surname: attributes['cas:surname'][0],
-                            employee: affiliation.includes('employee'),
-                            student: affiliation.includes('student'),
+                            employee: isEmployee,
+                            student: isStudent,
                             _attributes: attributes
                           };
                           //console.log("Creating new " + tuid + " user: " + JSON.stringify(user));
