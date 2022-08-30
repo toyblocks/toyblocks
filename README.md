@@ -1,9 +1,6 @@
-
-ToyBlocks
-=========
+# ToyBlocks
 
 **ToyBlocks** ist ein webbasiertes Lernspiel für Studierende des Fachbereichs Architektur, das im Rahmen des Basiskurses Architekturgeschichte (Modul 312) als interdisziplinäres Konzept zwischen den Fachbereichen Architektur und Informatik der TU Darmstadt entstanden ist.
-
 
 **ToyBlocks** is an E-learning webgame for students from the Fachbereich Architektur of TU Darmstadt. It is used in the entry class Architekturgeschichte (Modul 313, eng. architecture history) and was created as an interdisciplinary concept between Fachbereich Architektur and Fachbereich Informatik.
 
@@ -25,17 +22,13 @@ npm start
 
 ## Documentation
 
-A documentation (in german) for users can be found under [DOCUMENTATION.md](https://github.com/toyblocks/toyblocks/blob/master/DOCUMENTATION.md).
-
+A documentation (in german) for developers can be found under [DOCUMENTATION.md](https://github.com/toyblocks/toyblocks/blob/master/DOCUMENTATION.md).
 
 ## License
 
 This project is under the MIT License which can be found under [LICENSE](https://github.com/toyblocks/toyblocks/blob/master/LICENSE).
 
-
-----
-
-
+## Team
 
 Project Leaders:
 

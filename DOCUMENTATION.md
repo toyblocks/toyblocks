@@ -1,4 +1,3 @@
-
 ToyBlocks
 =========
 Dieses Dokument soll zukünftigen Entwicklern einen Überblick über verwendete Technologien liefern und eine kurze Einführung in den Programmcode geben. 

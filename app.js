@@ -27,9 +27,7 @@ var app = express();
 
 app.engine('dust', dust);
 
-// in development only
-if ('development' === app.settings.env) {
-
+if ('development' === process.env.NODE_ENV) {
   // enable pretty html printing
   //app.use(express.errorHandler());
   app.locals.pretty = true;

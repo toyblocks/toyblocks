@@ -231,12 +231,12 @@ module.exports.prototype = {
   },
 
   checkLogin: function(next) {
-    var _this = this,
-        isLive = _this.request.headers.host.indexOf('tu-darmstadt.de') > 0,
-        querystring = require('querystring'),
-        escapedUrl = querystring.escape(_this.request.originalUrl);
+    var _this = this;
+    var isProduction = process.env.NODE_ENV === "production";
+    var querystring = require('querystring');
+    var escapedUrl = querystring.escape(_this.request.originalUrl);
 
-    if (_this.getRightLevel() >= 0 && isLive) {
+    if (_this.getRightLevel() >= 0 && isProduction) {
       var nextWithRightsCheck = function() {
         if (_this.request.session.user.right_level > _this.getRightLevel()) {
           _this.response.render('error-rights', {title: 'Keine erforderlichen Rechte'});
@@ -304,7 +304,7 @@ module.exports.prototype = {
                 parseString(chunk, function(err, jsonResponse) {
                   
                   // Print Response Object
-                  console.log(JSON.stringify(jsonResponse));
+                  //console.log(JSON.stringify(jsonResponse));
 
                   // Successfull login
                   if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
@@ -400,27 +400,26 @@ module.exports.prototype = {
       }
     }
     else {
-      if (!isLive) {
-        if (!_this.request.session.user) {
-          _this.request.session.user = {
-            'employee' : false,
-            'givenName' : 'Local',
-            'nickname' : 'ToyblocksDev',
-            'name' : 'Local Development',
-            'right_level' : 100,
-            'student' : true,
-            'surname' : 'Development',
-            'tuid' : 'developer',
-            'stats': {
-              'sorting': {
-                'level1_count_played': 32
-              },
-              'missing': {
-                'level1_count_played': 42
-              }
+      var isDevelopment = process.env.NODE_ENV === "development";
+      if (isDevelopment && !_this.request.session.user) {
+        _this.request.session.user = {
+          'employee' : false,
+          'givenName' : 'Local',
+          'nickname' : 'ToyblocksDev',
+          'name' : 'Local Development',
+          'right_level' : 100,
+          'student' : true,
+          'surname' : 'Development',
+          'tuid' : 'developer',
+          'stats': {
+            'sorting': {
+              'level1_count_played': 32
+            },
+            'missing': {
+              'level1_count_played': 42
             }
-          };
-        }
+          }
+        };
       }
       next();
     }
