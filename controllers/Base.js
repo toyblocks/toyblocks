@@ -1,28 +1,27 @@
 'use strict';
 
 var _ = require('underscore'),
-    View = require('../views/Base');
+  View = require('../views/Base');
 
 var https = require('https');
-var util = require('util');
 var parseString = require('xml2js').parseString;
+var querystring = require('querystring');
 
-module.exports = function() {
+module.exports = function () { };
 
-};
 module.exports.prototype = {
 
   name: 'base',
   rightLevel: -1,
 
-  extend: function(child) {
+  extend: function (child) {
     return _.extend({}, this, child);
   },
 
-  run: function(action) {
+  run: function (action) {
     this.action = action;
     this.view.setTemplate(this.area + '/' + this.name + '/' + action);
-    var callFunc = action.replace(/(-[a-z])/g, function(v) { return v.replace(/-/,'').toUpperCase();});
+    var callFunc = action.replace(/(-[a-z])/g, function (v) { return v.replace(/-/, '').toUpperCase(); });
     if (this[callFunc + 'Action']) {
       this[callFunc + 'Action']();
     }
@@ -34,14 +33,14 @@ module.exports.prototype = {
     // can not render view here, because most of the time the db requests are async
   },
 
-  getDbTexts: function(textKeys, callback) {
+  getDbTexts: function (textKeys, callback) {
     if (!Array.isArray(textKeys)) {
       textKeys = [textKeys];
     }
     this.mongodb
       .collection('page_texts')
-      .find({key: {$in: textKeys}})
-      .toArray(function(err, texts) {
+      .find({ key: { $in: textKeys } })
+      .toArray(function (err, texts) {
         var textsByKey = {};
         for (var i in texts) {
           textsByKey[texts[i].key] = texts[i].text;
@@ -50,7 +49,7 @@ module.exports.prototype = {
       });
   },
 
-  addMessage: function(msgType, msgHead, msgText) {
+  addMessage: function (msgType, msgHead, msgText) {
     if (!this.request.session.messages)
       this.request.session.messages = [];
     this.request.session.messages.push({
@@ -60,7 +59,7 @@ module.exports.prototype = {
     });
   },
 
-  getMessages: function() {
+  getMessages: function () {
     if (this.request.session.messages) {
       var msgs = this.request.session.messages;
       delete this.request.session.messages;
@@ -71,29 +70,29 @@ module.exports.prototype = {
     }
   },
 
-  getUser: function() {
+  getUser: function () {
     return this.request.session.user;
   },
 
-  getPage: function() {
+  getPage: function () {
     return parseInt(this.request.param('page')) || 1;
   },
 
-  setPagination: function(totalCount, countPerPage) {
+  setPagination: function (totalCount, countPerPage) {
     this.paginationTotalCount = totalCount;
     this.paginationCountPerPage = countPerPage;
     this.view.setParam('_paginationPages', Math.ceil(totalCount / countPerPage));
   },
 
-  getPaginationSkip: function() {
-    return (this.getPage() - 1 ) * this.paginationCountPerPage;
+  getPaginationSkip: function () {
+    return (this.getPage() - 1) * this.paginationCountPerPage;
   },
 
-  getPaginationLimit: function() {
+  getPaginationLimit: function () {
     return this.paginationCountPerPage;
   },
 
-  getFindParams: function() {
+  getFindParams: function () {
     var result = {},
       findParamsOr = [],
       searchParams = this.request.param('search');
@@ -103,89 +102,91 @@ module.exports.prototype = {
 
         // we want MongoDB to use its regex itself, like that:
         // { "title" : { $regex : "Berlin" , $options : "i"}}
-        regexParam[key] = { $regex : searchParams[key], $options : "i"};
+        regexParam[key] = { $regex: searchParams[key], $options: "i" };
 
         // if the regex is not empty add it
-        if(!(JSON.stringify(regexParam) === '{}'))
+        if (!(JSON.stringify(regexParam) === '{}'))
           findParamsOr.push(regexParam);
       }
-      result = {$or: findParamsOr};
+      result = { $or: findParamsOr };
     }
     return result;
   },
 
-  getFilterParams: function() {
+  getFilterParams: function () {
     var filterKey = this.request.param('filterkey'),
       filterQuery = this.request.param('filter'),
       filterParams = {},
       filterParamsSecond = {};
 
 
-    if(filterQuery === undefined || filterKey === '')
+    if (filterQuery === undefined || filterKey === '')
       return {};
 
-    if(isNaN(Number(filterQuery))){
+    if (isNaN(Number(filterQuery))) {
       filterParamsSecond[filterKey] = {};
-    }else{
+    } else {
       filterParamsSecond[filterKey] = Number(filterQuery);
     }
 
-    if(filterQuery === ''){
-      filterParams[filterKey] = {$regex: '[^()]', $options: 'i'};
-    }else{
+    if (filterQuery === '') {
+      filterParams[filterKey] = { $regex: '[^()]', $options: 'i' };
+    } else {
       filterParams[filterKey] = filterQuery;
     }
-    
-    var result = {$or: [filterParams, filterParamsSecond]};
+
+    var result = { $or: [filterParams, filterParamsSecond] };
     return result;
   },
 
-  getSortParams: function() {
+  getSortParams: function () {
     var sortQuery = this.request.param('sort'),
       direction = this.request.param('sortdirection'),
       sortParamsNumber = {},
       sortParams = {};
 
-    if(sortQuery === undefined)
+    if (sortQuery === undefined)
       return {};
 
-    if(direction === undefined){
+    if (direction === undefined) {
       sortParams[sortQuery] = 1;
-    }else{
+    } else {
       sortParams[sortQuery] = Number(direction);
     }
     return sortParams;
   },
 
-  increaseStat: function(key) {
+  increaseStat: function (key) {
     var _this = this,
       user = this.getUser();
-    if (!user)
-      throw new Error('there is no user logged in');
+    if (!user) {
+      _this.response.render('error-rights', { title: 'Es ist kein Benutzer angemeldet' });
+      return;
+    }
 
     var incKey = {};
     incKey['stats.' + this.name + '.' + key] = 1;
-    
+
     if (!user.stats)
       user.stats = {};
-    
+
     if (!user.stats[this.name])
       user.stats[this.name] = {};
 
     if (!user.stats[this.name][key])
       user.stats[this.name][key] = 0;
 
-    user.stats[this.name][key] ++;
+    user.stats[this.name][key]++;
 
     _this.mongodb.collection('users')
       .updateOne(
-        {tuid: user.tuid},
-        {$inc: incKey},
-        {w:0}
+        { tuid: user.tuid },
+        { $inc: incKey },
+        { w: 0 }
       );
   },
 
-  init: function(req, res, next) {
+  init: function (req, res, next) {
     var _this = this;
     this.request = req;
     this.response = res;
@@ -201,14 +202,13 @@ module.exports.prototype = {
     }
 
     if (_this.request.session.user &&
-        _this.request.session.user.right_level >= 300 &&
-        !_this.request.session.password_given)
-    {
+      _this.request.session.user.right_level >= 300 &&
+      !_this.request.session.password_given) {
       _this.request.mongodb.collection('system_config')
-        .find({'key': 'login_password'})
-        .next(function(err, doc) {
+        .find({ 'key': 'login_password' })
+        .next((err, doc) => {
           if (_this.request.param('password') !== doc.value) {
-            _this.response.render('login-password', {title: 'Passwort eingeben'});
+            _this.response.render('login-password', { title: 'Passwort eingeben' });
           }
           else {
             _this.request.session.password_given = true;
@@ -218,28 +218,26 @@ module.exports.prototype = {
     }
 
     if (!_this.request.session.user ||
-        _this.request.session.user.right_level < 300 ||
-        _this.request.session.password_given)
-    {
+      _this.request.session.user.right_level < 300 ||
+      _this.request.session.password_given) {
       _this.checkLogin(next);
     }
-    
+
   },
 
-  getRightLevel: function() {
+  getRightLevel: function () {
     return this.rightLevel;
   },
 
-  checkLogin: function(next) {
+  checkLogin: function (next) {
     var _this = this;
     var isProduction = process.env.NODE_ENV === "production";
-    var querystring = require('querystring');
     var escapedUrl = querystring.escape(_this.request.originalUrl);
 
     if (_this.getRightLevel() >= 0 && isProduction) {
-      var nextWithRightsCheck = function() {
+      var nextWithRightsCheck = function () {
         if (_this.request.session.user.right_level > _this.getRightLevel()) {
-          _this.response.render('error-rights', {title: 'Keine erforderlichen Rechte'});
+          _this.response.render('error-rights', { title: 'Keine erforderlichen Rechte' });
         }
         else {
           next();
@@ -261,16 +259,16 @@ module.exports.prototype = {
 
           // SAML 1.1 for /samlValidate POST request
           var body = '' +
-              '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">\n' +
-              '    <SOAP-ENV:Header/>\n' +
-              '    <SOAP-ENV:Body>\n' +
-              '        <samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol"' + 
-              'MajorVersion="1" MinorVersion="1" RequestID="_192.168.16.51.1024506224022"' +
-              'IssueInstant="2002-06-19T17:03:44.022Z">\n' +
-              '            <samlp:AssertionArtifact>' + ticket+ '</samlp:AssertionArtifact>\n' +
-              '        </samlp:Request>\n' +
-              '    </SOAP-ENV:Body>\n' +
-              '</SOAP-ENV:Envelope>\n';
+            '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">\n' +
+            '    <SOAP-ENV:Header/>\n' +
+            '    <SOAP-ENV:Body>\n' +
+            '        <samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol"' +
+            'MajorVersion="1" MinorVersion="1" RequestID="_192.168.16.51.1024506224022"' +
+            'IssueInstant="2002-06-19T17:03:44.022Z">\n' +
+            '            <samlp:AssertionArtifact>' + ticket + '</samlp:AssertionArtifact>\n' +
+            '        </samlp:Request>\n' +
+            '    </SOAP-ENV:Body>\n' +
+            '</SOAP-ENV:Envelope>\n';
 
           // /serviceValidate specifiys CAS 2.0
           // See docu for CAS protocol:
@@ -289,10 +287,12 @@ module.exports.prototype = {
           };
           //console.log('OPTIONS: ' + JSON.stringify(options));
 
-          var verifyRequest = https.request(options, function(verifyResponse) {
+          var verifyRequest = https.request(options, function (verifyResponse) {
             if (verifyResponse.statusCode !== 200) {
-              _this.response.render('error-auth', {text:
-                'HRZ Server scheinen nicht zu funktionieren. Gelieferter Status: ' + verifyResponse.statusCode});
+              _this.response.render('error-auth', {
+                text:
+                  'HRZ Server scheinen nicht zu funktionieren. Gelieferter Status: ' + verifyResponse.statusCode
+              });
             }
             else {
               verifyResponse.setEncoding('utf8');
@@ -301,8 +301,8 @@ module.exports.prototype = {
                 //console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
                 //console.log('BODY: ' + chunk);
 
-                parseString(chunk, function(err, jsonResponse) {
-                  
+                parseString(chunk, function (err, jsonResponse) {
+
                   // Print Response Object
                   //console.log(JSON.stringify(jsonResponse));
 
@@ -314,15 +314,15 @@ module.exports.prototype = {
                     var affiliation = attributes['cas:eduPersonAffiliation'];
                     var isEmployee = affiliation.includes('employee');
                     var isStudent = affiliation.includes('student');
-                    
-                    if(tuid === null || tuid === undefined || tuid === ""){
-                      _this.response.render('error-auth', {text: 'TU-ID is very strange. Canceling: ' + chunk});
+
+                    if (tuid === null || tuid === undefined || tuid === "") {
+                      _this.response.render('error-auth', { text: 'TU-ID is very strange. Canceling: ' + chunk });
                     }
 
                     _this.mongodb
                       .collection('users')
-                      .find({'tuid': tuid})
-                      .next(function(err, doc) {
+                      .find({ 'tuid': tuid })
+                      .next(function (err, doc) {
                         if (!doc) {
                           // insert new user
                           var user = {
@@ -337,15 +337,15 @@ module.exports.prototype = {
                           //console.log("Creating new " + tuid + " user: " + JSON.stringify(user));
                           _this.mongodb
                             .collection('users')
-                            .insertOne(user, {w: 1}, function() {
+                            .insertOne(user, { w: 1 }, function () {
                               _this.request.session.user = user;
                               nextWithRightsCheck();
                             });
                         }
                         else {
-                          if(doc.givenName === "" ||
+                          if (doc.givenName === "" ||
                             doc.givenName === null ||
-                            doc.givenName === undefined){
+                            doc.givenName === undefined) {
 
                             var user = {
                               tuid: tuid,
@@ -356,11 +356,11 @@ module.exports.prototype = {
                               student: isStudent,
                               _attributes: attributes
                             };
-                            
+
                             _this.mongodb
                               .collection('users')
                               .updateOne(
-                                {tuid: tuid},
+                                { tuid: tuid },
                                 user);
                           }
                           _this.request.session.user = doc;
@@ -372,13 +372,14 @@ module.exports.prototype = {
                   else {
                     // Login failed
                     if (jsonResponse['cas:serviceResponse']['cas:authenticationFailure']) {
-                      _this.response.render('error-auth', {text: 
-                        jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['_'] + ' (Code: ' +
-                        jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['$'].code + ')'
+                      _this.response.render('error-auth', {
+                        text:
+                          jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['_'] + ' (Code: ' +
+                          jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['$'].code + ')'
                       });
                     }
                     else {
-                      _this.response.render('error-auth', {text: 'Strange response: ' + chunk});
+                      _this.response.render('error-auth', { text: 'Strange response: ' + chunk });
                     }
                   }
                 });
@@ -386,8 +387,8 @@ module.exports.prototype = {
             }
           });
 
-          verifyRequest.on('error', function(e) {
-            _this.response.render('error-auth', {text: 'Problem with request: ' + e.message});
+          verifyRequest.on('error', function (e) {
+            _this.response.render('error-auth', { text: 'Problem with request: ' + e.message });
           });
 
           // write data to request body
@@ -403,14 +404,14 @@ module.exports.prototype = {
       var isDevelopment = process.env.NODE_ENV === "development";
       if (isDevelopment && !_this.request.session.user) {
         _this.request.session.user = {
-          'employee' : false,
-          'givenName' : 'Local',
-          'nickname' : 'ToyblocksDev',
-          'name' : 'Local Development',
-          'right_level' : 100,
-          'student' : true,
-          'surname' : 'Development',
-          'tuid' : 'developer',
+          'employee': false,
+          'givenName': 'Local',
+          'nickname': 'ToyblocksDev',
+          'name': 'Local Development',
+          'right_level': 100,
+          'student': true,
+          'surname': 'Development',
+          'tuid': 'developer',
           'stats': {
             'sorting': {
               'level1_count_played': 32
