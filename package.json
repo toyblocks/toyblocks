@@ -15,7 +15,7 @@
     "gm": "1.23.1",
     "jasmine-node": "1.16.2",
     "mongodb": "3.2.3",
-    "underscore": "1.9.1",
+    "underscore": "1.12.1",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
