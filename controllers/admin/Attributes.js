@@ -14,7 +14,7 @@ module.exports.prototype = AdminController.prototype.extend({
   * Returns access right level
   * 
   */
-  getRightLevel: function() {
+  getRightLevel: function () {
     if (this.action === 'show-enums' || this.action === 'save-enums') {
       return 100;
     }
@@ -26,16 +26,16 @@ module.exports.prototype = AdminController.prototype.extend({
   * Renders Index page
   * 
   */
-  indexAction: function() {
+  indexAction: function () {
     var _this = this;
     _this.mongodb
       .collection(attributeModel.collection)
       .find({})
-      .toArray(function(err, attributes){
+      .toArray(function (err, attributes) {
         _this.mongodb
           .collection('object_types')
           .find({})
-          .toArray(function(err, objectTypes){
+          .toArray(function (err, objectTypes) {
             _this.view.render({
               title: 'Attribute Verwaltung - ToyBlocks',
               attributes: attributes,
@@ -51,7 +51,7 @@ module.exports.prototype = AdminController.prototype.extend({
   * Creates new object in DB
   * 
   */
-  createAction: function() {
+  createAction: function () {
     var _this = this,
       attribute = this.getAttributeFromRequest();
     if (attribute) {
@@ -59,8 +59,8 @@ module.exports.prototype = AdminController.prototype.extend({
         .collection(attributeModel.collection)
         .insertOne(
           attribute,
-          {w:1},
-          function(err) {
+          { w: 1 },
+          function (err) {
             if (err) console.warn(err.message);
             if (err && err.message.indexOf('E11000 ') !== -1) {
               // this _id was already inserted in the database
@@ -81,13 +81,13 @@ module.exports.prototype = AdminController.prototype.extend({
   * Shows Enums
   * 
   */
-  showEnumsAction: function() {
+  showEnumsAction: function () {
     var _this = this;
     _this.mongodb
       .collection(attributeModel.collection)
-      .find({name: _this.request.param('attribute')})
-      .next(function(err, attribute) {
-        _this.view.render({attribute: attribute});
+      .find({ name: _this.request.param('attribute') })
+      .next(function (err, attribute) {
+        _this.view.render({ attribute: attribute });
       });
   },
 
@@ -96,17 +96,17 @@ module.exports.prototype = AdminController.prototype.extend({
   * Saves Enums
   * 
   */
-  saveEnumsAction: function(context) {
+  saveEnumsAction: function (context) {
     var _this = context || this;
     _this.mongodb
       .collection(attributeModel.collection)
       .updateOne(
-        {name: _this.request.param('attribute')},
-        {$set: {values: _this.request.param('enums')}},
+        { name: _this.request.param('attribute') },
+        { $set: { values: _this.request.param('enums') } },
         {},
-        function(err) {
+        function (err) {
           var msg = err ? 'error' : 'success';
-          _this.response.json({result: msg});
+          _this.response.json({ result: msg });
         });
   },
 
@@ -115,19 +115,19 @@ module.exports.prototype = AdminController.prototype.extend({
   * Extracts attributes from the request
   * 
   */
-  getAttributeFromRequest: function() {
+  getAttributeFromRequest: function () {
     var req = this.request,
       attribute = {};
 
     // check for unallowed chars in attribute name
-    if (!req.param('name') || !req.param('name').match(/^[a-z][a-z0-9_]*$/)){
+    if (!req.param('name') || !req.param('name').match(/^[a-z][a-z0-9_]*$/)) {
       return false;
     }
 
     attribute.name = req.param('name');
 
     // check for empty title
-    if (!req.param('title').trim()){
+    if (!req.param('title').trim()) {
       return false;
     }
 

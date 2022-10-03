@@ -2,7 +2,7 @@
 
 var AdminController = require('../Admin'),
   attributeModel = require('../../models/Attribute');
-  //AttributesController = require('./Attributes');
+//AttributesController = require('./Attributes');
 
 module.exports = function () {
 
@@ -14,19 +14,19 @@ module.exports.prototype = AdminController.prototype.extend({
   * display all objecttypes
   * 
   */
-  indexAction: function() {
+  indexAction: function () {
     var _this = this;
 
     // user didn't choose an object type. show a list
     this.mongodb
       .collection('object_types')
       .find({})
-      .sort({title: 1})
-      .toArray(function(err, types){
+      .sort({ title: 1 })
+      .toArray(function (err, types) {
         _this.mongodb
           .collection(attributeModel.collection)
           .find({})
-          .toArray(function(err, attributes) {
+          .toArray(function (err, attributes) {
             for (var typeIndex in types) {
               types[typeIndex].attributeNames = Object.keys(types[typeIndex].attributes);
             }
@@ -45,7 +45,7 @@ module.exports.prototype = AdminController.prototype.extend({
   * add a new type to the database
   *
   */
-  createTypeAction: function() {
+  createTypeAction: function () {
     var type = this.getTypeFromRequest(),
       _this = this;
     if (type) {
@@ -53,8 +53,8 @@ module.exports.prototype = AdminController.prototype.extend({
         .collection('object_types')
         .insertOne(
           type,
-          {w:1},
-          function(err) {
+          { w: 1 },
+          function (err) {
             if (err) console.warn(err.message);
             if (err && err.message.indexOf('E11000 ') !== -1) {
               // this _id was already inserted in the database
@@ -65,7 +65,7 @@ module.exports.prototype = AdminController.prototype.extend({
             if (type.randomized) {
               _this.mongodb
                 .collection('object_types')
-                .ensureIndex({_random: '2d'}, function(){
+                .ensureIndex({ _random: '2d' }, function () {
                   _this.response.redirect('..');
                 });
             }
@@ -77,7 +77,7 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
 
-  getTypeFromRequest: function() {
+  getTypeFromRequest: function () {
     var req = this.request,
       type = {};
     // check for unallowed chars in attribute name
@@ -115,7 +115,7 @@ module.exports.prototype = AdminController.prototype.extend({
     // getting main type
     this.getTypeWithAttributes(
       this.request.param('type'),
-      function(type, attributes) {
+      function (type, attributes) {
         // prepare attributes index
         var attributesByName = {};
         for (var i = 0; i < attributes.length; i++) {
@@ -126,7 +126,7 @@ module.exports.prototype = AdminController.prototype.extend({
         _this.mongodb
           .collection(type.name)
           .find(findParams)
-          .count(function(err, totalCount) {
+          .count(function (err, totalCount) {
             // getting all objects for type
             _this.setPagination(totalCount, countPerPage);
             _this.mongodb
@@ -134,7 +134,7 @@ module.exports.prototype = AdminController.prototype.extend({
               .find(findParams)
               .skip(_this.getPaginationSkip())
               .limit(_this.getPaginationLimit())
-              .toArray(function(err, objects) {
+              .toArray(function (err, objects) {
                 // for remote calls we change the template
                 if (_this.request.param('_view') === 'selection') {
                   _this.view.setParam('onlyContent', onlyContent);
@@ -163,17 +163,17 @@ module.exports.prototype = AdminController.prototype.extend({
       objectId = _this.mongo.ObjectID(_this.request.param('id')),
       dbtype = _this.request.param('type'),
       value = _this.request.param('value') === 'true' ? true : false;
-      
+
     _this.mongodb
       .collection(dbtype)
-      .updateOne({_id: objectId},
-              {$set: {'active': value}},
-              {},
-              function(err) {
-                if(err)
-                  _this.response.json({result:'error'});
-                else
-                  _this.response.json({result:'success'});
+      .updateOne({ _id: objectId },
+        { $set: { 'active': value } },
+        {},
+        function (err) {
+          if (err)
+            _this.response.json({ result: 'error' });
+          else
+            _this.response.json({ result: 'success' });
         });
   },
 
@@ -185,7 +185,7 @@ module.exports.prototype = AdminController.prototype.extend({
     // getting main type
     this.getTypeWithAttributes(
       this.request.param('type'),
-      function(type, attributes) {
+      function (type, attributes) {
 
         // set redirect path to optional parameter or default value
         var redirectPath = redirection || '../objects?type=' + type.name + '&search=' + search;
@@ -201,8 +201,8 @@ module.exports.prototype = AdminController.prototype.extend({
         if (imageAttributes.length > 0) {
           _this.mongodb
             .collection(type.name)
-            .find({_id: objectId})
-            .next(function(err, object){
+            .find({ _id: objectId })
+            .next(function (err, object) {
               // receive & delete images
               var imageIds = [];
               for (var i = 0; i < imageAttributes.length; i++) {
@@ -210,15 +210,15 @@ module.exports.prototype = AdminController.prototype.extend({
                   imageIds = imageIds.concat(object[imageAttributes[i]]);
               }
 
-              _this.mongodb.collection('images').removeOne({_id: {$in: imageIds}}, {}, function () {
-                _this.mongodb.collection(type.name).removeOne({_id: objectId}, {}, function() {
+              _this.mongodb.collection('images').removeOne({ _id: { $in: imageIds } }, {}, function () {
+                _this.mongodb.collection(type.name).removeOne({ _id: objectId }, {}, function () {
                   _this.response.redirect(redirectPath);
                 });
               });
             });
         }
         else {
-          _this.mongodb.collection(type.name).removeOne({_id: objectId}, {}, function() {
+          _this.mongodb.collection(type.name).removeOne({ _id: objectId }, {}, function () {
             _this.response.redirect(redirectPath);
           });
         }
@@ -232,7 +232,7 @@ module.exports.prototype = AdminController.prototype.extend({
     // getting main type
     _this.getTypeWithAttributes(
       _this.request.param('type'),
-      function(type, attributes) {
+      function (type, attributes) {
 
         // set redirect path to optional parameter or default value
         var redirectPath = redirection || '../objects?type=' + type.name;
@@ -295,7 +295,7 @@ module.exports.prototype = AdminController.prototype.extend({
             else {
               if (typeof object[attributeName] === 'object') {
                 if (!(object[attributeName] instanceof _this.mongo.ObjectID)) {
-                  imageValues.push({attr: attributeName, index: images.length});
+                  imageValues.push({ attr: attributeName, index: images.length });
                   images.push({
                     type: object[attributeName].ext,
                     data: _this.request.mongo.Binary(object[attributeName].buffer)
@@ -312,7 +312,7 @@ module.exports.prototype = AdminController.prototype.extend({
         // save all images in bulk
         _this.mongodb
           .collection('images')
-          .insertMany(images, {keepGoing:true}, function (err, result) {
+          .insertMany(images, { keepGoing: true }, function (err, result) {
             // set image ids in object
             for (var i in imageValues) {
               if (Array.isArray(imageValues[i])) {
@@ -335,21 +335,21 @@ module.exports.prototype = AdminController.prototype.extend({
             if (object._id) {
               _this.mongodb
                 .collection(type.name)
-                .find({_id: object._id})
-                .next(function(err, oldObject) {
+                .find({ _id: object._id })
+                .next(function (err, oldObject) {
                   var deleteImages = [];
                   for (var i = 0; i < attributes.length; i++) {
                     if (attributes[i].type === 'image') {
                       var value = oldObject[[attributes[i].name]];
                       if (type.attributes[attributes[i].name].multiple) {
                         for (var valIndex in value) {
-                          if (!usedImages[''+value[valIndex]]) {
+                          if (!usedImages['' + value[valIndex]]) {
                             deleteImages.push(value[valIndex]);
                           }
                         }
                       }
                       else {
-                        if (!usedImages[''+value]) {
+                        if (!usedImages['' + value]) {
                           deleteImages.push(value);
                         }
                       }
@@ -357,11 +357,11 @@ module.exports.prototype = AdminController.prototype.extend({
                   }
                   _this.mongodb
                     .collection('images')
-                    .removeOne({_id: {$in: deleteImages}}, {}, function() {
+                    .removeOne({ _id: { $in: deleteImages } }, {}, function () {
                       // finally update object in db
                       _this.mongodb
                         .collection(type.name)
-                        .updateOne({_id: object._id}, {$set: object}, {}, function(err) {
+                        .updateOne({ _id: object._id }, { $set: object }, {}, function (err) {
                           if (err) throw new Error(err);
                           _this.response.redirect(redirectPath);
                         });
@@ -372,7 +372,7 @@ module.exports.prototype = AdminController.prototype.extend({
               // inserting object into db
               _this.mongodb
                 .collection(type.name)
-                .insertOne(object, {}, function(err) {
+                .insertOne(object, {}, function (err) {
                   if (err) throw new Error(err);
                   _this.response.redirect(redirectPath);
                 });
@@ -396,8 +396,8 @@ module.exports.prototype = AdminController.prototype.extend({
         if (_this.request.param('id')) {
           _this.mongodb
             .collection(type.name)
-            .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
-            .next(function(err, object) {
+            .find({ _id: _this.mongo.ObjectID(_this.request.param('id')) })
+            .next(function (err, object) {
               _this.view.render({
                 title: type.title + ' bearbeiten - ToyBlocks',
                 type: type,
@@ -429,8 +429,8 @@ module.exports.prototype = AdminController.prototype.extend({
     }
     _this.mongodb
       .collection(typeName)
-      .find({_id: {$in: ids}}, {title: true, image: true})
-      .toArray(function(err, objects) {
+      .find({ _id: { $in: ids } }, { title: true, image: true })
+      .toArray(function (err, objects) {
         if (!err) {
           _this.view.render({
             objects: objects
@@ -449,9 +449,9 @@ module.exports.prototype = AdminController.prototype.extend({
 
     _this.mongodb
       .collection('object_types')
-      .find({name: typeName})
+      .find({ name: typeName })
       .next(
-        function(err, type) {
+        function (err, type) {
           if (err)
             throw new Error(err);
           else {
@@ -459,8 +459,8 @@ module.exports.prototype = AdminController.prototype.extend({
             // getting attributes
             _this.mongodb
               .collection(attributeModel.collection)
-              .find({name: {$in: type.attributeNames}})
-              .toArray(function(err, attributes) {
+              .find({ name: { $in: type.attributeNames } })
+              .toArray(function (err, attributes) {
                 if (err)
                   throw new Error(err);
                 else {

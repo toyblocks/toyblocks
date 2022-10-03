@@ -2,7 +2,7 @@
 
 var EncyclopediaController = require('../Encyclopedia');
 
-module.exports = function () {};
+module.exports = function () { };
 
 module.exports.prototype = EncyclopediaController.prototype.extend({
   name: 'index',
@@ -17,7 +17,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   * @return <Array> data Array of articles and buildings
   * @return <Array> customPagination
   */
-  indexAction: function() {
+  indexAction: function () {
     var _this = this,
       countPerPage = 36,
       findParams = _this.getFindParams(),
@@ -25,12 +25,12 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
 
     _this.mongodb
       .collection('encyclopedia_articles')
-      .find({$and: [findParams, filterParams]},{})
-      .count(function(err, articleCount) {
+      .find({ $and: [findParams, filterParams] }, {})
+      .count(function (err, articleCount) {
 
         _this.mongodb
           .collection('sorting_buildings')
-          .find({$and: [findParams, filterParams, {active: true}]}, {})
+          .find({ $and: [findParams, filterParams, { active: true }] }, {})
           .count(function (err, buildingCount) {
 
             _this.setPagination(articleCount + buildingCount, countPerPage);
@@ -39,13 +39,13 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
 
             _this.mongodb
               .collection('encyclopedia_articles')
-              .find({$and: [findParams, filterParams]}, {title: 1, _id: 1})
-              .toArray(function(err, articleData){
+              .find({ $and: [findParams, filterParams] }, { title: 1, _id: 1 })
+              .toArray(function (err, articleData) {
 
                 _this.mongodb
                   .collection('sorting_buildings')
-                  .find({$and: [findParams, filterParams, {active: true}]}, {title: 1, _id: 1, image: 1})
-                  .toArray(function(err, buildingData){
+                  .find({ $and: [findParams, filterParams, { active: true }] }, { title: 1, _id: 1, image: 1 })
+                  .toArray(function (err, buildingData) {
 
                     // Merge bulding and article arrays
                     for (var i = 0; i < articleData.length; i++) {
@@ -58,7 +58,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                     var data = articleData.concat(buildingData);
 
                     // Sort data in regards to umlauts
-                    data.sort(function(a, b) {
+                    data.sort(function (a, b) {
                       a = a.title.toLowerCase();
                       a = a.replace("ä", "ae");
                       a = a.replace("ü", "ue");
@@ -72,11 +72,11 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                       return a.localeCompare(b);
                     });
 
-                    function pagStyle (i) {
+                    function pagStyle(i) {
                       return i.title.charAt(0).toUpperCase() + i.title.charAt(1);
                     }
 
-                    if(data.length === 0){
+                    if (data.length === 0) {
                       _this.view.render({
                         title: 'Glossar - Enzyklopädie - ToyBlocks',
                         route: '/encyclopedia',
@@ -92,26 +92,26 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                       firstLetter = data[0].title.charAt(0).toUpperCase(),
                       lastLetter;
 
-                    for (var i = countPerPage; i < data.length; i=i+countPerPage) {
-                      lastLetter = pagStyle(data[i-1]);
+                    for (var i = countPerPage; i < data.length; i = i + countPerPage) {
+                      lastLetter = pagStyle(data[i - 1]);
                       customPagination[pagCounter++] = firstLetter + ' - ' + lastLetter;
                       firstLetter = pagStyle(data[i]);
                     };
 
                     // when there is only one page use firstLetter instead
-                    if(typeof lastLetter === 'undefined'){
-                      customPagination[pagCounter] = firstLetter + ' - ' + data[data.length-1].title.charAt(0).toUpperCase();
-                    }else{
-                      customPagination[pagCounter] = lastLetter + ' - ' + data[data.length-1].title.charAt(0).toUpperCase();
+                    if (typeof lastLetter === 'undefined') {
+                      customPagination[pagCounter] = firstLetter + ' - ' + data[data.length - 1].title.charAt(0).toUpperCase();
+                    } else {
+                      customPagination[pagCounter] = lastLetter + ' - ' + data[data.length - 1].title.charAt(0).toUpperCase();
                     }
-                    
+
                     // Skip elements according to pagination skips
                     data = data.slice(skip, skip + limit);
 
 
                     // Create element array with highlighted letters
                     var articles = [];
-                    var filterHeadlines = function(element) {
+                    var filterHeadlines = function (element) {
                       return element.headline === currentLetter;
                     };
                     for (var i = 0; i < data.length; i++) {
@@ -137,10 +137,10 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                       data: articles,
                       customPagination: customPagination
                     });
-                });
-            });
-        });
-    });
+                  });
+              });
+          });
+      });
   },
 
   /**
@@ -151,29 +151,29 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   * @return <String> article
   * @return <String> image
   */
-  articleAction: function() {
+  articleAction: function () {
     var _this = this;
     _this.mongodb
-    .collection('encyclopedia_articles')
-    .find({_id: _this.mongo.ObjectID(_this.request.param('id'))})
-    .next(function(err, article) {
-      _this.view.render({
-        title: article.title + ' - Enzyklopädie - ToyBlocks',
-        article: article.article_body,
-        headline: article.title,
-        route: '/encyclopedia',
-        image: article.image
-      });
+      .collection('encyclopedia_articles')
+      .find({ _id: _this.mongo.ObjectID(_this.request.param('id')) })
+      .next(function (err, article) {
+        _this.view.render({
+          title: article.title + ' - Enzyklopädie - ToyBlocks',
+          article: article.article_body,
+          headline: article.title,
+          route: '/encyclopedia',
+          image: article.image
+        });
 
-      /* update statistics */
-      _this.mongodb
+        /* update statistics */
+        _this.mongodb
           .collection('encyclopedia_articles')
-          .updateOne({_id: _this.mongo.ObjectID(_this.request.param('id'))},
-                  { $inc : { 'viewcount': +1 }},
-                  {upsert : true}, function (err) {
-                    if(err) console.log(err);
-                  });
-    });
+          .updateOne({ _id: _this.mongo.ObjectID(_this.request.param('id')) },
+            { $inc: { 'viewcount': +1 } },
+            { upsert: true }, function (err) {
+              if (err) console.log(err);
+            });
+      });
   },
 
   /**
@@ -184,28 +184,28 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   * @return <String> article
   * @return <String> image
   */
-  buildingAction: function() {
+  buildingAction: function () {
     var _this = this,
       buildingid = _this.request.param('id');
 
     _this.mongodb
       .collection('sorting_buildings')
-      .find({_id: _this.mongo.ObjectID(buildingid)})
-      .next(function (err, building){
-          _this.view.render({
-            title: building.title + ' - Enzyklopädie - ToyBlocks',
-            building: building,
-            route: '/encyclopedia'
-          });
+      .find({ _id: _this.mongo.ObjectID(buildingid) })
+      .next(function (err, building) {
+        _this.view.render({
+          title: building.title + ' - Enzyklopädie - ToyBlocks',
+          building: building,
+          route: '/encyclopedia'
+        });
 
-          /* update statistics */
-          _this.mongodb
-            .collection('sorting_buildings')
-            .updateOne({_id: _this.mongo.ObjectID(buildingid)},
-                  { $inc : { 'viewcount': +1 }},
-                  {upsert : true}, function (err) {
-                    if(err) console.log(err);
-                  });
+        /* update statistics */
+        _this.mongodb
+          .collection('sorting_buildings')
+          .updateOne({ _id: _this.mongo.ObjectID(buildingid) },
+            { $inc: { 'viewcount': +1 } },
+            { upsert: true }, function (err) {
+              if (err) console.log(err);
+            });
       });
   }
 });

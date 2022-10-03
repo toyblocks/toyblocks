@@ -14,17 +14,17 @@ module.exports.prototype = UsersController.prototype.extend({
   * Shows profile page from user
   * 
   */
-  indexAction: function() {
+  indexAction: function () {
     var _this = this;
     _this.mongodb
       .collection(userModel.collection)
-      .find({'tuid': _this.request.session.user.tuid})
-      .next(function(err, doc) {
+      .find({ 'tuid': _this.request.session.user.tuid })
+      .next(function (err, doc) {
 
-        if(!doc){
+        if (!doc) {
           // user is not in DB, so lets log him out
           _this.response.redirect('/users/log/out');
-        }else{
+        } else {
           _this.view.render({
             title: 'Profil',
             user: doc,
@@ -38,7 +38,7 @@ module.exports.prototype = UsersController.prototype.extend({
   * Updates Nickname for user
   * 
   */
-  updatenicknameAction: function() {
+  updatenicknameAction: function () {
     var _this = this;
     var newname = _this.request.param('nickname');
     var tuid = _this.request.session.user.tuid;
@@ -49,14 +49,14 @@ module.exports.prototype = UsersController.prototype.extend({
     _this.mongodb
       .collection('users')
       .updateOne(
-        {tuid: tuid},
-        {$set: {'nickname': newname}},
+        { tuid: tuid },
+        { $set: { 'nickname': newname } },
         {},
         function (err) {
-          if(err)
-            _this.response.json({result: 'Fehler: ' + err});
+          if (err)
+            _this.response.json({ result: 'Fehler: ' + err });
           else
-            _this.response.json({result: 'Gespeichert'});
+            _this.response.json({ result: 'Gespeichert' });
         });
   }
 });

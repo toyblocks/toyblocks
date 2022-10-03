@@ -8,7 +8,7 @@ module.exports = function () {
 module.exports.prototype = BaseController.prototype.extend({
   area: 'users',
 
-  checkAuth: function() {
+  checkAuth: function () {
     return true;
   }
 });

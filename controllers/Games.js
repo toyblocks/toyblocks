@@ -9,7 +9,7 @@ module.exports.prototype = BaseController.prototype.extend({
   area: 'games',
   rightLevel: 300,
 
-  checkAuth: function() {
+  checkAuth: function () {
     return true;
   },
 
@@ -21,8 +21,8 @@ module.exports.prototype = BaseController.prototype.extend({
   * @param <Array> o
   * @return <Array> o
   */
-  shuffleArray: function (o){
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+  shuffleArray: function (o) {
+    for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
       x = o[--i], o[i] = o[j], o[j] = x);
     return o;
   },
@@ -34,12 +34,12 @@ module.exports.prototype = BaseController.prototype.extend({
   * @param <Array> str
   * @return <Array> hash
   */
-  hashString: function ( str ){
+  hashString: function (str) {
     var hash = 0, i, l, char;
     if (str.length === 0) return hash;
     for (i = 0, l = str.length; i < l; i++) {
-      char  = str.charCodeAt(i);
-      hash  = ((hash<<5)-hash)+char;
+      char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
       hash |= 0; // Convert to 32bit integer
     }
     return hash;

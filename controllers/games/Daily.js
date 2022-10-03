@@ -3,7 +3,7 @@
 var GamesController = require('../Games'),
   Statistics = require('../admin/Stats');
 
-module.exports = function () {};
+module.exports = function () { };
 
 module.exports.prototype = GamesController.prototype.extend({
   name: 'daily',
@@ -13,41 +13,41 @@ module.exports.prototype = GamesController.prototype.extend({
   * 
   */
   hasUserPlayedDaily: function (db, tuid, callback) {
-    var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000);
+    var todaysUnixDate = new Date().getTime() - (new Date().getTime() % 86400000);
 
     db.mongodb
-    .collection('daily_leaderboard')
-    .find({date: todaysUnixDate})
-    .next(function (err, leaderboardData) {
+      .collection('daily_leaderboard')
+      .find({ date: todaysUnixDate })
+      .next(function (err, leaderboardData) {
 
-      if(!!leaderboardData && !!leaderboardData.players){
-        var players = leaderboardData.players;
-        for (var i = 0; i < players.length; i++) {
-          if(players[i].tuid == tuid){
-            callback(true);
-            return;
-          }
-        };
-      }
-      callback(false);
-    });
+        if (!!leaderboardData && !!leaderboardData.players) {
+          var players = leaderboardData.players;
+          for (var i = 0; i < players.length; i++) {
+            if (players[i].tuid == tuid) {
+              callback(true);
+              return;
+            }
+          };
+        }
+        callback(false);
+      });
   },
 
   /**
   * GET index Page for DailyChallenge
   */
-  indexAction: function() {
+  indexAction: function () {
     var _this = this,
-      userId  = _this.request.session.user.tuid,
-      todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000);
+      userId = _this.request.session.user.tuid,
+      todaysUnixDate = new Date().getTime() - (new Date().getTime() % 86400000);
 
 
     _this.hasUserPlayedDaily(_this, userId, function (hasPlayed) {
 
-        _this.mongodb
-       .collection('users')
-       .find({right_level: 300})
-       .count(function (err, maxGamesPlayed) {
+      _this.mongodb
+        .collection('users')
+        .find({ right_level: 300 })
+        .count(function (err, maxGamesPlayed) {
           maxGamesPlayed = maxGamesPlayed || 1;
           /*
             FIXME: HIER STECKT DER WURM DRINNE
@@ -56,17 +56,17 @@ module.exports.prototype = GamesController.prototype.extend({
             count sollte nicht benutzt werden
           */
           _this.mongodb
-         .collection('daily_leaderboard')
-         .find({date: todaysUnixDate})
-         .count(function (err, currentGamesPlayed) {
-            currentGamesPlayed = currentGamesPlayed || 0;
-            _this.view.render( {
-              title: 'Daily Challenge - ToyBlocks',
-              gamesPlayed: (((currentGamesPlayed * 100) /
-                            maxGamesPlayed)).toFixed(1),
-              hasPlayedTodaysDaily: hasPlayed
+            .collection('daily_leaderboard')
+            .find({ date: todaysUnixDate })
+            .count(function (err, currentGamesPlayed) {
+              currentGamesPlayed = currentGamesPlayed || 0;
+              _this.view.render({
+                title: 'Daily Challenge - ToyBlocks',
+                gamesPlayed: (((currentGamesPlayed * 100) /
+                  maxGamesPlayed)).toFixed(1),
+                hasPlayedTodaysDaily: hasPlayed
+              });
             });
-          });
         });
     });
   },
@@ -76,52 +76,52 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   leaderboardAction: function () {
     var _this = this,
-       todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000),
-       givenUnixDate = Number(_this.request.param('date')) || todaysUnixDate,
-       yesterdayUnixDate = (givenUnixDate - 86400000),
-       tomorrowUnixDate = (todaysUnixDate === givenUnixDate) ?
-                                null : (givenUnixDate + 86400000);
+      todaysUnixDate = new Date().getTime() - (new Date().getTime() % 86400000),
+      givenUnixDate = Number(_this.request.param('date')) || todaysUnixDate,
+      yesterdayUnixDate = (givenUnixDate - 86400000),
+      tomorrowUnixDate = (todaysUnixDate === givenUnixDate) ?
+        null : (givenUnixDate + 86400000);
 
     _this.mongodb
-    .collection('daily_leaderboard')
-    .find({date: givenUnixDate})
-    .next(function (err, data) {
-      var users = [];
-      if(!!data && !!data.players){
-        users = data.players;
-      }
-      users.sort(function (a, b) {
-        if(a.score == b.score)
-          return (Number(a.time) > Number(b.time)) ? 1 : -1;
-        else
-          return (a.score > b.score) ? -1 : 1;
-      });
-      for (var i = 0; i < users.length; i++) {
-        users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
-      }
-        
-      var d = new Date(givenUnixDate);
-      var game = {
-        year: d.getFullYear(),
-        month: d.getMonth()+1,
-        day: d.getDate()
-      };
+      .collection('daily_leaderboard')
+      .find({ date: givenUnixDate })
+      .next(function (err, data) {
+        var users = [];
+        if (!!data && !!data.players) {
+          users = data.players;
+        }
+        users.sort(function (a, b) {
+          if (a.score == b.score)
+            return (Number(a.time) > Number(b.time)) ? 1 : -1;
+          else
+            return (a.score > b.score) ? -1 : 1;
+        });
+        for (var i = 0; i < users.length; i++) {
+          users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
+        }
 
-      _this.view.render({
-        title: 'Bestenliste - Daily Challenge - ToyBlocks',
-        game: game,
-        players: users,
-        yesterday: yesterdayUnixDate,
-        tomorrow: tomorrowUnixDate,
-        userid: _this.request.session.user.tuid
+        var d = new Date(givenUnixDate);
+        var game = {
+          year: d.getFullYear(),
+          month: d.getMonth() + 1,
+          day: d.getDate()
+        };
+
+        _this.view.render({
+          title: 'Bestenliste - Daily Challenge - ToyBlocks',
+          game: game,
+          players: users,
+          yesterday: yesterdayUnixDate,
+          tomorrow: tomorrowUnixDate,
+          userid: _this.request.session.user.tuid
+        });
       });
-    });
   },
 
   /* GET daily game
   *  @return games - list of games
   */
-  gameAction: function() {
+  gameAction: function () {
     var _this = this;
     var userId = _this.request.session.user.tuid;
     var nickname = _this.request.session.user.nickname;
@@ -136,28 +136,28 @@ module.exports.prototype = GamesController.prototype.extend({
 
     _this.hasUserPlayedDaily(_this, userId, function (hasPlayed) {
 
-      if (hasPlayed && userId != 'developer') {  
+      if (hasPlayed && userId != 'developer') {
 
         _this.view.render({
           title: 'Daily Challenge - ToyBlocks',
           error: 'Sie haben bereits das heutige Daily gespielt!'
         });
-      }else {
+      } else {
 
         _this.mongodb
-        .collection('daily_games')
-        .find()
-        .next(function (err, ele) {
-          _this.view.render({
-            title: 'Daily Challenge - ToyBlocks',
-            missing: ele.missing,
-            sorting: ele.sorting2,
-            sorting2: ele.sorting,
-            assemble: ele.assemble,
-            assemble2: ele.assemble2,
-            multiplechoice: ele.multiplechoice
+          .collection('daily_games')
+          .find()
+          .next(function (err, ele) {
+            _this.view.render({
+              title: 'Daily Challenge - ToyBlocks',
+              missing: ele.missing,
+              sorting: ele.sorting2,
+              sorting2: ele.sorting,
+              assemble: ele.assemble,
+              assemble2: ele.assemble2,
+              multiplechoice: ele.multiplechoice
+            });
           });
-        });
       }
     });
   },
@@ -165,10 +165,10 @@ module.exports.prototype = GamesController.prototype.extend({
   /* GET daily game
   *  @return games - list of games
   */
-  resultAction: function() {
+  resultAction: function () {
     var _this = this,
-      result =  _this.request.param('result').split(';'),
-      playtime =  _this.request.param('time'),
+      result = _this.request.param('result').split(';'),
+      playtime = _this.request.param('time'),
       tuid = _this.request.session.user.tuid,
       nickname = _this.request.session.user.nickname,
       points = 0,
@@ -181,43 +181,49 @@ module.exports.prototype = GamesController.prototype.extend({
       bounspoints_ass1 = true,
       bounspoints_ass2 = true;
 
-      var resultelement = [
-          {type: 'assemble', title: 'Baukasten'},
-          {type: 'assemble', title: 'Baukasten'},
-          {type: 'missing', title: 'Fehlstellen'},
-          {type: 'sort', title: 'Zeitstrahl'},
-          {type: 'sort', title: 'Zeitstrahl'},
-          {type: 'multiple', title: 'Multiplechoice'}];
+    var resultelement = [
+      { type: 'assemble', title: 'Baukasten' },
+      { type: 'assemble', title: 'Baukasten' },
+      { type: 'missing', title: 'Fehlstellen' },
+      { type: 'sort', title: 'Zeitstrahl' },
+      { type: 'sort', title: 'Zeitstrahl' },
+      { type: 'multiple', title: 'Multiplechoice' }];
 
     for (var i = 0; i < result.length; i++) {
       var singlegame = result[i].split(',');
       resultelement[i].singles = singlegame;
       for (var j = 0; j < singlegame.length; j++) {
         var c = (singlegame[j] === 'true');
-        if(c){ count++; }
+        if (c) { count++; }
         gamelength++;
 
-        if(i === 5){ // multiplechoice
-          if(c){ points += 14; }else{ bounspoints_mc = false; }}
-        if(i === 4){ // sorting 2
-          if(c){ points += 7; }else{ bounspoints_sort2 = false; }}
-        if(i === 3){ // sorting 1
-          if(c){ points += 7; }else{ bounspoints_sort1 = false; }}
-        if(i === 2){ // missing
-          if(c){ points += 10; }else{ bounspoints_miss = false; }}
-        if(i === 1){ // ass2
-          if(c){ points += 6; }else{ bounspoints_ass2 = false; }}
-        if(i === 0){ // ass1
-          if(c){ points += 6; }else{ bounspoints_ass1 = false; }}
+        if (i === 5) { // multiplechoice
+          if (c) { points += 14; } else { bounspoints_mc = false; }
+        }
+        if (i === 4) { // sorting 2
+          if (c) { points += 7; } else { bounspoints_sort2 = false; }
+        }
+        if (i === 3) { // sorting 1
+          if (c) { points += 7; } else { bounspoints_sort1 = false; }
+        }
+        if (i === 2) { // missing
+          if (c) { points += 10; } else { bounspoints_miss = false; }
+        }
+        if (i === 1) { // ass2
+          if (c) { points += 6; } else { bounspoints_ass2 = false; }
+        }
+        if (i === 0) { // ass1
+          if (c) { points += 6; } else { bounspoints_ass1 = false; }
+        }
       };
     };
 
-    if(bounspoints_mc){    points+=50; }
-    if(bounspoints_sort1){ points+=129; }
-    if(bounspoints_sort2){ points+=129; }
-    if(bounspoints_miss){  points+=49; }
-    if(bounspoints_ass1){   points+=51; }
-    if(bounspoints_ass2){   points+=52; }
+    if (bounspoints_mc) { points += 50; }
+    if (bounspoints_sort1) { points += 129; }
+    if (bounspoints_sort2) { points += 129; }
+    if (bounspoints_miss) { points += 49; }
+    if (bounspoints_ass1) { points += 51; }
+    if (bounspoints_ass2) { points += 52; }
 
 
     _this.hasUserPlayedDaily(_this, tuid, function (hasPlayed) {
@@ -226,50 +232,51 @@ module.exports.prototype = GamesController.prototype.extend({
           title: 'Daily Challenge - ToyBlocks',
           error: 'Sie haben bereits das heutige Daily gespielt!'
         });
-      }else{
+      } else {
 
         /*TODO: sometimes on the server the time is off, I don't know why */
-        var todaysUnixDate = new Date().getTime() - ( new Date().getTime() % 86400000),
+        var todaysUnixDate = new Date().getTime() - (new Date().getTime() % 86400000),
           player = {
             tuid: tuid,
             nickname: nickname,
             score: points,
             time: playtime
-        };
+          };
 
         _this.mongodb
-        .collection('daily_leaderboard')
-        .updateOne({ date: todaysUnixDate },
-                {$push: {
-                  players: player
-                }
-              }, { upsert : true},
-              function (err, data) {
+          .collection('daily_leaderboard')
+          .updateOne({ date: todaysUnixDate },
+            {
+              $push: {
+                players: player
+              }
+            }, { upsert: true },
+            function (err, data) {
 
 
-                var d = new Date();
-                var game = {
-                  year: d.getFullYear(),
-                  month: d.getMonth()+1,
-                  day: d.getDate()
-                };
+              var d = new Date();
+              var game = {
+                year: d.getFullYear(),
+                month: d.getMonth() + 1,
+                day: d.getDate()
+              };
 
-                Statistics.prototype.insertStats(_this, 'daily');
+              Statistics.prototype.insertStats(_this, 'daily');
 
-                _this.view.render({
-                  title: 'Daily Challenge - ToyBlocks',
-                  result: resultelement,
-                  game: game,
-                  pointsmax: gamelength,
-                  pointscur: count,
-                  procentwrong: (1 - (count / gamelength))*100,
-                  procentright: (count / gamelength)*100,
-                  userid: tuid
-                });
+              _this.view.render({
+                title: 'Daily Challenge - ToyBlocks',
+                result: resultelement,
+                game: game,
+                pointsmax: gamelength,
+                pointscur: count,
+                procentwrong: (1 - (count / gamelength)) * 100,
+                procentright: (count / gamelength) * 100,
+                userid: tuid
+              });
             });
-        };
-      });
-    }
+      };
+    });
+  }
 });
 
 
@@ -277,86 +284,87 @@ module.exports.prototype = GamesController.prototype.extend({
 *  Timed function that generates every day a new set of games
 *  Gets called from jobs.js
 */
-module.exports.generateDailyGame = function generateDailyGame (mongodb) {
+module.exports.generateDailyGame = function generateDailyGame(mongodb) {
 
   var currenttime = new Date().getTime();
 
   // Fisher-Yates Shuffle from Jonas Raoni Soares Silva
   // @ http://jsfromhell.com/array/shuffle
-  function shuffleArray (o){ //v1.0
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+  function shuffleArray(o) { //v1.0
+    for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
       x = o[--i], o[i] = o[j], o[j] = x);
     return o;
   }
 
   // get all the games
   mongodb
-  .collection('missingparts_games')
-  .find({active: true}, {_id: 1})
-  .toArray(function(err, mis) {
-    mongodb
-    .collection('sorting_buildings')
-    .find({active: true}, {_id: 1})
-    .toArray(function(err, sor) {
+    .collection('missingparts_games')
+    .find({ active: true }, { _id: 1 })
+    .toArray(function (err, mis) {
       mongodb
-      .collection('multiplechoice_questions')
-      .find({active: true}, {_id: 1})
-      .toArray(function(err, mul) {
-        mongodb
-        .collection('assemble_games')
-        .find({active: true}, {_id: 1})
-        .toArray(function(err, ass) {
-
-          //missing
-          mis = shuffleArray(mis).slice(0, 2);
-          for (var i = 0; i < mis.length; i++) {
-            mis[i] = mis[i]._id;
-          }
-
-          //sorting
-          var sor1 = shuffleArray(sor).slice(0, 7);
-          var sor2 = shuffleArray(sor).slice(0, 7);
-          for (var i = 0; i < sor1.length; i++) {
-            sor1[i] = sor1[i]._id;
-            sor2[i] = sor2[i]._id;
-          }
-
-          //multiple
-          mul = shuffleArray(mul).slice(0, 5);
-          for (var j = 0; j < mul.length; j++) {
-            mul[j] = mul[j]._id;
-          }
-
-          //assemble games
-          ass = shuffleArray(ass).slice(0, 2);
-          for (var i = 0; i < ass.length; i++) {
-            ass[i] = ass[i]._id + '&level=2';
-          }
-
-          // we got 5 multiplechoice
-          //        2 missing
-          //        2 sorting
-          //        2 assemble
-
+        .collection('sorting_buildings')
+        .find({ active: true }, { _id: 1 })
+        .toArray(function (err, sor) {
           mongodb
-          .collection('daily_games')
-          .updateOne({},
-          {$set:
-            {
-              missing: mis.join(','),
-              sorting: sor1.join(','),
-              sorting2: sor2.join(','),
-              multiplechoice: mul.join(','),
-              assemble: ass[0],
-              assemble2: ass[1]
-            }
-          },
-          {},
-          function (err) {
-            // do nothing
-          });
+            .collection('multiplechoice_questions')
+            .find({ active: true }, { _id: 1 })
+            .toArray(function (err, mul) {
+              mongodb
+                .collection('assemble_games')
+                .find({ active: true }, { _id: 1 })
+                .toArray(function (err, ass) {
+
+                  //missing
+                  mis = shuffleArray(mis).slice(0, 2);
+                  for (var i = 0; i < mis.length; i++) {
+                    mis[i] = mis[i]._id;
+                  }
+
+                  //sorting
+                  var sor1 = shuffleArray(sor).slice(0, 7);
+                  var sor2 = shuffleArray(sor).slice(0, 7);
+                  for (var i = 0; i < sor1.length; i++) {
+                    sor1[i] = sor1[i]._id;
+                    sor2[i] = sor2[i]._id;
+                  }
+
+                  //multiple
+                  mul = shuffleArray(mul).slice(0, 5);
+                  for (var j = 0; j < mul.length; j++) {
+                    mul[j] = mul[j]._id;
+                  }
+
+                  //assemble games
+                  ass = shuffleArray(ass).slice(0, 2);
+                  for (var i = 0; i < ass.length; i++) {
+                    ass[i] = ass[i]._id + '&level=2';
+                  }
+
+                  // we got 5 multiplechoice
+                  //        2 missing
+                  //        2 sorting
+                  //        2 assemble
+
+                  mongodb
+                    .collection('daily_games')
+                    .updateOne({},
+                      {
+                        $set:
+                        {
+                          missing: mis.join(','),
+                          sorting: sor1.join(','),
+                          sorting2: sor2.join(','),
+                          multiplechoice: mul.join(','),
+                          assemble: ass[0],
+                          assemble2: ass[1]
+                        }
+                      },
+                      {},
+                      function (err) {
+                        // do nothing
+                      });
+                });
+            });
         });
-      });
     });
-  });
 };

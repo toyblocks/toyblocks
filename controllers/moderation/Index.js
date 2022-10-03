@@ -8,14 +8,14 @@ module.exports = function () {
 module.exports.prototype = BaseController.prototype.extend({
   name: 'index',
 
-  indexAction: function() {
+  indexAction: function () {
     var _this = this;
     _this.view.render({
       title: 'Spiel hinzufügen - ToyBlocks'
     });
   },
 
-  missingAction: function() {
+  missingAction: function () {
     var _this = this;
     _this.view.render({
       title: 'Fehlstellenspiel hinzufügen - ToyBlocks'

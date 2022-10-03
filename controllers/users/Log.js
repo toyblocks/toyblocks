@@ -7,15 +7,15 @@ module.exports = function () {
 module.exports.prototype = UsersController.prototype.extend({
   name: 'log',
 
-  inAction: function() {
+  inAction: function () {
     var returnto = this.request.param('returnto');
-    this.view.render({returnto: returnto});
+    this.view.render({ returnto: returnto });
   },
 
-  doLoginAction: function() {
+  doLoginAction: function () {
     var returnto = this.request.param('returnto');
     // TODO: check login here
-    this.request.session.user = {tuid: 'demo', rightLevel: 0};
+    this.request.session.user = { tuid: 'demo', rightLevel: 0 };
     if (returnto && returnto[0] === '/') {
       this.response.redirect(returnto);
     }
@@ -24,7 +24,7 @@ module.exports.prototype = UsersController.prototype.extend({
     }
   },
 
-  outAction: function() {
+  outAction: function () {
     var _this = this;
     if (this.request.session.user) {
       delete this.request.session.user;
@@ -33,7 +33,7 @@ module.exports.prototype = UsersController.prototype.extend({
     this.view.setNoNavBar(true);
     _this.getDbTexts(
       ['logout_text'],
-      function(texts) {
+      function (texts) {
         texts.title = 'Abgemeldet';
         _this.view.render(texts);
       });

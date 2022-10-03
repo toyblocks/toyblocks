@@ -13,13 +13,13 @@ module.exports.prototype = GamesController.prototype.extend({
   * This Method is used for the game index page,
   * Collect the game data from the database and show it
   */
-  indexAction: function() {
+  indexAction: function () {
     var _this = this;
     _this.getDbTexts(
       ['game_assemble_explain',
-      'game_assemble_level1',
-      'game_assemble_level2'],
-      function(texts) {
+        'game_assemble_level1',
+        'game_assemble_level2'],
+      function (texts) {
         texts.title = 'Baukasten - ToyBlocks';
         _this.view.render(texts);
       });
@@ -28,26 +28,26 @@ module.exports.prototype = GamesController.prototype.extend({
   /**
   * This renders the main game
   */
-  gameAction: function() {
+  gameAction: function () {
     var _this = this,
       id = _this.request.param('id'),
       level = parseInt(_this.request.param('level'), 10) || 1,
-      isDaily = parseInt(_this.request.param('isDaily'),10) || 0;
+      isDaily = parseInt(_this.request.param('isDaily'), 10) || 0;
 
-    _this.increaseStat('level'+ level + '_count_played');
+    _this.increaseStat('level' + level + '_count_played');
 
-    if(typeof id === 'undefined'){
+    if (typeof id === 'undefined') {
 
       //give random game
       _this.mongodb
         .collection('assemble_games')
-        .find({active: true})
-        .toArray(function(err, game) {
+        .find({ active: true })
+        .toArray(function (err, game) {
 
           // Get a random element
-          game = game[Math.floor(game.length*Math.random())];
+          game = game[Math.floor(game.length * Math.random())];
 
-          _this.renderGame(game, level, function(err, buildingParts){
+          _this.renderGame(game, level, function (err, buildingParts) {
             _this.view.render({
               title: 'Baukasten - ToyBlocks',
               game: game,
@@ -55,18 +55,18 @@ module.exports.prototype = GamesController.prototype.extend({
             });
           });
         });
-    }else{
+    } else {
 
       //give game according to id
-      if(isDaily){
+      if (isDaily) {
         _this.view.setOnlyContent(true);
       }
 
       _this.mongodb
         .collection('assemble_games')
-        .find({_id: _this.mongo.ObjectID(id), active: true})
-        .next(function(err, game) {
-          _this.renderGame(game, level, function(err, buildingParts){
+        .find({ _id: _this.mongo.ObjectID(id), active: true })
+        .next(function (err, game) {
+          _this.renderGame(game, level, function (err, buildingParts) {
             _this.view.render({
               title: 'Baukasten - ToyBlocks',
               game: game,
@@ -86,38 +86,38 @@ module.exports.prototype = GamesController.prototype.extend({
    * @param level          - with or without fake images
    * @param renderCallback - the callback to call after we got the buildings
    */
-  renderGame: function(game, level, renderCallback) {
+  renderGame: function (game, level, renderCallback) {
     var _this = this,
-     partsLimit = game.limit || 15,
-     countOfFakeImages = 3;
+      partsLimit = game.limit || 15,
+      countOfFakeImages = 3;
 
     _this.mongodb
-    .collection('assemble_images')
-    .find({assemble_category: game.assemble_category})
-    .limit(partsLimit)
-    .toArray( function(err, images){
+      .collection('assemble_images')
+      .find({ assemble_category: game.assemble_category })
+      .limit(partsLimit)
+      .toArray(function (err, images) {
 
-      if(level === 2){
+        if (level === 2) {
 
-        // Add fake images to array
-        var fakeIds = game.assemble_fakeimages;
-        _this.mongodb
-        .collection('assemble_images')
-        .find({_id:{$in: fakeIds}})
-        .limit(countOfFakeImages)
-        .toArray(function(err2, fakes){
+          // Add fake images to array
+          var fakeIds = game.assemble_fakeimages;
+          _this.mongodb
+            .collection('assemble_images')
+            .find({ _id: { $in: fakeIds } })
+            .limit(countOfFakeImages)
+            .toArray(function (err2, fakes) {
 
-          for (var i = 0; i < fakes.length; i++) {
-            images.push(fakes[i]);
-          }
+              for (var i = 0; i < fakes.length; i++) {
+                images.push(fakes[i]);
+              }
+              images = _this.shuffleArray(images);
+              renderCallback(err, images);
+            });
+        } else {
           images = _this.shuffleArray(images);
           renderCallback(err, images);
-        });
-      }else {
-        images = _this.shuffleArray(images);
-        renderCallback(err, images);
-      }
-    });
+        }
+      });
   },
 
   /**
@@ -127,33 +127,33 @@ module.exports.prototype = GamesController.prototype.extend({
    * @param gameid    - the id of the game
    * @param sortings  - an array of ids, shows how the images were sorted
    */
-  checkSortingAction: function() {
+  checkSortingAction: function () {
     var _this = this,
-      gameid  = _this.request.param('gameid'),
+      gameid = _this.request.param('gameid'),
       sortIDs = _this.request.param('sortings');
 
-    if(typeof sortIDs === 'undefined') {
-      _this.response.json({ error: 'Keine Elemente ausgewählt.'});
+    if (typeof sortIDs === 'undefined') {
+      _this.response.json({ error: 'Keine Elemente ausgewählt.' });
       return;
     }
     // first we get the game params
     this.mongodb
       .collection('assemble_games')
-      .find({_id: this.mongo.ObjectID(gameid)})
-      .next(function(err, game) {
+      .find({ _id: this.mongo.ObjectID(gameid) })
+      .next(function (err, game) {
 
         _this.mongodb
           .collection('assemble_images')
-          .find({assemble_category: game.assemble_category})
-          .toArray(function(err, images) {
+          .find({ assemble_category: game.assemble_category })
+          .toArray(function (err, images) {
 
             // check for correct number of building elements submitted
-            if(images.length > sortIDs.length) {
+            if (images.length > sortIDs.length) {
               _this.response.json({
                 error: 'Nicht genug Elemente ausgewählt.'
               });
               return;
-            } else if(images.length < sortIDs.length) {
+            } else if (images.length < sortIDs.length) {
               _this.response.json({
                 error: 'Zu viele Elemente ausgewählt.'
               });
@@ -161,7 +161,7 @@ module.exports.prototype = GamesController.prototype.extend({
             }
 
             var isElementCorrect = [],
-                isSolutionCorrect = true;
+              isSolutionCorrect = true;
             // compare the orderings
             for (var i = 0; i < images.length; i++) {
               var index = images[i].assemble_order - 1;
@@ -170,7 +170,7 @@ module.exports.prototype = GamesController.prototype.extend({
               isElementCorrect.unshift(isCorrect);
               isSolutionCorrect = isSolutionCorrect && isCorrect;
             }
-            
+
             // Update Stats
             Statistics.prototype.insertStats(_this, 'assemble');
 

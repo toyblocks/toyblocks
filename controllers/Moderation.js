@@ -9,7 +9,7 @@ module.exports.prototype = BaseController.prototype.extend({
   area: 'moderation',
   rightLevel: 100,
 
-  checkAuth: function() {
+  checkAuth: function () {
     return true;
   }
 });

@@ -9,7 +9,7 @@ module.exports.prototype = BaseController.prototype.extend({
   area: 'admin',
   rightLevel: 100,
 
-  checkAuth: function() {
+  checkAuth: function () {
     return true;
   },
 
@@ -18,17 +18,17 @@ module.exports.prototype = BaseController.prototype.extend({
   * Indicates when the database was last updated
   *
   */
-  updateLastModifiedTimestamp: function() {
+  updateLastModifiedTimestamp: function () {
     this.mongodb
       .collection('system_config')
       .updateOne(
-        {key: 'last_modified'},
-        {$set: {key: 'last_modified', value: new Date()}},
-        {upsert: true},
-        function(err) {
-          if(err)
+        { key: 'last_modified' },
+        { $set: { key: 'last_modified', value: new Date() } },
+        { upsert: true },
+        function (err) {
+          if (err)
             console.log('Error in updateLastModifiedTimestamp.');
         }
-    );
+      );
   }
 });

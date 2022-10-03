@@ -9,15 +9,15 @@ module.exports.prototype = BaseController.prototype.extend({
   name: 'welcome',
   rightLevel: 300,
 
-  indexAction: function() {
+  indexAction: function () {
     var _this = this;
 
     _this.getDbTexts(
       ['welcome_title', 'welcome_body',
-      'game_sorting_text', 'game_challenge_text',
-      'game_assemble_text', 'game_missing_text',
-      'game_multiplechoice_text'],
-      function(texts) {
+        'game_sorting_text', 'game_challenge_text',
+        'game_assemble_text', 'game_missing_text',
+        'game_multiplechoice_text'],
+      function (texts) {
         _this.view.render({
           title: 'ToyBlocks',
           headline: texts.welcome_title,

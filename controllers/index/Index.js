@@ -8,7 +8,7 @@ module.exports.prototype = BaseController.prototype.extend({
   area: 'index',
   name: 'index',
 
-  indexAction: function() {
+  indexAction: function () {
     var user = this.getUser();
     if (user) {
       this.response.redirect('/welcome');
@@ -21,7 +21,7 @@ module.exports.prototype = BaseController.prototype.extend({
     }
   },
 
-  welcomeAction: function() {
+  welcomeAction: function () {
     this.view.render({});
   },
 
@@ -29,7 +29,7 @@ module.exports.prototype = BaseController.prototype.extend({
     var _this = this;
     _this.getDbTexts(
       ['information'],
-      function(texts) {
+      function (texts) {
         _this.view.render({
           title: 'Information - ToyBlocks',
           text: texts.information
@@ -41,7 +41,7 @@ module.exports.prototype = BaseController.prototype.extend({
     var _this = this;
     _this.getDbTexts(
       ['imprint'],
-      function(texts) {
+      function (texts) {
         _this.view.render({
           title: 'Impressum - ToyBlocks',
           text: texts.imprint
@@ -55,30 +55,30 @@ module.exports.prototype = BaseController.prototype.extend({
     });
   },
 
-  lastupdateAction: function() {
+  lastupdateAction: function () {
     var _this = this;
 
     function fill(n, length) {
       var str = '' + n;
-      for (var i = str.length+1; i <= length; i++) {
+      for (var i = str.length + 1; i <= length; i++) {
         str = '0' + str;
       }
       return str;
     }
-    
+
     _this.mongodb
       .collection('system_config')
-      .find({key: 'last_modified'})
-      .next(function(err, doc){
+      .find({ key: 'last_modified' })
+      .next(function (err, doc) {
 
         if (doc) {
           var date = doc.value;
-          var string = date.getFullYear()         + '-' +
-                      fill((date.getMonth()+1),2) + '-' +
-                      fill( date.getDate()    ,2) + ' ' +
-                      fill( date.getHours()   ,2) + ':' +
-                      fill( date.getMinutes() ,2) + '\n';
-          _this.response.json({lastupdate:string});
+          var string = date.getFullYear() + '-' +
+            fill((date.getMonth() + 1), 2) + '-' +
+            fill(date.getDate(), 2) + ' ' +
+            fill(date.getHours(), 2) + ':' +
+            fill(date.getMinutes(), 2) + '\n';
+          _this.response.json({ lastupdate: string });
         }
       });
   }
