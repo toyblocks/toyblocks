@@ -15,8 +15,10 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
       countPerPage = 30,
       findParams = _this.getFindParams(),
       filterParams = _this.getFilterParams(),
-      sortParams = _this.getSortParams() || { title: 1 };
+      sortParams = _this.getSortParams();
 
+    if(sortParams && Object.keys(sortParams).length === 0)
+      sortParams = { title: 1 };
     if (sortParams.viewcount === 1) {
       sortParams.viewcount = -1;
     }

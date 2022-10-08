@@ -14,7 +14,8 @@ To install the project and get it running you need to install the packages, rest
 
 ```bash
 npm install
-bower install
+npx bower install
+npx grunt init 
 mongorestore --db toyblocks toyblocks_database_demo/toydemo
 npm start
 ```

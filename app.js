@@ -4,15 +4,20 @@
  * Module dependencies.
  */
 
-var config = require('./configs'),
-  express = require('express'),
-  http = require('http'),
-  //https = require('https'),
-  path = require('path'),
-  cons = require('consolidate'),
-  dust = cons.dust,
-  mongodb = require('mongodb'),
-  jobs = require('./jobs');
+ var config = require('./configs');
+ var express = require('express');
+ var http = require('http');
+ //var https = require('https');
+ var path = require('path');
+ var cons = require('consolidate');
+ var dust = cons.dust;
+ var mongodb = require('mongodb');
+ var jobs = require('./jobs');
+ var logger = require('morgan');
+ var methodOverride = require('method-override');
+ var cookieParser = require('cookie-parser');
+ var session = require('express-session');
+ var favicon = require('serve-favicon');
 
 dust.helpers = require('dustjs-helpers');
 // TODO: helpers do not work... why?
@@ -23,8 +28,6 @@ dust.helpers.Truncate = function (chunk, context, bodies, params) {
 };
 
 var app = express();
-
-
 app.engine('dust', dust);
 
 if ('development' === process.env.NODE_ENV) {
@@ -38,15 +41,14 @@ if ('development' === process.env.NODE_ENV) {
 app.set('port', config.port);
 app.set('views', path.join(__dirname, './templates'));
 app.set('view engine', 'dust');
-app.use(express.favicon());
-app.use(express.logger('dev'));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb' }));
-app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
-app.use(express.static(path.join(__dirname, './public')));
-app.use(app.router);
+app.use(methodOverride());
+app.use(cookieParser('your secret here'));
+app.use(session());
+app.use(express.static('public'));
 
 /**
 *  getControllerPath() creates controller url path
@@ -111,10 +113,10 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
           });
         } catch (e) {
           if ('production' === app.settings.env) {
-            res.render('error404', { title: 'Fehler', error: e });
+            res.render('error404', { title: 'Fehler', error: "Seite nicht gefunden." });
           }
           else {
-            throw e;
+            res.render('error404', { title: 'Fehler', error: e.toString() });
           }
         }
       });

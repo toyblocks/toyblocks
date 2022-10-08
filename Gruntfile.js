@@ -3,7 +3,7 @@
 module.exports = function(grunt) {
   grunt.initConfig({
 
-    clean: ['public/css/vendor', 'public/js/vendor', 'public/css/fonts'],
+    clean: ['public/css/vendor', 'public/js/vendor', 'public/css/fonts', 'public/css/vendor/font/'],
 
     copy: {
       bowerjsdeps: {
@@ -11,11 +11,12 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           cwd: 'bower_components',
-          src: ['jquery/dist/jquery.min.js',
-            'bootstrap/dist/js/bootstrap.min.js',
+          src: ['jquery/dist/jquery.min.js','jquery/dist/jquery.min.map',
+            'bootstrap/dist/js/bootstrap.min.js','bootstrap/dist/js/bootstrap.min.js.map',
             'jqueryui/jquery-ui.min.js',
             'jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
             'summernote/dist/summernote.min.js',
+            'summernote/dist/summernote.min.js.map',
             'jquery-bootpag/lib/jquery.bootpag.min.js',
             'chartjs/Chart.min.js'
           ],
@@ -29,9 +30,12 @@ module.exports = function(grunt) {
           flatten: true,
           cwd: 'bower_components',
           src: ['bootstrap/dist/css/bootstrap.min.css',
+            'bootstrap/dist/css/bootstrap.min.css.map',
             'bootstrap/dist/css/bootstrap-theme.min.css',
+            'bootstrap/dist/css/bootstrap-theme.min.css.map',
             'fontawesome/css/font-awesome.min.css',
-            'summernote/dist/summernote.css'
+            'summernote/dist/summernote.css',
+            'summernote/dist/summernote.css.map'
           ],
           dest: 'public/css/vendor/',
           filter: 'isFile'
@@ -42,8 +46,18 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           cwd: 'bower_components',
-          src: ['bootstrap/dist/fonts/*',
-            'fontawesome/fonts/*'],
+          src: ['summernote/dist/font/*',
+            'fontawesome/webfonts/*'],
+          dest: 'public/css/vendor/font/',
+          filter: 'isFile'
+        }]
+      },
+      bowerfont2deps: {
+        files: [{
+          expand: true,
+          flatten: true,
+          cwd: 'bower_components',
+          src: ['bootstrap/dist/fonts/*'],
           dest: 'public/css/fonts/',
           filter: 'isFile'
         }]
@@ -57,6 +71,7 @@ module.exports = function(grunt) {
   grunt.registerTask('init', ['clean',
     'copy:bowerjsdeps',
     'copy:bowercssdeps',
-    'copy:bowerfontdeps'
+    'copy:bowerfontdeps',
+    'copy:bowerfont2deps'
   ]);
 };
