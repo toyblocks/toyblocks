@@ -18,9 +18,11 @@
   height: 14px;
 }
 .lead{
-  margin-top: 24px;
+  padding-top: 2em;
 }
 .label{
+  color: #fff !important;
+  margin-bottom: 2em;
   text-shadow: 1px 1px 1px #000, 1px 1px 3px rgba(194, 177, 159, 0.61);
 }
 </style>

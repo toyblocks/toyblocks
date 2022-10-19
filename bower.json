@@ -17,8 +17,7 @@
     "jquery-ui-touch-punch": "https://github.com/furf/jquery-ui-touch-punch.git",
     "summernote": "0.8.20",
     "jquery-bootpag": "1.0.7",
-    "fontawesome": "6.2.0",
-    "chartjs": "3.9.1"
+    "fontawesome": "6.2.0"
   },
   "resolutions": {
     "bootstrap": "3.4.0",

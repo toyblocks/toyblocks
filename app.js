@@ -15,7 +15,8 @@
  var cookieParser = require('cookie-parser');
  var session = require('express-session');
  var favicon = require('serve-favicon');
-
+const { runInNewContext } = require('vm');
+ 
  // Dust helpers dont support the latest version
 //dust.helpers = require('dustjs-helpers');
 /*dust.helpers.Truncate = function (chunk, context, bodies, params) {
@@ -66,6 +67,33 @@ function getControllerPath(area, controller) {
       });
 }
 
+
+function paramNew(name, defaultValue, order) {
+  var i, value;
+  var order = ["params", "query", "body"];
+
+  for (i = 0; i < order.length; i++)
+    if (valueIn2(this[order[i]]))
+      return value;
+
+  for (i = 0; i < order.length; i++)
+    if (valueIn(this[order[i]]))
+      return value;
+
+
+
+  return defaultValue;
+
+  //TRICKY: has side effects - assigns result to `value`
+  function valueIn(obj) {
+    return obj && null != (value = obj[name]) && Object.prototype.hasOwnProperty.call(obj, name)
+  }
+  function valueIn2(obj) {
+    return obj && null != (value = obj['values[' + name + ']']) &&
+      Object.prototype.hasOwnProperty.call(obj, 'values[' + name + ']')
+  }
+}
+
 const mongoDbPath = 'mongodb://' + config.mongodb.host + ':' + config.mongodb.port + '/' + config.mongodb.db;
 
 mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (err, client) {
@@ -96,6 +124,7 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
           action = req.params.action || 'index',
           ControllerClass;
 
+        //req.param = paramNew;
         try {
           try {
             ControllerClass = require(getControllerPath(area, controller));

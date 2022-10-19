@@ -11,14 +11,17 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           cwd: 'bower_components',
-          src: ['jquery/dist/jquery.min.js','jquery/dist/jquery.min.map',
-            'bootstrap/dist/js/bootstrap.min.js','bootstrap/dist/js/bootstrap.min.js.map',
+          src: [
+            'jquery/dist/jquery.min.js',
+            'jquery/dist/jquery.min.map',
+            'bootstrap/dist/js/bootstrap.min.js',
+            'bootstrap/dist/js/bootstrap.min.js.map',
             'jqueryui/jquery-ui.min.js',
             'jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
             'summernote/dist/summernote.min.js',
             'summernote/dist/summernote.min.js.map',
             'jquery-bootpag/lib/jquery.bootpag.min.js',
-            'chartjs/Chart.min.js'
+            'chartjs/chart.js'
           ],
           dest: 'public/js/vendor/',
           filter: 'isFile'
@@ -29,7 +32,8 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           cwd: 'bower_components',
-          src: ['bootstrap/dist/css/bootstrap.min.css',
+          src: [
+            'bootstrap/dist/css/bootstrap.min.css',
             'bootstrap/dist/css/bootstrap.min.css.map',
             'bootstrap/dist/css/bootstrap-theme.min.css',
             'bootstrap/dist/css/bootstrap-theme.min.css.map',
@@ -46,8 +50,10 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           cwd: 'bower_components',
-          src: ['summernote/dist/font/*',
-            'fontawesome/webfonts/*'],
+          src: [
+            'summernote/dist/font/*',
+            'fontawesome/webfonts/*'
+          ],
           dest: 'public/css/vendor/font/',
           filter: 'isFile'
         }]

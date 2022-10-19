@@ -18,9 +18,9 @@
     <label class="col-sm-5 control-label">Rolle</label>
     <div class="col-sm-7">
       <p class="form-control-static">              
-              {@eq key=user.right_level value=100}Admin{/eq}
-              {@eq key=user.right_level value=200}Moderator{/eq}
-              {@eq key=user.right_level value=300}Student{/eq}
+              {?isAdmin}Admin{/isAdmin}
+              {?isModerator}Moderator{/isModerator}
+              {?isStudent}Student{/isStudent}
         </p>
     </div>
   </div>
