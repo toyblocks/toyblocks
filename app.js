@@ -1,9 +1,6 @@
-'use strict';
-
 /**
  * Module dependencies.
  */
-
  var config = require('./configs');
  var express = require('express');
  var http = require('http');
@@ -19,22 +16,20 @@
  var session = require('express-session');
  var favicon = require('serve-favicon');
 
-dust.helpers = require('dustjs-helpers');
-// TODO: helpers do not work... why?
-dust.helpers.Truncate = function (chunk, context, bodies, params) {
+ // Dust helpers dont support the latest version
+//dust.helpers = require('dustjs-helpers');
+/*dust.helpers.Truncate = function (chunk, context, bodies, params) {
   var data = dust.helpers.tap(params.data, chunk, context),
     length = dust.helpers.tap(params.length, chunk, context);
   return chunk.write(data.substr(0, length));
-};
+};*/
 
 var app = express();
 app.engine('dust', dust);
 
-if ('development' === process.env.NODE_ENV) {
-  // enable pretty html printing
-  //app.use(express.errorHandler());
+if (process.env.NODE_ENV === 'development') {
+  // enable html pretty printing
   app.locals.pretty = true;
-  dust.helpers.optimizers.format = function (ctx, node) { return node; };
 }
 
 // all environments
@@ -44,10 +39,14 @@ app.set('view engine', 'dust');
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 app.use(methodOverride());
-app.use(cookieParser('your secret here'));
-app.use(session());
+app.use(cookieParser(config.secret));
+app.use(session({
+  secret: config.secret,
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(express.static('public'));
 
 /**
@@ -71,8 +70,8 @@ const mongoDbPath = 'mongodb://' + config.mongodb.host + ':' + config.mongodb.po
 
 mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (err, client) {
   if (err) {
-    console.log(err);
-    console.log('Sorry, there is no mongo db server running.');
+    console.error(err);
+    console.error('Sorry, there is no mongo db server running.');
   } else {
 
     const db = client.db('toyblocks')
