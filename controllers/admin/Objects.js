@@ -210,15 +210,15 @@ module.exports.prototype = AdminController.prototype.extend({
                   imageIds = imageIds.concat(object[imageAttributes[i]]);
               }
 
-              _this.mongodb.collection('images').removeOne({ _id: { $in: imageIds } }, {}, function () {
-                _this.mongodb.collection(type.name).removeOne({ _id: objectId }, {}, function () {
+              _this.mongodb.collection('images').deleteOne({ _id: { $in: imageIds } }, {}, function () {
+                _this.mongodb.collection(type.name).deleteOne({ _id: objectId }, {}, function () {
                   _this.response.redirect(redirectPath);
                 });
               });
             });
         }
         else {
-          _this.mongodb.collection(type.name).removeOne({ _id: objectId }, {}, function () {
+          _this.mongodb.collection(type.name).deleteOne({ _id: objectId }, {}, function () {
             _this.response.redirect(redirectPath);
           });
         }
@@ -357,7 +357,7 @@ module.exports.prototype = AdminController.prototype.extend({
                   }
                   _this.mongodb
                     .collection('images')
-                    .removeOne({ _id: { $in: deleteImages } }, {}, function () {
+                    .deleteOne({ _id: { $in: deleteImages } }, {}, function () {
                       // finally update object in db
                       _this.mongodb
                         .collection(type.name)

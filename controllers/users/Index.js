@@ -16,18 +16,33 @@ module.exports.prototype = UsersController.prototype.extend({
   */
   indexAction: function () {
     var _this = this;
+    var isDevelopment = process.env.NODE_ENV === "development";
     _this.mongodb
       .collection(userModel.collection)
       .find({ 'tuid': _this.request.session.user.tuid })
       .next(function (err, doc) {
-
         if (!doc) {
-          // user is not in DB, so lets log him out
-          _this.response.redirect('/users/log/out');
+          if(isDevelopment){
+            // Render something for development
+            _this.view.render({
+              title: 'Dev Profil',
+              user: _this.request.session.user,
+              isAdmin: _this.request.session.user.right_level === 100,
+              isModerator: _this.request.session.user.right_level === 200,
+              isStudent: _this.request.session.user.right_level === 300,
+              count: _this.request.session.user.stats
+            });
+          }else{
+            // user is not in DB, so lets log him out
+            _this.response.redirect('/users/log/out');
+          }
         } else {
           _this.view.render({
             title: 'Profil',
             user: doc,
+            isAdmin: doc.right_level === 100,
+            isModerator: doc.right_level === 200,
+            isStudent: doc.right_level === 300,
             count: doc.stats
           });
         }

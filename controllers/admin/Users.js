@@ -49,7 +49,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
     _this.mongodb
       .collection('users')
-      .removeOne({ _id: _this.mongo.ObjectID(id) }, 1, function (err) {
+      .deleteOne({ _id: _this.mongo.ObjectID(id) }, 1, function (err) {
         if (err) {
           _this.response.json({ result: 'error' });
         }
@@ -65,7 +65,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
     _this.mongodb
       .collection('users')
-      .removeOne({ student: true, right_level: 300 }, 0, function (err) {
+      .deleteOne({ student: true, right_level: 300 }, 0, function (err) {
         if (err)
           _this.response.json({ result: 'error' });
         else
