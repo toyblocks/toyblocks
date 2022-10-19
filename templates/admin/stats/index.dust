@@ -7,7 +7,7 @@
   <li class="active">Statistiken</li>
 </ol>
 
-<script src="/js/vendor/Chart.min.js"></script>
+<script src="/js/vendor/chart.js"></script>
 <script type="text/javascript">
 var myLineChart;
 var drawData = [];

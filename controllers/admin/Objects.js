@@ -159,10 +159,10 @@ module.exports.prototype = AdminController.prototype.extend({
   *   Updates the active attribute of a db entry
   */
   changeactiveAction: function (redirection) {
-    var _this = this,
-      objectId = _this.mongo.ObjectID(_this.request.param('id')),
-      dbtype = _this.request.param('type'),
-      value = _this.request.param('value') === 'true' ? true : false;
+    var _this = this;
+    var objectId = _this.mongo.ObjectID(_this.request.param('id'));
+    var dbtype = _this.request.param('type');
+    var value = _this.request.param('value') === 'true' ? true : false;
 
     _this.mongodb
       .collection(dbtype)
@@ -178,13 +178,22 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   deleteObjectAction: function (redirection) {
-    var _this = this,
-      objectId = this.mongo.ObjectID(this.request.param('id')),
-      search = _this.request.param('search') || '';
+    var _this = this;
+    var objectId = this.mongo.ObjectID(this.request.query['id']);
+    var search = _this.request.query['search'] || '';
+
+    console.log("#########type############");
+    console.log(_this.request.param('type'));
+    console.log("#############params########");
+    console.log(_this.request.params);
+    console.log("#############body########");
+    console.log(_this.request.body);
+    console.log("#############query########");
+    console.log(_this.request.query);
 
     // getting main type
     this.getTypeWithAttributes(
-      this.request.param('type'),
+      _this.request.query['type'],
       function (type, attributes) {
 
         // set redirect path to optional parameter or default value
@@ -231,7 +240,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
     // getting main type
     _this.getTypeWithAttributes(
-      _this.request.param('type'),
+      _this.request.body['type'],
       function (type, attributes) {
 
         // set redirect path to optional parameter or default value
@@ -252,12 +261,12 @@ module.exports.prototype = AdminController.prototype.extend({
         }
 
         if (_this.request.param('id')) {
-          object._id = _this.mongo.ObjectID(_this.request.param('id'));
+          object._id = _this.mongo.ObjectID(_this.request.body['id']);
         }
 
         // iterate through all attributes and prepare them for saving
         for (var i = 0; i < attributes.length; i++) {
-          reqValue = _this.request.param('values')[attributes[i].name];
+          reqValue = _this.request.body['values[' +attributes[i].name+ ']'];
           typeProps = type.attributes[attributes[i].name];
           attributeName = attributes[i].name;
 
@@ -387,6 +396,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
   formAction: function () {
     var _this = this;
+
     if (!_this.request.param('type')) {
       throw new Error('Param "type" is needed.');
     }
