@@ -8,6 +8,12 @@
 .user span:before{
   content: "-->";
 }
+.disabled {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+  pointer-events: none;
+}
 </style>
 <h3>Rangliste</h3>
 <span class="help-block">Das ist die heutige Rangliste der Daily Challenge</span>
@@ -16,11 +22,11 @@
     <ul class="pager">
       <li><a href="?date={yesterday}">Vorheriger Tag</a></li>
       <li><a href="?">Heute</a></li>
-      {@eq key=tomorrow value="true" type="boolean"}
+      {?hasTomorrow}
       <li><a href="?date={tomorrow}">Nächster Tag</a></li>
       {:else}
-      <li><a href="?date={tomorrow}">Nächster Tag</a></li>
-      {/eq}
+      <li><a href="?date={tomorrow}" class="disabled">Nächster Tag</a ></li>
+      {/hasTomorrow}
     </ul>
   <div class="panel panel-default">
     <div class="panel-heading">Die besten Spieler am {game.day}.{game.month}.{game.year}!</div>
@@ -37,8 +43,8 @@
       </thead>
       <tbody>
         {#players}
-        <tr{@eq key=tuid value=userid} class="user"{/eq}>
-          <td>{@idx}{@math key="{.}" method="add" operand="1"/}{/idx}</td>
+        <tr class="{?highlight}user{/highlight}">
+          <td>{index}</td>
           <td>{nickname}</td>
           <td>{score}</td>
           <td>{time} Sekunden</td>
@@ -49,11 +55,13 @@
     {:else}
     <br>
 
-    {@eq key=tomorrow value="true" type="boolean"}
-          <div class="alert alert-danger" style="margin: 0px;"> An diesem Tag hat niemand gespielt! </div>
-    {:else}
-          <div class="alert alert-danger" style="margin: 0px;"> Es hat noch niemand gespielt! <a href="/games/daily/game" class="alert-link">Seien Sie Erster!</a></div>
-    {/eq};
+    {?hasBeenPlayed}
+      {?hasTomorrow}
+      <div class="alert alert-danger" style="margin: 0px;"> An diesem Tag hat niemand gespielt! </div>
+      {:else}
+      <div class="alert alert-danger" style="margin: 0px;"> Es hat noch niemand gespielt! <a href="/games/daily/game" class="alert-link">Seien Sie die erste Person!</a></div>
+      {/hasTomorrow}
+    {/hasBeenPlayed}
 
   {/players}
 

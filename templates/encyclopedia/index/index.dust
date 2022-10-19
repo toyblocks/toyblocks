@@ -1,12 +1,13 @@
 {>"layout/layout.dust"/}
 <style type="text/css" scoped="true">
 
-.no-image-offset{
-  margin-left: 20px;
+.text-offset{
+  margin-left: 35px;
 }
 .mini-img{
-  height: 15px;
-  width: 15px;
+  height: 25px;
+  width: 25px;
+  position: absolute;
   margin-top: -3px;
 }
 .bar{
@@ -37,46 +38,24 @@
 <div class="row">
 {/contentHead}
 {<content}
-  <div class="col-md-6 col-sm-6">
+  <div class="">
     {#data}
-      {@math key="{$len}" method="divide" operand="2"}
-        {@gt value="{$idx}"}
-          <div class="panel panel-default">
-            <div class="panel-heading">{headline}</div>
-            <ul class="list-group">
-              {#articles}
-                <li class="list-group-item">
-                  {?image}
-                  <img src="/ressources/image?id={image}&amp;size=middle" alt="" class="img-circle mini-img">
-                  <a {:else}<a class="no-image-offset" {/image}
-                  href="/encyclopedia/index/{#isArticle}article{:else}building{/isArticle}?id={_id}">{title}</a>
-                </li>
-              {/articles}
-              </ul>
+          <div class="col-md-6 col-sm-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">{headline}</div>
+              <ul class="list-group">
+                {#articles}
+                  <li class="list-group-item">
+                    {?image}
+                    <img src="/ressources/image?id={image}&amp;size=middle" alt="" class="img-circle mini-img">
+                    {/image}
+                    <a class="text-offset"
+                    href="/encyclopedia/index/{#isArticle}article{:else}building{/isArticle}?id={_id}">{title}</a>
+                  </li>
+                {/articles}
+                </ul>
+            </div>
           </div>
-        {/gt}
-      {/math}
-    {/data}
-  </div>
-  <div class="col-md-6 col-sm-6">
-    {#data}
-      {@math key="{$len}" method="divide" operand="2"}
-        {@lte value="{$idx}"}
-          <div class="panel panel-default">
-            <div class="panel-heading">{headline}</div>
-            <ul class="list-group">
-              {#articles}
-                <li class="list-group-item">
-                  {?image}
-                  <img src="/ressources/image?id={image}&amp;size=middle" alt="" class="img-circle mini-img">
-                  <a {:else}<a class="no-image-offset" {/image}
-                  href="/encyclopedia/index/{#isArticle}article{:else}building{/isArticle}?id={_id}">{title}</a>
-                </li>
-              {/articles}
-              </ul>
-          </div>
-        {/lte}
-      {/math}
     {/data}
   </div>
 <script>
@@ -90,7 +69,6 @@ var newPaginationNames = [{#customPagination}'{.}',{/customPagination}];
 <script>
 /* replaces pagination numbers with letters */
 function replacePaginationText () {
-  console.log("inside replacePaginationText");
   var ele = $('#page_selection li').each(function(index){
     if(index > 0 && index < newPaginationNames.length && index < window._pageCounter+1)
       this.innerHTML = '<a href="javascript:void(0);">' + newPaginationNames[index] + '</a>';

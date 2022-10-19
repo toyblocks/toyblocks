@@ -75,12 +75,11 @@ module.exports.prototype = GamesController.prototype.extend({
   * GET leaderboard webpage
   */
   leaderboardAction: function () {
-    var _this = this,
-      todaysUnixDate = new Date().getTime() - (new Date().getTime() % 86400000),
-      givenUnixDate = Number(_this.request.param('date')) || todaysUnixDate,
-      yesterdayUnixDate = (givenUnixDate - 86400000),
-      tomorrowUnixDate = (todaysUnixDate === givenUnixDate) ?
-        null : (givenUnixDate + 86400000);
+    var _this = this;
+    var todaysUnixDate = new Date().getTime() - (new Date().getTime() % 86400000);
+    var givenUnixDate = Number(_this.request.param('date')) || todaysUnixDate;
+    var yesterdayUnixDate = givenUnixDate - 86400000;
+    var tomorrowUnixDate = givenUnixDate + 86400000;
 
     _this.mongodb
       .collection('daily_leaderboard')
@@ -98,6 +97,8 @@ module.exports.prototype = GamesController.prototype.extend({
         });
         for (var i = 0; i < users.length; i++) {
           users[i].time = ((users[i].time - (users[i].time % 1000)) / 1000);
+          users[i].index = i + 1;
+          users[i].highlight = _this.request.session.user.tuid === users[i].tuid;
         }
 
         var d = new Date(givenUnixDate);
@@ -112,6 +113,8 @@ module.exports.prototype = GamesController.prototype.extend({
           game: game,
           players: users,
           yesterday: yesterdayUnixDate,
+          hasBeenPlayed: users.length === 0,
+          hasTomorrow: todaysUnixDate !== givenUnixDate,
           tomorrow: tomorrowUnixDate,
           userid: _this.request.session.user.tuid
         });

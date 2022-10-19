@@ -19,7 +19,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   */
   indexAction: function () {
     var _this = this,
-      countPerPage = 36,
+      countPerPage = 42,
       findParams = _this.getFindParams(),
       filterParams = _this.getFilterParams();
 
@@ -59,12 +59,12 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
 
                     // Sort data in regards to umlauts
                     data.sort(function (a, b) {
-                      a = a.title.toLowerCase();
+                      a = (a.title + "").toLowerCase();
                       a = a.replace("ä", "ae");
                       a = a.replace("ü", "ue");
                       a = a.replace("ö", "oe");
                       a = a.replace("ß", "ss");
-                      b = b.title.toLowerCase();
+                      b = (b.title + "").toLowerCase();
                       b = b.replace("ä", "ae");
                       b = b.replace("ö", "oe");
                       b = b.replace("ü", "ue");
@@ -73,7 +73,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                     });
 
                     function pagStyle(i) {
-                      return i.title.charAt(0).toUpperCase() + i.title.charAt(1);
+                      return (i.title + "").charAt(0).toUpperCase() + (i.title + "").charAt(1);
                     }
 
                     if (data.length === 0) {
@@ -116,7 +116,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                     };
                     for (var i = 0; i < data.length; i++) {
                       // get first letter of article title
-                      var currentLetter = data[i].title.charAt(0).toUpperCase();
+                      var currentLetter = (data[i].title + "").charAt(0).toUpperCase();
 
                       // filter articles array for first letter
                       var currentElement = articles.filter(filterHeadlines);
