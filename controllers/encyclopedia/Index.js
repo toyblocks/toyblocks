@@ -50,11 +50,11 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                     // Merge bulding and article arrays
                     for (var i = 0; i < articleData.length; i++) {
                       articleData[i].isArticle = true;
-                    };
+                    }
                     for (var i = 0; i < buildingData.length; i++) {
                       buildingData[i].isArticle = false;
                       buildingData[i].image = buildingData[i].image[0] || null;
-                    };
+                    }
                     var data = articleData.concat(buildingData);
 
                     // Sort data in regards to umlauts
@@ -96,7 +96,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                       lastLetter = pagStyle(data[i - 1]);
                       customPagination[pagCounter++] = firstLetter + ' - ' + lastLetter;
                       firstLetter = pagStyle(data[i]);
-                    };
+                    }
 
                     // when there is only one page use firstLetter instead
                     if (typeof lastLetter === 'undefined') {

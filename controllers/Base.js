@@ -401,8 +401,8 @@ module.exports.prototype = {
       }
     }
     else {
-      var isDevelopment = process.env.NODE_ENV === "development";
-      if (isDevelopment && !_this.request.session.user) {
+      // TODO: Remove this block
+      if (!_this.request.session.user) {
         _this.request.session.user = {
           'employee': false,
           'givenName': 'Local',

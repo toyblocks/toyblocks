@@ -1,6 +1,6 @@
 var View = require("../views/Base");
 describe("Base view", function() {
-  it("create and render new view", function(next) {
+  test("create and render new view", function(next) {
     var responseMockup = {
       render: function(template, data) {
         expect(data.myProperty).toBe('value');
@@ -11,7 +11,7 @@ describe("Base view", function() {
     var v = new View(responseMockup, 'template-file');
     v.render({myProperty: 'value'});
   });
-  it("should be extendable", function(next) {
+  test("should be extendable", function(next) {
     var v = new View();
     var OtherView = v.extend({
       render: function(data) {

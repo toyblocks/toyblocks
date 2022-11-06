@@ -142,7 +142,7 @@ module.exports.prototype = AdminController.prototype.extend({
                 }
                 for (var i = 0; i < objects.length; i++) {
                   objects[i]._objectid = objects[i]._id;
-                };
+                }
                 _this.view.render({
                   title: type.title + ' Verwaltung - ToyBlocks',
                   type: type,

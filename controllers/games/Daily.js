@@ -27,7 +27,7 @@ module.exports.prototype = GamesController.prototype.extend({
               callback(true);
               return;
             }
-          };
+          }
         }
         callback(false);
       });
@@ -218,8 +218,8 @@ module.exports.prototype = GamesController.prototype.extend({
         if (i === 0) { // ass1
           if (c) { points += 6; } else { bounspoints_ass1 = false; }
         }
-      };
-    };
+      }
+    }
 
     if (bounspoints_mc) { points += 50; }
     if (bounspoints_sort1) { points += 129; }
@@ -277,7 +277,7 @@ module.exports.prototype = GamesController.prototype.extend({
                 userid: tuid
               });
             });
-      };
+      }
     });
   }
 });

@@ -46,7 +46,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
             for (var i = 0; i < data.length; i++) {
               data[i].article_body = (data[i].article_body + '').slice(0, 80);
-            };
+            }
 
             _this.view.render({
               title: 'Enzyklopädie - ToyBlocks',
