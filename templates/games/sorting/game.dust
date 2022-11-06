@@ -164,11 +164,11 @@
 
 <script>
 $(window).ready(function(){
-  var maxTries = 3,
-   tries = 0,
-   isGlyphed = false,
-   modalIsShown = false;
-   isDaily = {@eq key=isDaily value="true" type="boolean"}true{:else}false{/eq};
+  var maxTries = 3;
+  var tries = 0;
+  var isGlyphed = false;
+  var modalIsShown = false;
+  var isDaily = "{?isDaily}true{:else}false{/isDaily}";
 
   $('#sortable').sortable();
   $('#sortable').disableSelection();
@@ -189,7 +189,7 @@ $(window).ready(function(){
     var serialized = $('#sortingform').serialize();
     $.post('/games/sorting/check-sorting', serialized, function(data) {
 
-      if(isDaily){
+      if(isDaily === "true"){
         pushSolution(calcCorrection(data.order).join(','));
         return;
       }

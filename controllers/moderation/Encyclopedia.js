@@ -26,7 +26,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
     _this.mongodb
       .collection('encyclopedia_articles')
       .find({ $and: [filterParams, findParams] })
-      .count(function (err1, totalCount) {
+      .count(function (_err1, totalCount) {
 
         _this.setPagination(totalCount, countPerPage);
         _this.mongodb
@@ -42,7 +42,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
           .skip(_this.getPaginationSkip())
           .limit(_this.getPaginationLimit())
           .sort(sortParams)
-          .toArray(function (err, data) {
+          .toArray(function (_err, data) {
 
             for (var i = 0; i < data.length; i++) {
               data[i].article_body = (data[i].article_body + '').slice(0, 80);
@@ -59,11 +59,12 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
   articleAction: function () {
     var _this = this;
-    if (_this.request.param('id')) {
+    var id = _this.request.param('id');
+    if (id) {
       _this.mongodb
         .collection('encyclopedia_articles')
-        .find({ _id: _this.mongo.ObjectID(_this.request.param('id')) })
-        .next(function (err, article) {
+        .find({ _id: _this.mongo.ObjectID(id) })
+        .next(function (_err, article) {
           _this.view.render({
             title: article.title + ' - Enzyklopädie - ToyBlocks',
             route: '/moderation/encyclopedia',

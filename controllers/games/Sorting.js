@@ -33,11 +33,14 @@ module.exports.prototype = GamesController.prototype.extend({
    * @return buildings - an array of buildings to display for the template
    */
   gameAction: function () {
-    var _this = this,
-      ids = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'), 10) || 1,
-      limit = parseInt(_this.request.param('limit'), 10) || 7,
-      isDaily = parseInt(_this.request.param('isDaily'), 10) || 0;
+    var _this = this;
+    console.log("> params", _this.request.params);
+    console.log("> body", _this.request.body);
+    console.log("> query", _this.request.query);
+    var ids = _this.request.param('id');
+    var level = parseInt(_this.request.param('level'), 10) || 1;
+    var limit = parseInt(_this.request.param('limit'), 10) || 7;
+    var isDaily = parseInt(_this.request.param('isDaily'), 10) || 0;
 
 
     _this.increaseStat('level' + level + '_count_played');
@@ -82,21 +85,18 @@ module.exports.prototype = GamesController.prototype.extend({
    */
   renderGame: function (level, renderCallback) {
     if (level === 3) {
-
       // Only level 2 buildings
       this.mongodb
         .collection('sorting_buildings')
         .find({ level: 2, active: true })
         .toArray(renderCallback);
     } else if (level === 2) {
-
       // Level 1 and level 2
       this.mongodb
         .collection('sorting_buildings')
         .find({ active: true })
         .toArray(renderCallback);
     } else {
-
       // only level 1
       this.mongodb
         .collection('sorting_buildings')
@@ -113,10 +113,10 @@ module.exports.prototype = GamesController.prototype.extend({
    * @param sortings  - an array of ids, shows how the images were sorted
    */
   checkSortingAction: function () {
-    var _this = this,
-      sortIds = _this.request.param('sortings');
+    var _this = this;
+    var sortIds = _this.request.body['sortings[]'];
 
-    if (typeof sortIds === 'undefined') {
+    if (typeof sortIds === 'undefined' || sortIds === '') {
       _this.response.json({
         error: 'Error: Keine Elemente übergeben.'
       });
@@ -126,10 +126,10 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
       .collection('attributes')
       .find({ name: 'era' })
-      .next(function (err, attribute) {
+      .next(function (_err, attribute) {
 
-        var eras = attribute.values,
-          sortedBuildings = {};
+        var eras = attribute.values;
+        var sortedBuildings = {};
 
         // we have to cast the mongo ids for the db-request
         for (var i = 0; i < sortIds.length; i++) {
@@ -139,12 +139,12 @@ module.exports.prototype = GamesController.prototype.extend({
 
         _this.mongodb.collection('sorting_buildings')
           .find({ _id: { $in: sortIds } })
-          .toArray(function (err, buildings) {
+          .toArray(function (_err1, buildings) {
 
             // got all requested buildings, now calculate if sorting is right
-            var lastEraIndex = 0,
-              orderNumbers = [],
-              solutionIsCorrect = true;
+            var lastEraIndex = 0;
+            var orderNumbers = [];
+            var solutionIsCorrect = true;
 
             for (var i = 0; i < buildings.length; i++) {
               sortedBuildings['' + buildings[i]._id] = buildings[i];
@@ -166,9 +166,9 @@ module.exports.prototype = GamesController.prototype.extend({
             }
 
             // Display which elements are on a wrong position
-            var order = [],
-              prepend,
-              same;
+            var order = [];
+            var prepend = 0;
+            var same = 0;
             for (var k = 0; k < orderNumbers.length; k++) {
               same = prepend = 0;
               for (var j = 0; j < orderNumbers.length; j++) {
@@ -185,7 +185,7 @@ module.exports.prototype = GamesController.prototype.extend({
               buildings[i].position = eras.indexOf(buildings[i].era);
             }
             buildings.sort(function (a, b) {
-              return a.position > b.position;
+              return a.position - b.position;
             });
 
             // Update Stats

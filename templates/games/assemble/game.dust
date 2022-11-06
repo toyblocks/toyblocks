@@ -104,9 +104,9 @@
 
 <script>
 $(window).ready(function() {
-  var max_tries = 3,
-   tries = 0,
-   isDaily = {@eq key=isDaily value="true" type="boolean"}true{:else}false{/eq};
+  var max_tries = 3;
+  var tries = 0;
+  var isDaily = "{isDaily}true{:else}false{/isDaily}";
 
   /* sortable initialization*/
   $('#sortablebot, #sortabletop').disableSelection();
@@ -166,7 +166,7 @@ $(window).ready(function() {
       if(data.error) {
         /* show modal 'not enough elements'*/
         setModalText('Fehler', data.error);
-      }else if(isDaily){
+      }else if(isDaily === "true"){
         /* return the result as array to the daily game */
         pushSolution(calcCorrection(data.order).join(','));
         return;
