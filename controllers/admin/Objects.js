@@ -142,7 +142,7 @@ module.exports.prototype = AdminController.prototype.extend({
                 }
                 for (var i = 0; i < objects.length; i++) {
                   objects[i]._objectid = objects[i]._id;
-                }
+                };
                 _this.view.render({
                   title: type.title + ' Verwaltung - ToyBlocks',
                   type: type,
@@ -158,7 +158,7 @@ module.exports.prototype = AdminController.prototype.extend({
   /**
   *   Updates the active attribute of a db entry
   */
-  changeactiveAction: function (redirection) {
+  changeactiveAction: function () {
     var _this = this;
     var objectId = _this.mongo.ObjectID(_this.request.param('id'));
     var dbtype = _this.request.param('type');
@@ -180,7 +180,7 @@ module.exports.prototype = AdminController.prototype.extend({
   deleteObjectAction: function (redirection) {
     var _this = this;
     var objectId = this.mongo.ObjectID(this.request.query['id']);
-    var search = _this.request.query['search'] || '';
+    var search = _this.request.query['search'] || _this.request.params['search'] || '';
 
     console.log("#########type############");
     console.log(_this.request.param('type'));

@@ -59,10 +59,7 @@ module.exports.prototype = AdminController.prototype.extend({
             all = [];
 
 
-          var today = new Date(),
-            current = new Date(today.getFullYear(),
-              today.getMonth(),
-              today.getDate());
+          var today = new Date();
 
           // TODO: Should rework this, could use .filter() and .sum() instead
           for (var i = month.valueOf(); i < monthend.valueOf(); i = i + day) {
@@ -72,7 +69,6 @@ module.exports.prototype = AdminController.prototype.extend({
               count_missing = 0,
               count_daily = 0;
 
-            var count = 0;
             for (var j = 0; j < elements.length; j++) {
               if ((elements[j].date.valueOf() === i) ||
                 ((elements[j].date.valueOf() - i) === -82800000)) {

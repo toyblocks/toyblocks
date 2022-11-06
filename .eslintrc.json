@@ -3,13 +3,21 @@
         "node": true,
         "browser": true,
         "commonjs": true,
-        "es2021": true
+        "es2021": true,
+        "jest/globals": true,
+        "jquery": true
     },
+    "plugins": ["jest"],
     "extends": "eslint:recommended",
     "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "rules": {},
-    "ignorePatterns": ["node_modules/**", "bower_components/**", "toyblocks_database_demo/**", "public/js/vendor/**"]
+    "ignorePatterns": [
+        "node_modules/**",
+        "bower_components/**",
+        "toyblocks_database_demo/**",
+        "public/js/vendor/**"
+    ]
 }

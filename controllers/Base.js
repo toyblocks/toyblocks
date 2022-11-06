@@ -142,7 +142,6 @@ module.exports.prototype = {
   getSortParams: function () {
     var sortQuery = this.request.param('sort'),
       direction = this.request.param('sortdirection'),
-      sortParamsNumber = {},
       sortParams = {};
 
     if (sortQuery === undefined)
@@ -347,7 +346,7 @@ module.exports.prototype = {
                             doc.givenName === null ||
                             doc.givenName === undefined) {
 
-                            var user = {
+                            var newuser = {
                               tuid: tuid,
                               right_level: 300,
                               givenName: attributes['cas:givenName'][0],
@@ -361,7 +360,7 @@ module.exports.prototype = {
                               .collection('users')
                               .updateOne(
                                 { tuid: tuid },
-                                user);
+                                newuser);
                           }
                           _this.request.session.user = doc;
                           //console.log("Found " + tuid + " user: " + JSON.stringify(doc));
