@@ -16,6 +16,8 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var favicon = require('serve-favicon');
 
+dust.helpers = require('dustjs-helpers');
+
 var app = express();
 app.engine('dust', dust);
 
@@ -56,6 +58,12 @@ function getControllerPath(area, controller) {
       .replace(/(^[a-z]|-[a-z])/g, function (v) {
         return v.replace(/-/, '').toUpperCase();
       });
+}
+
+function paramHelp(_this) {
+  console.log("> params", _this.request.params);
+  console.log("> body", _this.request.body);
+  console.log("> query", _this.request.query);
 }
 
 const mongoDbPath = 'mongodb://' + config.mongodb.host + ':' + config.mongodb.port + '/' + config.mongodb.db;
