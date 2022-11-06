@@ -25,7 +25,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
     _this.mongodb
       .collection('encyclopedia_articles')
-      .find({ $and: [filterParams, findParams] })
+      .find({ $and: [findParams, filterParams] })
       .count(function (_err1, totalCount) {
 
         _this.setPagination(totalCount, countPerPage);
@@ -42,8 +42,9 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
           .skip(_this.getPaginationSkip())
           .limit(_this.getPaginationLimit())
           .sort(sortParams)
-          .toArray(function (_err, data) {
+          .toArray(function (_err, articleData) {
 
+            var data = articleData;
             for (var i = 0; i < data.length; i++) {
               data[i].article_body = (data[i].article_body + '').slice(0, 80);
             }
@@ -53,13 +54,13 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
               route: '/moderation/encyclopedia',
               articles: data
             });
-          });
+        });
       });
   },
 
   articleAction: function () {
     var _this = this;
-    var id = _this.request.param('id');
+    var id = _this.request.query.id;
     if (id) {
       _this.mongodb
         .collection('encyclopedia_articles')

@@ -14,11 +14,11 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
   missingAction: function () {
     var _this = this;
-    if (this.request.param('successful')) {
+    if (this.request.query.successful) {
       this.addMessage('success', 'Erfolgreich hinzugefügt');
     }
     _this.view.render({
-      title: 'Fehlstellenspiel hinzufügen'
+      title: 'Fehlstellenspiel hinzufügen - ToyBlocks'
     });
   },
 
@@ -29,7 +29,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
   multiplechoiceAction: function () {
     var _this = this;
     _this.view.render({
-      title: 'Multiplechoice-Frage hinzufügen'
+      title: 'Multiplechoice-Frage hinzufügen - ToyBlocks'
     });
   },
 
@@ -39,11 +39,11 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
   assembleAction: function () {
     var _this = this;
-    if (this.request.param('successful')) {
+    if (this.request.query.successful) {
       this.addMessage('success', 'Erfolgreich hinzugefügt');
     }
     _this.view.render({
-      title: 'Zusammensetzspiel hinzufügen'
+      title: 'Zusammensetzspiel hinzufügen - ToyBlocks'
     });
   },
 
@@ -61,9 +61,9 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
     _this.mongodb
       .collection('attributes')
       .find({ name: 'era' })
-      .toArray(function (err, data) {
+      .toArray(function (_err, data) {
         _this.view.render({
-          title: 'Fehlstellenspiel hinzufügen',
+          title: 'Fehlstellenspiel hinzufügen - ToyBlocks',
           eras: data[0].values
         });
       });
@@ -73,9 +73,9 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
     _this.mongodb
       .collection('daily_games')
       .find()
-      .toArray(function (err, data) {
+      .toArray(function (_err, data) {
         _this.view.render({
-          title: 'Daily Challenge',
+          title: 'Daily Challenge - ToyBlocks',
           games: data
         });
       });

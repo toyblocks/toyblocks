@@ -18,7 +18,7 @@ module.exports.prototype = AdminController.prototype.extend({
       .collection('users')
       .find({ $and: [filterParams, findParams] })
       .sort(sortParams)
-      .toArray(function (err, users) {
+      .toArray(function (_err, users) {
         _this.view.render({
           title: 'User Verwaltung - ToyBlocks',
           users: users
@@ -29,11 +29,16 @@ module.exports.prototype = AdminController.prototype.extend({
 
   updateAction: function () {
     var _this = this;
+    var id = _this.request.body['tuid'];
+    var rightlevel = parseInt(_this.request.body['right_level']);
+    if(id === undefined || id === "undefined")
+      _this.response.json({ result: 'error' });
+    
     _this.mongodb
       .collection('users')
       .updateOne(
-        { tuid: _this.request.param('tuid') },
-        { $set: { 'right_level': parseInt(_this.request.param('right_level')) } },
+        { tuid: id },
+        { $set: { 'right_level': rightlevel } },
         {},
         function (err) {
           if (err)
@@ -44,9 +49,8 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   deleteAction: function () {
-    var _this = this,
-      id = _this.request.param('id');
-
+    var _this = this;
+    var id = _this.request.body['id'];
     _this.mongodb
       .collection('users')
       .deleteOne({ _id: _this.mongo.ObjectID(id) }, 1, function (err) {

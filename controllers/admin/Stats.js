@@ -18,12 +18,12 @@ module.exports.prototype = AdminController.prototype.extend({
   * Shows Index page for statistics
   */
   indexAction: function () {
-    var _this = this,
-      month = _this.request.param('month'),
-      today = new Date(),
-      day = 86400000,
-      current,
-      monthend;
+    var _this = this;
+    var month = _this.request.query.month;
+    var today = new Date();
+    var day = 86400000;
+    var current;
+    var monthend;
 
     if (typeof month === 'undefined' || month === '') {
       current = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -38,7 +38,7 @@ module.exports.prototype = AdminController.prototype.extend({
       .find({ date: { $gte: month, $lt: monthend } })
       .sort({ date: 1 })
       .toArray(
-        function (err, elements) {
+        function (_err, elements) {
 
           /*
           data:
@@ -61,7 +61,6 @@ module.exports.prototype = AdminController.prototype.extend({
 
           var today = new Date();
 
-          // TODO: Should rework this, could use .filter() and .sum() instead
           for (var i = month.valueOf(); i < monthend.valueOf(); i = i + day) {
             var count_multiplechoice = 0,
               count_assemble = 0,
@@ -129,7 +128,7 @@ module.exports.prototype = AdminController.prototype.extend({
       .collection('statistics')
       .find({ gametype: 'daily' })
       .toArray(
-        function (err, elements) {
+        function (_err, elements) {
           _this.view.render({
             title: 'Statistiken - ToyBlocks',
             elements: elements

@@ -22,11 +22,11 @@ module.exports.prototype = AdminController.prototype.extend({
       .collection('object_types')
       .find({})
       .sort({ title: 1 })
-      .toArray(function (err, types) {
+      .toArray(function (_err, types) {
         _this.mongodb
           .collection(attributeModel.collection)
           .find({})
-          .toArray(function (err, attributes) {
+          .toArray(function (_err, attributes) {
             for (var typeIndex in types) {
               types[typeIndex].attributeNames = Object.keys(types[typeIndex].attributes);
             }
@@ -78,20 +78,27 @@ module.exports.prototype = AdminController.prototype.extend({
 
 
   getTypeFromRequest: function () {
-    var req = this.request,
-      type = {};
+    var type = {};
+    console.log("> params", _this.request.params);
+    console.log("> body", _this.request.body);
+    console.log("> query", _this.request.query);
+  
+    var name = _this.request.query.name;
+    var title = _this.request.query.title;
+    var randomized = _this.request.query.randomized;
+    var attributes = _this.request.query.attributes;
     // check for unallowed chars in attribute name
-    if (!req.param('name') || !req.param('name').match(/^[a-z][a-z0-9_]*$/))
+    if (!name || !name.match(/^[a-z][a-z0-9_]*$/))
       return false;
-    type.name = req.param('name');
+    type.name = name;
 
-    if (!req.param('title').trim()) // check for empty title
+    if (!title.trim()) // check for empty title
       return false;
-    type.title = req.param('title');
+    type.title = title;
 
-    type.randomized = !!req.param('randomized');
+    type.randomized = !!randomized;
 
-    var attrs = req.param('attributes');
+    var attrs = attributes;
     type.attributes = {};
     for (var i in attrs) {
       var attr = {};
@@ -107,14 +114,14 @@ module.exports.prototype = AdminController.prototype.extend({
   * show all objects for a specific type
   */
   objectsAction: function () {
-    var _this = this,
-      countPerPage = 15,
-      onlyContent = _this.request.param('only_content') || false,
-      findParams = _this.getFindParams();
+    var _this = this;
+    var countPerPage = 15;
+    var onlyContent = _this.request.query.only_content || false;
+    var findParams = _this.getFindParams();
 
     // getting main type
     this.getTypeWithAttributes(
-      this.request.param('type'),
+      _this.request.query.type,
       function (type, attributes) {
         // prepare attributes index
         var attributesByName = {};
@@ -126,7 +133,7 @@ module.exports.prototype = AdminController.prototype.extend({
         _this.mongodb
           .collection(type.name)
           .find(findParams)
-          .count(function (err, totalCount) {
+          .count(function (_err, totalCount) {
             // getting all objects for type
             _this.setPagination(totalCount, countPerPage);
             _this.mongodb
@@ -134,9 +141,9 @@ module.exports.prototype = AdminController.prototype.extend({
               .find(findParams)
               .skip(_this.getPaginationSkip())
               .limit(_this.getPaginationLimit())
-              .toArray(function (err, objects) {
+              .toArray(function (_err2, objects) {
                 // for remote calls we change the template
-                if (_this.request.param('_view') === 'selection') {
+                if (_this.request.query._view === 'selection') {
                   _this.view.setParam('onlyContent', onlyContent);
                   _this.view.setTemplate(_this.view.getTemplate() + '-remote');
                 }
@@ -160,7 +167,12 @@ module.exports.prototype = AdminController.prototype.extend({
   */
   changeactiveAction: function () {
     var _this = this;
-    var objectId = _this.mongo.ObjectID(_this.request.param('id'));
+    console.log("############ Object changeactiveAction");
+    console.log("> params", _this.request.params);
+    console.log("> body", _this.request.body);
+    console.log("> query", _this.request.query);
+    var id = _this.request.param('id');
+    var objectId = _this.mongo.ObjectID(id);
     var dbtype = _this.request.param('type');
     var value = _this.request.param('value') === 'true' ? true : false;
 
@@ -179,21 +191,19 @@ module.exports.prototype = AdminController.prototype.extend({
 
   deleteObjectAction: function (redirection) {
     var _this = this;
-    var objectId = this.mongo.ObjectID(this.request.query['id']);
-    var search = _this.request.query['search'] || _this.request.params['search'] || '';
+    console.log("############ Object deleteObjectAction");
+    console.log("> params", _this.request.params);
+    console.log("> body", _this.request.body);
+    console.log("> query", _this.request.query);
 
-    console.log("#########type############");
-    console.log(_this.request.param('type'));
-    console.log("#############params########");
-    console.log(_this.request.params);
-    console.log("#############body########");
-    console.log(_this.request.body);
-    console.log("#############query########");
-    console.log(_this.request.query);
+    var objectId = this.mongo.ObjectID(_this.request.query.id);
+    var search = _this.request.query.search || _this.request.params['search'] || '';
+
+
 
     // getting main type
     this.getTypeWithAttributes(
-      _this.request.query['type'],
+      _this.request.query.type,
       function (type, attributes) {
 
         // set redirect path to optional parameter or default value
@@ -211,7 +221,7 @@ module.exports.prototype = AdminController.prototype.extend({
           _this.mongodb
             .collection(type.name)
             .find({ _id: objectId })
-            .next(function (err, object) {
+            .next(function (_err, object) {
               // receive & delete images
               var imageIds = [];
               for (var i = 0; i < imageAttributes.length; i++) {
@@ -238,6 +248,11 @@ module.exports.prototype = AdminController.prototype.extend({
   upsertObjectAction: function (redirection) {
     var _this = this;
 
+    console.log("############ Object upsertObjectAction");
+    console.log("> params", _this.request.params);
+    console.log("> body", _this.request.body);
+    console.log("> query", _this.request.query);
+
     // getting main type
     _this.getTypeWithAttributes(
       _this.request.body['type'],
@@ -260,13 +275,13 @@ module.exports.prototype = AdminController.prototype.extend({
           object._random = [Math.random(), 0];
         }
 
-        if (_this.request.param('id')) {
+        if (_this.request.body['id'] !== "") {
           object._id = _this.mongo.ObjectID(_this.request.body['id']);
         }
 
         // iterate through all attributes and prepare them for saving
         for (var i = 0; i < attributes.length; i++) {
-          reqValue = _this.request.body['values[' +attributes[i].name+ ']'];
+          reqValue = _this.request.body['values[' + attributes[i].name + ']'];
           typeProps = type.attributes[attributes[i].name];
           attributeName = attributes[i].name;
 
@@ -321,7 +336,7 @@ module.exports.prototype = AdminController.prototype.extend({
         // save all images in bulk
         _this.mongodb
           .collection('images')
-          .insertMany(images, { keepGoing: true }, function (err, result) {
+          .insertMany(images, { keepGoing: true }, function (_err, result) {
             // set image ids in object
             for (var i in imageValues) {
               if (Array.isArray(imageValues[i])) {
@@ -333,9 +348,12 @@ module.exports.prototype = AdminController.prototype.extend({
                 }
               }
               else {
+                console.log(result);
+                console.log(imageValues);
+
                 if (typeof imageValues[i] === 'object' &&
                   !(imageValues[i] instanceof _this.mongo.ObjectID)) {
-                  object[imageValues[i].attr] = result[imageValues[i].index]._id;
+                  object[imageValues[i].attr] = result.insertedIds[imageValues[i].index];
                 }
               }
             }
@@ -345,7 +363,7 @@ module.exports.prototype = AdminController.prototype.extend({
               _this.mongodb
                 .collection(type.name)
                 .find({ _id: object._id })
-                .next(function (err, oldObject) {
+                .next(function (_err, oldObject) {
                   var deleteImages = [];
                   for (var i = 0; i < attributes.length; i++) {
                     if (attributes[i].type === 'image') {
@@ -397,17 +415,17 @@ module.exports.prototype = AdminController.prototype.extend({
   formAction: function () {
     var _this = this;
 
-    if (!_this.request.param('type')) {
+    if (!_this.request.query.type) {
       throw new Error('Param "type" is needed.');
     }
 
-    _this.getTypeWithAttributes(_this.request.param('type'),
+    _this.getTypeWithAttributes(_this.request.query.type,
       function (type, attributes) {
-        if (_this.request.param('id')) {
+        if (_this.request.query.id) {
           _this.mongodb
             .collection(type.name)
-            .find({ _id: _this.mongo.ObjectID(_this.request.param('id')) })
-            .next(function (err, object) {
+            .find({ _id: _this.mongo.ObjectID(_this.request.query.id) })
+            .next(function (_err, object) {
               _this.view.render({
                 title: type.title + ' bearbeiten - ToyBlocks',
                 type: type,
@@ -427,12 +445,18 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   referencesAction: function () {
-    var _this = this,
-      typeName = _this.request.param('type'),
-      ids = _this.request.param('ids').split(','),
-      i;
 
-    for (i in ids) {
+    var _this = this;
+
+    console.log("############ Object referencesAction");
+    console.log("> params", _this.request.params);
+    console.log("> body", _this.request.body);
+    console.log("> query", _this.request.query);
+
+    var typeName = _this.request.param('type');
+    var ids = _this.request.param('ids').split(',');
+
+    for (var i in ids) {
       if (ids[i]) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
       }
@@ -450,7 +474,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
   },
 
-  getTypeWithAttributes: function (typeName, cb) {
+  getTypeWithAttributes: function (typeName, callback) {
     var _this = this;
 
     if (!typeName) {
@@ -477,7 +501,7 @@ module.exports.prototype = AdminController.prototype.extend({
                   for (var i = 0; i < attributes.length; i++) {
                     attributes[i].props = type.attributes[attributes[i].name];
                   }
-                  cb(type, attributes);
+                  callback(type, attributes);
                 }
               });
           }
@@ -485,11 +509,18 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   getRightLevel: function () {
-    var type = this.request.param('type'),
-      modTypes = ['missingparts_games', 'assemble_images', 'assemble_games',
-        'missingparts_images', 'multiplechoice_questions',
-        'multiplechoice_games', 'encyclopedia_articles',
-        'sorting_buildings', 'sorting_games'];
+    var type = this.request.body['type'];
+    var modTypes = [
+      'assemble_games',
+      'assemble_images',
+      'encyclopedia_articles',
+      'missingparts_games',
+      'missingparts_images',
+      'multiplechoice_games',
+      'multiplechoice_questions',
+      'sorting_buildings',
+      'sorting_games'
+    ];
 
     if (type && modTypes.indexOf(type) >= 0) {
       return 200;

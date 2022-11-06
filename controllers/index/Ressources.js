@@ -11,11 +11,13 @@ module.exports.prototype = BaseController.prototype.extend({
 
   imageAction: function () {
     var _this = this;
-    if (_this.request.param('id')) {
+    let id = _this.request.query.id;
+
+    if (id) {
       // if comma seperated ids are given, take random pic from it
-      var picIds = _this.request.param('id').split(','),
-        picId = picIds[Math.floor(Math.random() * picIds.length)],
-        size = _this.request.param('size');
+      var picIds = id.split(',');
+      var picId = picIds[Math.floor(Math.random() * picIds.length)];
+      var size = _this.request.query.size;
 
       if (size !== 'middle' && size !== 'large') {
         size = '';
@@ -37,18 +39,18 @@ module.exports.prototype = BaseController.prototype.extend({
           _this.mongodb
             .collection('images')
             .find({ _id: _this.mongo.ObjectID(picId) })
-            .next(function (err, doc) {
+            .next(function (_err, doc) {
               // getting original image
               if (doc) {
-                var width,
-                  pic = gm(doc.data.read(0, doc.data.length()));
+                var width;
+                var pic = gm(doc.data.read(0, doc.data.length()));
 
                 // predefined widths for sizes
                 if (size === '_middle') width = 200;
                 else if (size === '_large') width = 1024;
 
                 // resize and get buffer
-                pic.resize(width).size(function (err, picSize) {
+                pic.resize(width).size(function (_err2, picSize) {
                   pic.toBuffer(function (err, buffer) {
                     if (err) {
                       notFoundFunc();
@@ -79,7 +81,7 @@ module.exports.prototype = BaseController.prototype.extend({
       _this.mongodb
         .collection('images' + size)
         .find({ _id: _this.mongo.ObjectID(picId) })
-        .next(function (err, doc) {
+        .next(function (_err3, doc) {
           if (doc) {
             // if found render
             showImageFunc(doc.type, doc.data.value(true));

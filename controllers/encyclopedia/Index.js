@@ -18,20 +18,20 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   * @return <Array> customPagination
   */
   indexAction: function () {
-    var _this = this,
-      countPerPage = 42,
-      findParams = _this.getFindParams(),
-      filterParams = _this.getFilterParams();
+    var _this = this;
+    var countPerPage = 42;
+    var findParams = _this.getFindParams();
+    var filterParams = _this.getFilterParams();
 
     _this.mongodb
       .collection('encyclopedia_articles')
       .find({ $and: [findParams, filterParams] }, {})
-      .count(function (err, articleCount) {
+      .count(function (_err, articleCount) {
 
         _this.mongodb
           .collection('sorting_buildings')
           .find({ $and: [findParams, filterParams, { active: true }] }, {})
-          .count(function (err, buildingCount) {
+          .count(function (_err1, buildingCount) {
 
             _this.setPagination(articleCount + buildingCount, countPerPage);
             var skip = _this.getPaginationSkip(),
@@ -40,12 +40,12 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
             _this.mongodb
               .collection('encyclopedia_articles')
               .find({ $and: [findParams, filterParams] }, { title: 1, _id: 1 })
-              .toArray(function (err, articleData) {
+              .toArray(function (_err2, articleData) {
 
                 _this.mongodb
                   .collection('sorting_buildings')
                   .find({ $and: [findParams, filterParams, { active: true }] }, { title: 1, _id: 1, image: 1 })
-                  .toArray(function (err, buildingData) {
+                  .toArray(function (_err3, buildingData) {
 
                     // Merge bulding and article arrays
                     for (var i = 0; i < articleData.length; i++) {
@@ -153,10 +153,14 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   */
   articleAction: function () {
     var _this = this;
+    console.log("> params", _this.request.params);
+    console.log("> body", _this.request.body);
+    console.log("> query", _this.request.query);
+  
     _this.mongodb
       .collection('encyclopedia_articles')
       .find({ _id: _this.mongo.ObjectID(_this.request.param('id')) })
-      .next(function (err, article) {
+      .next(function (_err, article) {
         _this.view.render({
           title: article.title + ' - Enzyklopädie - ToyBlocks',
           article: article.article_body,
@@ -185,13 +189,13 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   * @return <String> image
   */
   buildingAction: function () {
-    var _this = this,
-      buildingid = _this.request.param('id');
+    var _this = this;
+    var buildingid = _this.request.param('id');
 
     _this.mongodb
       .collection('sorting_buildings')
       .find({ _id: _this.mongo.ObjectID(buildingid) })
-      .next(function (err, building) {
+      .next(function (_err, building) {
         _this.view.render({
           title: building.title + ' - Enzyklopädie - ToyBlocks',
           building: building,

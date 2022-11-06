@@ -27,7 +27,7 @@ module.exports.prototype = BaseController.prototype.extend({
         { upsert: true },
         function (err) {
           if (err)
-            console.log('Error in updateLastModifiedTimestamp.');
+            console.warn('Error in updateLastModifiedTimestamp.');
         }
       );
   }

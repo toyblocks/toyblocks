@@ -55,7 +55,7 @@ module.exports.prototype = UsersController.prototype.extend({
   */
   updatenicknameAction: function () {
     var _this = this;
-    var newname = _this.request.param('nickname');
+    var newname = _this.request.body['nickname'];
     var tuid = _this.request.session.user.tuid;
 
     /* apply name to session, so the user doesnt have to logout */

@@ -27,7 +27,7 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   /**
-  *  gameAction() answers GET requests
+  *  answers GET requests for main page
   *  for actual missingparts game
   *
   * @return <String> title
@@ -36,18 +36,17 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Array> images
   */
   gameAction: function () {
-    var _this = this,
-      ids = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'), 10) || 1,
-      isDaily = parseInt(_this.request.param('isDaily'), 10) || 0,
-      count = parseInt(_this.request.param('count'), 10) || 5;
+    var _this = this;
+    var ids = _this.request.query.id;
+    var level = parseInt(_this.request.query.level, 10) || 1;
+    var isDaily = parseInt(_this.request.query.isDaily, 10) || 0;
+    var count = parseInt(_this.request.query.count, 10) || 5;
 
     _this.increaseStat('level' + level + '_count_played');
-
     if (typeof ids === 'undefined') {
       //give random games
 
-      _this.renderGame(level, function (err, games) {
+      _this.renderGame(level, function (_err, games) {
         games = _this.shuffleArray(games).slice(0, count);
         _this.view.render({
           title: 'Fehlstellen - ToyBlocks',
@@ -71,7 +70,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.mongodb
         .collection('missingparts_games')
         .find({ _id: { $in: ids } })
-        .toArray(function (err, game) {
+        .toArray(function (_err, game) {
           _this.view.render({
             title: 'Fehlstellen - ToyBlocks',
             games: game,
@@ -83,7 +82,7 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   /** 
-   * renderGame() - Fetches related entries from the database and returns it with a callback
+   * Fetches related entries from the database and returns it with a callback
    * 
    * @param Level          - level of game
    * @param renderCallback - the callback to call after we got the buildings
@@ -106,16 +105,16 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   /**
-  *  containerAction() fetches container solutions from mongodb for given game id
+  * fetches container solutions from mongodb for given game id
   *
   * @param <String> id
   * @param <String> level
   * @return <Array> images for the Container
   */
   containerAction: function () {
-    var _this = this,
-      id = _this.request.param('id'),
-      level = _this.request.param('level') || 1;
+    var _this = this;
+    var id = _this.request.query.id;
+    var level = _this.request.query.level || 1;
 
     if (typeof id === 'undefined' || id === 'undefined') {
       _this.view.render({ error: 'No ID specified' });
@@ -125,7 +124,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
       .collection('missingparts_games')
       .find({ _id: _this.mongo.ObjectID(id) })
-      .next(function (err, game) {
+      .next(function (_err, game) {
 
         //get one random right solution
         var solution = game.missingparts_correctimage[
@@ -138,13 +137,13 @@ module.exports.prototype = GamesController.prototype.extend({
             missingparts_category: game.missingparts_category,
             _id: { $nin: game.missingparts_correctimage }
           }) // no 2 solutions
-          .toArray(function (err, images) {
+          .toArray(function (_err, images) {
 
             // Get the right solution
             _this.mongodb
               .collection('missingparts_images')
               .find({ _id: _this.mongo.ObjectID(solution.toString()) })
-              .next(function (err2, solutionimage) {
+              .next(function (_err2, solutionimage) {
 
                 // mix the solutions together
                 images = _this.shuffleArray(images).slice(0, 3);
@@ -170,14 +169,14 @@ module.exports.prototype = GamesController.prototype.extend({
   * @return <Number> correctBuilding
   */
   resultAction: function () {
-    var _this = this,
-      result = _this.request.param('result'),
-      isDaily = _this.request.param('daily') || false,
-      solution = [],
-      selected = [],
-      countCorrect = 0,
-      countWrong = 0,
-      objectIds = [];
+    var _this = this;
+    var result = _this.request.query.result;
+    var isDaily = _this.request.query.daily || false;
+    var solution = [];
+    var selected = [];
+    var countCorrect = 0;
+    var countWrong = 0;
+    var objectIds = [];
 
     if (typeof result === 'undefined') {
       _this.view.render({ error: 'Error' });
@@ -195,7 +194,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
       .collection('missingparts_games')
       .find({ _id: { $in: objectIds } })
-      .toArray(function (err, game) {
+      .toArray(function (_err, game) {
 
         // lets see if the correct answer was selected
         // because the order is random we need to iterate all the things
@@ -255,10 +254,11 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   getsolutionpictureAction: function () {
     var _this = this;
+    let id = _this.request.query.id;
     _this.mongodb
       .collection('missingparts_images')
-      .find({ _id: _this.mongo.ObjectID(_this.request.param('id')) })
-      .next(function (err, ele) {
+      .find({ _id: _this.mongo.ObjectID(id) })
+      .next(function (_err, ele) {
         _this.response.json({
           imgid: ele.image,
           imgtitle: ele.title,

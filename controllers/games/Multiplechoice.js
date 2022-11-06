@@ -29,10 +29,10 @@ module.exports.prototype = GamesController.prototype.extend({
    * This renders the main game
    */
   gameAction: function () {
-    var _this = this,
-      ids = _this.request.param('id'),
-      level = parseInt(_this.request.param('level'), 10) || 1,
-      isDaily = parseInt(_this.request.param('isDaily'), 10) || 0;
+    var _this = this;
+    var ids = _this.request.query.id;
+    var level = parseInt(_this.request.query.level, 10) || 1;
+    var isDaily = parseInt(_this.request.query.isDaily, 10) || 0;
 
     if (typeof ids === 'undefined') {
 
@@ -41,7 +41,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
       _this.increaseStat('level' + level + '_count_played');
 
-      _this.renderGame(level, function (err, questions) {
+      _this.renderGame(level, function (_err, questions) {
         questions = _this.shuffleArray(questions).slice(0, count);
         _this.view.render({
           title: 'Multiple Choice - ToyBlocks',
@@ -63,7 +63,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.mongodb
         .collection('multiplechoice_questions')
         .find({ _id: { $in: ids } })
-        .toArray(function (err, questions) {
+        .toArray(function (_err, questions) {
           _this.view.render({
             title: 'Multiple Choice - ToyBlocks',
             level: level,
@@ -99,7 +99,7 @@ module.exports.prototype = GamesController.prototype.extend({
 
   containerAction: function () {
     var _this = this,
-      id = _this.request.param('id');
+      id = _this.request.query.id;
 
     if (typeof id === 'undefined') {
       _this.view.render({ error: 'No ID specified' });
@@ -109,7 +109,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
       .collection('multiplechoice_questions')
       .find({ _id: _this.mongo.ObjectID(id) })
-      .next(function (err, question) {
+      .next(function (_err, question) {
 
         var right = question.multiplechoice_answer_right;
         var wrong = question.multiplechoice_answer_wrong;
@@ -125,14 +125,17 @@ module.exports.prototype = GamesController.prototype.extend({
   },
 
   resultAction: function () {
-    var _this = this,
-      result = _this.request.param('result'),
-      isDaily = _this.request.param('daily') || false,
-      solution = [],
-      countCorrect = 0,
-      countWrong = 0,
-      objectIds = [],
-      selected = [];
+    var _this = this;
+    console.log("> params", _this.request.params);
+    console.log("> body", _this.request.body);
+    console.log("> query", _this.request.query);
+    var result = _this.request.query.result;
+    var isDaily = _this.request.query.daily || false;
+    var solution = [];
+    var countCorrect = 0;
+    var countWrong = 0;
+    var objectIds = [];
+    var selected = [];
 
     if (typeof result === 'undefined') {
       _this.view.render({ error: 'Error!' });
@@ -150,7 +153,7 @@ module.exports.prototype = GamesController.prototype.extend({
     _this.mongodb
       .collection('multiplechoice_questions')
       .find({ _id: { $in: objectIds } })
-      .toArray(function (err, questions) {
+      .toArray(function (_err, questions) {
 
         // check for every question if the solution is corrrect
         for (var i = 0; i < questions.length; i++) {

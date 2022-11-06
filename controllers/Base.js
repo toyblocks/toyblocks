@@ -40,7 +40,7 @@ module.exports.prototype = {
     this.mongodb
       .collection('page_texts')
       .find({ key: { $in: textKeys } })
-      .toArray(function (err, texts) {
+      .toArray(function (_err, texts) {
         var textsByKey = {};
         for (var i in texts) {
           textsByKey[texts[i].key] = texts[i].text;
@@ -75,7 +75,7 @@ module.exports.prototype = {
   },
 
   getPage: function () {
-    return parseInt(this.request.param('page')) || 1;
+    return parseInt(this.request.query.page) || 1;
   },
 
   setPagination: function (totalCount, countPerPage) {
@@ -93,9 +93,9 @@ module.exports.prototype = {
   },
 
   getFindParams: function () {
-    var result = {},
-      findParamsOr = [],
-      searchParams = this.request.param('search');
+    var result = {};
+    var findParamsOr = [];
+    var searchParams = this.request.query.search;
     if (searchParams) {
       for (var key in searchParams) {
         var regexParam = {};
@@ -114,8 +114,8 @@ module.exports.prototype = {
   },
 
   getFilterParams: function () {
-    var filterKey = this.request.param('filterkey'),
-      filterQuery = this.request.param('filter'),
+    var filterKey = this.request.query.filterkey,
+      filterQuery = this.request.query.filter,
       filterParams = {},
       filterParamsSecond = {};
 
@@ -140,8 +140,8 @@ module.exports.prototype = {
   },
 
   getSortParams: function () {
-    var sortQuery = this.request.param('sort'),
-      direction = this.request.param('sortdirection'),
+    var sortQuery = this.request.query.sort,
+      direction = this.request.query.sortdirection,
       sortParams = {};
 
     if (sortQuery === undefined)
@@ -159,7 +159,9 @@ module.exports.prototype = {
     var _this = this,
       user = this.getUser();
     if (!user) {
-      _this.response.render('error-rights', { title: 'Es ist kein Benutzer angemeldet' });
+      _this.response.render('error-rights', {
+        title: 'Es ist kein Benutzer angemeldet'
+      });
       return;
     }
 
@@ -197,7 +199,8 @@ module.exports.prototype = {
       this.view.setOnlyContent(true);
     }
     else {
-      this.view.setOnlyContent(_this.request.param('_view') === 'only_content');
+      let content = _this.request.query._view === 'only_content';
+      this.view.setOnlyContent(content);
     }
 
     if (_this.request.session.user &&
@@ -205,8 +208,8 @@ module.exports.prototype = {
       !_this.request.session.password_given) {
       _this.request.mongodb.collection('system_config')
         .find({ 'key': 'login_password' })
-        .next((err, doc) => {
-          if (_this.request.param('password') !== doc.value) {
+        .next((_err, doc) => {
+          if (_this.request.query.password !== doc.value) {
             _this.response.render('login-password', { title: 'Passwort eingeben' });
           }
           else {
@@ -246,14 +249,18 @@ module.exports.prototype = {
         //var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
         var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
 
-        var ticket = _this.request.param('ticket');
+        console.log("Base.js checkLogin");
+        console.log("> params", _this.request.params);
+        console.log("> body", _this.request.body);
+        console.log("> query", _this.request.query);
+        var ticket = _this.request.query.ticket || _this.request.body["ticket"];
         if (!ticket) {
           // let user login via hrz
           _this.response.redirect('https://sso.tu-darmstadt.de/login?service=' + service);
         }
         else {
           // -3 because there is ? or & before which is %3F or %26 escaped
-          service = service.substr(0, service.indexOf('ticket%3D' + ticket) - 3);
+          service = service.substring(0, service.indexOf('ticket%3D' + ticket) - 3);
           // hrz sends us back with a ticket
 
           // SAML 1.1 for /samlValidate POST request
@@ -300,7 +307,7 @@ module.exports.prototype = {
                 //console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
                 //console.log('BODY: ' + chunk);
 
-                parseString(chunk, function (err, jsonResponse) {
+                parseString(chunk, function (_err, jsonResponse) {
 
                   // Print Response Object
                   //console.log(JSON.stringify(jsonResponse));
@@ -321,7 +328,7 @@ module.exports.prototype = {
                     _this.mongodb
                       .collection('users')
                       .find({ 'tuid': tuid })
-                      .next(function (err, doc) {
+                      .next(function (_err, doc) {
                         if (!doc) {
                           // insert new user
                           var user = {

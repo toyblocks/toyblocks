@@ -41,7 +41,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-app.use(express.static('public'));
+var oneDay = 86400000;
+app.use(express.static('public', { maxAge: oneDay * 30 }));
 
 /**
 *  getControllerPath() creates controller url path
@@ -74,9 +75,10 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
     console.error('Sorry, there is no mongo db server running.');
   } else {
 
-    const db = client.db('toyblocks')
+    const db = client.db('toyblocks');
+
     // initialize db attaching here
-    var attachDB = function (req, res, next) {
+    var attachDB = function (req, _res, next) {
       req.mongodb = db;
       req.mongo = mongodb;
       next();
@@ -90,7 +92,7 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
     // defaults are index in every case. in case of the controller was not
     // found, we try to search in index area
     app.all('/:area?/:controller?/:action?', attachDB,
-      function (req, res) {
+      function (req, res, next) {
         var area = req.params.area || 'index',
           controller = req.params.controller || 'index',
           action = req.params.action || 'index',
@@ -99,12 +101,12 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
         try {
           try {
             ControllerClass = require(getControllerPath(area, controller));
-            console.log(getControllerPath(area, controller));
+            //console.log(getControllerPath(area, controller));
           }
           catch (e) {
             if (e.code === 'MODULE_NOT_FOUND') {
               ControllerClass = require(getControllerPath('index', area));
-              console.log(getControllerPath('index', area));
+              //console.log(getControllerPath('index', area));
               action = controller || 'index';
             }
           }
@@ -117,7 +119,8 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
             res.render('error404', { title: 'Fehler', error: "Seite nicht gefunden." });
           }
           else {
-            res.render('error404', { title: 'Fehler', error: e.toString() });
+            //console.error("area: ", area, "controller: ", controller, e);
+            res.render('error404', { title: 'Fehler', error: e.stack });
           }
         }
       });

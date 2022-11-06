@@ -75,10 +75,10 @@
 </div>
 
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
-  <p>
-  <button id="submit"   type="button" style="width:49%" class="btn btn-primary">Bestätigen</button>
-  <button id="tryagain" type="button" style="width:49%" class="btn btn-primary">Nochmal spielen</button>
-  </p>
+  <div>
+    <button id="submit"   type="button" style="width:49%" class="btn btn-primary">Bestätigen</button>
+    <button id="tryagain" type="button" style="width:49%" class="btn btn-info pull-right">Nochmal spielen</button>
+  </div>
   <span id="triesLeft" class="badge pull-right"></span>
   <button id="newgame" type="button" style="display:none" class="btn btn-danger btn-block">Neues Spiel</button>
 </div>
@@ -106,7 +106,7 @@
 $(window).ready(function() {
   var max_tries = 3;
   var tries = 0;
-  var isDaily = "{isDaily}true{:else}false{/isDaily}";
+  var isDaily = "{?isDaily}true{:else}false{/isDaily}";
 
   /* sortable initialization*/
   $('#sortablebot, #sortabletop').disableSelection();

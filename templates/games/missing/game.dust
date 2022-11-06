@@ -135,10 +135,10 @@
 
 <script>
 $(window).ready(function(){
-  var gameIds = [{#games}"{_id}"{@sep},{/sep}{/games}],
+  var gameIds = "{#games}{_id}{@sep},{/sep}{/games}".split(","),
     gameIndex = 0,
     selectedAnswers = [],
-    isDaily = {@eq key=isDaily value="true" type="boolean"}true{:else}false{/eq};
+    isDaily = '{@eq key=isDaily value="true" type="boolean"}true{:else}false{/eq}';
 
   function loadGame(gameId) {
     $.ajax({url: "/games/missing/container?level={level}&id="+gameId})
@@ -148,7 +148,7 @@ $(window).ready(function(){
   }
 
   function getReadyForNext (val) {
-    selectedAnswers[gameIndex] = [gameIds[gameIndex],val];
+    selectedAnswers[gameIndex] = [gameIds[gameIndex], val];
     $('#next-question').prop('disabled', false);
     if ((gameIndex+1) < gameIds.length) {
       $('#next-question').show();
@@ -173,7 +173,7 @@ $(window).ready(function(){
 
   $('#game-result').click(function(){
     selectedAnswers = selectedAnswers.join(",");
-    if(isDaily){
+    if(isDaily === "true"){
       $.ajax({url: "/games/missing/result?daily=1&result=" +
         selectedAnswers})
         .done(function( data ) {
@@ -191,15 +191,16 @@ $(window).ready(function(){
   });
 
 
-  $('#game-container').on('click', '.select-answer', function(){
+  $('#game-container').on('click', '.select-answer', function(elem){
     $(this).addClass('selected').siblings().removeClass('selected');
-    getReadyForNext($(this).context.htmlFor);
+    if(elem.target.id !== undefined)
+      getReadyForNext(elem.target.id);
   });
 
   $('#games-left').text(gameIds.length-1);
   $('#next-question').prop('disabled', true);
   loadGame(gameIds[gameIndex]);
-  if(isDaily){
+  if(isDaily === "true"){
     $('#game-result').text('Weiter');
   }
 

@@ -34,18 +34,15 @@ module.exports.prototype = GamesController.prototype.extend({
    */
   gameAction: function () {
     var _this = this;
-    console.log("> params", _this.request.params);
-    console.log("> body", _this.request.body);
-    console.log("> query", _this.request.query);
-    var ids = _this.request.param('id');
-    var level = parseInt(_this.request.param('level'), 10) || 1;
-    var limit = parseInt(_this.request.param('limit'), 10) || 7;
-    var isDaily = parseInt(_this.request.param('isDaily'), 10) || 0;
+    var ids = _this.request.query.id;
+    var level = parseInt(_this.request.query.level, 10) || 1;
+    var limit = parseInt(_this.request.query.limit, 10) || 7;
+    var isDaily = parseInt(_this.request.query.isDaily, 10) || 0;
 
 
     _this.increaseStat('level' + level + '_count_played');
     if (typeof ids === 'undefined') {
-      _this.renderGame(level, function (err, buildings) {
+      _this.renderGame(level, function (_err, buildings) {
         buildings = _this.shuffleArray(buildings).slice(0, limit);
         _this.view.render({
           title: 'Zeitstrahl - ToyBlocks',
@@ -65,7 +62,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.mongodb
         .collection('sorting_buildings')
         .find({ _id: { $in: ids } })
-        .toArray(function (err, buildings) {
+        .toArray(function (_err, buildings) {
           buildings = _this.shuffleArray(buildings);
           _this.view.render({
             title: 'Zeitstrahl - ToyBlocks',

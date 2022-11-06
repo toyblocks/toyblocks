@@ -18,7 +18,7 @@ module.exports.prototype = GamesController.prototype.extend({
     db.mongodb
       .collection('daily_leaderboard')
       .find({ date: todaysUnixDate })
-      .next(function (err, leaderboardData) {
+      .next(function (_err, leaderboardData) {
 
         if (!!leaderboardData && !!leaderboardData.players) {
           var players = leaderboardData.players;
@@ -47,7 +47,7 @@ module.exports.prototype = GamesController.prototype.extend({
       _this.mongodb
         .collection('users')
         .find({ right_level: 300 })
-        .count(function (err, maxGamesPlayed) {
+        .count(function (_err, maxGamesPlayed) {
           maxGamesPlayed = maxGamesPlayed || 1;
           /*
             FIXME: HIER STECKT DER WURM DRINNE
@@ -58,7 +58,7 @@ module.exports.prototype = GamesController.prototype.extend({
           _this.mongodb
             .collection('daily_leaderboard')
             .find({ date: todaysUnixDate })
-            .count(function (err, currentGamesPlayed) {
+            .count(function (_err, currentGamesPlayed) {
               currentGamesPlayed = currentGamesPlayed || 0;
               _this.view.render({
                 title: 'Daily Challenge - ToyBlocks',
@@ -77,21 +77,21 @@ module.exports.prototype = GamesController.prototype.extend({
   leaderboardAction: function () {
     var _this = this;
     var todaysUnixDate = new Date().getTime() - (new Date().getTime() % 86400000);
-    var givenUnixDate = Number(_this.request.param('date')) || todaysUnixDate;
+    var givenUnixDate = parseInt(_this.request.query.date) || todaysUnixDate;
     var yesterdayUnixDate = givenUnixDate - 86400000;
     var tomorrowUnixDate = givenUnixDate + 86400000;
 
     _this.mongodb
       .collection('daily_leaderboard')
       .find({ date: givenUnixDate })
-      .next(function (err, data) {
+      .next(function (_err, data) {
         var users = [];
         if (!!data && !!data.players) {
           users = data.players;
         }
         users.sort(function (a, b) {
           if (a.score == b.score)
-            return (Number(a.time) > Number(b.time)) ? 1 : -1;
+            return (+(a.time) > +(b.time)) ? 1 : -1;
           else
             return (a.score > b.score) ? -1 : 1;
         });
@@ -150,7 +150,7 @@ module.exports.prototype = GamesController.prototype.extend({
         _this.mongodb
           .collection('daily_games')
           .find()
-          .next(function (err, ele) {
+          .next(function (_err, ele) {
             _this.view.render({
               title: 'Daily Challenge - ToyBlocks',
               missing: ele.missing,
@@ -169,20 +169,23 @@ module.exports.prototype = GamesController.prototype.extend({
   *  @return games - list of games
   */
   resultAction: function () {
-    var _this = this,
-      result = _this.request.param('result').split(';'),
-      playtime = _this.request.param('time'),
-      tuid = _this.request.session.user.tuid,
-      nickname = _this.request.session.user.nickname,
-      points = 0,
-      count = 0,
-      gamelength = 0,
-      bounspoints_mc = true,
-      bounspoints_sort1 = true,
-      bounspoints_sort2 = true,
-      bounspoints_miss = true,
-      bounspoints_ass1 = true,
-      bounspoints_ass2 = true;
+    var _this = this;
+    console.log("> params", _this.request.params);
+    console.log("> body", _this.request.body);
+    console.log("> query", _this.request.query);
+    var result = _this.request.param('result').split(';');
+    var playtime = _this.request.param('time');
+    var tuid = _this.request.session.user.tuid;
+    var nickname = _this.request.session.user.nickname;
+    var points = 0;
+    var count = 0;
+    var gamelength = 0;
+    var bounspoints_mc = true;
+    var bounspoints_sort1 = true;
+    var bounspoints_sort2 = true;
+    var bounspoints_miss = true;
+    var bounspoints_ass1 = true;
+    var bounspoints_ass2 = true;
 
     var resultelement = [
       { type: 'assemble', title: 'Baukasten' },
@@ -254,7 +257,7 @@ module.exports.prototype = GamesController.prototype.extend({
                 players: player
               }
             }, { upsert: true },
-            function (err, data) {
+            function (_err, _data) {
 
 
               var d = new Date();
@@ -303,19 +306,19 @@ module.exports.generateDailyGame = function generateDailyGame(mongodb) {
   mongodb
     .collection('missingparts_games')
     .find({ active: true }, { _id: 1 })
-    .toArray(function (err, mis) {
+    .toArray(function (_err, mis) {
       mongodb
         .collection('sorting_buildings')
         .find({ active: true }, { _id: 1 })
-        .toArray(function (err, sor) {
+        .toArray(function (_err1, sor) {
           mongodb
             .collection('multiplechoice_questions')
             .find({ active: true }, { _id: 1 })
-            .toArray(function (err, mul) {
+            .toArray(function (_err2, mul) {
               mongodb
                 .collection('assemble_games')
                 .find({ active: true }, { _id: 1 })
-                .toArray(function (err, ass) {
+                .toArray(function (_err3, ass) {
 
                   //missing
                   mis = shuffleArray(mis).slice(0, 2);
@@ -340,7 +343,7 @@ module.exports.generateDailyGame = function generateDailyGame(mongodb) {
                   //assemble games
                   ass = shuffleArray(ass).slice(0, 2);
                   for (var i = 0; i < ass.length; i++) {
-                    ass[i] = ass[i]._id + '&level=2';
+                    ass[i] = ass[i]._id + 'level=2';
                   }
 
                   // we got 5 multiplechoice
@@ -363,7 +366,7 @@ module.exports.generateDailyGame = function generateDailyGame(mongodb) {
                         }
                       },
                       {},
-                      function (err) {
+                      function (_err4) {
                         // do nothing
                       });
                 });

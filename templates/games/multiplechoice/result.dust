@@ -24,7 +24,7 @@
         <span class="input-group-btn">
           {@eq key=selectedAnswer type="boolean" value="true"}
             {#multiplechoice_answer_right}
-              <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
+              <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}">
                 <span class="pull-left question-text">{.}</span>
                 <span class="glyphicon glyphicon-ok pull-right" style="margin-right: 10px;"></span>
               </button>
@@ -33,7 +33,7 @@
           {:else}
             <p style="font-size: 14px;">Richtig wäre gewesen:</p>
             {#multiplechoice_answer_right}
-              <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}" disabled>
+              <button class="btn btn-block select-answer {?selectedAnswer}true{:else}false{/selectedAnswer}">
                 <span class="pull-left question-text">{.}</span>
                 <span class="glyphicon glyphicon-remove pull-right" style="margin-right: 10px;"></span>
               </button>
