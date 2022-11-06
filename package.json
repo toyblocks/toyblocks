@@ -1,17 +1,17 @@
 {
   "name": "toyblocks",
-  "version": "2.0",
+  "version": "2.0.0",
   "private": true,
   "license": "MIT",
   "contributors": [
-    "Simon Bugert <simon.bugert@googlemail.com>",
+    "Andrej Tretjakow <tretjakow@gmail.com>",
     "Mansur Iqbal <mansuriqbal@gmail.com>",
-    "Steven Lamarr Reynolds <reynolds.tud@gmail.com>",
-    "Andrej Tretjakow <tretjakow@gmail.com>"
+    "Simon Bugert <simon.bugert@googlemail.com>",
+    "Steven Lamarr Reynolds <reynolds.tud@gmail.com>"
   ],
   "scripts": {
     "start": "cross-env NODE_ENV=production node app.js",
-    "dev": "cross-env NODE_ENV=development node app.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -23,7 +23,6 @@
     "express": "^4.18.1",
     "express-session": "^1.17.3",
     "gm": "1.25.0",
-    "jasmine-node": "^1.16.0",
     "method-override": "^3.0.0",
     "mongodb": "4.10.0",
     "morgan": "^1.10.0",
@@ -36,6 +35,8 @@
     "eslint": "^8.23.0",
     "grunt": "1.5.3",
     "grunt-contrib-clean": "2.0.1",
-    "grunt-contrib-copy": "1.0.0"
+    "grunt-contrib-copy": "1.0.0",
+    "jasmine-node": "^1.16.0",
+    "nodemon": "^2.0.20"
   }
 }
