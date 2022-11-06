@@ -1,5 +1,6 @@
 {
     "env": {
+        "node": true,
         "browser": true,
         "commonjs": true,
         "es2021": true
@@ -9,5 +10,6 @@
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "rules": {}
+    "rules": {},
+    "ignorePatterns": ["node_modules/**", "bower_components/**", "toyblocks_database_demo/**", "public/js/vendor/**"]
 }
