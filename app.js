@@ -1,28 +1,20 @@
 /**
  * Module dependencies.
  */
- var config = require('./configs');
- var express = require('express');
- var http = require('http');
- //var https = require('https');
- var path = require('path');
- var cons = require('consolidate');
- var dust = cons.dust;
- var mongodb = require('mongodb');
- var jobs = require('./jobs');
- var logger = require('morgan');
- var methodOverride = require('method-override');
- var cookieParser = require('cookie-parser');
- var session = require('express-session');
- var favicon = require('serve-favicon');
-
- // Dust helpers dont support the latest version
-//dust.helpers = require('dustjs-helpers');
-/*dust.helpers.Truncate = function (chunk, context, bodies, params) {
-  var data = dust.helpers.tap(params.data, chunk, context),
-    length = dust.helpers.tap(params.length, chunk, context);
-  return chunk.write(data.substr(0, length));
-};*/
+var config = require('./configs');
+var express = require('express');
+var http = require('http');
+//var https = require('https');
+var path = require('path');
+var cons = require('consolidate');
+var dust = cons.dust;
+var mongodb = require('mongodb');
+var jobs = require('./jobs');
+var logger = require('morgan');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var favicon = require('serve-favicon');
 
 var app = express();
 app.engine('dust', dust);

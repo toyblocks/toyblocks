@@ -5,7 +5,7 @@
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
   <li><a href="/moderation/">Moderation</a></li>
-  <li class="active">Multiplechoicespiele</li>
+  <li class="active">Multiple-Choice-Spiel hinzufügen</li>
 </ol>
 
 {/contentHead}
@@ -27,7 +27,7 @@
     </div>
 
     <div class="form-group">
-      <label class="col-sm-3 control-label" for="attr_multiplechoice_question">Frage</label>
+      <label class="col-sm-3 control-label" for="attr_multiplechoice_question">Frage Text</label>
       <div class="col-sm-6">
         <input name="values[multiplechoice_question]" type="text" id="attr_multiplechoice_question" class="form-control" required="">
       </div>
@@ -50,7 +50,7 @@
     </div>
 
     <div class="form-group multiple">
-      <button id="addRightAnswer" type="button" class="col-sm-offset-3 btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Richtige Antwort</button>
+      <button id="addRightAnswer" type="button" class="col-sm-offset-3 btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> noch eine Richtige Antwort hinzufügen</button>
     </div>
 
     <div class="form-group multiple">
@@ -75,13 +75,21 @@
     </div>
 
     <div class="form-group multiple">
-      <button id="addWrongAnswer" type="button" class="col-sm-offset-3 btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Falsche Antwort</button>
+      <button id="addWrongAnswer" type="button" class="col-sm-offset-3 btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> noch eine Falsche Antwort hinzufügen</button>
     </div>
 
-    <button id="" type="submit" class="col-sm-offset-3 btn btn-primary">Speichern</button>
-    <a href="/moderation/encyclopedia/" class="btn btn-default">
-      Abbrechen
-    </a>
+    <div class="col-sm-offset-3">  
+      <div class="btn-toolbar">
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary">Speichern</button>
+        </div>
+        <div class="btn-group">
+          <a href="/moderation/" class="btn btn-default">
+            Abbrechen
+          </a>
+        </div>
+      </div>
+    </div>
     <div style="height: 25px"></div>
 
 </form>

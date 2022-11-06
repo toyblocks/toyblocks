@@ -1,12 +1,14 @@
-html, body {
-  position:relative;
-  height:100%;
+html,
+body {
+  position: relative;
+  height: 100%;
   max-width: 100%
 }
-body{
+
+body {
   padding-top: 70px;
   padding-bottom: 50px;
-  font-family: Tahoma,Arial,Helvetica,sans-serif;
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
 }
 
 h1 {
@@ -17,30 +19,41 @@ footer {
   bottom: 0;
   height: 50px;
   padding-left: 5%;
-  width:100%;
+  width: 100%;
 }
+
 footer a {
-  color:#3d3d3d;
+  color: #3d3d3d;
   margin-right: 5%;
 }
-.green{color:#0BE224;}
-.red{color:#FF4135;}
+
+.green {
+  color: #0BE224;
+}
+
+.red {
+  color: #FF4135;
+}
 
 /*Welcome Page*/
 
-#navbar-brand{
+#navbar-brand {
   text-shadow: 2px 3px 0px #476871;
 }
+
 #page_container {
   min-height: 100%;
 }
+
 #page_selection {
   text-align: center;
 }
+
 .pagination {
   vertical-align: middle;
-  margin:20px;
+  margin: 20px;
 }
+
 #search_input {
   display: inline-block;
   vertical-align: middle;
@@ -48,37 +61,41 @@ footer a {
   white-space: nowrap;
 }
 
-#tud-brand{
+#tud-brand {
   margin-top: -62px;
   position: absolute;
   right: 50px;
 }
-#welcome-container{
+
+#welcome-container {
   color: #428bca;
   font-size: 10vmax;
-  text-align:center;
-  line-height:normal;
+  text-align: center;
+  line-height: normal;
   max-width: 100%;
 }
-#toyblocks-title{
+
+#toyblocks-title {
   font-variant: small-caps;
   font-size: 13vmax;
   max-width: 100%;
 }
+
 @media (min-width: 768px) {
   #welcome-gameslist .caption {
-    position:relative;
+    position: relative;
     height: 260px;
   }
+
   #welcome-gameslist .caption a {
     position: absolute;
-    bottom:6px;
-    left:6px;
-    right:6px;
+    bottom: 6px;
+    left: 6px;
+    right: 6px;
   }
 }
 
-.welcome-startglyphs{
+.welcome-startglyphs {
   position: absolute;
   margin-top: 13px;
   margin-left: -10px;
@@ -86,17 +103,19 @@ footer a {
   color: #428bca;
 }
 
-.glyphicon-cup:before{content:"\e075"}
+.glyphicon-cup:before {
+  content: "\e075"
+}
 
-@media (min-width: 992px){
+@media (min-width: 992px) {
   .col-md-20 {
-      width: 20%;
+    width: 20%;
   }
 }
 
 /* Admin */
 
-.settingssaved{
+.settingssaved {
   position: absolute;
   margin-top: -25px;
   margin-left: 93px;
@@ -108,15 +127,17 @@ footer a {
 
 @media (min-width: 1208px) {
   .sidebar-nav-fixed {
-      position: fixed;
-      max-width: 175px;
+    position: fixed;
+    max-width: 175px;
   }
 }
-.nav-text{
+
+.nav-text {
   color: white;
   text-align: center;
 }
-.nav-nested{
+
+.nav-nested {
   margin-left: 10px;
   font-size: 15px;
 }
@@ -124,20 +145,22 @@ footer a {
 .form-group .preview-thumbnail {
   text-align: right;
 }
+
 .form-group .preview-thumbnail img {
   max-width: 100%;
   max-height: 140px;
 }
 
 /*Help Pages for Games*/
-.helpbox{
+.helpbox {
   /*background-color: #d9edf7;/* */
   border: 40px #fff solid;
   padding: 15px;
   border-bottom: 2px #eee solid;
   position: relative;
 }
-.infocon{
+
+.infocon {
   font-size: 31px;
   position: absolute;
   margin-top: 8px;
@@ -145,19 +168,23 @@ footer a {
 }
 
 .text-truncate {
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  max-width:300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
 }
-.highlight { font-weight:bold; }
-.highlighted{
-  font-weight:bold;
+
+.highlight {
+  font-weight: bold;
+}
+
+.highlighted {
+  font-weight: bold;
 }
 
 /* Ency */
 
-.mouseover-info{
+.mouseover-info {
   margin-left: 15px;
   font-size: 12px;
   color: gray;
@@ -166,7 +193,7 @@ footer a {
 
 /* Games*/
 
-.question-text{
+.question-text {
   text-align: left;
   white-space: normal;
   max-width: 100%;

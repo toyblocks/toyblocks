@@ -25,24 +25,24 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="name" class="col-sm-5 control-label">Name</label>
+    <label class="col-sm-5 control-label">Name</label>
     <div class="col-sm-7">
       <p class="form-control-static">{user.givenName} {user.surname}</p>
     </div>
   </div>
   <div class="form-group">
-    <label for="name" class="col-sm-5 control-label">Gespielte Spiele</label>
+    <label class="col-sm-5 control-label">Anzahl gespielter Spiele</label>
     <div class="col-sm-7">
-      <p>Anzahl Baukasten Level 1: {count.assemble.level1_count_played}</p>
-      <p>Anzahl Baukasten Level 2: {count.assemble.level2_count_played}</p>
-      <p>Anzahl Fehlstellen Level 1: {count.missing.level1_count_played}</p>
-      <p>Anzahl Fehlstellen Level 2: {count.missing.level2_count_played}</p>
-      <p>Anzahl Fehlstellen Level 3: {count.missing.level3_count_played}</p>
-      <p>Anzahl Multiple Choice Level 1: {count.multiplechoice.level1_count_played}</p>
-      <p>Anzahl Multiple Choice Level 2: {count.multiplechoice.level2_count_played}</p>
-      <p>Anzahl Zeitstrahl Level 1: {count.sorting.level1_count_played}</p>
-      <p>Anzahl Zeitstrahl Level 2: {count.sorting.level2_count_played}</p>
-      <p>Anzahl Zeitstrahl Level 3: {count.sorting.level3_count_played}</p>
+      <p>Anzahl Baukasten Level 1: <b>{count.assemble.level1_count_played}</b></p>
+      <p>Anzahl Baukasten Level 2: <b>{count.assemble.level2_count_played}</b></p>
+      <p>Anzahl Fehlstellen Level 1: <b>{count.missing.level1_count_played}</b></p>
+      <p>Anzahl Fehlstellen Level 2: <b>{count.missing.level2_count_played}</b></p>
+      <p>Anzahl Fehlstellen Level 3: <b>{count.missing.level3_count_played}</b></p>
+      <p>Anzahl Multiple Choice Level 1: <b>{count.multiplechoice.level1_count_played}</b></p>
+      <p>Anzahl Multiple Choice Level 2: <b>{count.multiplechoice.level2_count_played}</b></p>
+      <p>Anzahl Zeitstrahl Level 1: <b>{count.sorting.level1_count_played}</b></p>
+      <p>Anzahl Zeitstrahl Level 2: <b>{count.sorting.level2_count_played}</b></p>
+      <p>Anzahl Zeitstrahl Level 3: <b>{count.sorting.level3_count_played}</b></p>
     </div>
   </div>
   <div class="form-group">

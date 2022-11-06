@@ -55,7 +55,7 @@
         </li>
         {/_isAdmin}
       </ul>
-      <a class="navbar-brand pull-right" href="/" style="text-align: right; font-weight: 600;">ToyBlocks</a>
+      <a class="navbar-brand pull-right" href="/" style="text-align: right; font-weight: 600; color: #428bca">ToyBlocks</a>
     </div><!--/.nav-collapse -->
   </div>
 </div>

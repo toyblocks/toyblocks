@@ -5,7 +5,7 @@
 <ol class="breadcrumb">
   <li><a href="/">Home</a></li>
   <li><a href="/moderation/">Moderation</a></li>
-  <li class="active">Fehlstellen-Spiel</li>
+  <li class="active">Fehlstellen-Spiel hinzufügen</li>
 </ol>
 
 {/contentHead}

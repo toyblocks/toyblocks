@@ -20,7 +20,7 @@ module.exports.prototype = UsersController.prototype.extend({
     _this.mongodb
       .collection(userModel.collection)
       .find({ 'tuid': _this.request.session.user.tuid })
-      .next(function (err, doc) {
+      .next(function (_err, doc) {
         if (!doc) {
           if(isDevelopment){
             // Render something for development

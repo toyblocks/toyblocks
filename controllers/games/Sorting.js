@@ -149,7 +149,7 @@ module.exports.prototype = GamesController.prototype.extend({
             for (var i = 0; i < buildings.length; i++) {
               sortedBuildings['' + buildings[i]._id] = buildings[i];
             }
-            var index = 0;
+
             for (var _id in sortedBuildings) {
               if (!sortedBuildings[_id]) {
                 continue;
