@@ -37,7 +37,7 @@ module.exports = function(grunt) {
             'bootstrap/dist/css/bootstrap.min.css.map',
             'bootstrap/dist/css/bootstrap-theme.min.css',
             'bootstrap/dist/css/bootstrap-theme.min.css.map',
-            'fontawesome/css/font-awesome.min.css',
+            'fontawesome/css/fontawesome.min.css',
             'summernote/dist/summernote.css',
             'summernote/dist/summernote.css.map'
           ],
