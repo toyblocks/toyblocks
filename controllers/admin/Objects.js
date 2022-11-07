@@ -46,8 +46,9 @@ module.exports.prototype = AdminController.prototype.extend({
   *
   */
   createTypeAction: function () {
-    var type = this.getTypeFromRequest(),
-      _this = this;
+    var type = this.getTypeFromRequest();
+    var _this = this;
+    
     if (type) {
       _this.mongodb
         .collection('object_types')
@@ -76,17 +77,13 @@ module.exports.prototype = AdminController.prototype.extend({
     }
   },
 
-
   getTypeFromRequest: function () {
     var type = {};
-    console.log("> params", _this.request.params);
-    console.log("> body", _this.request.body);
-    console.log("> query", _this.request.query);
-  
-    var name = _this.request.query.name;
-    var title = _this.request.query.title;
-    var randomized = _this.request.query.randomized;
-    var attributes = _this.request.query.attributes;
+    var name = _this.request.paramNew('name');
+    var title = _this.request.paramNew('title');
+    var randomized = _this.request.paramNew('randomized');
+    var attributes = _this.request.paramNew('attributes');
+
     // check for unallowed chars in attribute name
     if (!name || !name.match(/^[a-z][a-z0-9_]*$/))
       return false;
@@ -118,10 +115,11 @@ module.exports.prototype = AdminController.prototype.extend({
     var countPerPage = 15;
     var onlyContent = _this.request.query.only_content || false;
     var findParams = _this.getFindParams();
+    var type = _this.request.paramNew("type");
 
     // getting main type
     this.getTypeWithAttributes(
-      _this.request.query.type,
+      type,
       function (type, attributes) {
         // prepare attributes index
         var attributesByName = {};
@@ -143,7 +141,7 @@ module.exports.prototype = AdminController.prototype.extend({
               .limit(_this.getPaginationLimit())
               .toArray(function (_err2, objects) {
                 // for remote calls we change the template
-                if (_this.request.query._view === 'selection') {
+                if (_this.request.paramNew('_view') === 'selection') {
                   _this.view.setParam('onlyContent', onlyContent);
                   _this.view.setTemplate(_this.view.getTemplate() + '-remote');
                 }
@@ -167,14 +165,10 @@ module.exports.prototype = AdminController.prototype.extend({
   */
   changeactiveAction: function () {
     var _this = this;
-    console.log("############ Object changeactiveAction");
-    console.log("> params", _this.request.params);
-    console.log("> body", _this.request.body);
-    console.log("> query", _this.request.query);
-    var id = _this.request.param('id');
+    var id = _this.request.paramNew('id');
     var objectId = _this.mongo.ObjectID(id);
-    var dbtype = _this.request.param('type');
-    var value = _this.request.param('value') === 'true' ? true : false;
+    var dbtype = _this.request.paramNew('type');
+    var value = _this.request.paramNew('value') === 'true' ? true : false;
 
     _this.mongodb
       .collection(dbtype)
@@ -191,15 +185,9 @@ module.exports.prototype = AdminController.prototype.extend({
 
   deleteObjectAction: function (redirection) {
     var _this = this;
-    console.log("############ Object deleteObjectAction");
-    console.log("> params", _this.request.params);
-    console.log("> body", _this.request.body);
-    console.log("> query", _this.request.query);
-
-    var objectId = this.mongo.ObjectID(_this.request.query.id);
-    var search = _this.request.query.search || _this.request.params['search'] || '';
-
-
+    var id = _this.request.paramNew('id');
+    var objectId = this.mongo.ObjectID(id);
+    var search = _this.request.paramNew('search');
 
     // getting main type
     this.getTypeWithAttributes(
@@ -247,15 +235,12 @@ module.exports.prototype = AdminController.prototype.extend({
 
   upsertObjectAction: function (redirection) {
     var _this = this;
-
-    console.log("############ Object upsertObjectAction");
-    console.log("> params", _this.request.params);
-    console.log("> body", _this.request.body);
-    console.log("> query", _this.request.query);
+    let type = _this.request.paramNew('type');
+    let id = _this.request.paramNew('id');
 
     // getting main type
     _this.getTypeWithAttributes(
-      _this.request.body['type'],
+      type,
       function (type, attributes) {
 
         // set redirect path to optional parameter or default value
@@ -275,13 +260,14 @@ module.exports.prototype = AdminController.prototype.extend({
           object._random = [Math.random(), 0];
         }
 
-        if (_this.request.body['id'] !== "") {
-          object._id = _this.mongo.ObjectID(_this.request.body['id']);
+        // check if we update an excisting object or creating a new one
+        if (id !== "" && id !== undefined) {
+          object._id = _this.mongo.ObjectID(id);
         }
 
         // iterate through all attributes and prepare them for saving
         for (var i = 0; i < attributes.length; i++) {
-          reqValue = _this.request.body['values[' + attributes[i].name + ']'];
+          reqValue = _this.request.paramNew('values[' + attributes[i].name + ']');
           typeProps = type.attributes[attributes[i].name];
           attributeName = attributes[i].name;
 
@@ -348,9 +334,6 @@ module.exports.prototype = AdminController.prototype.extend({
                 }
               }
               else {
-                console.log(result);
-                console.log(imageValues);
-
                 if (typeof imageValues[i] === 'object' &&
                   !(imageValues[i] instanceof _this.mongo.ObjectID)) {
                   object[imageValues[i].attr] = result.insertedIds[imageValues[i].index];
@@ -414,17 +397,19 @@ module.exports.prototype = AdminController.prototype.extend({
 
   formAction: function () {
     var _this = this;
+    let type = _this.request.paramNew('type');
+    let id = _this.request.paramNew('id');
 
-    if (!_this.request.query.type) {
+    if (!type) {
       throw new Error('Param "type" is needed.');
     }
 
-    _this.getTypeWithAttributes(_this.request.query.type,
+    _this.getTypeWithAttributes(type,
       function (type, attributes) {
-        if (_this.request.query.id) {
+        if (id) {
           _this.mongodb
             .collection(type.name)
-            .find({ _id: _this.mongo.ObjectID(_this.request.query.id) })
+            .find({ _id: _this.mongo.ObjectID(id) })
             .next(function (_err, object) {
               _this.view.render({
                 title: type.title + ' bearbeiten - ToyBlocks',
@@ -445,16 +430,9 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   referencesAction: function () {
-
     var _this = this;
-
-    console.log("############ Object referencesAction");
-    console.log("> params", _this.request.params);
-    console.log("> body", _this.request.body);
-    console.log("> query", _this.request.query);
-
-    var typeName = _this.request.param('type');
-    var ids = _this.request.param('ids').split(',');
+    var typeName = _this.request.paramNew('type');
+    var ids = _this.request.paramNew('ids').split(',');
 
     for (var i in ids) {
       if (ids[i]) {
@@ -509,7 +487,7 @@ module.exports.prototype = AdminController.prototype.extend({
   },
 
   getRightLevel: function () {
-    var type = this.request.body['type'];
+    var type = this.request.paramNew('type');
     var modTypes = [
       'assemble_games',
       'assemble_images',

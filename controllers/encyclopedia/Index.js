@@ -153,13 +153,11 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   */
   articleAction: function () {
     var _this = this;
-    console.log("> params", _this.request.params);
-    console.log("> body", _this.request.body);
-    console.log("> query", _this.request.query);
+    console.log("> articleAction");
   
     _this.mongodb
       .collection('encyclopedia_articles')
-      .find({ _id: _this.mongo.ObjectID(_this.request.param('id')) })
+      .find({ _id: _this.mongo.ObjectID(_this.request.query.id) })
       .next(function (_err, article) {
         _this.view.render({
           title: article.title + ' - Enzyklopädie - ToyBlocks',
@@ -172,7 +170,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
         /* update statistics */
         _this.mongodb
           .collection('encyclopedia_articles')
-          .updateOne({ _id: _this.mongo.ObjectID(_this.request.param('id')) },
+          .updateOne({ _id: _this.mongo.ObjectID(_this.request.query.id) },
             { $inc: { 'viewcount': +1 } },
             { upsert: true }, function (err) {
               if (err) console.log(err);
@@ -190,7 +188,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   */
   buildingAction: function () {
     var _this = this;
-    var buildingid = _this.request.param('id');
+    var buildingid = _this.request.query.id;
 
     _this.mongodb
       .collection('sorting_buildings')

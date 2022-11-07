@@ -126,9 +126,6 @@ module.exports.prototype = GamesController.prototype.extend({
 
   resultAction: function () {
     var _this = this;
-    console.log("> params", _this.request.params);
-    console.log("> body", _this.request.body);
-    console.log("> query", _this.request.query);
     var result = _this.request.query.result;
     var isDaily = _this.request.query.daily || false;
     var solution = [];

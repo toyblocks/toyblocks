@@ -7,8 +7,6 @@
   <li class="active">Moderation</li>
 </ol>
 
-<h1>Moderation</h1>
-
 {/contentHead}
 {<content}
 
@@ -29,7 +27,7 @@
       <div class="list-group-item">
         <span class="pull-left media-object glyphicon icon-sort" style="font-size: 60px; width: 64px; height: 64px;"></span>
         <div class="media-body">
-          <h4 class="list-group-item-heading">Zeitstrahl Spiel</h4>
+          <h4 class="list-group-item-heading">Zeitstrahl Spiele</h4>
           <div class="list-group-item-text">
           Für das Zeitstrahl-Spiel können weitere Gebäude angelegt werden. Diese werden automatisch dem Spiel hinzugefügt und zufällig bei den Spielen verteilt. Zusätzlich werden die angelegten Gebäude in der Enzyklopädie angezeigt.
           </div>
@@ -41,7 +39,7 @@
       <div class="list-group-item">
         <span class="pull-left media-object glyphicon icon-missing" style="font-size: 60px;width: 64px; height: 64px;"></span>
         <div class="media-body">
-          <h4 class="list-group-item-heading">Fehlstellen Spiel</h4>
+          <h4 class="list-group-item-heading">Fehlstellen Spiele</h4>
           <div class="list-group-item-text">
           Das Fehlstellenspiel benötigt ein Hauptbild mit Fehlstellen, ein Lösungsbild, eine Kategorie der Einzelteile und gegebenenfalls eine neue Kategorie für die Einzelteile (sollte diese nicht vorhanden sein).
           </div>
@@ -53,7 +51,7 @@
       <div class="list-group-item">
         <span class="pull-left media-object glyphicon icon-assemble" style="font-size: 60px; width: 64px; height: 64px;"></span>
         <div class="media-body">
-          <h4 class="list-group-item-heading">Baukasten Spiel</h4>
+          <h4 class="list-group-item-heading">Baukasten Spiele</h4>
           <div class="list-group-item-text">
           Beim Baukasten erstellt man neue Spiele und wählt dort die passenden Einzelteile aus einer Liste aus. Diese kann man ebenfalls neu hinzufügen.
           </div>
@@ -65,7 +63,7 @@
       <div class="list-group-item">
         <span class="pull-left media-object glyphicon icon-multiple" style="font-size: 60px; width: 64px; height: 64px;"></span>
         <div class="media-body">
-          <h4 class="list-group-item-heading">Multiple Choice Spiel</h4>
+          <h4 class="list-group-item-heading">Multiple Choice Spiele</h4>
           <div class="list-group-item-text">
           Für das Multiplechoice-Spiel können Fragen hinzugefügt werden. Diese bestehen aus einem Bild, einem Fragentext, mindestens einer richtigen Antwort und mindestens 3 falschen Antworten.
           </div>

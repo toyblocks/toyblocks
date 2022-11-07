@@ -250,10 +250,7 @@ module.exports.prototype = {
         var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
 
         console.log("Base.js checkLogin");
-        console.log("> params", _this.request.params);
-        console.log("> body", _this.request.body);
-        console.log("> query", _this.request.query);
-        var ticket = _this.request.query.ticket || _this.request.body["ticket"];
+        var ticket = _this.request.paramNew('ticket');
         if (!ticket) {
           // let user login via hrz
           _this.response.redirect('https://sso.tu-darmstadt.de/login?service=' + service);

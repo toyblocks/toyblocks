@@ -15,6 +15,7 @@ var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var favicon = require('serve-favicon');
+var underscore = require('underscore');
 
 dust.helpers = require('dustjs-helpers');
 
@@ -98,6 +99,26 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
           action = req.params.action || 'index',
           ControllerClass;
 
+        /**
+         * replacement of deprecated params() function
+         * 
+         * @param {string} id param name
+         * @returns content of either body or query, if none found returns undefined
+         */
+        req.paramNew = (id) => {
+          console.log("################");
+          console.log("> params", req.params);
+          console.log("> body", req.body);
+          console.log("> query", req.query);
+          console.log("> id:", id);
+          let res = req.body[id] || req.query[id] ||
+          (underscore.isEmpty(req.body.values) ? 
+          (underscore.isEmpty(req.query.values) ? undefined : req.query.values[id])
+           : req.body.values[id]);
+          console.log("> res:", res);
+          return res;
+        };
+
         try {
           try {
             ControllerClass = require(getControllerPath(area, controller));
@@ -119,7 +140,8 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
             res.render('error404', { title: 'Fehler', error: "Seite nicht gefunden." });
           }
           else {
-            //console.error("area: ", area, "controller: ", controller, e);
+            console.error("path: ", req.path);
+            console.error(e);
             res.render('error404', { title: 'Fehler', error: e.stack });
           }
         }

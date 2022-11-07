@@ -30,6 +30,7 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   gameAction: function () {
     var _this = this;
+  
     var id = _this.request.query.id;
     var level = parseInt(_this.request.query.level, 10) || 1;
     var isDaily = parseInt(_this.request.query.isDaily, 10) || 0;

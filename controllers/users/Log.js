@@ -8,14 +8,14 @@ module.exports.prototype = UsersController.prototype.extend({
   name: 'log',
 
   inAction: function () {
-    var returnto = this.request.param('returnto');
+    var returnto = this.request.paramNew('returnto');
     this.view.render({ returnto: returnto });
   },
 
   doLoginAction: function () {
-    var returnto = this.request.param('returnto');
+    var returnto = this.request.paramNew('returnto');
     // TODO: check login here
-    this.request.session.user = { tuid: 'demo', rightLevel: 0 };
+    //this.request.session.user = { tuid: 'demo', rightLevel: 0 };
     if (returnto && returnto[0] === '/') {
       this.response.redirect(returnto);
     }

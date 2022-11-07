@@ -35,7 +35,12 @@
                 data-content="<img src='/ressources/image?id={.}&size=middle' height='300' />"/>{/object[name]}
               {/eq}
               {@eq value="text"}
-                {! TODO: If possible in dust.js make a helper or a filter for truncating instead css-solution !}
+                <div class="text-truncate">{#object[name]}{.} {/object[name]}</div>
+              {/eq}
+              {@eq value="string"}
+                <div class="text-truncate">{#object[name]}{.} {/object[name]}</div>
+              {/eq}
+              {@eq value="int"}
                 <div class="text-truncate">{#object[name]}{.} {/object[name]}</div>
               {/eq}
               {@eq value="bool"}

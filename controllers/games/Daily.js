@@ -170,11 +170,8 @@ module.exports.prototype = GamesController.prototype.extend({
   */
   resultAction: function () {
     var _this = this;
-    console.log("> params", _this.request.params);
-    console.log("> body", _this.request.body);
-    console.log("> query", _this.request.query);
-    var result = _this.request.param('result').split(';');
-    var playtime = _this.request.param('time');
+    var result = _this.request.query.result.split(';');
+    var playtime = _this.request.query.time;
     var tuid = _this.request.session.user.tuid;
     var nickname = _this.request.session.user.nickname;
     var points = 0;
@@ -343,7 +340,7 @@ module.exports.generateDailyGame = function generateDailyGame(mongodb) {
                   //assemble games
                   ass = shuffleArray(ass).slice(0, 2);
                   for (var i = 0; i < ass.length; i++) {
-                    ass[i] = ass[i]._id + 'level=2';
+                    ass[i] = ass[i]._id;
                   }
 
                   // we got 5 multiplechoice

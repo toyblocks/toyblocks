@@ -31,11 +31,11 @@ module.exports.prototype = AdminController.prototype.extend({
     _this.mongodb
       .collection(attributeModel.collection)
       .find({})
-      .toArray(function (err, attributes) {
+      .toArray(function (_err, attributes) {
         _this.mongodb
           .collection('object_types')
           .find({})
-          .toArray(function (err, objectTypes) {
+          .toArray(function (_err, objectTypes) {
             _this.view.render({
               title: 'Attribute Verwaltung - ToyBlocks',
               attributes: attributes,
@@ -85,8 +85,8 @@ module.exports.prototype = AdminController.prototype.extend({
     var _this = this;
     _this.mongodb
       .collection(attributeModel.collection)
-      .find({ name: _this.request.param('attribute') })
-      .next(function (err, attribute) {
+      .find({ name: _this.request.paramNew('attribute') })
+      .next(function (_err, attribute) {
         _this.view.render({ attribute: attribute });
       });
   },
@@ -101,8 +101,8 @@ module.exports.prototype = AdminController.prototype.extend({
     _this.mongodb
       .collection(attributeModel.collection)
       .updateOne(
-        { name: _this.request.param('attribute') },
-        { $set: { values: _this.request.param('enums') } },
+        { name: _this.request.paramNew('attribute') },
+        { $set: { values: _this.request.paramNew('enums') } },
         {},
         function (err) {
           var msg = err ? 'error' : 'success';
@@ -120,28 +120,28 @@ module.exports.prototype = AdminController.prototype.extend({
       attribute = {};
 
     // check for unallowed chars in attribute name
-    if (!req.param('name') || !req.param('name').match(/^[a-z][a-z0-9_]*$/)) {
+    if (!req.paramNew('name') || !req.paramNew('name').match(/^[a-z][a-z0-9_]*$/)) {
       return false;
     }
 
-    attribute.name = req.param('name');
+    attribute.name = req.paramNew('name');
 
     // check for empty title
-    if (!req.param('title').trim()) {
+    if (!req.paramNew('title').trim()) {
       return false;
     }
 
-    attribute.title = req.param('title');
-    attribute.is_enum = !!req.param('is_enum');
+    attribute.title = req.paramNew('title');
+    attribute.is_enum = !!req.paramNew('is_enum');
 
     // last check. iterate over all types
-    var paramType = req.param('type'),
+    var paramType = req.paramNew('type'),
       types = attributeModel.getTypes();
 
     for (var typeIndex in types) {
       if (types[typeIndex].name === paramType) {
         if (paramType === 'objecttype') {
-          attribute.object_type = req.param('objecttype');
+          attribute.object_type = req.paramNew('objecttype');
         }
         attribute.type = paramType;
         return attribute;
