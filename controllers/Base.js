@@ -404,8 +404,8 @@ module.exports.prototype = {
       }
     }
     else {
-      // TODO: Remove this block
-      if (!_this.request.session.user) {
+      const environment = process.env.NODE_ENV || 'development';
+      if (!_this.request.session.user && environment === 'development') {
         _this.request.session.user = {
           'employee': false,
           'givenName': 'Local',

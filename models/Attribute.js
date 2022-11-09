@@ -24,27 +24,30 @@ module.exports = base.extend({
   },
 
   validateAndTransform: function (attribute, typeProps, value, mongo) {
+    let result = [];
     if (typeProps.multiple) {
       for (var valIndex in value) {
-        value[valIndex] = this._validateAndTransformOne(attribute,
+        // Filter items which are empty
+        if(value[valIndex] === undefined || value[valIndex] === null || value[valIndex] === '')
+          continue;
+        result[valIndex] = this._validateAndTransformOne(attribute,
           typeProps, value[valIndex], mongo);
       }
     }
     else {
-      value = this._validateAndTransformOne(attribute, typeProps, value, mongo);
+      result = this._validateAndTransformOne(attribute, typeProps, value, mongo);
     }
-    return value;
+    return result;
   },
 
   _validateAndTransformOne: function (attribute, typeProps, value, mongo) {
+    // console.log("_validateAndTransformOne", value);
     if (typeof value === 'undefined')
       value = '';
 
     value = value.trim();
 
     if (typeProps.mandatory && !value){
-      console.log(typeProps);
-      console.log(value, attribute);
       throw new Error('Bitte fülle das folgende Feld aus: ' + attribute.name);
     }
 

@@ -14,7 +14,6 @@ module.exports.prototype = UsersController.prototype.extend({
 
   doLoginAction: function () {
     var returnto = this.request.paramNew('returnto');
-    // TODO: check login here
     //this.request.session.user = { tuid: 'demo', rightLevel: 0 };
     if (returnto && returnto[0] === '/') {
       this.response.redirect(returnto);

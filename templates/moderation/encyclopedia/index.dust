@@ -46,7 +46,7 @@
         <tr>
           <td>
             {#image}
-            <img src="/ressources/image?id={image}&amp;size=middle" style="height: 20px;">
+            <img src="/ressources/image?id={image}&amp;size=middle" style="max-width: 50px;">
             {:else}
             {/image}
           </td>
@@ -62,11 +62,11 @@
             {viewcount}
           </td>
           <td>
-            <a href="/moderation/encyclopedia/article?id={_id}" alt="Artikel bearbeiten" title="Artikel bearbeiten">
-              <span class="glyphicon glyphicon-pencil btn-primary btn-sm" style="width: 40px"></span>
+            <a href="/moderation/encyclopedia/article?id={_id}" alt="Artikel bearbeiten" title="Artikel bearbeiten" style="padding-right: 5px;">
+              <span class="glyphicon glyphicon-pencil btn-primary btn-sm" style="width: 40px; padding-left: 13px"></span>
             </a>
             <a href="/moderation/encyclopedia/delete?type=encyclopedia_articles&id={_id}"  alt="Artikel löschen" title="Artikel löschen">
-              <span class="glyphicon glyphicon-trash btn-danger btn-sm" style="width: 40px"></span>
+              <span class="glyphicon glyphicon-trash btn-danger btn-sm" style="width: 40px; padding-left: 13px"></span>
             </a>
           </td>
         </tr>

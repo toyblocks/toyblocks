@@ -153,7 +153,6 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
   */
   articleAction: function () {
     var _this = this;
-    console.log("> articleAction");
   
     _this.mongodb
       .collection('encyclopedia_articles')

@@ -38,7 +38,6 @@ module.exports.prototype = AdminController.prototype.extend({
             });
           });
       });
-    // TODO: object type form
   },
 
   /**
@@ -56,11 +55,11 @@ module.exports.prototype = AdminController.prototype.extend({
           type,
           { w: 1 },
           function (err) {
-            if (err) console.warn(err.message);
             if (err && err.message.indexOf('E11000 ') !== -1) {
               // this _id was already inserted in the database
+              console.warn(err.message);
+              throw new Error('Fehler: ' + err);
             }
-            // TODO: error handler
 
             // rewrite to set indeces
             if (type.randomized) {
@@ -246,6 +245,8 @@ module.exports.prototype = AdminController.prototype.extend({
         // set redirect path to optional parameter or default value
         var redirectPath = redirection || '../objects?type=' + type.name;
 
+        console.log("redirectPath", redirection, redirectPath);
+
         // prepare attributes index
         var object = {},
           images = [],
@@ -267,7 +268,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
         // iterate through all attributes and prepare them for saving
         for (var i = 0; i < attributes.length; i++) {
-          reqValue = _this.request.paramNew('values[' + attributes[i].name + ']');
+          reqValue = _this.request.paramNew(attributes[i].name);
           typeProps = type.attributes[attributes[i].name];
           attributeName = attributes[i].name;
 
@@ -388,11 +389,8 @@ module.exports.prototype = AdminController.prototype.extend({
                 });
             }
             _this.updateLastModifiedTimestamp();
-
           });
-
       });
-
   },
 
   formAction: function () {

@@ -106,16 +106,16 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
          * @returns content of either body or query, if none found returns undefined
          */
         req.paramNew = (id) => {
-          console.log("################");
-          console.log("> params", req.params);
-          console.log("> body", req.body);
-          console.log("> query", req.query);
-          console.log("> id:", id);
           let res = req.body[id] || req.query[id] ||
           (underscore.isEmpty(req.body.values) ? 
           (underscore.isEmpty(req.query.values) ? undefined : req.query.values[id])
            : req.body.values[id]);
-          console.log("> res:", res);
+           // console.log("################");
+           // console.log("> params", req.params);
+           // console.log("> body", req.body);
+           // console.log("> query", req.query);
+           // console.log("> id:", id);
+          //console.log("> res:", res);
           return res;
         };
 
