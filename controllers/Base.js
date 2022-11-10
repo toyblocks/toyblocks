@@ -249,7 +249,7 @@ module.exports.prototype = {
         //var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
         var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
 
-        console.log("Base.js checkLogin");
+        //console.log("Base.js checkLogin");
         var ticket = _this.request.paramNew('ticket');
         if (!ticket) {
           // let user login via hrz
