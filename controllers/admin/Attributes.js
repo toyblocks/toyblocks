@@ -61,16 +61,15 @@ module.exports.prototype = AdminController.prototype.extend({
           attribute,
           { w: 1 },
           function (err) {
-            if (err) console.warn(err.message);
-            if (err && err.message.indexOf('E11000 ') !== -1) {
+            if (err) {
               // this _id was already inserted in the database
+              console.warn(err.message);
+              throw new Error('' + err);
             }
-            // TODO: error handler
             _this.response.redirect('..');
           });
     }
     else {
-      // TODO: error handler
       this.response.redirect('..');
       throw new Error('attribute not found');
     }

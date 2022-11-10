@@ -70,10 +70,13 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
   },
 
   dailyAction: function () {
+    var _this = this;
+    
     _this.mongodb
       .collection('daily_games')
       .find()
       .toArray(function (_err, data) {
+        console.log(data);
         _this.view.render({
           title: 'Daily Challenge - ToyBlocks',
           games: data

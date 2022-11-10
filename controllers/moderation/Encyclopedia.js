@@ -16,7 +16,7 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
       findParams = _this.getFindParams(),
       filterParams = _this.getFilterParams(),
       sortParams = _this.getSortParams();
-
+    
     if(sortParams && Object.keys(sortParams).length === 0)
       sortParams = { title: 1 };
     if (sortParams.viewcount === 1) {
@@ -25,26 +25,19 @@ module.exports.prototype = AdminObjectsController.prototype.extend({
 
     _this.mongodb
       .collection('encyclopedia_articles')
-      .find({ $and: [findParams, filterParams] })
+      .find({ $and: [findParams, filterParams] }, {})
       .count(function (_err1, totalCount) {
 
         _this.setPagination(totalCount, countPerPage);
+        var skip = _this.getPaginationSkip();
+        var limit = _this.getPaginationLimit();
+
         _this.mongodb
           .collection('encyclopedia_articles')
-          .find(findParams,
-            {
-              title: 1,
-              _id: 1,
-              article_body: 1,
-              image: 1,
-              viewcount: 1
-            })
-          .skip(_this.getPaginationSkip())
-          .limit(_this.getPaginationLimit())
+          .find({ $and: [findParams, filterParams] }, {})
           .sort(sortParams)
           .toArray(function (_err, articleData) {
-
-            var data = articleData;
+            var data = articleData.slice(skip, skip + limit);
             for (var i = 0; i < data.length; i++) {
               data[i].article_body = (data[i].article_body + '').slice(0, 80);
             }

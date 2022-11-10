@@ -78,6 +78,7 @@ module.exports.prototype = AdminController.prototype.extend({
 
   getTypeFromRequest: function () {
     var type = {};
+    var _this = this;
     var name = _this.request.paramNew('name');
     var title = _this.request.paramNew('title');
     var randomized = _this.request.paramNew('randomized');
@@ -146,7 +147,7 @@ module.exports.prototype = AdminController.prototype.extend({
                 }
                 for (var i = 0; i < objects.length; i++) {
                   objects[i]._objectid = objects[i]._id;
-                };
+                }
                 _this.view.render({
                   title: type.title + ' Verwaltung - ToyBlocks',
                   type: type,

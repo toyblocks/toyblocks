@@ -48,10 +48,10 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                   .toArray(function (_err3, buildingData) {
 
                     // Merge bulding and article arrays
-                    for (var i = 0; i < articleData.length; i++) {
+                    for (let i = 0; i < articleData.length; i++) {
                       articleData[i].isArticle = true;
                     }
-                    for (var i = 0; i < buildingData.length; i++) {
+                    for (let i = 0; i < buildingData.length; i++) {
                       buildingData[i].isArticle = false;
                       buildingData[i].image = buildingData[i].image[0] || null;
                     }
@@ -92,7 +92,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                       firstLetter = data[0].title.charAt(0).toUpperCase(),
                       lastLetter;
 
-                    for (var i = countPerPage; i < data.length; i = i + countPerPage) {
+                    for (let i = countPerPage; i < data.length; i = i + countPerPage) {
                       lastLetter = pagStyle(data[i - 1]);
                       customPagination[pagCounter++] = firstLetter + ' - ' + lastLetter;
                       firstLetter = pagStyle(data[i]);
@@ -114,7 +114,7 @@ module.exports.prototype = EncyclopediaController.prototype.extend({
                     var filterHeadlines = function (element) {
                       return element.headline === currentLetter;
                     };
-                    for (var i = 0; i < data.length; i++) {
+                    for (let i = 0; i < data.length; i++) {
                       // get first letter of article title
                       var currentLetter = (data[i].title + "").charAt(0).toUpperCase();
 

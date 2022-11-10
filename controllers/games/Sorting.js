@@ -52,7 +52,7 @@ module.exports.prototype = GamesController.prototype.extend({
       });
     } else {
       ids = ids.split(',');
-      for (var i = ids.length - 1; i >= 0; i--) {
+      for (let i = ids.length - 1; i >= 0; i--) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
       }
 
@@ -129,7 +129,7 @@ module.exports.prototype = GamesController.prototype.extend({
         var sortedBuildings = {};
 
         // we have to cast the mongo ids for the db-request
-        for (var i = 0; i < sortIds.length; i++) {
+        for (let i = 0; i < sortIds.length; i++) {
           sortIds[i] = _this.mongo.ObjectID(sortIds[i]);
           sortedBuildings[sortIds[i]] = null;
         }
@@ -143,7 +143,7 @@ module.exports.prototype = GamesController.prototype.extend({
             var orderNumbers = [];
             var solutionIsCorrect = true;
 
-            for (var i = 0; i < buildings.length; i++) {
+            for (let i = 0; i < buildings.length; i++) {
               sortedBuildings['' + buildings[i]._id] = buildings[i];
             }
 
@@ -178,7 +178,7 @@ module.exports.prototype = GamesController.prototype.extend({
             }
 
             // reuse buildings array and sort them for result page
-            for (var i = 0; i < buildings.length; i++) {
+            for (let i = 0; i < buildings.length; i++) {
               buildings[i].position = eras.indexOf(buildings[i].era);
             }
             buildings.sort(function (a, b) {

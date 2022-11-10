@@ -190,13 +190,14 @@ module.exports.prototype = GamesController.prototype.extend({
       { type: 'missing', title: 'Fehlstellen' },
       { type: 'sort', title: 'Zeitstrahl' },
       { type: 'sort', title: 'Zeitstrahl' },
-      { type: 'multiple', title: 'Multiplechoice' }];
+      { type: 'multiple', title: 'Multiplechoice' }
+    ];
 
-    for (var i = 0; i < result.length; i++) {
-      var singlegame = result[i].split(',');
+    for (let i = 0; i < result.length; i++) {
+      let singlegame = result[i].split(',');
       resultelement[i].singles = singlegame;
-      for (var j = 0; j < singlegame.length; j++) {
-        var c = (singlegame[j] === 'true');
+      for (let j = 0; j < singlegame.length; j++) {
+        let c = (singlegame[j] === 'true');
         if (c) { count++; }
         gamelength++;
 
@@ -254,9 +255,7 @@ module.exports.prototype = GamesController.prototype.extend({
                 players: player
               }
             }, { upsert: true },
-            function (_err, _data) {
-
-
+            function () {
               var d = new Date();
               var game = {
                 year: d.getFullYear(),
@@ -288,9 +287,6 @@ module.exports.prototype = GamesController.prototype.extend({
 *  Gets called from jobs.js
 */
 module.exports.generateDailyGame = function generateDailyGame(mongodb) {
-
-  var currenttime = new Date().getTime();
-
   // Fisher-Yates Shuffle from Jonas Raoni Soares Silva
   // @ http://jsfromhell.com/array/shuffle
   function shuffleArray(o) { //v1.0
@@ -319,27 +315,27 @@ module.exports.generateDailyGame = function generateDailyGame(mongodb) {
 
                   //missing
                   mis = shuffleArray(mis).slice(0, 2);
-                  for (var i = 0; i < mis.length; i++) {
+                  for (let i = 0; i < mis.length; i++) {
                     mis[i] = mis[i]._id;
                   }
 
                   //sorting
-                  var sor1 = shuffleArray(sor).slice(0, 7);
-                  var sor2 = shuffleArray(sor).slice(0, 7);
-                  for (var i = 0; i < sor1.length; i++) {
+                  let sor1 = shuffleArray(sor).slice(0, 7);
+                  let sor2 = shuffleArray(sor).slice(0, 7);
+                  for (let i = 0; i < sor1.length; i++) {
                     sor1[i] = sor1[i]._id;
                     sor2[i] = sor2[i]._id;
                   }
 
                   //multiple
                   mul = shuffleArray(mul).slice(0, 5);
-                  for (var j = 0; j < mul.length; j++) {
+                  for (let j = 0; j < mul.length; j++) {
                     mul[j] = mul[j]._id;
                   }
 
                   //assemble games
                   ass = shuffleArray(ass).slice(0, 2);
-                  for (var i = 0; i < ass.length; i++) {
+                  for (let i = 0; i < ass.length; i++) {
                     ass[i] = ass[i]._id;
                   }
 
@@ -363,7 +359,7 @@ module.exports.generateDailyGame = function generateDailyGame(mongodb) {
                         }
                       },
                       {},
-                      function (_err4) {
+                      function () {
                         // do nothing
                       });
                 });

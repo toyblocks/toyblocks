@@ -153,12 +153,12 @@ module.exports.prototype = GamesController.prototype.extend({
       .toArray(function (_err, questions) {
 
         // check for every question if the solution is corrrect
-        for (var i = 0; i < questions.length; i++) {
-          var answers = questions[i].multiplechoice_answer_right,
+        for (let i = 0; i < questions.length; i++) {
+          let answers = questions[i].multiplechoice_answer_right,
             isCorrect = false;
-          for (var j = 0; j < selected.length; j++) {
+          for (let j = 0; j < selected.length; j++) {
             if (String(questions[i]._id) === String(selected[j][0])) {
-              for (var k = 0; k < answers.length; k++) {
+              for (let k = 0; k < answers.length; k++) {
                 if (String(selected[j][1]) ===
                   String(_this.hashString(answers[k]))) {
                   isCorrect = true;
@@ -176,16 +176,16 @@ module.exports.prototype = GamesController.prototype.extend({
           }
         }
 
-        var percentage = {
+        let percentage = {
           'wrong': (countWrong * 100) / (countWrong + countCorrect),
           'right': (countCorrect * 100) / (countWrong + countCorrect)
         };
 
         // sort
-        var counter = 0;
-        var sortedResult = [];
-        for (var i = 0; i < questions.length; i++) {
-          for (var j = 0; j < questions.length; j++) {
+        let counter = 0;
+        let sortedResult = [];
+        for (let i = 0; i < questions.length; i++) {
+          for (let j = 0; j < questions.length; j++) {
             if (String(result[counter]) === String(questions[j]._id)) {
               sortedResult[i] = questions[j];
               break;

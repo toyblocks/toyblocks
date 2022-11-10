@@ -1,0 +1,55 @@
+{>"layout/layout.dust"/}
+{<contentHead}
+<div class="col-md-12 col-sm-12">
+
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/moderation/">Moderation</a></li>
+  <li class="active">Daily Spiele</li>
+</ol>
+
+{/contentHead}
+{<content}
+
+<div class="col-sm-12">
+  {#games}
+    <div class="col-sm-12">
+      <h5>Fehlstellen-Spiel</h5>
+      {missing}
+    </div>
+    <div class="col-sm-12">
+      <h5>Zeitstrahl Spiele</h5>
+      {sorting}
+    </div>
+    <div class="col-sm-12">
+      <h5>Zeitstrahl Spiele</h5>
+      {sorting2}
+    </div>
+    <div class="col-sm-12">
+      <h5>Fehlstellen-Spiel</h5>
+      {multiplechoice}
+    </div>
+    <div class="col-sm-12">
+      <h5>Baukasten Spiele</h5>
+      {assemble}
+    </div>
+    <div class="col-sm-12">
+      <h5>Baukasten Spiele</h5>
+      {assemble2}
+    </div>
+  {/games}
+</div>
+
+<div class="col-sm-12">
+  <button style="margin-bottom:10px" type="button" class="btn btn-primary objecttype-form"
+  href="/moderation/daily?attribute=assemble_category"
+  data-target="#enumsModal" data-toggle="modal">
+  Neues Daily Erstellen
+</button>
+</div>
+
+<script type="text/javascript">
+console.log("{games}");
+</script>
+<div style="height: 160px; width: 1px;"></div>
+{/content}

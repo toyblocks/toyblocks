@@ -15,10 +15,11 @@
         <p style="font-size: 24px;">Enzyklopädie</p>
         {>"layout/search"/}
         <div class="btn-group dropdown pull-right" style="margin-right: 10px;">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Filter 
-            <span class="caret"></span>
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Sortieren nach <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
+<!--
             <li><b style="padding: 3px 20px;">Anzeigen</b></li>
             <li><a class="filterbutton" href="#" data-key="" data-query="">Alle</a></li>
             <li><a class="filterbutton" href="#" data-key="level" data-query="1">Gebäude aus dem Kurs</a></li>
@@ -26,6 +27,7 @@
             <li><a class="filterbutton" href="#" data-key="article_body" data-query="">Artikel</a></li>
             <li class="divider"></li>
             <li><b style="padding: 3px 20px;">Sortieren nach</b></li>
+-->
             <li><a class="sortbutton" data-query="title" href="#">Titel</a></li>
             <li><a class="sortbutton" data-query="viewcount" href="#">Besucherzahlen</a></li>
           </ul>

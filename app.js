@@ -62,12 +62,6 @@ function getControllerPath(area, controller) {
       });
 }
 
-function paramHelp(_this) {
-  console.log("> params", _this.request.params);
-  console.log("> body", _this.request.body);
-  console.log("> query", _this.request.query);
-}
-
 const mongoDbPath = 'mongodb://' + config.mongodb.host + ':' + config.mongodb.port + '/' + config.mongodb.db;
 
 mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (err, client) {
@@ -93,7 +87,7 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
     // defaults are index in every case. in case of the controller was not
     // found, we try to search in index area
     app.all('/:area?/:controller?/:action?', attachDB,
-      function (req, res, next) {
+      function (req, res) {
         var area = req.params.area || 'index',
           controller = req.params.controller || 'index',
           action = req.params.action || 'index',
