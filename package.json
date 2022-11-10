@@ -12,7 +12,6 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node app.js",
     "dev": "cross-env NODE_ENV=development nodemon app.js",
-    "install": "npm i --legacy-peer-deps",
     "test": "jest"
   },
   "dependencies": {
