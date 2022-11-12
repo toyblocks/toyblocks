@@ -1,7 +1,7 @@
 @font-face {
 	font-family: 'toyblocks';
-	src:url('toyblocks.eot?-s61s17');
-	src:url('toyblocks.eot?#iefix-s61s17') format('embedded-opentype'),
+	src: url('toyblocks.eot?-s61s17');
+	src: url('toyblocks.eot?#iefix-s61s17') format('embedded-opentype'),
 		url('toyblocks.woff?-s61s17') format('woff'),
 		url('toyblocks.ttf?-s61s17') format('truetype'),
 		url('toyblocks.svg?-s61s17#toyblocks') format('svg');
@@ -9,9 +9,9 @@
 	font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"],
+[class*=" icon-"] {
 	font-family: 'toyblocks';
-	speak: none;
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;
@@ -26,15 +26,19 @@
 .icon-sort:before {
 	content: "\e600";
 }
+
 .icon-multiple:before {
 	content: "\e601";
 }
+
 .icon-missing:before {
 	content: "\e602";
 }
+
 .icon-assemble:before {
 	content: "\e603";
 }
+
 .icon-challenge:before {
 	content: "\e604";
 }

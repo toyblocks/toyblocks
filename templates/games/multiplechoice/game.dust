@@ -56,7 +56,7 @@
 
 <br>
 <div class="well" style="max-width:300px; margin: 0 auto 10px;">
-  <button id="next-question" type="button" class="btn btn-primary btn-block">Weiter</button>
+  <button id="next-question" type="button" class="btn btn-primary btn-block" disabled>Weiter</button>
   <button id="game-result" type="button" class="btn btn-success btn-block">Ergebnis</button>
   <button id="game-overview" type="button" class="btn btn-primary btn-block">Zurück zur Spielübersicht</button>
   <span id="games-left-box" class="badge pull-right">Verbleibende Spiele: <span id="games-left"></span></span>
@@ -67,7 +67,7 @@ var questionIds = [{#questions}'{_id}'{@sep},{/sep}{/questions}],
   actualIndex = 0,
   selectedAnswers = [],
   readyForNext = false;
-  gamesCount = {questions.length}-1,
+  gamesCount = {questions.length} - 1,
   isDaily = {@eq key=isDaily value="true" type="boolean"}true{:else}false{/eq};
 
 String.prototype.hashString = function(){
@@ -81,11 +81,11 @@ String.prototype.hashString = function(){
     return String(hash);
 };
 
-$(window).ready(function(){
+$(window).ready(function () {
 
   function loadQuestion(questionId) {
-    $.ajax({url: '/games/multiplechoice/container?id=' + questionId })
-      .done(function( data ) {
+    $.ajax({ url: '/games/multiplechoice/container?id=' + questionId })
+      .done(function (data) {
         $('#questions-container').html(data);
       });
   };
@@ -93,7 +93,7 @@ $(window).ready(function(){
   function doNext() {
     readyForNext = true;
     $('#next-question').prop('disabled', false);
-    if (questionIds.length > (actualIndex+1) ) {
+    if (questionIds.length > (actualIndex + 1)) {
       $('#next-question').show();
     }
     else {
@@ -103,7 +103,7 @@ $(window).ready(function(){
     }
   };
 
-  $('#next-question').click(function(){
+  $('#next-question').on('click', function () {
     readyForNext = false;
     actualIndex++;
     loadQuestion(questionIds[actualIndex]);
@@ -111,24 +111,24 @@ $(window).ready(function(){
     $('#next-question').prop('disabled', true);
   });
 
-  $('#game-overview').click(function(){
+  $('#game-overview').on('click', function () {
     location.href = '/games/multiplechoice/';
   });
 
-  $('#game-result').click(function(){
+  $('#game-result').on('click', function () {
     readyForNext = false;
     selectedAnswers = selectedAnswers.join(',');
-    if(isDaily){
-      $.ajax({url: '/games/multiplechoice/result?daily=1&result=' + selectedAnswers})
-        .done(function( data ) {
+    if (isDaily) {
+      $.ajax({ url: '/games/multiplechoice/result?daily=1&result=' + selectedAnswers })
+        .done(function (data) {
           pushSolution(data.result.join(','));
         });
-    }else{
-      $.ajax({url: '/games/multiplechoice/result?result=' + selectedAnswers})
-        .done(function( data ) {
-          if(isDaily){
+    } else {
+      $.ajax({ url: '/games/multiplechoice/result?result=' + selectedAnswers })
+        .done(function (data) {
+          if (isDaily) {
             pushSolution(data.selectedAnswer.join(','));
-          }else{
+          } else {
             $('#questions-container').html(data);
           }
         });
@@ -138,7 +138,7 @@ $(window).ready(function(){
   });
 
 
-  $('#questions-container').on('click', '.select-answer', function(){
+  $('#questions-container').on('click', '.select-answer', function () {
     var rightAnswers = $('#questions-container').find('.right-answers').text().split(','),
       answer = $(this).parents('.input-group').find('.answer').val(),
       hash = answer.hashString();
@@ -150,16 +150,21 @@ $(window).ready(function(){
     $(this).addClass('btn-info');
     $(this).find('span.glyphicon').removeClass('glyphicon-unchecked');
     $(this).find('span.glyphicon').addClass('glyphicon-check');
-    selectedAnswers[actualIndex] = [questionIds[actualIndex],hash];
+    selectedAnswers[actualIndex] = [questionIds[actualIndex], hash];
     doNext();
   });
 
-  $(document).keypress(function(e) {
-    if(e.which == 13) {
-      if(questionIds.length > (actualIndex+1)){
-        if(readyForNext)
-          $('#next-question').trigger("click");
-      }else{
+  $(document).keypress(function (e) {
+    if (e.which == 13) {
+      if (questionIds.length > (actualIndex + 1)) {
+        if (readyForNext) {
+          readyForNext = false;
+          actualIndex++;
+          loadQuestion(questionIds[actualIndex]);
+          $('#games-left').text(gamesCount--);
+          $('#next-question').prop('disabled', true);
+        }
+      } else {
         $('#game-result').trigger("click");
       }
     }

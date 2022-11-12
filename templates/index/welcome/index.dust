@@ -24,7 +24,7 @@
     {body|s}
   </div>
 </div>
-<div class="row" id="welcome-gameslist">
+<div class="row" id="welcome-gameslist" style="margin-top: 20px">
   <div class="col-sm-4 col-md-20">
     <div class="thumbnail">
       <div class="caption">
