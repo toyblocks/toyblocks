@@ -246,7 +246,7 @@ module.exports.prototype = AdminController.prototype.extend({
         // set redirect path to optional parameter or default value
         var redirectPath = redirection || '../objects?type=' + type.name;
 
-        console.log("redirectPath", redirection, redirectPath);
+        //console.log("redirectPath", redirection, redirectPath);
 
         // prepare attributes index
         var object = {},
@@ -431,8 +431,16 @@ module.exports.prototype = AdminController.prototype.extend({
   referencesAction: function () {
     var _this = this;
     var typeName = _this.request.paramNew('type');
-    var ids = _this.request.paramNew('ids').split(',');
+    var ids = _this.request.paramNew('ids');
 
+    if(ids === undefined || ids === ''){
+      _this.view.render({
+        objects: []
+      });
+      return;
+    }
+
+    ids = ids.split(',');
     for (var i in ids) {
       if (ids[i]) {
         ids[i] = _this.mongo.ObjectID(ids[i]);
