@@ -237,7 +237,7 @@ module.exports.prototype = AdminController.prototype.extend({
     var _this = this;
     let type = _this.request.paramNew('type');
     let id = _this.request.paramNew('id');
-
+    console.log(id);
     // getting main type
     _this.getTypeWithAttributes(
       type,
@@ -269,10 +269,11 @@ module.exports.prototype = AdminController.prototype.extend({
 
         // iterate through all attributes and prepare them for saving
         for (var i = 0; i < attributes.length; i++) {
-          reqValue = _this.request.paramNew(attributes[i].name);
+          let name = 'values[' + attributes[i].name + ']' + (attributes[i].props.multiple ? '[]' : '');
+          reqValue = _this.request.paramNew(name);
           typeProps = type.attributes[attributes[i].name];
           attributeName = attributes[i].name;
-
+          console.log(i, attributeName);
           // validate and transform to values for the db
           object[attributeName] = attributeModel.validateAndTransform(
             attributes[i],
@@ -321,6 +322,7 @@ module.exports.prototype = AdminController.prototype.extend({
           }
         }
 
+        console.log("save all images in bulk");
         // save all images in bulk
         _this.mongodb
           .collection('images')
@@ -343,6 +345,7 @@ module.exports.prototype = AdminController.prototype.extend({
               }
             }
 
+            console.log("if updating an object, we should delete unused pictures");
             // if updating an object, we should delete unused pictures
             if (object._id) {
               _this.mongodb
@@ -381,6 +384,7 @@ module.exports.prototype = AdminController.prototype.extend({
                 });
             }
             else {
+              console.log("inserting object into db");
               // inserting object into db
               _this.mongodb
                 .collection(type.name)
@@ -463,7 +467,7 @@ module.exports.prototype = AdminController.prototype.extend({
     var _this = this;
 
     if (!typeName) {
-      throw new Error('Param "typeName" is needed.');
+      throw new Error('Parameter "typeName" is needed.');
     }
 
     _this.mongodb

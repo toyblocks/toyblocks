@@ -36,8 +36,8 @@
     <div class="form-group" data-type="sorting_buildings" data-image-preview=".preview-thumbnail">
       <label class="col-sm-3 control-label" for="attr_image">Bild</label>
       <div class="col-sm-3">
-        <input name="values[image_name][]" type="file" class="form-attr-image" id="attr_image">
-        <input name="values[image][]" type="hidden">
+        <input name="values[image_name]" type="file" class="form-attr-image" id="attr_image">
+        <input name="values[image]" type="hidden">
       </div>
       <div class="col-sm-3">
         <div class="preview-thumbnail"></div>

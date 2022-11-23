@@ -78,12 +78,11 @@ module.exports = base.extend({
         var basePos = value.search(/base64,/);
         if (!basePos)
           return undefined;
-
-        var matches = value.slice(0, basePos).match(/^data:.+\/(.+);$/),
-          ext = matches[1],
-          buffer = Buffer.from(value.slice(basePos + 7), 'base64');
+        
+        let matches = value.slice(0, basePos).match(/^data:.+\/(.+);$/);
+        let ext = matches[1];
+        let buffer = Buffer.from(value.slice(basePos + 7), 'base64');
         return { ext: ext, buffer: buffer };
-
       default:
         return value;
     }

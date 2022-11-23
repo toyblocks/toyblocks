@@ -67,13 +67,12 @@ var newPaginationNames = [{#customPagination}'{.}',{/customPagination}];
 {<contentFoot}
 </div>
 <script>
-/* replaces pagination numbers with letters */
-function replacePaginationText () {
-  var ele = $('#page_selection li').each(function(index){
-    if(index > 0 && index < newPaginationNames.length && index < window._pageCounter+1)
+function replacePaginationText() {
+  $('#page_selection li').each(function (index) {
+    if (index > 0 && index < newPaginationNames.length && index < window._pageCounter + 1)
       this.innerHTML = '<a href="javascript:void(0);">' + newPaginationNames[index] + '</a>';
   });
-}  
+}
 </script>
 {>"layout/pagination"/}
 {/contentFoot}

@@ -13,6 +13,11 @@ module.exports.prototype = BaseController.prototype.extend({
     var _this = this;
     let id = _this.request.query.id;
 
+    if(id === '[object Object]'){
+      _this.response.status(404).send('Falscher Parameter gesendet');
+      return;
+    }
+
     if (id) {
       // if comma seperated ids are given, take random pic from it
       var picIds = id.split(',');
@@ -26,13 +31,10 @@ module.exports.prototype = BaseController.prototype.extend({
         size = '_' + size;
       }
 
-      var notFoundFunc = function () {
-        _this.response.send(404, 'Image not found');
-      },
-
-        showImageFunc = function (type, buffer) {
-          _this.response.type('image/' + type);
-          _this.response.send(buffer);
+      var showImageFunc = function (type, buffer) {
+          _this.response
+            .type('image/' + type)
+            .send(buffer);
         },
 
         resizeAndShowImageFunc = function (picId) {
@@ -41,6 +43,9 @@ module.exports.prototype = BaseController.prototype.extend({
             .find({ _id: _this.mongo.ObjectID(picId) })
             .next(function (_err, doc) {
               // getting original image
+              if(_err){
+                _this.response.status(404).send('Bild nicht gefunden');
+              }
               if (doc) {
                 var width;
                 var pic = gm(doc.data.read(0, doc.data.length()));
@@ -52,8 +57,9 @@ module.exports.prototype = BaseController.prototype.extend({
                 // resize and get buffer
                 pic.resize(width).size(function (_err2, picSize) {
                   pic.toBuffer(function (err, buffer) {
-                    if (err) {
-                      notFoundFunc();
+                    if (err || _err2) {
+                      // just show original image, better then nothing
+                      showImageFunc(doc.type, doc.data.value(true));
                     }
                     else {
                       doc.data = _this.request.mongo.Binary(buffer);
@@ -72,7 +78,7 @@ module.exports.prototype = BaseController.prototype.extend({
                 });
               }
               else {
-                notFoundFunc();
+                _this.response.status(404).send('Bild nicht gefunden: ' + _err);
               }
             });
         };
@@ -92,13 +98,13 @@ module.exports.prototype = BaseController.prototype.extend({
               resizeAndShowImageFunc(picId);
             }
             else {
-              notFoundFunc();
+              _this.response.status(404).send('Bild nicht gefunden: ' + _err3);
             }
           }
         });
     }
     else {
-      _this.response.send(404, 'wrong parameter');
+      _this.response.status(404).send('Falscher Parameter');
     }
   }
 });

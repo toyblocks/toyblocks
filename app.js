@@ -145,7 +145,7 @@ mongodb.MongoClient.connect(mongoDbPath, { useNewUrlParser: true }, function (er
       if (err) return err;
       console.log('Express server listening on port ' +
         app.get('port') + ', with PID ' + process.pid +
-        ' in ' + app.settings.env + ' mode');
+        ' in ' + app.settings.env + ' mode, with MongoDB ' + mongodb.ServerApiVersion.v1);
     });
   }
 }

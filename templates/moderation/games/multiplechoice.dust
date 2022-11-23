@@ -40,6 +40,13 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="attr_multiplechoice_active">Aktiv?</label>
+      <div class="col-sm-6">
+        <select name="values[active]" id="attr_active" class="form-control"><option value="1">Ist gerade Aktiv</option><option value="2">Wird nicht angezeigt</option></select>
+      </div>
+    </div>
+
     <div class="form-group multiple">
       <label class="col-sm-3 control-label" for="attr_multiplechoice_answer_right">
         Richtige Antwort
