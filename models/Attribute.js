@@ -26,6 +26,9 @@ module.exports = base.extend({
   validateAndTransform: function (attribute, typeProps, value, mongo) {
     let result = [];
     if (typeProps.multiple) {
+      if(!Array.isArray(value)){
+        value = [value];
+      }
       for (var valIndex in value) {
         // Filter items which are empty
         if(value[valIndex] === undefined || value[valIndex] === null || value[valIndex] === '')
@@ -41,7 +44,7 @@ module.exports = base.extend({
   },
 
   _validateAndTransformOne: function (attribute, typeProps, value, mongo) {
-    // console.log("_validateAndTransformOne", value);
+    // console.log("_validateAndTransformOne", attribute, typeProps, (value + '').slice(0,50));
     if (typeof value === 'undefined')
       value = '';
 

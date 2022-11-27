@@ -237,14 +237,19 @@ module.exports.prototype = AdminController.prototype.extend({
     var _this = this;
     let type = _this.request.paramNew('type');
     let id = _this.request.paramNew('id');
-    console.log(id);
+
+    // console.log(id);
+    // console.log("> params", _this.request.params);
+    // console.log("> body", _this.request.body);
+    // console.log("> query", _this.request.query);
+
     // getting main type
     _this.getTypeWithAttributes(
       type,
       function (type, attributes) {
 
         // set redirect path to optional parameter or default value
-        var redirectPath = redirection || '../objects?type=' + type.name;
+        var redirectPath = redirection || 'objects?type=' + type.name;
 
         //console.log("redirectPath", redirection, redirectPath);
 
@@ -270,10 +275,12 @@ module.exports.prototype = AdminController.prototype.extend({
         // iterate through all attributes and prepare them for saving
         for (var i = 0; i < attributes.length; i++) {
           let name = 'values[' + attributes[i].name + ']' + (attributes[i].props.multiple ? '[]' : '');
-          reqValue = _this.request.paramNew(name);
+          reqValue = _this.request.paramNew(name) || _this.request.paramNew(attributes[i].name);
           typeProps = type.attributes[attributes[i].name];
           attributeName = attributes[i].name;
-          console.log(i, attributeName);
+
+          //console.log(i, attributeName, name, (reqValue + '').slice(0,50));
+
           // validate and transform to values for the db
           object[attributeName] = attributeModel.validateAndTransform(
             attributes[i],
@@ -321,7 +328,7 @@ module.exports.prototype = AdminController.prototype.extend({
             }
           }
         }
-
+        console.log("#######################");
         console.log("save all images in bulk");
         // save all images in bulk
         _this.mongodb
@@ -333,7 +340,11 @@ module.exports.prototype = AdminController.prototype.extend({
                 for (var j in imageValues[i]) {
                   if (typeof imageValues[i][j] === 'object' &&
                     !(imageValues[i][j] instanceof _this.mongo.ObjectID)) {
-                    imageValues[i][j] = result[imageValues[i][j].index]._id;
+                    if(Array.isArray(result)){
+                      imageValues[i][j] = result[imageValues[i][j].index]._id;
+                    }else{
+                      imageValues[i][j] = result.insertedIds[imageValues[i][j].index];
+                    }
                   }
                 }
               }
@@ -345,7 +356,7 @@ module.exports.prototype = AdminController.prototype.extend({
               }
             }
 
-            console.log("if updating an object, we should delete unused pictures");
+            //console.log("if updating an object, we should delete unused pictures");
             // if updating an object, we should delete unused pictures
             if (object._id) {
               _this.mongodb
@@ -384,7 +395,7 @@ module.exports.prototype = AdminController.prototype.extend({
                 });
             }
             else {
-              console.log("inserting object into db");
+              //console.log("inserting object into db");
               // inserting object into db
               _this.mongodb
                 .collection(type.name)

@@ -34,7 +34,7 @@ app.set('view engine', 'dust');
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: false, limit: '10mb' }));
+app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(methodOverride());
 app.use(cookieParser(config.secret));
 app.use(session({
