@@ -17,6 +17,8 @@ module.exports.prototype = AdminController.prototype.extend({
   indexAction: function () {
     var _this = this;
 
+    this.fixBug(_this);
+
     // user didn't choose an object type. show a list
     this.mongodb
       .collection('object_types')
@@ -472,6 +474,47 @@ module.exports.prototype = AdminController.prototype.extend({
         }
       });
 
+  },
+
+  fixBug: function(_this){
+    /**
+     * missingparts and assemble games
+     * are both missing their level
+     * meaning new games wont appear
+     * at the games
+     */
+    _this.mongodb
+      .collection('object_types')
+      .find({ name: 'missingparts_games' })
+      .next(function(_err, obj){
+        obj.attributes['level'] = {
+          mandatory: true,
+          multiple: false,
+          display: true,
+        };
+
+        _this.mongodb
+        .collection('object_types')
+        .updateOne({ _id: obj._id }, { $set: obj }, function (err) {
+          console.log(' missingparts_games success');
+        });
+      });
+
+    _this.mongodb
+      .collection('object_types')
+      .find({ name: 'assemble_games' })
+      .next(function(_err, obj){
+        obj.attributes['level'] = {
+          mandatory: true,
+          multiple: false,
+          display: true,
+        };
+        _this.mongodb
+        .collection('object_types')
+        .updateOne({ _id: obj._id }, { $set: obj }, function (err) {
+          console.log(' assemble_games success');
+        });
+      });
   },
 
   getTypeWithAttributes: function (typeName, callback) {
