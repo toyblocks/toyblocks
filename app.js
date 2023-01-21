@@ -13,7 +13,7 @@ var jobs = require('./jobs');
 var logger = require('morgan');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
-var session = require('cookie-session');
+var session = require('express-session');
 var favicon = require('serve-favicon');
 var underscore = require('underscore');
 
