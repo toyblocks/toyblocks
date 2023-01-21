@@ -26,8 +26,12 @@ jQuery.fn.extend({
           var f = a.cloneNode(!0); d.appendChild(f); a.parentNode.replaceChild(d, a); d = 1
         }
       }
-      else if (1 == b.nodeType && b.childNodes && !/(script|style)/i.test(b.tagName))
-        for (var a = 0; a < b.childNodes.length; ++a)a += e(b.childNodes[a], c); return d
+      else if (1 == b.nodeType && b.childNodes && !/(script|style)/i.test(b.tagName)){
+        for (var a = 0; a < b.childNodes.length; ++a){
+          a += e(b.childNodes[a], c);
+          return d
+        }
+      } 
     }
     return this.length && c && c.length ? this.each(function () { e(this, c.toUpperCase()) }) : this
   }

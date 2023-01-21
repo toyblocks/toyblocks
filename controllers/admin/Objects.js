@@ -481,7 +481,10 @@ module.exports.prototype = AdminController.prototype.extend({
      * missingparts and assemble games
      * are both missing their level
      * meaning new games wont appear
-     * at the games
+     * at the games. we update their
+     * object types.
+     * 
+     * should be removed in some far future update.
      */
     _this.mongodb
       .collection('object_types')

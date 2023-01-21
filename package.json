@@ -10,7 +10,7 @@
     "Steven Lamarr Reynolds <reynolds.tud@gmail.com>"
   ],
   "scripts": {
-    "start": "cross-env NODE_ENV=production node --max-http-header-size 80000 app.js",
+    "start": "node --max-http-header-size 80000 app.js",
     "dev": "cross-env NODE_ENV=development nodemon --max-http-header-size 80000 app.js",
     "test": "jest"
   },

@@ -233,124 +233,122 @@ module.exports.prototype = {
 
   checkLogin: function (next) {
     var _this = this;
-    var isProduction = process.env.NODE_ENV === "production";
     var escapedUrl = querystring.escape(_this.request.originalUrl);
 
-    if (_this.getRightLevel() >= 0 && isProduction) {
-      var nextWithRightsCheck = function () {
-        if (_this.request.session.user.right_level > _this.getRightLevel()) {
-          _this.response.render('error-rights', { title: 'Keine erforderlichen Rechte' });
-        }
-        else {
-          next();
+    if (!_this.request.session.user && process.env.NODE_ENV === 'development') {
+      _this.request.session.user = {
+        'employee': false,
+        'givenName': 'Local',
+        'nickname': 'ToyblocksDev',
+        'name': 'Local Development',
+        'right_level': 100,
+        'student': true,
+        'surname': 'Development',
+        'tuid': 'developer',
+        'stats': {
+          'sorting': {
+            'level1_count_played': 32
+          },
+          'missing': {
+            'level1_count_played': 42
+          }
         }
       };
-      if (!_this.request.session.user) {
-        //var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
-        var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
+      next();
+    } else {
+      if (_this.getRightLevel() >= 0) {
+        var nextWithRightsCheck = function () {
+          if (_this.request.session.user.right_level > _this.getRightLevel()) {
+            _this.response.render('error-rights', { title: 'Keine erforderlichen Rechte' });
+          }
+          else {
+            next();
+          }
+        };
+        if (!_this.request.session.user) {
+          //var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
+          var service = 'https%3A%2F%2Ftoyblocks.architektur.tu-darmstadt.de' + escapedUrl;
 
-        //console.log("Base.js checkLogin");
-        var ticket = _this.request.paramNew('ticket');
-        if (!ticket) {
-          // let user login via hrz
-          _this.response.redirect('https://sso.tu-darmstadt.de/login?service=' + service);
-        }
-        else {
-          // -3 because there is ? or & before which is %3F or %26 escaped
-          service = service.substring(0, service.indexOf('ticket%3D' + ticket) - 3);
-          // hrz sends us back with a ticket
+          //console.log("Base.js checkLogin");
+          var ticket = _this.request.paramNew('ticket');
+          if (!ticket) {
+            // let user login via hrz
+            _this.response.redirect('https://sso.tu-darmstadt.de/login?service=' + service);
+          }
+          else {
+            // -3 because there is ? or & before which is %3F or %26 escaped
+            service = service.substring(0, service.indexOf('ticket%3D' + ticket) - 3);
+            // hrz sends us back with a ticket
 
-          // SAML 1.1 for /samlValidate POST request
-          var body = '' +
-            '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">\n' +
-            '    <SOAP-ENV:Header/>\n' +
-            '    <SOAP-ENV:Body>\n' +
-            '        <samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol"' +
-            'MajorVersion="1" MinorVersion="1" RequestID="_192.168.16.51.1024506224022"' +
-            'IssueInstant="2002-06-19T17:03:44.022Z">\n' +
-            '            <samlp:AssertionArtifact>' + ticket + '</samlp:AssertionArtifact>\n' +
-            '        </samlp:Request>\n' +
-            '    </SOAP-ENV:Body>\n' +
-            '</SOAP-ENV:Envelope>\n';
+            // SAML 1.1 for /samlValidate POST request
+            var body = '' +
+              '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">\n' +
+              '    <SOAP-ENV:Header/>\n' +
+              '    <SOAP-ENV:Body>\n' +
+              '        <samlp:Request xmlns:samlp="urn:oasis:names:tc:SAML:1.0:protocol"' +
+              'MajorVersion="1" MinorVersion="1" RequestID="_192.168.16.51.1024506224022"' +
+              'IssueInstant="2002-06-19T17:03:44.022Z">\n' +
+              '            <samlp:AssertionArtifact>' + ticket + '</samlp:AssertionArtifact>\n' +
+              '        </samlp:Request>\n' +
+              '    </SOAP-ENV:Body>\n' +
+              '</SOAP-ENV:Envelope>\n';
 
-          // /serviceValidate specifiys CAS 2.0
-          // See docu for CAS protocol:
-          // https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol.html
-          var options = {
-            host: 'sso.tu-darmstadt.de',
-            port: 443,
-            path: '/p3/serviceValidate?service=' + service + '&ticket=' + ticket,
-            method: 'GET',
-            //headers: {
-            //  'Content-Type': 'text/xml',  
-            //  'Content-Length': Buffer.byteLength(body)  
-            //},
-            //body: body,
-            // ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
-          };
-          //console.log('OPTIONS: ' + JSON.stringify(options));
+            // /serviceValidate specifiys CAS 2.0
+            // See docu for CAS protocol:
+            // https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol.html
+            var options = {
+              host: 'sso.tu-darmstadt.de',
+              port: 443,
+              path: '/p3/serviceValidate?service=' + service + '&ticket=' + ticket,
+              method: 'GET',
+              //headers: {
+              //  'Content-Type': 'text/xml',  
+              //  'Content-Length': Buffer.byteLength(body)  
+              //},
+              //body: body,
+              // ca: [fs.readFileSync('/etc/ssl/certs/TUDchain.pem')]
+            };
+            //console.log('OPTIONS: ' + JSON.stringify(options));
 
-          var verifyRequest = https.request(options, function (verifyResponse) {
-            if (verifyResponse.statusCode !== 200) {
-              _this.response.render('error-auth', {
-                text:
-                  'HRZ Server scheinen nicht zu funktionieren. Gelieferter Status: ' + verifyResponse.statusCode
-              });
-            }
-            else {
-              verifyResponse.setEncoding('utf8');
-              verifyResponse.on('data', function (chunk) {
-                //console.log('STATUS: ' + verifyResponse.statusCode);
-                //console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
-                //console.log('BODY: ' + chunk);
+            var verifyRequest = https.request(options, function (verifyResponse) {
+              if (verifyResponse.statusCode !== 200) {
+                _this.response.render('error-auth', {
+                  text:
+                    'HRZ Server scheinen nicht zu funktionieren. Gelieferter Status: ' + verifyResponse.statusCode
+                });
+              }
+              else {
+                verifyResponse.setEncoding('utf8');
+                verifyResponse.on('data', function (chunk) {
+                  //console.log('STATUS: ' + verifyResponse.statusCode);
+                  //console.log('HEADERS: ' + JSON.stringify(verifyResponse.headers));
+                  //console.log('BODY: ' + chunk);
 
-                parseString(chunk, function (_err, jsonResponse) {
+                  parseString(chunk, function (_err, jsonResponse) {
 
-                  // Print Response Object
-                  //console.log(JSON.stringify(jsonResponse));
+                    // Print Response Object
+                    //console.log(JSON.stringify(jsonResponse));
 
-                  // Successfull login
-                  if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
-                    var success = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess'][0];
-                    var tuid = success['cas:user'][0];
-                    var attributes = success['cas:attributes'][0];
-                    var affiliation = attributes['cas:eduPersonAffiliation'];
-                    var isEmployee = affiliation.includes('employee');
-                    var isStudent = affiliation.includes('student');
+                    // Successfull login
+                    if (jsonResponse['cas:serviceResponse']['cas:authenticationSuccess']) {
+                      var success = jsonResponse['cas:serviceResponse']['cas:authenticationSuccess'][0];
+                      var tuid = success['cas:user'][0];
+                      var attributes = success['cas:attributes'][0];
+                      var affiliation = attributes['cas:eduPersonAffiliation'];
+                      var isEmployee = affiliation.includes('employee');
+                      var isStudent = affiliation.includes('student');
 
-                    if (tuid === null || tuid === undefined || tuid === "") {
-                      _this.response.render('error-auth', { text: 'TU-ID is very strange. Canceling: ' + chunk });
-                    }
+                      if (tuid === null || tuid === undefined || tuid === "") {
+                        _this.response.render('error-auth', { text: 'TU-ID is very strange. Canceling: ' + chunk });
+                      }
 
-                    _this.mongodb
-                      .collection('users')
-                      .find({ 'tuid': tuid })
-                      .next(function (_err, doc) {
-                        if (!doc) {
-                          // insert new user
-                          var user = {
-                            tuid: tuid,
-                            right_level: 300,
-                            givenName: attributes['cas:givenName'][0],
-                            surname: attributes['cas:surname'][0],
-                            employee: isEmployee,
-                            student: isStudent,
-                            _attributes: attributes
-                          };
-                          //console.log("Creating new " + tuid + " user: " + JSON.stringify(user));
-                          _this.mongodb
-                            .collection('users')
-                            .insertOne(user, { w: 1 }, function () {
-                              _this.request.session.user = user;
-                              nextWithRightsCheck();
-                            });
-                        }
-                        else {
-                          if (doc.givenName === "" ||
-                            doc.givenName === null ||
-                            doc.givenName === undefined) {
-
-                            var newuser = {
+                      _this.mongodb
+                        .collection('users')
+                        .find({ 'tuid': tuid })
+                        .next(function (_err, doc) {
+                          if (!doc) {
+                            // insert new user
+                            var user = {
                               tuid: tuid,
                               right_level: 300,
                               givenName: attributes['cas:givenName'][0],
@@ -359,73 +357,72 @@ module.exports.prototype = {
                               student: isStudent,
                               _attributes: attributes
                             };
-
+                            //console.log("Creating new " + tuid + " user: " + JSON.stringify(user));
                             _this.mongodb
                               .collection('users')
-                              .updateOne(
-                                { tuid: tuid },
-                                newuser);
+                              .insertOne(user, { w: 1 }, function () {
+                                _this.request.session.user = user;
+                                nextWithRightsCheck();
+                              });
                           }
-                          _this.request.session.user = doc;
-                          //console.log("Found " + tuid + " user: " + JSON.stringify(doc));
-                          nextWithRightsCheck();
-                        }
-                      });
-                  }
-                  else {
-                    // Login failed
-                    if (jsonResponse['cas:serviceResponse']['cas:authenticationFailure']) {
-                      _this.response.render('error-auth', {
-                        text:
-                          jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['_'] + ' (Code: ' +
-                          jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['$'].code + ')'
-                      });
+                          else {
+                            if (doc.givenName === "" ||
+                              doc.givenName === null ||
+                              doc.givenName === undefined) {
+
+                              var newuser = {
+                                tuid: tuid,
+                                right_level: 300,
+                                givenName: attributes['cas:givenName'][0],
+                                surname: attributes['cas:surname'][0],
+                                employee: isEmployee,
+                                student: isStudent,
+                                _attributes: attributes
+                              };
+
+                              _this.mongodb
+                                .collection('users')
+                                .updateOne(
+                                  { tuid: tuid },
+                                  newuser);
+                            }
+                            _this.request.session.user = doc;
+                            //console.log("Found " + tuid + " user: " + JSON.stringify(doc));
+                            nextWithRightsCheck();
+                          }
+                        });
                     }
                     else {
-                      _this.response.render('error-auth', { text: 'Strange response: ' + chunk });
+                      // Login failed
+                      if (jsonResponse['cas:serviceResponse']['cas:authenticationFailure']) {
+                        _this.response.render('error-auth', {
+                          text:
+                            jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['_'] + ' (Code: ' +
+                            jsonResponse['cas:serviceResponse']['cas:authenticationFailure'][0]['$'].code + ')'
+                        });
+                      }
+                      else {
+                        _this.response.render('error-auth', { text: 'Strange response: ' + chunk });
+                      }
                     }
-                  }
+                  });
                 });
-              });
-            }
-          });
+              }
+            });
 
-          verifyRequest.on('error', function (e) {
-            _this.response.render('error-auth', { text: 'Problem with request: ' + e.message });
-          });
+            verifyRequest.on('error', function (e) {
+              _this.response.render('error-auth', { text: 'Problem with request: ' + e.message });
+            });
 
-          // write data to request body
-          verifyRequest.write(body);
-          verifyRequest.end();
+            // write data to request body
+            verifyRequest.write(body);
+            verifyRequest.end();
+          }
+        }
+        else {
+          nextWithRightsCheck();
         }
       }
-      else {
-        nextWithRightsCheck();
-      }
-    }
-    else {
-      const environment = process.env.NODE_ENV || 'development';
-      if (!_this.request.session.user && environment === 'development') {
-        _this.request.session.user = {
-          'employee': false,
-          'givenName': 'Local',
-          'nickname': 'ToyblocksDev',
-          'name': 'Local Development',
-          'right_level': 100,
-          'student': true,
-          'surname': 'Development',
-          'tuid': 'developer',
-          'stats': {
-            'sorting': {
-              'level1_count_played': 32
-            },
-            'missing': {
-              'level1_count_played': 42
-            }
-          }
-        };
-      }
-      next();
     }
   }
 };
