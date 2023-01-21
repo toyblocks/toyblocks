@@ -13,7 +13,7 @@ var jobs = require('./jobs');
 var logger = require('morgan');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
-var session = require('express-session');
+var session = require('cookie-session');
 var favicon = require('serve-favicon');
 var underscore = require('underscore');
 
@@ -43,7 +43,7 @@ app.use(session({
   saveUninitialized: false
 }));
 var oneDay = 86400000;
-app.use(express.static('public', { maxAge: oneDay * 30 }));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: oneDay * 30 }));
 
 /**
 *  getControllerPath() creates controller url path
