@@ -13,9 +13,9 @@ It is currently hosted at <https://toyblocks.architektur.tu-darmstadt.de/>.
 To install the project and get it running you need to install the packages, restore the mongodb database and run the project. Mongod service should be running the background.
 
 ```bash
-npm install --legacy-peer-deps
+npm install
 npx bower install
-npx grunt init 
+npx grunt init
 mongorestore --db toyblocks toyblocks_database_demo/toydemo
 npm start
 ```
