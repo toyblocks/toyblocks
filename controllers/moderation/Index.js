@@ -7,6 +7,7 @@ module.exports = function () {
 };
 module.exports.prototype = BaseController.prototype.extend({
   name: 'index',
+  rightLevel: 100,
 
   indexAction: function () {
     var _this = this;

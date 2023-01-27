@@ -6,6 +6,7 @@ module.exports = function () {
 };
 module.exports.prototype = UsersController.prototype.extend({
   name: 'log',
+  rightLevel: 400,
 
   inAction: function () {
     var returnto = this.request.paramNew('returnto');

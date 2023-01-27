@@ -8,6 +8,7 @@ module.exports = function () {
 
 module.exports.prototype = GamesController.prototype.extend({
   name: 'assemble',
+  rightLevel: 300,
 
   /**
   * This Method is used for the game index page,

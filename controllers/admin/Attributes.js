@@ -8,6 +8,7 @@ module.exports = function () {
 };
 module.exports.prototype = AdminController.prototype.extend({
   name: 'attributes',
+  rightLevel: 100,
 
 
   /**

@@ -8,6 +8,7 @@ module.exports = function () {
 module.exports.prototype = BaseController.prototype.extend({
   area: 'index',
   name: 'ressources',
+  rightLevel: 300,
 
   imageAction: function () {
     var _this = this;

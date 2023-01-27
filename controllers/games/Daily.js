@@ -7,6 +7,7 @@ module.exports = function () { };
 
 module.exports.prototype = GamesController.prototype.extend({
   name: 'daily',
+  rightLevel: 300,
 
   /**
   * Intern function

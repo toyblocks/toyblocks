@@ -9,6 +9,7 @@ module.exports = function () {
 
 module.exports.prototype = GamesController.prototype.extend({
   name: 'sorting',
+  rightLevel: 300,
 
   /**
    * GET - This Method is used for the index page

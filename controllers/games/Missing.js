@@ -6,6 +6,7 @@ module.exports = function () { };
 
 module.exports.prototype = GamesController.prototype.extend({
   name: 'missing',
+  rightLevel: 300,
 
   /**
   *  indexAction() answers GET requests

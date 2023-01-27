@@ -13,6 +13,7 @@ module.exports = function () {
 };
 module.exports.prototype = AdminController.prototype.extend({
   name: 'stats',
+  rightLevel: 100,
 
   /**
   * Shows Index page for statistics

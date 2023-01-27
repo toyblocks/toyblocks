@@ -7,6 +7,7 @@ module.exports = function () {
 };
 module.exports.prototype = GamesController.prototype.extend({
   name: 'index',
+  rightLevel: 300,
 
   indexAction: function () {
     var _this = this;

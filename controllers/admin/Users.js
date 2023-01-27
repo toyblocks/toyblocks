@@ -7,6 +7,7 @@ module.exports = function () {
 };
 module.exports.prototype = AdminController.prototype.extend({
   name: 'users',
+  rightLevel: 100,
 
   indexAction: function () {
     var _this = this,
@@ -30,7 +31,7 @@ module.exports.prototype = AdminController.prototype.extend({
   updateAction: function () {
     var _this = this;
     var id = _this.request.body['tuid'];
-    var rightlevel = parseInt(_this.request.body['right_level']);
+    var newUserRightLevel = parseInt(_this.request.body['right_level']);
     if(id === undefined || id === "undefined")
       _this.response.json({ result: 'error' });
     
@@ -38,7 +39,7 @@ module.exports.prototype = AdminController.prototype.extend({
       .collection('users')
       .updateOne(
         { tuid: id },
-        { $set: { 'right_level': rightlevel } },
+        { $set: { 'right_level': newUserRightLevel } },
         {},
         function (err) {
           if (err)

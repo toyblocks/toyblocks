@@ -193,6 +193,7 @@ module.exports.prototype = {
     this.response = res;
     this.mongodb = req.mongodb;
     this.mongo = req.mongo;
+    const password = _this.request.paramNew('password');
 
     this.view = new View(this);
     if (_this.request.xhr) {
@@ -209,7 +210,7 @@ module.exports.prototype = {
       _this.request.mongodb.collection('system_config')
         .find({ 'key': 'login_password' })
         .next((_err, doc) => {
-          if (_this.request.query.password !== doc.value) {
+          if (password !== doc.value) {
             _this.response.render('login-password', { title: 'Passwort eingeben' });
           }
           else {

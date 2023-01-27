@@ -9,6 +9,7 @@ module.exports = function () {
 
 module.exports.prototype = GamesController.prototype.extend({
   name: 'multiplechoice',
+  rightLevel: 300,
 
   /**
    * This Method is used for the index page

@@ -7,6 +7,7 @@ module.exports = function () {
 module.exports.prototype = BaseController.prototype.extend({
   area: 'index',
   name: 'index',
+  rightLevel: 300,
 
   indexAction: function () {
     var user = this.getUser();

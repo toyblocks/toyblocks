@@ -9,6 +9,7 @@ module.exports = function () {
 };
 module.exports.prototype = AdminController.prototype.extend({
   name: 'objects',
+  rightLevel: 100,
 
   /**
   * display all objecttypes
