@@ -233,7 +233,7 @@ module.exports.prototype = {
     var _this = this;
     var escapedUrl = querystring.escape(_this.request.originalUrl);
 
-    if (!_this.request.session.user && process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development') {
       _this.request.session.user = {
         'employee': false,
         'givenName': 'Local',

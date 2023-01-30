@@ -11,10 +11,9 @@ module.exports.prototype = BaseController.prototype.extend({
 
   indexAction: function () {
     var user = this.getUser();
-    if (user) {
+    if (user && user.tuid) {
       this.response.redirect('/welcome');
-    }
-    else {
+    }else {
       this.view.setNoNavBar(true);
       this.view.render({
         title: 'Startseite - ToyBlocks'

@@ -27,7 +27,7 @@ module.exports.prototype = {
     // We query the db for every render because
     // the db values for admin/moderator can change
     // and we need to reflect it on the view
-    if (data._user && data._user.tuid) {
+    if (data._user && data._user.tuid && process.env.NODE_ENV !== 'development') {
       this.controller.mongodb
         .collection('users')
         .find({ 'tuid': data._user.tuid })
