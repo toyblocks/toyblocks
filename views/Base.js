@@ -27,22 +27,34 @@ module.exports.prototype = {
     // We query the db for every render because
     // the db values for admin/moderator can change
     // and we need to reflect it on the view
-    this.controller.mongodb
-      .collection('users')
-      .find({ 'tuid': data._user.tuid })
-      .next((_err, doc) => {
-        if(doc !== null)
-          data._user = doc;
-        data._isAdmin = (doc && doc.right_level <= 100) ? true : false;
-        data._isModerator = (doc && doc.right_level <= 200) ? true : false;
-        data._messages = this.controller.getMessages();
-        for (var param in this.params) {
-          data[param] = this.params[param];
-        }
-        if (this.response && this.template && !this.disabled) {
-          this.response.render(this.template, data);
-        }
-      });
+    if (data._user && data._user.tuid) {
+      this.controller.mongodb
+        .collection('users')
+        .find({ 'tuid': data._user.tuid })
+        .next((_err, doc) => {
+          if (doc !== null)
+            data._user = doc;
+          data._isAdmin = (doc && doc.right_level <= 100) ? true : false;
+          data._isModerator = (doc && doc.right_level <= 200) ? true : false;
+          data._messages = this.controller.getMessages();
+          for (var param in this.params) {
+            data[param] = this.params[param];
+          }
+          if (this.response && this.template && !this.disabled) {
+            this.response.render(this.template, data);
+          }
+        });
+    } else {
+      data._isAdmin = (doc && doc.right_level <= 100) ? true : false;
+      data._isModerator = (doc && doc.right_level <= 200) ? true : false;
+      data._messages = this.controller.getMessages();
+      for (var param in this.params) {
+        data[param] = this.params[param];
+      }
+      if (this.response && this.template && !this.disabled) {
+        this.response.render(this.template, data);
+      }
+    }
   },
   setTemplate: function (path) {
     this.template = path;
