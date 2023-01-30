@@ -14,7 +14,7 @@
       <div class="row">
 
         <button id="delete-all" type="button" class="btn btn-warning pull-right" style="margin-left: 50px; width: 170px">Alle Studenten löschen</button>
-        {>"layout/search"/}
+        <div id="search-bar" class="pull-right"></div><div id="filter-bar" class="pull-right"></div>
         <div class="btn-group dropdown pull-right" style="margin-right: 10px;">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Filter 
             <span class="caret"></span>

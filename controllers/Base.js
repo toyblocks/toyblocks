@@ -212,15 +212,12 @@ module.exports.prototype = {
         .next((_err, doc) => {
           if (password !== doc.value) {
             _this.response.render('login-password', { title: 'Passwort eingeben' });
-          }
-          else {
+          } else {
             _this.request.session.password_given = true;
             _this.checkLogin(next);
           }
         });
-    }
-
-    if (!_this.request.session.user ||
+    }else if (!_this.request.session.user ||
       _this.request.session.user.right_level < 300 ||
       _this.request.session.password_given) {
       _this.checkLogin(next);
@@ -242,7 +239,7 @@ module.exports.prototype = {
         'givenName': 'Local',
         'nickname': 'ToyblocksDev',
         'name': 'Local Development',
-        'right_level': 100,
+        'right_level': 300,
         'student': true,
         'surname': 'Development',
         'tuid': 'developer',

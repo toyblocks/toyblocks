@@ -18,7 +18,7 @@ module.exports.prototype = UsersController.prototype.extend({
     var _this = this;
     var isDevelopment = process.env.NODE_ENV === "development";
     _this.mongodb
-      .collection(userModel.collection)
+      .collection('users')
       .find({ 'tuid': _this.request.session.user.tuid })
       .next(function (_err, doc) {
         if (!doc) {
