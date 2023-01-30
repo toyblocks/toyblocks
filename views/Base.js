@@ -45,8 +45,8 @@ module.exports.prototype = {
           }
         });
     } else {
-      data._isAdmin = (doc && doc.right_level <= 100) ? true : false;
-      data._isModerator = (doc && doc.right_level <= 200) ? true : false;
+      data._isAdmin = (data._user && data._user.right_level <= 100) ? true : false;
+      data._isModerator = (data._user && data._user.right_level <= 200) ? true : false;
       data._messages = this.controller.getMessages();
       for (var param in this.params) {
         data[param] = this.params[param];
