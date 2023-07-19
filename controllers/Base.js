@@ -269,7 +269,8 @@ module.exports.prototype = {
         var ticket = _this.request.paramNew('ticket');
         if (!ticket) {
           // let user login via hrz
-          _this.response.redirect('https://sso.tu-darmstadt.de/login?service=' + service);
+
+          _this.response.redirect('https://login.tu-darmstadt.de/login?service=' + service);
         }
         else {
           // -3 because there is ? or & before which is %3F or %26 escaped
@@ -293,7 +294,7 @@ module.exports.prototype = {
           // See docu for CAS protocol:
           // https://apereo.github.io/cas/4.2.x/protocol/CAS-Protocol.html
           var options = {
-            host: 'sso.tu-darmstadt.de',
+            host: 'login.tu-darmstadt.de',
             port: 443,
             path: '/p3/serviceValidate?service=' + service + '&ticket=' + ticket,
             method: 'GET',
@@ -309,7 +310,7 @@ module.exports.prototype = {
             if (verifyResponse.statusCode !== 200) {
               _this.response.render('error-auth', {
                 text:
-                  'HRZ Server scheinen nicht zu funktionieren. Gelieferter Status: ' + verifyResponse.statusCode
+                  'Der HRZ-Login Server scheinen nicht zu funktionieren. Gelieferter Status: ' + verifyResponse.statusCode
               });
             }
             else {
